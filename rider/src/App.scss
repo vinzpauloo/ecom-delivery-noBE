@@ -1,0 +1,65 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./theme/_variables.scss";
+@import "./theme/_mixins.scss";
+
+@font-face {
+  font-family: "Neris";
+  src: url("./assets/fonts/Neris-Light.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neris";
+  src: url("./assets/fonts/Neris-Thin.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Neris";
+  src: url("./assets/fonts/Neris-SemiBold.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+* {
+  font-family: "Neris";
+  font-weight: 300;
+}
+
+html {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  margin-top: $FM_HEADER_HEIGHT;
+  // margin-bottom: $FM_FOOTER_HEIGHT + 40px;
+
+  @include devices(md) {
+    margin-top: $FM_HEADER_HEIGHT_MD;
+    // margin-bottom: $FM_FOOTER_HEIGHT_MD + 20px;
+  }
+
+  @include devices(xs) {
+    margin-top: $FM_HEADER_HEIGHT_XS;
+  }
+}
+
+.signupPage {
+  @include devices(md) {
+    header {
+      display: none !important;
+    }
+
+    .page {
+      background: #e3d7c2;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}

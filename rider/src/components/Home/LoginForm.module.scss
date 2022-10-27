@@ -1,0 +1,69 @@
+@import "../../theme/_mixins.scss";
+
+.form {
+  input {
+    background: rgba(198, 174, 133, 0.44);
+    border: none;
+    border-radius: 15px;
+    color: #4f555a;
+    font-size: 18px;
+    height: 60px;
+    line-height: 1;
+    padding-left: 30px;
+    padding-right: 60px;
+  }
+
+  button {
+    background: #e6b325;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 5px;
+    color: #61481c;
+    font-size: 20px;
+    padding: 10px 70px;
+
+    &:hover {
+      background: #a47e3b;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .icons {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
+
+  .forgotPassword {
+    color: #4f555a;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  @include devices(md) {
+    input {
+      border-radius: 5px;
+      font-size: 16px;
+      height: 55px;
+      padding-left: 20px;
+      padding-right: 50px;
+    }
+
+    button {
+      padding: 6px 60px;
+    }
+
+    .icons {
+      width: 25px;
+      height: 25px;
+      top: 15px;
+    }
+  }
+}

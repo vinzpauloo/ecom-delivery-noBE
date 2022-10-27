@@ -1,0 +1,38 @@
+@import "../../theme/_mixins.scss";
+
+.textLink {
+  color: #212529;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: #212529;
+    opacity: 0.75;
+  }
+}
+
+.small {
+  font-size: 14px;
+}
+
+.socials {
+  justify-content: center;
+
+  a {
+    display: inline-block;
+    margin: 5px 0;
+    line-height: 1;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    img {
+      height: 25px;
+    }
+  }
+
+  @include devices(md) {
+    margin-bottom: 2rem;
+  }
+}

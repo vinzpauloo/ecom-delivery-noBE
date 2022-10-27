@@ -1,0 +1,282 @@
+.checkoutContainer {
+  .container {
+    position: relative;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 50px;
+
+    margin-top: 80px;
+  }
+
+  .container .firstForm {
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    width: 997px;
+    height: 264px;
+    radius: 15px;
+
+    background: #e3d7c2;
+    border: 1px solid #000000;
+  }
+
+  .container .firstForm form h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    color: black;
+    margin-left: 22px;
+    text-transform: uppercase;
+  }
+
+  .container .firstForm .firstFormInput {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 23px;
+    padding: 20px;
+  }
+
+  .container .firstForm .firstFormInput .inputText {
+    background: #f8f2e9;
+    border: 1px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
+  }
+
+  .container .firstForm .firstFormInput .checkBox {
+    display: flex;
+    justify-content: center;
+  }
+
+  .container .firstForm .firstFormInput .checkBox input {
+    transform: scale(2);
+  }
+
+  .container .firstForm .firstFormInput .checkBox label {
+    line-height: 30px;
+    font-weight: 300;
+    font-size: 15px;
+    margin-left: 20px;
+  }
+
+  .container .secondForm {
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    width: 997px;
+    height: 264px;
+    radius: 15px;
+
+    background: #e3d7c2;
+    border: 1px solid #000000;
+  }
+
+  .container .secondForm form h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    color: black;
+    margin-left: 22px;
+    text-transform: uppercase;
+  }
+
+  .container .secondForm .secondFormInput {
+    /* display: grid;
+          grid-template-columns: auto auto auto; */
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    padding: 24px;
+  }
+
+  .container .secondForm .secondFormInput input {
+    background: #f8f2e9;
+    border: 1px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+
+    width: 70%;
+    height: 30px;
+    margin-left: 150px;
+  }
+
+  .container .secondForm .secondFormCheckBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 140px;
+  }
+
+  .container .secondForm .secondFormCheckBox input {
+    background: #f8f2e9;
+    /* border: 1px solid rgba(97, 72, 28, 0.5);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+          border-radius: 5px; */
+    /* width: 40px;
+          height: 30px; */
+    transform: scale(2);
+  }
+
+  .container .secondForm .secondFormCheckBox label {
+    margin-left: 20px;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  .container .secondForm .secondFormCheckBox a {
+    background: #e6b325;
+    padding: 0.5em 2em;
+    border: 1px solid #61481c;
+    border-radius: 5px;
+
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+    text-align: center;
+
+    color: #292828;
+    cursor: pointer;
+  }
+
+  .container .button {
+    background: #e6b325;
+    padding: 1em 5em;
+    text-decoration: none;
+    color: black;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    text-transform: uppercase;
+
+    color: #61481c;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 15px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .container p {
+    color: #bf9742;
+  }
+
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    position: absolute;
+    top: 5px;
+
+    font-family: "Kabrio";
+    font-style: normal;
+    font-weight: 250;
+    font-size: 10px;
+    line-height: 10px;
+    color: #61481c;
+    opacity: 0.5;
+    /* Firefox */
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+  }
+
+  .container .order-bill-details {
+    display: flex;
+    gap: 28px;
+  }
+
+  .container .order-bill-details .thirdForm {
+    width: 645px;
+    height: 200px;
+    left: 270px;
+    top: 551px;
+
+    background: #e3d7c2;
+    border: 1px solid #000000;
+  }
+
+  .container .order-bill-details .thirdForm h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    color: black;
+    text-transform: uppercase;
+    margin-left: 22px;
+  }
+
+  .container .order-bill-details .fourthForm {
+    width: 325px;
+    height: 200px;
+    left: 860px;
+    top: 551px;
+
+    background: #d9d5d5;
+    border: 1px solid #000000;
+    padding: 20px;
+  }
+
+  .container .order-bill-details .fourthForm .checkout .checkout-left h3 {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    color: black;
+    margin-top: 23px;
+    margin-left: -1px;
+    text-transform: uppercase;
+  }
+
+  .fourthForm .checkout .checkout-left {
+    font-size: 14px;
+    padding: 10px;
+    margin-top: -30px;
+    margin-left: 0;
+  }
+
+  .fourthForm .checkout .checkout-left p,
+  .fourthForm .checkout .checkout-left a {
+    color: black;
+    text-align: left;
+    margin-bottom: 0;
+  }
+
+  .fourthForm .checkout .checkout-left span {
+    float: right;
+    line-height: 12px;
+    color: black;
+    font-weight: 600;
+  }
+
+  .fourthForm .checkout .checkout-left .total-padding {
+    background: #e6b325;
+    border: 1px solid #61481c;
+    border-radius: 5px;
+    margin-left: -9px;
+    width: 283px;
+  }
+
+  .total-padding #total {
+    margin-left: 7px;
+  }
+
+  .total-padding span {
+    margin-right: 10px;
+  }
+
+  .fourthForm .checkout .checkout-left .total-padding #total,
+  .fourthForm .checkout .checkout-left .total-padding #total span {
+    font-weight: 600;
+  }
+}

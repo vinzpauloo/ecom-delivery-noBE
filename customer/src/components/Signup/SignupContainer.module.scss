@@ -1,0 +1,14 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  overflow-x: hidden;
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 40px 0 !important;
+
+  @include devices(md) {
+    min-height: auto;
+    padding: 60px 0;
+    margin-bottom: $FM_FOOTER_HEIGHT_MD;
+  }
+}

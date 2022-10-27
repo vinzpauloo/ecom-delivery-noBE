@@ -1,0 +1,114 @@
+@import "../theme/_mixins.scss";
+
+.container {
+  > div:not(:last-child) {
+    @include devices(md) {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.footer {
+  background: #2c2c2c;
+  color: #969696;
+  font-size: 14px;
+  padding: 10px 0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  width: 100%;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  @include devices(md) {
+    padding: 15px 0;
+  }
+}
+
+.logo {
+  height: 45px;
+  text-align: center;
+
+  a {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    img {
+      width: auto;
+      height: 100%;
+    }
+  }
+}
+
+.location {
+  a {
+    line-height: 1;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    img {
+      height: 25px;
+      margin-right: 8px;
+    }
+
+    p {
+      color: #61481c;
+      font-size: 14px;
+      line-height: 1.2;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.navigation {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #969696;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.socials {
+  a {
+    display: inline-block;
+    margin: 5px 0;
+    line-height: 1;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    img {
+      height: 25px;
+    }
+  }
+
+  @include devices(md) {
+    justify-content: center;
+  }
+}

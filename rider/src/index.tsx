@@ -1,0 +1,44 @@
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import ScrollToTop from "./components/ScrollToTop";
+import Home from "./pages/Home";
+import Registration from "./pages/Registration";
+import Otp from "./pages/Otp";
+import OtpOrder from "./pages/OtpOrder";
+import Delivery from "./pages/Account/Delivery";
+import History from "./pages/Account/History";
+import Profile from "./pages/Account/Profile";
+import ResetPassword from "./pages/Account/ResetPassword";
+import { AuthContextProvider } from "./context/AuthContext";
+
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(
+  <React.StrictMode>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <ScrollToTop>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route index element={<Home />} />
+              <Route path="registration" element={<Registration />} />
+              <Route path="otp" element={<Otp />} />
+              <Route path="otp-order" element={<OtpOrder />} />
+
+              {/* Account dashboard routes */}
+              <Route path="account">
+                <Route index element={<Profile />} />
+                <Route path="for-delivery" element={<Delivery />} />
+                <Route path="order-history" element={<History />} />
+                <Route path="reset-password" element={<ResetPassword />} />
+              </Route>
+            </Route>
+          </Routes>
+        </ScrollToTop>
+      </BrowserRouter>
+    </AuthContextProvider>
+  </React.StrictMode>
+);

@@ -1,0 +1,14 @@
+@import "../../theme/_mixins.scss";
+
+.image {
+  margin-right: 40px;
+  height: 500px;
+
+  @include devices(sm) {
+    max-width: 300px;
+  }
+
+  @include devices(xs) {
+    max-width: 250px;
+  }
+}

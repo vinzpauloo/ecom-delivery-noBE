@@ -1,0 +1,133 @@
+.order-history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  position: relative;
+
+  .order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .order {
+      background: #ededed;
+      border: 1px solid #61481c;
+      border-radius: 5px;
+    }
+
+    .order-inner {
+      display: flex;
+      position: relative;
+
+      .order-left,
+      .order-right {
+        width: 886px;
+        height: 233px;
+      }
+
+      .order-left {
+        padding: 30px;
+
+        h6 {
+          font-weight: 900;
+          font-size: 15px;
+          line-height: 20px;
+        }
+
+        p {
+          font-size: 12px;
+        }
+
+        .items {
+          display: flex;
+          width: 495px;
+          height: 70px;
+        }
+
+        ul:before {
+          content: attr(data-header);
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        li {
+          list-style: none;
+          font-size: 12px;
+        }
+      }
+
+      .order-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        a {
+          background: #000000;
+          border-radius: 10px;
+          padding: 1.5em 4em;
+          color: white;
+          text-align: center;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 15px;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+
+        .grand-total {
+          text-align: center;
+          border: 1px solid #61481c;
+          border-radius: 5px;
+          width: 147px;
+          height: 77px;
+          padding: 10px;
+
+          h6 {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+          }
+
+          p {
+            font-weight: 900;
+            font-size: 15px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.order-images {
+  .this-image {
+  }
+
+  .this-content {
+    margin-left: 15px;
+    h6 {
+      font-size: 15px;
+      line-height: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+
+    p {
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: 14px;
+      }
+    }
+  }
+}
