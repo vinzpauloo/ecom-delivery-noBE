@@ -89,7 +89,7 @@ const Header: React.FC<ContainerProps> = () => {
                 ) : (
                   <>
                     <Link to="/login">Log in</Link>
-                    <a href="#">Guest123</a>
+                    <a href="#">Guest</a>
                   </>
                 )}
               </div>

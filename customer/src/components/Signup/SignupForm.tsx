@@ -39,7 +39,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
 
-          <Row lg={3} xs={1}>
+          <Row lg={3} xs={1} className="pb-0">
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>First name</Form.Label>
@@ -60,7 +60,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          <Row lg={3} xs={1}>
+          <Row lg={3} xs={1} className="py-0">
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
@@ -81,7 +81,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          <Row lg={3} xs={1}>
+          <Row lg={3} xs={1} className="pb-0">
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Contact number</Form.Label>
@@ -114,10 +114,6 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
           </Row>
         </div>
 
-        <Button variant="primary" size="lg" type="submit" className="mt-4">
-          Create Account
-        </Button>
-
         <div
           className={`position-relative d-flex align-items-center justify-content-center ${styles.checkbox}`}
         >
@@ -127,6 +123,10 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
             label="By continuing, you indicate that you read and agreed to terms of use"
           />
         </div>
+
+        <Button variant="primary" size="lg" type="submit" className="mt-4">
+          Create Account
+        </Button>
       </Form>
     </div>
   );
