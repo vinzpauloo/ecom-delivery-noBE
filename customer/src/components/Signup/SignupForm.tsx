@@ -39,7 +39,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
 
-          <Row lg={3} xs={1} className="pb-0">
+          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>First name</Form.Label>
@@ -60,7 +60,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          <Row lg={3} xs={1} className="py-0">
+          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
@@ -81,11 +81,11 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          <Row lg={3} xs={1} className="pb-0">
+          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Contact number</Form.Label>
-                <Form.Control className="mb-0" id="contact" type="text" />
+                <Form.Control id="contact" type="text" />
               </Form.Group>
             </Col>
           </Row>
@@ -108,7 +108,7 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
               <Form.Group className="position-relative">
                 <Form.Label>City or Town</Form.Label>
-                <Form.Control className="mb-0" id="address_city" type="text" />
+                <Form.Control id="address_city" type="text" />
               </Form.Group>
             </Col>
           </Row>
