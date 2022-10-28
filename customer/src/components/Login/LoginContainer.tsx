@@ -10,25 +10,23 @@ interface ContainerProps {}
 
 const LoginContainer: React.FC<ContainerProps> = ({}) => {
   return (
-    <>
-      <Container fluid="md">
-        <Row
-          lg={2}
-          xs={1}
-          className={`justify-content-center align-items-center flex-lg-row flex-column-reverse ${styles.container}`}
-        >
-          <Col>
-            <div className="d-flex justify-content-center">
-              <LoginImage />
-            </div>
-          </Col>
-          <Col>
-            <LoginForm />
-            <NewAccount />
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <Container fluid="md">
+      <Row
+        lg={2}
+        xs={1}
+        className={`justify-content-center align-items-center flex-lg-row flex-column-reverse ${styles.container}`}
+      >
+        <Col>
+          <div className="d-flex justify-content-center">
+            <LoginImage />
+          </div>
+        </Col>
+        <Col>
+          <LoginForm />
+          <NewAccount />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
