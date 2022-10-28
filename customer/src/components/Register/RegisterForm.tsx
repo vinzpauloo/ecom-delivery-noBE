@@ -17,7 +17,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   };
 
   return (
-    <div>
+    <>
       <div className="d-flex d-lg-none justify-content-center mb-4">
         <div className={styles.logo}>
           <Link to="/">
@@ -128,7 +128,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           Create Account
         </Button>
       </Form>
-    </div>
+    </>
   );
 };
 

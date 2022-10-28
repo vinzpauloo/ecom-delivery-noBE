@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
 
-import "./OtpForm.scss";
+// import "./OtpForm.scss";
 
 interface ContainerProps {}
 
