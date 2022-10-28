@@ -12,8 +12,10 @@ const App: React.FC = (props: Props) => {
 
   return (
     <>
-      {/* Different header layout on signup page */}
-      <div className={`${location.pathname == "/signup" ? "signupPage" : ""}`}>
+      {/* Different header layout on register page */}
+      <div
+        className={`${location.pathname == "/register" ? "registerPage" : ""}`}
+      >
         <Header />
         <Outlet />
         <Footer />

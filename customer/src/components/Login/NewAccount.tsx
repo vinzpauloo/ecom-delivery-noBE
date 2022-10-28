@@ -30,7 +30,7 @@ const NewAccount: React.FC<ContainerProps> = ({}) => {
     <div className="mt-4 text-center">
       <p>
         Register new account{" "}
-        <Link to="/signup" className={styles.textLink}>
+        <Link to="/register" className={styles.textLink}>
           here
         </Link>
         <br />

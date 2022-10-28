@@ -2,14 +2,14 @@ import React from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-import styles from "./SignupForm.module.scss";
+import styles from "./RegisterForm.module.scss";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 
 interface ContainerProps {}
 
-const SignupForm: React.FC<ContainerProps> = ({}) => {
+const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -132,4 +132,4 @@ const SignupForm: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default SignupForm;
+export default RegisterForm;

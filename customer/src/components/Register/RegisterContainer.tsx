@@ -1,18 +1,18 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import styles from "./SignupContainer.module.scss";
-import SignupForm from "./SignupForm";
+import styles from "./RegisterContainer.module.scss";
+import RegisterForm from "./RegisterForm";
 
 interface ContainerProps {}
 
-const SignupContainer: React.FC<ContainerProps> = ({}) => {
+const RegisterContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <Container fluid="md">
         <Row className={`${styles.container}`}>
           <Col lg={{ span: 10, offset: 1 }} xs={12}>
-            <SignupForm />
+            <RegisterForm />
           </Col>
         </Row>
       </Container>
@@ -20,4 +20,4 @@ const SignupContainer: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default SignupContainer;
+export default RegisterContainer;

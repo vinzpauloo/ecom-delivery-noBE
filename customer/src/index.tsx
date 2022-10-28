@@ -5,8 +5,8 @@ import "./index.css";
 import App from "./App";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Otp from "./pages/Otp";
 import OtpOrder from "./pages/OtpOrder";
 import Restaurant from "./pages/Restaurant";
@@ -28,8 +28,8 @@ root.render(
           <Routes>
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
-              <Route path="login" element={<Signin />} />
-              <Route path="signup" element={<Signup />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
               <Route path="otp" element={<Otp />} />
               <Route path="otp-order" element={<OtpOrder />} />
               <Route path="restaurant" element={<Restaurant />} />
