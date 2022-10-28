@@ -1,14 +1,14 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import styles from "./SigninContainer.module.scss";
+import styles from "./LoginContainer.module.scss";
 import NewAccount from "./NewAccount";
-import SigninForm from "./SigninForm";
-import SigninImage from "./SigninImage";
+import LoginForm from "./LoginForm";
+import LoginImage from "./LoginImage";
 
 interface ContainerProps {}
 
-const SigninContainer: React.FC<ContainerProps> = ({}) => {
+const LoginContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <Container fluid="md">
@@ -19,11 +19,11 @@ const SigninContainer: React.FC<ContainerProps> = ({}) => {
         >
           <Col>
             <div className="d-flex justify-content-center">
-              <SigninImage />
+              <LoginImage />
             </div>
           </Col>
           <Col>
-            <SigninForm />
+            <LoginForm />
             <NewAccount />
           </Col>
         </Row>
@@ -32,4 +32,4 @@ const SigninContainer: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default SigninContainer;
+export default LoginContainer;

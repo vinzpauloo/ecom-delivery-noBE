@@ -3,7 +3,7 @@
 .container {
   > div:not(:last-child) {
     @include devices(md) {
-      margin-bottom: 5px;
+      // margin-bottom: 5px;
     }
   }
 }
@@ -44,6 +44,14 @@
       width: auto;
       height: 100%;
     }
+  }
+
+  @include devices(md) {
+    height: 40px;
+  }
+
+  @include devices(xs) {
+    height: 30px;
   }
 }
 

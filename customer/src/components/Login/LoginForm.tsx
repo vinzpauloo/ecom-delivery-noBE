@@ -3,7 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
 
-import styles from "./SigninForm.module.scss";
+import styles from "./LoginForm.module.scss";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 interface ContainerProps {}
@@ -16,7 +16,7 @@ const EyeIcon = ({ type }: { type: string }) => {
   );
 };
 
-const SigninForm: React.FC<ContainerProps> = ({}) => {
+const LoginForm: React.FC<ContainerProps> = ({}) => {
   const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
   const { dispatch } = useAuthContext();
@@ -80,4 +80,4 @@ const SigninForm: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default SigninForm;
+export default LoginForm;

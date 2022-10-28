@@ -1,19 +1,19 @@
 import React from "react";
 
-import styles from "./SigninImage.module.scss";
+import styles from "./LoginImage.module.scss";
 
 import ThisImage from "../../assets/images/signin-image.png";
 
 interface ContainerProps {}
 
-const SigninImage: React.FC<ContainerProps> = ({}) => {
+const LoginImage: React.FC<ContainerProps> = ({}) => {
   return (
     <img
       src={ThisImage}
-      alt="Signin Image"
+      alt="Login Image"
       className={`img-fluid ${styles.image}`}
     />
   );
 };
 
-export default SigninImage;
+export default LoginImage;

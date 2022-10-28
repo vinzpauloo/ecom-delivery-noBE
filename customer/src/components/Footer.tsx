@@ -12,29 +12,6 @@ import SocialTwitter from "../assets/images/social-twitter.png";
 
 import styles from "./Footer.module.scss";
 
-const links = [
-  {
-    label: "Home",
-    link: "/",
-  },
-  {
-    label: "Orders",
-    link: "#",
-  },
-  {
-    label: "Cart",
-    link: "#",
-  },
-  {
-    label: "Account",
-    link: "#",
-  },
-  {
-    label: "Logout",
-    link: "#",
-  },
-];
-
 const socialMedias = [
   {
     image: SocialTelegram,
@@ -66,16 +43,15 @@ interface ContainerProps {}
 
 const Footer: React.FC<ContainerProps> = () => {
   return (
-    // <footer className={`fixed-bottom ${styles.footer}`}>
     <footer className={`${styles.footer}`}>
       <Container fluid="xxl">
         <Row
-          // lg={5}
           lg={4}
           xs={1}
-          className={`justify-content-center align-items-center ${styles.container}`}
+          className={`justify-content-center align-items-center gap-1 gap-lg-0 ${styles.container}`}
         >
-          <Col>
+          {/* Logo (web only) */}
+          <Col className="d-none d-lg-block">
             <div className={styles.logo}>
               <Link to="/">
                 <img src={LogoFooter} alt="Food Monkey Logo" />
@@ -83,33 +59,21 @@ const Footer: React.FC<ContainerProps> = () => {
             </div>
           </Col>
 
-          <Col>
+          {/* Location (web only) */}
+          <Col className="d-none d-lg-block">
             <div className={styles.location}>
               <Link
                 to="#"
                 className="d-flex align-items-center justify-content-center text-decoration-none"
               >
                 <img src={PinDark} alt="Pin" />
-                <p>Tagbiliran, Bohol, Philippines</p>
+                <p>Panglao, Bohol, Philippines</p>
               </Link>
             </div>
           </Col>
 
-          {/* <Col>
-            <div className={`d-none d-lg-flex justify-content-center`}>
-              <ul className={styles.navigation}>
-                {links.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <Link to={item.link}>{item.label}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </Col> */}
-
-          <Col>
+          {/* Social media links */}
+          <Col className="">
             <Row lg={6} xs="auto" className={styles.socials}>
               {socialMedias.map((item, index) => {
                 return (
@@ -123,7 +87,28 @@ const Footer: React.FC<ContainerProps> = () => {
             </Row>
           </Col>
 
-          <Col>
+          {/* Logo + location (mobile only) */}
+          <Col className="d-lg-none">
+            <div className="d-flex align-items-center justify-content-center gap-3">
+              <div className={styles.logo}>
+                <Link to="/">
+                  <img src={LogoFooter} alt="Food Monkey Logo" />
+                </Link>
+              </div>
+              <div className={styles.location}>
+                <Link
+                  to="#"
+                  className="d-flex align-items-center justify-content-center text-decoration-none"
+                >
+                  <img src={PinDark} alt="Pin" />
+                  <p>Panglao, Bohol, Philippines</p>
+                </Link>
+              </div>
+            </div>
+          </Col>
+
+          {/* All rights reserved */}
+          <Col className="">
             <div className="text-center">
               <p>
                 All Rights Reserved <strong>2022</strong> Food Monkey
