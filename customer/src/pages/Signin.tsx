@@ -1,12 +1,12 @@
 import React from "react";
-import SigninContainer from "../components/Signin/SigninContainer";
+import LoginContainer from "../components/Login/LoginContainer";
 
 type Props = {};
 
 const Signin = (props: Props) => {
   return (
     <div className="page">
-      <SigninContainer />
+      <LoginContainer />
     </div>
   );
 };
