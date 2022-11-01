@@ -8,10 +8,8 @@ interface ContainerProps {}
 
 const RestaurantsContainer: React.FC<ContainerProps> = ({}) => {
   return (
-    <Container fluid="xxl">
-      <div className="pt-5 pb-4">
-        <RestaurantsGrid />
-      </div>
+    <Container fluid="xxl" className={styles.container}>
+      <RestaurantsGrid />
     </Container>
   );
 };

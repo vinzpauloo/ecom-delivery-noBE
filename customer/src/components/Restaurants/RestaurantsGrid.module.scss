@@ -7,9 +7,6 @@
   }
 }
 
-@include home-section-container;
-@include home-section-title;
-
 .slideItem {
   border: 1px solid #969696;
   border-radius: 10px;
@@ -79,15 +76,13 @@
 }
 
 .restaurantGrid {
-  margin: 0 10px;
-
   .sliderContainer {
     width: 20%;
     max-width: 20%;
   }
 
   .slideItem {
-    margin: 0 10px 20px 10px;
+    margin: 0 5px 10px 5px;
     padding: 15px;
   }
 
@@ -97,9 +92,17 @@
     }
   }
 
+  @include devices(md) {
+    .sliderContainer {
+      width: 33.33%;
+      max-width: 33.33%;
+    }
+  }
+
   @include devices(sm) {
     .sliderContainer {
       width: 50%;
+      max-width: 50%;
     }
 
     .slideLink {
@@ -108,10 +111,7 @@
   }
 
   @include devices(xxs) {
-    margin: 0 8px;
-
     .slideItem {
-      margin: 0 8px 16px 8px;
       padding: 10px;
     }
 

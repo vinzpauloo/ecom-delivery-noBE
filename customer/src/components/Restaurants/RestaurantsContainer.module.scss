@@ -1,0 +1,14 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  padding: 40px 10px 30px;
+
+  @include devices(md) {
+    padding: 30px 10px 20px;
+  }
+
+  @include devices(xs) {
+    padding: 20px 5px 10px;
+  }
+}
