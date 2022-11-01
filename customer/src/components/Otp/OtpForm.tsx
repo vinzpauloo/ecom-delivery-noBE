@@ -9,7 +9,7 @@ import styles from "./OtpForm.module.scss";
 
 interface ContainerProps {}
 
-function MyVerticallyCenteredModal(props: any) {
+const OtpSuccessModal = (props: any) => {
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
@@ -24,7 +24,7 @@ function MyVerticallyCenteredModal(props: any) {
       </Modal.Body>
     </Modal>
   );
-}
+};
 
 const OtpForm: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
@@ -36,10 +36,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
 
   return (
     <>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+      <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
 
       <div className="text-center">
         <div className={styles.title}>

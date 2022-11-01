@@ -1,16 +1,21 @@
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
-import styles from "./OtpContainer.module.scss";
+import styles from "./OtpContainerOrder.module.scss";
 import OtpFormOrder from "./OtpFormOrder";
 
 interface ContainerProps {}
 
-const OtpContainer: React.FC<ContainerProps> = ({}) => {
+const OtpContainerOrder: React.FC<ContainerProps> = ({}) => {
   return (
-    <div className={styles.container}>
-      <OtpFormOrder />
-    </div>
+    <Container fluid="md">
+      <Row className={styles.container}>
+        <Col className="d-flex d-lg-block flex-column justify-content-center">
+          <OtpFormOrder />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default OtpContainer;
+export default OtpContainerOrder;

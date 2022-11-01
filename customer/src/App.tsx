@@ -14,10 +14,10 @@ const App: React.FC = (props: Props) => {
   let customClassNames = "";
 
   // Pages with custom header
-  const customHeaderPages = ["/login", "/register", "/otp"];
+  const customHeaderPages = ["/login", "/register", "/otp", "/otp-order"];
 
   // Pages with custom background
-  const customBgPages = ["/register", "/otp"];
+  const customBgPages = ["/register", "/otp", "/otp-order"];
 
   if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "custom-header ";
