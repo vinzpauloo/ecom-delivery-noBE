@@ -4,7 +4,7 @@
 .container {
   overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
-  padding-top: 40px;
+  padding-top: 5px;
 
   @include devices(md) {
     min-height: auto;

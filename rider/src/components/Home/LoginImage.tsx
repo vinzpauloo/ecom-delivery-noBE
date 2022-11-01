@@ -9,9 +9,9 @@ interface ContainerProps {}
 
 const LoginImage: React.FC<ContainerProps> = ({}) => {
   return (
-    <div className="images">
-      <img src={ThisImage} alt="Signin Image" className={`img-fluid`} />
-      <img src={BGImg} alt="BG Image" className={`img-fluid`} />
+    <div className={styles.images}>
+      <img src={BGImg} alt="Signin Image" className={styles.image1} />
+      <img src={ThisImage} alt="BG Image" className={styles.image2} />
     </div>
   );
 };

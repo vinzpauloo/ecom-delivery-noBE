@@ -8,7 +8,7 @@ import LoginImage from "./LoginImage";
 
 interface ContainerProps {}
 
-const LoginContainer: React.FC<ContainerProps> = ({}) => {
+const LoginContainer: React.FC<ContainerProps> = () => {
   return (
     <>
       <Container fluid="md">
@@ -17,12 +17,12 @@ const LoginContainer: React.FC<ContainerProps> = ({}) => {
           xs={1}
           className={`justify-content-center align-items-center flex-lg-row flex-column-reverse ${styles.container}`}
         >
-          <Col>
+          <Col xs={{ order: 2 }} lg={{ order: 1 }}>
             <div className="d-flex justify-content-center">
               <LoginImage />
             </div>
           </Col>
-          <Col>
+          <Col xs={{ order: 1 }} lg={{ order: 2 }}>
             <LoginForm />
             <NewAccount />
           </Col>

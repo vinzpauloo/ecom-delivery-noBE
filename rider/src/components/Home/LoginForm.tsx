@@ -47,6 +47,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
 
   return (
     <Form className={`text-center ${styles.form}`} onSubmit={handleSubmit}>
+      <h4 className={`d-none d-md-block`}>Welcome to FOODMONKEY Riders</h4>
       <Form.Group className="mb-4 position-relative">
         <Form.Control
           id="email"
