@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 
 import "./ProfileContent.scss";
 
@@ -62,7 +63,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
             </div>
           </div>
 
-          <div className="ms-5 bike-images">
+          <div className="bike-images">
             <img src={bike1} alt="" />
             <img src={bike2} alt="" />
             <img src={bike3} alt="" />

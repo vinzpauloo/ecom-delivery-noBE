@@ -11,12 +11,12 @@ const ProfileContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4}>
+        <Col lg={4} className="d-none d-md-block">
           <div className={styles.navigationContainer}>
             <Navigation />
           </div>
         </Col>
-        <Col lg={8}>
+        <Col lg={8} className="">
           <div className={styles.contentContainer}>
             <ProfileContent />
           </div>
