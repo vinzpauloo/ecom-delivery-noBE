@@ -1,6 +1,6 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import { List, Person } from "react-bootstrap-icons";
+import { Person } from "react-bootstrap-icons";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";

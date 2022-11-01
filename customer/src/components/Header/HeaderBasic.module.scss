@@ -1,0 +1,89 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.header {
+  background-color: #ffffff;
+  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: $FM_HEADER_HEIGHT;
+
+  @include devices(md) {
+    background: transparent;
+    box-shadow: none;
+    height: $FM_HEADER_BASIC_HEIGHT_MD;
+    padding-top: 40px;
+    position: initial;
+  }
+
+  @include devices(xs) {
+    height: $FM_HEADER_BASIC_HEIGHT_XS;
+
+    > div {
+      padding: 0 5px;
+    }
+  }
+}
+
+.logo {
+  height: 50px;
+  position: relative;
+
+  a {
+    img {
+      width: auto;
+      height: 100%;
+      transition: all 0.3s ease-in-out;
+
+      &.logoHover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+    }
+
+    &:hover {
+      img {
+        &.logoMain {
+          opacity: 0;
+        }
+
+        &.logoHover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  @include devices(md) {
+    height: 40px;
+  }
+
+  @include devices(xs) {
+    height: 35px;
+  }
+}
+
+.location {
+  margin-left: 30px;
+
+  a {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      filter: brightness(50%);
+    }
+
+    img {
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    p {
+      color: #515151;
+      font-size: 14px;
+      line-height: 1.2;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    }
+  }
+}

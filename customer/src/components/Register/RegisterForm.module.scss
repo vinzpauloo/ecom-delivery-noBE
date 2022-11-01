@@ -1,37 +1,5 @@
 @import "../../theme/_mixins.scss";
 
-.logo {
-  height: 40px;
-  position: relative;
-
-  a {
-    img {
-      width: auto;
-      height: 100%;
-      transition: all 0.3s ease-in-out;
-
-      &.logoHover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-      }
-    }
-
-    &:hover {
-      img {
-        &.logoMain {
-          opacity: 0;
-        }
-
-        &.logoHover {
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
 .formInnerContainer {
   background: rgba(198, 174, 133, 0.5);
   border-radius: 15px;
@@ -76,12 +44,6 @@
     margin-bottom: 20px;
     padding: 15px 10px 5px;
     transition: all 0.3s ease-in-out;
-
-    &:focus {
-      // background: #ffffff;
-      // border: 1px solid rgba(97, 72, 28, 0.5);
-      // box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-    }
 
     @include devices(md) {
       margin-bottom: 10px;

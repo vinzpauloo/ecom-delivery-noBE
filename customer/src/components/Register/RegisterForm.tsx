@@ -1,11 +1,8 @@
 import React from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./RegisterForm.module.scss";
-
-import LogoHeader from "../../assets/images/logo-header.png";
-import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 
 interface ContainerProps {}
 
@@ -18,23 +15,6 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
   return (
     <>
-      <div className="d-flex d-lg-none justify-content-center mb-4">
-        <div className={styles.logo}>
-          <Link to="/">
-            <img
-              src={LogoHeader}
-              alt="Food Monkey Logo"
-              className={styles.logoMain}
-            />
-            <img
-              src={LogoHeaderHover}
-              alt="Food Monkey Logo"
-              className={styles.logoHover}
-            />
-          </Link>
-        </div>
-      </div>
-
       <Form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
@@ -115,7 +95,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <div
-          className={`position-relative d-flex align-items-center justify-content-center ${styles.checkbox}`}
+          className={`d-flex align-items-center justify-content-center ${styles.checkbox}`}
         >
           <Form.Check
             type="checkbox"
