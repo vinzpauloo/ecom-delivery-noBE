@@ -10,7 +10,7 @@ const OtpContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="md">
       <Row className={styles.container}>
-        <Col>
+        <Col className="d-flex d-lg-block flex-column justify-content-center">
           <OtpForm />
         </Col>
       </Row>

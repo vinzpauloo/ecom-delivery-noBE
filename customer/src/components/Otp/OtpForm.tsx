@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -11,18 +11,13 @@ interface ContainerProps {}
 
 function MyVerticallyCenteredModal(props: any) {
   return (
-    <Modal
-      {...props}
-      // size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
         <div className={`text-center p-4 ${styles.lottie}`}>
           <Lottie animationData={otpSuccess} loop={true} />
           <p className="mt-4">OTP Verified Successfully</p>
 
-          <Link to="/" className="custom-btn d-inline-block mt-2">
+          <Link to="/" className={`d-inline-block mt-2 ${styles.button}`}>
             Back to Home Page
           </Link>
         </div>
@@ -52,7 +47,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
           <p>We have sent an OTP to your mobile number</p>
         </div>
 
-        <Form className={styles.form}>
+        <Form className={styles.form} onSubmit={handleSubmit}>
           <Row>
             <Col className="d-flex justify-content-center gap-3 gap-lg-5">
               <Form.Control id="num1" name="num1" type="text" maxLength={1} />
@@ -65,9 +60,9 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
           </Row>
 
           <Row>
-            <Col>
+            <Col lg={{ span: 8, offset: 2 }}>
               <div className={styles.countdown}>
-                <p className="text-center text-lg-end me-lg-5 my-5">
+                <p className="text-center text-lg-end my-5">
                   Resend OTP in <span>00:30</span>
                 </p>
               </div>
@@ -87,39 +82,6 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
         </Form>
-      </div>
-    </>
-  );
-
-  return (
-    <>
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-
-      <div className="container">
-        <div className="title">
-          <h3>Enter OTP</h3>
-          <p>We have sent an OTP to your mobile number</p>
-        </div>
-
-        <div className="OTP">
-          <form
-            method="get"
-            className="digit-group text-center"
-            data-group-name="digits"
-            data-autosubmit="false"
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
-            <div className="otp-expire">
-              <p>
-                Resend OTP in <span>00:30</span>
-              </p>
-            </div>
-          </form>
-        </div>
       </div>
     </>
   );

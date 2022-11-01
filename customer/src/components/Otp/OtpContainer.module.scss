@@ -6,11 +6,11 @@
   padding: 60px 0;
 
   @include devices(md) {
-    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    min-height: calc(100vh - $FM_FOOTER_HEIGHT_MD);
     padding: 40px 0;
   }
 
   @include devices(xs) {
-    min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    min-height: calc(100vh - $FM_FOOTER_HEIGHT_XS);
   }
 }
