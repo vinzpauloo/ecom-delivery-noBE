@@ -75,7 +75,7 @@ const Footer: React.FC<ContainerProps> = () => {
           xs={1}
           className={`justify-content-center align-items-center ${styles.container}`}
         >
-          <Col>
+          <Col className={`d-none d-md-block`}>
             <div className={styles.logo}>
               <Link to="/">
                 <img src={LogoFooter} alt="Food Monkey Logo" />
@@ -83,14 +83,14 @@ const Footer: React.FC<ContainerProps> = () => {
             </div>
           </Col>
 
-          <Col>
+          <Col className={`d-none d-md-block`}>
             <div className={styles.location}>
               <Link
                 to="#"
                 className="d-flex align-items-center justify-content-center text-decoration-none"
               >
                 <img src={PinDark} alt="Pin" />
-                <p>Tagbiliran, Bohol, Philippines</p>
+                <p>Panglao, Bohol, Philippines</p>
               </Link>
             </div>
           </Col>
@@ -109,7 +109,7 @@ const Footer: React.FC<ContainerProps> = () => {
             </div>
           </Col> */}
 
-          <Col>
+          <Col className={`d-none d-md-block`}>
             <Row lg={6} xs="auto" className={styles.socials}>
               {socialMedias.map((item, index) => {
                 return (
@@ -126,8 +126,9 @@ const Footer: React.FC<ContainerProps> = () => {
           <Col>
             <div className="text-center">
               <p>
-                All Rights Reserved <strong>2022</strong> Food Monkey
+                All Rights Reserved <strong>2022</strong>
               </p>
+              <p>Food Monkey</p>
             </div>
           </Col>
         </Row>

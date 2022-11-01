@@ -25,8 +25,13 @@ const OffcanvasMenu: React.FC<ContainerProps> = ({}) => {
         <Offcanvas.Body>
           <ul className={styles.menu}>
             <li>
-              <Link to="/login" onClick={handleClose}>
+              <Link to="/account" onClick={handleClose}>
                 Login
+              </Link>
+            </li>
+            <li>
+              <Link to="" onClick={handleClose}>
+                Logout
               </Link>
             </li>
           </ul>
