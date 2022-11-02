@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./ProfileContent.scss";
 
@@ -17,58 +18,105 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   return (
     <div className="profile-content-container">
       <div className="right">
-        <form>
-          <h3>My Account</h3>
-          <div className="restoInfo1">
-            <div className="restoInfo1-div">
-              <label>Full name</label>
-              <input type="text" placeholder="Alexan Louise Torio" />
-            </div>
-
-            <div className="restoInfo1-div">
-              <label>Motor Vehicle</label>
-              <input type="text" placeholder="Yamaha T-MAX 2022" />
-            </div>
-          </div>
-
-          <div className="restoInfo2">
-            <div className="restoInfo2-div">
-              <label>Building number and Name</label>
-              <input placeholder="Unit 123, GT Tower Intl. " />
-            </div>
-
-            <div className="restoInfo2-div">
-              <label>Street Name and Barangay</label>
-              <input placeholder="Ayala Avenue, Brgy Poblacion" />
-            </div>
-
-            <div className="restoInfo2-div">
-              <label>City or Town, Pincode</label>
-              <input placeholder="Makati City 4114" />
-            </div>
-
-            <div className="restoInfo2-div">
-              <label>Landmark</label>
-              <input placeholder="In front of RCBC tower " />
-            </div>
-
-            <div className="restoInfo2-div">
-              <label>Email</label>
-              <input placeholder="JohnDoe2022@gmail.com" />
-            </div>
-
-            <div className="restoInfo2-div">
-              <label>Contact Number</label>
-              <input placeholder="(+63) 917 456 7890" />
-            </div>
-          </div>
+        <h3>My Account</h3>
+        <Form>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Full name</Form.Label>
+                <Form.Control
+                  id="full_name"
+                  type="text"
+                  placeholder="Alexan Louis Torio"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Motor Vehicle</Form.Label>
+                <Form.Control
+                  id="motor_vehicle"
+                  type="text"
+                  placeholder="Yamaha T-MAX 2022"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Building number and Name</Form.Label>
+                <Form.Control
+                  id="building_details"
+                  type="text"
+                  placeholder="Unit 123, GT Tower Intl. "
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Street Name and Barangay</Form.Label>
+                <Form.Control
+                  id="street_details"
+                  type="text"
+                  placeholder="Ayala Avenue, Brgy Poblacion"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>City or Town, Pincode</Form.Label>
+                <Form.Control
+                  id="city_details"
+                  type="text"
+                  placeholder="Makati City 4114"
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Landmark</Form.Label>
+                <Form.Control
+                  id="landmark"
+                  type="text"
+                  placeholder="In front of RCBC tower "
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  id="email"
+                  type="text"
+                  placeholder="JohnDoe2022@gmail.com"
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Contact Number</Form.Label>
+                <Form.Control
+                  id="contact_number"
+                  type="text"
+                  placeholder="(+63) 917 456 7890"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
           <div className="bike-images">
             <img src={bike1} alt="" />
             <img src={bike2} alt="" />
             <img src={bike3} alt="" />
             <img src={bike4} alt="" />
-            <img src={bike5} alt="" />
+            <img src={bike5} alt="" className="d-none d-md-block" />
           </div>
 
           <div className="buttons">
@@ -76,10 +124,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               Edit
             </a>
             <a id="editBtn" href="#">
-              Update
+              Save
             </a>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

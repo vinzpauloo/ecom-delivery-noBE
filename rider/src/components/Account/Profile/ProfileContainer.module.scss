@@ -18,6 +18,10 @@
   border: 1px solid #000000;
   padding: 30px 20px;
   height: 766px;
+
+  @media (max-width: 768px) {
+    height: 870px;
+  }
 }
 
 .contentContainer {

@@ -92,7 +92,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Vehicle Infromations</h3>
+          <h3 className="text-center">Vehicle Informations</h3>
 
           <Row lg={3} xs={1}>
             <Col>
