@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import Table from "react-bootstrap/Table";
+import Modal from "react-bootstrap/Modal";
 
 import "./DeliveryContent.scss";
 
 import SearchIcon from "../../../assets/images/search.png";
+import RiderIcon from "../../../assets/images/riderotw-icon.png";
+import KitchenIcon from "../../../assets/images/kitchen-icon.png";
+import OrderReceivedIcon from "../../../assets/images/order-received-icon.png";
 
 interface ContainerProps {}
 
@@ -10,102 +15,104 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <div className="delivery-content-container">
-      <div className="right">
-        <form>
-          <div className="right-header">
-            <h3>Queuing</h3>
+    <div className="delivery-history-container">
+      <div className="table-container-history">
+        <div className="table-header">
+          <div className="table-header-1">
+            <h3>For Delivery</h3>
             <div className="search">
-              <div className="d-flex position-relative">
-                <input type="text" placeholder="Search food and description" />
-                <img src={SearchIcon} alt="" />
-              </div>
+              <input type="text" placeholder="Search food and description" />
+              <img src={SearchIcon} alt="" />
             </div>
           </div>
-          <div className="title">
-            <ul className="title-list">
-              <li>Order ID</li>
-              <li>Date</li>
-              <li>Time</li>
-              <li>Customer Name</li>
-              <li>Grand Total</li>
-              <li>Status</li>
-              <li>Mark as</li>
-            </ul>
+        </div>
+        <Table size="sm">
+          <thead className="table-head">
+            <tr>
+              <th>Order ID</th>
+              <th>Date</th>
+              <th>Order Placed Time</th>
+              <th>Customer Name</th>
+              <th>Grand Total</th>
+              <th>Status</th>
+              <th>Mark as</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>BLH-0001</td>
+              <td>10/13/2022</td>
+              <td>1:30PM</td>
+              <td>Brandon Boyd</td>
+              <td>456 php</td>
+              <td>
+                <img src={RiderIcon} className="status-icon" />
+              </td>
+              <td>
+                <div className="mark-buttons">
+                  <button>Accept</button>
+                  <button>Delivered</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>BLH-0002</td>
+              <td>10/13/2022</td>
+              <td>2:30PM</td>
+              <td>Corey Taylor</td>
+              <td>456 php</td>
+              <td>
+                <img src={KitchenIcon} className="status-icon" />
+              </td>
+              <td>
+                <div className="mark-buttons">
+                  <button>Accept</button>
+                  <button>Delivered</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>BLH-0003</td>
+              <td>10/13/2022</td>
+              <td>3:30PM</td>
+              <td>Led Zeppelin</td>
+              <td>456 php</td>
+              <td>
+                <img src={OrderReceivedIcon} className="status-icon" />
+              </td>
+              <td>
+                <div className="mark-buttons">
+                  <button>Accept</button>
+                  <button>Delivered</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>BLH-0004</td>
+              <td>10/13/2022</td>
+              <td>4:30PM</td>
+              <td>Ian Tayao</td>
+              <td>456 php</td>
+              <td>
+                <img src={OrderReceivedIcon} className="status-icon" />
+              </td>
+              <td>
+                <div className="mark-buttons">
+                  <button>Accept</button>
+                  <button>Delivered</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
 
-            <ul className="menu-list">
-              <li>BLH-0001</li>
-              <li>10/13/2022</li>
-              <li>01:30PM</li>
-              <li id="name">Brandon Boyd</li>
-              <li id="price">456 PHP</li>
-              <li>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </li>
-              <li className="buttons">
-                <button>Accept</button>
-                <button>Delivered</button>
-              </li>
-            </ul>
-
-            <ul className="menu-list">
-              <li>BLH-0002</li>
-              <li>10/13/2022</li>
-              <li>02:30PM</li>
-              <li>Corey Taylor</li>
-              <li>456 PHP</li>
-              <li>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </li>
-              <li className="buttons">
-                <button>Accept</button>
-                <button>Delivered</button>
-              </li>
-            </ul>
-
-            <ul className="menu-list">
-              <li>BLH-0003</li>
-              <li>10/13/2022</li>
-              <li>03:30PM</li>
-              <li>Led Zepellin</li>
-              <li>456 PHP</li>
-              <li>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </li>
-              <li className="buttons">
-                <button>Accept</button>
-                <button>Delivered</button>
-              </li>
-            </ul>
-
-            <ul className="menu-list">
-              <li>BLH-0004</li>
-              <li>10/13/2022</li>
-              <li>04:30PM</li>
-              <li>Ian Tayao</li>
-              <li>456 PHP</li>
-              <li>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </li>
-              <li className="buttons">
-                <button>Accept</button>
-                <button>Delivered</button>
-              </li>
-            </ul>
-          </div>
-        </form>
+        <div className="page-number">
+          <a className="page-turn">&#60;</a>
+          <a>1</a>
+          <a>&nbsp;of</a>
+          <a>&nbsp;5</a>
+          <a className="page-turn">&#62;</a>
+        </div>
       </div>
     </div>
   );
