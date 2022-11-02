@@ -1,0 +1,28 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  padding: 40px 25px;
+
+  .innerContainer {
+    border: 1px solid #000000;
+    box-shadow: $FM_SHADOW;
+    min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT - 80px);
+
+    > div:first-child {
+      border-right: 1px solid #000000;
+    }
+
+    @include devices(md) {
+      min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    }
+
+    @include devices(xs) {
+      min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    }
+  }
+}
+
+.bgBrown {
+  background-color: $FM_BG_BROWN;
+}

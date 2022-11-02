@@ -1,0 +1,40 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  padding: 20px 0;
+}
+
+.title {
+  h4 {
+    color: $FM_TEXT_BROWN;
+    font-size: 20px;
+  }
+
+  input[type="checkbox"] {
+    margin-top: 2.5px;
+    margin-left: 0;
+    width: 2.5em;
+    height: 1.25em;
+  }
+}
+
+.filters {
+  margin-top: 15px;
+
+  h3 {
+    color: $FM_TEXT_BROWN;
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .filterContent {
+    margin-left: 10px;
+    margin-top: 10px;
+
+    label {
+      color: $FM_TEXT_BROWN;
+      font-weight: 400;
+    }
+  }
+}
