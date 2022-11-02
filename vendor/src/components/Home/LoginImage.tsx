@@ -1,5 +1,8 @@
 import React from "react";
 
+// Import required modules
+import { Autoplay } from "swiper";
+
 import styles from "./LoginImage.module.scss";
 
 import ThisImage from "../../assets/images/slider-chef1.jpg";

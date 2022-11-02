@@ -18,23 +18,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
   return (
     <div>
-      <div className="d-flex d-lg-none justify-content-center mb-4">
-        <div className={styles.logo}>
-          <Link to="/">
-            <img
-              src={LogoHeader}
-              alt="Food Monkey Logo"
-              className={styles.logoMain}
-            />
-            <img
-              src={LogoHeaderHover}
-              alt="Food Monkey Logo"
-              className={styles.logoHover}
-            />
-          </Link>
-        </div>
-      </div>
-
       <Form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Get started with FoodMonkey</h3>

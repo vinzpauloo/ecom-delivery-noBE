@@ -15,7 +15,7 @@ const LoginContainer: React.FC<ContainerProps> = ({}) => {
         <Row
           lg={2}
           xs={1}
-          className={`justify-content-center align-items-center flex-lg-row flex-column-reverse ${styles.container}`}
+          className={`justify-content-center align-items-center flex-lg-row flex-column ${styles.container}`}
         >
           <Col>
             <div className="d-flex justify-content-center">

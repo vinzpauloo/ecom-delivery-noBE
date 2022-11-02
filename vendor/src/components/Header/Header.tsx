@@ -63,10 +63,7 @@ const Header: React.FC<ContainerProps> = () => {
                   className="d-flex align-items-center justify-content-center text-decoration-none"
                 >
                   <img src={PinLight} alt="Pin" />
-                  <p className="mb-0">
-                    Tagbiliran, Bohol, <br />
-                    Philippines
-                  </p>
+                  <p className="mb-0">Panglao, Bohol, Philippines</p>
                 </a>
               </div>
             </div>
