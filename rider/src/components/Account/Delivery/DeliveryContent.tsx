@@ -26,7 +26,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
             </div>
           </div>
         </div>
-        <Table size="sm">
+        <Table size="xs">
           <thead className="table-head">
             <tr>
               <th>Order ID</th>

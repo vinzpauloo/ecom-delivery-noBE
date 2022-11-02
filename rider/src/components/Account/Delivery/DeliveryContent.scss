@@ -95,6 +95,11 @@
     table {
       border-collapse: separate;
       border-spacing: 0 15px;
+
+      //creates a horizontal scroll
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
     }
 
     thead {
