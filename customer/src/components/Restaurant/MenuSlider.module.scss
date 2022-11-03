@@ -1,69 +1,9 @@
 @import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
-.container {
-}
-
-.top {
-  padding: 10px 15px 15px;
-}
-
-.details {
-  color: $FM_TEXT_BROWN;
-  line-height: 1;
-
-  img {
-    border: 1px solid #61481c;
-    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    height: 80px;
-  }
-
-  h3 {
-    font-size: 20px;
-  }
-
-  p {
-    font-size: 10px;
-  }
-}
-
-.buttons {
-  button {
-    box-shadow: $FM_BUTTON_SHADOW;
-    border: 0.5px solid #61481c;
-    border-radius: 5px;
-    font-size: 14px;
-    line-height: 1;
-    text-shadow: $FM_TEXT_SHADOW;
-    padding: 10px;
-    transition: $FM_TRANSITION;
-
-    &:hover {
-      border: 0.5px solid #61481c;
-      opacity: 0.75;
-    }
-
-    &.btnPromos {
-      background-color: #bf9742;
-    }
-
-    &.btnDiscounts {
-      background-color: #868585;
-    }
-  }
-}
-
 .sliderContainer {
   margin: 0 15px;
   padding-bottom: 30px;
-
-  @include devices(md) {
-    height: 680px; /* height of slide item x 2 */
-
-    .swiperSlide {
-      height: calc((100% - 10px) / 2) !important;
-    }
-  }
 }
 
 .slideItem {
@@ -181,69 +121,26 @@
   }
 }
 
-.bottom {
-  border-top: 1px solid #000000;
+@include devices(md) {
+  .sliderContainer {
+    /* 
+        Swiper Slide Grid layout requirement
+        fixed height for one slider column (plus the space)
+    */
+    height: 580px;
 
-  > div {
-    min-height: 155px;
-    width: 50%;
-    padding: 10px 20px;
-
-    &.cart {
+    .swiperSlide {
+      height: calc((100% - 10px) / 2) !important;
     }
+  }
 
-    &.checkout {
-      background-color: #d9d5d5;
-      font-size: 15px;
-      line-height: 1.4;
-
-      strong {
-        font-weight: 500;
-      }
-
-      .total {
-        background: $FM_BG_YELLOW;
-        border: 1px solid $FM_TEXT_BROWN;
-        border-radius: 5px;
-        font-size: 18px;
-        line-height: 1.6;
-        margin-top: 5px;
-      }
-
-      button,
-      a {
-        border: 1px solid #584016;
-        border-radius: 5px;
-        display: block;
-        color: #000000;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 45px;
-        height: 45px;
-        padding: 0;
-        transition: $FM_TRANSITION;
-        text-align: center;
-        text-decoration: none;
-
-        &.btnCheckout {
-          background-color: $FM_BG_YELLOW;
-        }
-
-        &.btnCancel {
-          background-color: #bf9520;
-          color: #000000;
-        }
-
-        &:active,
-        &:focus {
-          border: 1px solid #584016;
-          color: #000000;
-        }
-
-        &:hover {
-          opacity: 0.7;
-        }
-      }
+  .slideImageContainer {
+    img {
+      height: 110px;
     }
+  }
+
+  .slideContentContainer {
+    padding: 10px;
   }
 }

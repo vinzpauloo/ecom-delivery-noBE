@@ -1,33 +1,45 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
+import "swiper/scss";
+import "swiper/scss/grid";
+import "swiper/scss/navigation";
 
 // Import required modules
-import { Navigation } from "swiper";
+import { Grid, Navigation } from "swiper";
 
 import styles from "./Details.module.scss";
+import CategorySlider from "./CategorySlider";
 
+// Sample static images
 import restau01 from "../../assets/images/restau01.png";
+import restau02 from "../../assets/images/restau02.png";
+import restau03 from "../../assets/images/restau03.png";
+import restau04 from "../../assets/images/restau04.png";
+import restau05 from "../../assets/images/restau05.png";
+import restau06 from "../../assets/images/restau06.png";
 import cuisine01 from "../../assets/images/cuisine01.png";
 import cuisine02 from "../../assets/images/cuisine02.png";
 import cuisine03 from "../../assets/images/cuisine03.png";
 import cuisine04 from "../../assets/images/cuisine04.png";
 import cuisine05 from "../../assets/images/cuisine05.png";
+import cuisine06 from "../../assets/images/cuisine06.png";
+import cuisine07 from "../../assets/images/cuisine07.png";
 import category01 from "../../assets/images/category01.jpg";
 import category02 from "../../assets/images/category02.jpg";
 import category03 from "../../assets/images/category03.jpg";
 import category04 from "../../assets/images/category04.jpg";
 import category05 from "../../assets/images/category05.jpg";
+import category06 from "../../assets/images/category06.jpg";
+import MenuSlider from "./MenuSlider";
 
-const slides = [
+const menuSlides = [
   {
     image: cuisine01,
     title: "Lorem Ipsum 1 Test long title Test long title Test long title",
@@ -54,9 +66,19 @@ const slides = [
     title: "Lorem Ipsum 5",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   },
+  {
+    image: cuisine06,
+    title: "Lorem Ipsum 6",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
+  {
+    image: cuisine07,
+    title: "Lorem Ipsum 7",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  },
 ];
 
-const categories = [
+const categoriesSlides = [
   {
     image: category01,
     title: "Family Meals",
@@ -76,6 +98,33 @@ const categories = [
   {
     image: category05,
     title: "Beers and Wine",
+  },
+  {
+    image: category06,
+    title: "Others",
+  },
+];
+
+const cart = [
+  {
+    image: restau02,
+    qty: 1,
+  },
+  {
+    image: restau03,
+    qty: 3,
+  },
+  {
+    image: restau04,
+    qty: 5,
+  },
+  {
+    image: restau05,
+    qty: 4,
+  },
+  {
+    image: restau06,
+    qty: 7,
   },
 ];
 
@@ -117,6 +166,23 @@ const Details: React.FC<ContainerProps> = ({}) => {
       {/* Menu slider */}
       <Row>
         <Col>
+          <MenuSlider slides={menuSlides} />
+        </Col>
+      </Row>
+
+      {/* Category filters */}
+      <Row>
+        <Col>
+          <CategorySlider slides={categoriesSlides} />
+        </Col>
+      </Row>
+
+      {/* Ordered items & Checkout */}
+      <div className={`d-flex align-items-center ${styles.bottom}`}>
+        {/* Ordered items */}
+        <div className={styles.cart}>
+          <h5>Ordered items</h5>
+          {/* Desktop version */}
           <Swiper
             slidesPerView={4}
             spaceBetween={10}
@@ -124,76 +190,13 @@ const Details: React.FC<ContainerProps> = ({}) => {
             modules={[Navigation]}
             className={`d-none d-lg-block ${styles.sliderContainer}`}
           >
-            {slides.map((item, index) => {
-              return (
-                <SwiperSlide key={index}>
-                  <div className={styles.slideItem}>
-                    <div className={styles.slideImageContainer}>
-                      <img src={item.image} alt="" />
-                    </div>
-                    <div className={styles.slideContentContainer}>
-                      <p className={styles.slideTitle}>{item.title}</p>
-                      <p className={styles.slideDescription}>
-                        {item.description}
-                      </p>
-                      <p className={styles.slidePrice}>423php</p>
-                      <div
-                        className={`d-flex justify-content-between ${styles.slideOptions}`}
-                      >
-                        <div
-                          className={`d-flex justify-content-center align-items-center ${styles.qty}`}
-                        >
-                          <Button>
-                            <Dash color="#61481C" size={18} />
-                          </Button>
-                          <span className={styles.num}>1</span>
-                          <Button>
-                            <Plus color="#61481C" size={18} />
-                          </Button>
-                        </div>
-                        <div className={styles.addToCart}>
-                          <Button>Add to cart</Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              );
+            {cart.map((item, index) => {
+              return <>{item.qty}</>;
             })}
           </Swiper>
-        </Col>
-      </Row>
+        </div>
 
-      {/* Category filters */}
-      <Row>
-        <Col>
-          <div className={`d-flex gap-4 ${styles.categories}`}>
-            {categories.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`d-flex align-items-center ${styles.item}`}
-                >
-                  <div className={styles.imageContainer}>
-                    <img src={item.image} />
-                  </div>
-                  <div
-                    className={`d-flex justify-content-center align-items-center ${styles.title}`}
-                  >
-                    <h4>{item.title}</h4>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </Col>
-      </Row>
-
-      {/* Ordered items & Checkout */}
-      <div className={`d-flex align-items-center ${styles.bottom}`}>
-        <div className={styles.cart}>Ordered items</div>
-
-        <div className={styles.checkout}>
+        <div className={`${styles.checkout}`}>
           <Row>
             {/* Checkout details */}
             <Col lg={{ span: 7 }}>
@@ -237,7 +240,9 @@ const Details: React.FC<ContainerProps> = ({}) => {
               className="d-flex flex-column justify-content-center"
             >
               <div className="d-flex flex-column gap-2">
-                <Button className={styles.btnCheckout}>Checkout</Button>
+                <Link to="/checkout" className={styles.btnCheckout}>
+                  Checkout
+                </Link>
                 <Button className={styles.btnCancel}>Cancel Order</Button>
               </div>
             </Col>
