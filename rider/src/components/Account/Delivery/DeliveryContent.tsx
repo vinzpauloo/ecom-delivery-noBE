@@ -8,6 +8,7 @@ import SearchIcon from "../../../assets/images/search.png";
 import RiderIcon from "../../../assets/images/riderotw-icon.png";
 import KitchenIcon from "../../../assets/images/kitchen-icon.png";
 import OrderReceivedIcon from "../../../assets/images/order-received-icon.png";
+import RewardsIcon from "../../../assets/images/rewards-icon.png";
 
 interface ContainerProps {}
 
@@ -479,6 +480,13 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
             show={modalShow2}
             onHide={() => setModalShow2(false)}
           /> */}
+        </div>
+
+        <div className="rewards-container">
+          <div className="rewards-btn">
+            <a>Rewards</a>
+            <img src={RewardsIcon} alt="" />
+          </div>
         </div>
       </div>
     </div>

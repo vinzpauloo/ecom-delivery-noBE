@@ -18,7 +18,7 @@ const DeliveryContainer: React.FC<ContainerProps> = ({}) => {
             <Navigation />
           </div>
         </Col>
-        <Col lg={8}>
+        <Col lg={8} className={styles.bg}>
           <div className={styles.contentContainer}>
             <DeliveryContent />
           </div>

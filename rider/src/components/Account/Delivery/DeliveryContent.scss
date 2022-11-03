@@ -33,18 +33,17 @@
 
       @media (max-width: 425px) {
         padding: 0px;
-        padding-bottom: 10px;
       }
       .table-header-1 {
         @media (max-width: 425px) {
           display: flex;
           align-items: center;
-          gap: 90px;
+          gap: 120px;
         }
         @media (width: 320px) {
           display: flex;
           align-items: center;
-          gap: 50px;
+          gap: 67px;
         }
 
         h3 {
@@ -161,16 +160,6 @@
     }
 
     thead {
-      .table-test {
-        // background: #61481c;
-        // text-align: center;
-        // font-style: normal;
-        // font-weight: 300;
-        // font-size: 15px;
-        // line-height: 17px;
-        // color: white;
-      }
-
       .test1 {
         position: sticky;
         position: -webkit-sticky;
@@ -328,6 +317,48 @@ td {
 
     @media (max-width: 425px) {
       font-size: 10px;
+    }
+  }
+}
+
+.rewards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  .rewards-btn {
+    color: white;
+    margin-top: 50px;
+    position: relative;
+    a {
+      background: #e6b325;
+      border: 1px solid #61481c;
+      border-radius: 5px;
+      padding: 1em 7em;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 24px;
+      margin-top: 40px;
+      cursor: pointer;
+
+      @media (max-width: 425px) {
+        font-size: 12px;
+        padding: 0.5em 3em;
+      }
+    }
+    img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: -2px;
+      right: 50px;
+
+      @media (max-width: 425px) {
+        top: 4px;
+        right: 8px;
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 }
