@@ -92,17 +92,7 @@ const Header: React.FC<ContainerProps> = () => {
             md={{ span: 6, offset: 2 }}
             xs={{ span: 7, offset: 1 }}
             className="d-lg-none"
-          >
-            <div className="d-flex justify-content-end align-items-center">
-              <OffcanvasMenu />
-
-              <a href="#">
-                <div className={styles.account}>
-                  <Person color="#61481C" size={30} />
-                </div>
-              </a>
-            </div>
-          </Col>
+          ></Col>
         </Row>
       </Container>
     </header>
