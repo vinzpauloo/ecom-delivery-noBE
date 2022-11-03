@@ -384,85 +384,87 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
             </div>
           </div>
         </div>
-        <Table size="xs">
-          <thead className="table-head">
-            <tr>
-              <th className="test1">Order ID</th>
-              <th>Date</th>
-              <th>Order Placed Time</th>
-              <th>Customer Name</th>
-              <th>Grand Total</th>
-              <th>Status</th>
-              <th>Mark as</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="test2">BLH-0001</td>
-              <td>10/13/2022</td>
-              <td>1:30PM</td>
-              <td>Brandon Boyd</td>
-              <td>456 php</td>
-              <td>
-                <img src={RiderIcon} className="status-icon" />
-              </td>
-              <td>
-                <div className="mark-buttons">
-                  <button>Accept</button>
-                  <button>Cancel</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className="test2">BLH-0002</td>
-              <td>10/13/2022</td>
-              <td>2:30PM</td>
-              <td>Corey Taylor</td>
-              <td>456 php</td>
-              <td>
-                <img src={KitchenIcon} className="status-icon" />
-              </td>
-              <td>
-                <div className="mark-buttons">
-                  <button>Accept</button>
-                  <button>Cancel</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td className="test2">BLH-0003</td>
-              <td>10/13/2022</td>
-              <td>3:30PM</td>
-              <td>Led Zeppelin</td>
-              <td>456 php</td>
-              <td>
-                <img src={OrderReceivedIcon} className="status-icon" />
-              </td>
-              <td>
-                <div className="mark-buttons">
-                  <button>Accept</button>
-                  <button>Cancel</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>BLH-0004</td>
-              <td>10/13/2022</td>
-              <td>4:30PM</td>
-              <td>Ian Tayao</td>
-              <td>456 php</td>
-              <td>
-                <img src={OrderReceivedIcon} className="status-icon" />
-              </td>
-              <td>
-                <div className="mark-buttons">
-                  <button>Accept</button>
-                  <button>Cancel</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+        <div className="test-table">
+          <Table size="xs" responsive>
+            <thead className="table-head">
+              <tr className="table-test">
+                <th className="test1">Order ID</th>
+                <th>Date</th>
+                <th>Order Placed Time</th>
+                <th>Customer Name</th>
+                <th>Grand Total</th>
+                <th>Status</th>
+                <th>Mark as</th>
+              </tr>
+            </thead>
+            <tbody className="table-body">
+              <tr>
+                <th className="test2">BLH-0001</th>
+                <td>10/13/2022</td>
+                <td>1:30PM</td>
+                <td>Brandon Boyd</td>
+                <td>456 php</td>
+                <td>
+                  <img src={RiderIcon} className="status-icon" />
+                </td>
+                <td>
+                  <div className="mark-buttons">
+                    <button>Accept</button>
+                    <button>Cancel</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="test2">BLH-0002</td>
+                <td>10/13/2022</td>
+                <td>2:30PM</td>
+                <td>Corey Taylor</td>
+                <td>456 php</td>
+                <td>
+                  <img src={KitchenIcon} className="status-icon" />
+                </td>
+                <td>
+                  <div className="mark-buttons">
+                    <button>Accept</button>
+                    <button>Cancel</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="test2">BLH-0003</td>
+                <td>10/13/2022</td>
+                <td>3:30PM</td>
+                <td>Led Zeppelin</td>
+                <td>456 php</td>
+                <td>
+                  <img src={OrderReceivedIcon} className="status-icon" />
+                </td>
+                <td>
+                  <div className="mark-buttons">
+                    <button>Accept</button>
+                    <button>Cancel</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="test2">BLH-0004</td>
+                <td>10/13/2022</td>
+                <td>4:30PM</td>
+                <td>Ian Tayao</td>
+                <td>456 php</td>
+                <td>
+                  <img src={OrderReceivedIcon} className="status-icon" />
+                </td>
+                <td>
+                  <div className="mark-buttons">
+                    <button>Accept</button>
+                    <button>Cancel</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
 
         <div className="bottom-buttons">
           <button onClick={() => setModalShow(true)}>For delivery</button>

@@ -161,16 +161,23 @@
     }
 
     thead {
-      background: #61481c;
-      text-align: center;
-      font-style: normal;
-      font-weight: 300;
-      font-size: 15px;
-      line-height: 17px;
-      color: white;
+      .table-test {
+        // background: #61481c;
+        // text-align: center;
+        // font-style: normal;
+        // font-weight: 300;
+        // font-size: 15px;
+        // line-height: 17px;
+        // color: white;
+      }
 
       .test1 {
-        position: absolute;
+        position: sticky;
+        position: -webkit-sticky;
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        left: 0px;
         background: #61481c;
         border: 1px solid black;
         width: 21%;
@@ -182,7 +189,12 @@
       border: 1px solid #000000;
 
       .test2 {
-        position: absolute;
+        position: sticky;
+        position: -webkit-sticky;
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        left: 0px;
         background: #a47e3b;
         border: 1px solid black;
         color: white;
@@ -247,13 +259,13 @@ table {
 }
 
 thead {
-  background: #61481c;
-  text-align: center;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 15px;
-  line-height: 17px;
-  color: white;
+  // background: #61481c;
+  // text-align: center;
+  // font-style: normal;
+  // font-weight: 300;
+  // font-size: 15px;
+  // line-height: 17px;
+  // color: white;
 }
 
 tbody {
