@@ -387,7 +387,7 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
         <Table size="xs">
           <thead className="table-head">
             <tr>
-              <th>Order ID</th>
+              <th className="test1">Order ID</th>
               <th>Date</th>
               <th>Order Placed Time</th>
               <th>Customer Name</th>
@@ -398,7 +398,7 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
           </thead>
           <tbody>
             <tr>
-              <td>BLH-0001</td>
+              <td className="test2">BLH-0001</td>
               <td>10/13/2022</td>
               <td>1:30PM</td>
               <td>Brandon Boyd</td>
@@ -409,12 +409,12 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
               <td>
                 <div className="mark-buttons">
                   <button>Accept</button>
-                  <button>Delivered</button>
+                  <button>Cancel</button>
                 </div>
               </td>
             </tr>
             <tr>
-              <td>BLH-0002</td>
+              <td className="test2">BLH-0002</td>
               <td>10/13/2022</td>
               <td>2:30PM</td>
               <td>Corey Taylor</td>
@@ -425,12 +425,12 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
               <td>
                 <div className="mark-buttons">
                   <button>Accept</button>
-                  <button>Delivered</button>
+                  <button>Cancel</button>
                 </div>
               </td>
             </tr>
             <tr>
-              <td>BLH-0003</td>
+              <td className="test2">BLH-0003</td>
               <td>10/13/2022</td>
               <td>3:30PM</td>
               <td>Led Zeppelin</td>
@@ -441,7 +441,7 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
               <td>
                 <div className="mark-buttons">
                   <button>Accept</button>
-                  <button>Delivered</button>
+                  <button>Cancel</button>
                 </div>
               </td>
             </tr>
@@ -457,34 +457,26 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
               <td>
                 <div className="mark-buttons">
                   <button>Accept</button>
-                  <button>Delivered</button>
+                  <button>Cancel</button>
                 </div>
               </td>
             </tr>
           </tbody>
         </Table>
 
-        <div className="delivery-buttons">
-          <a onClick={() => setModalShow(true)}>For delivery</a>
+        <div className="bottom-buttons">
+          <button onClick={() => setModalShow(true)}>For delivery</button>
           {/* <DeliveryModal show={modalShow} onHide={() => setModalShow(false)} /> */}
-          <a onClick={() => setModalShow1(true)}>Completed</a>
+          <button onClick={() => setModalShow1(true)}>Completed</button>
           {/* <CompletedModal
             show={modalShow1}
             onHide={() => setModalShow1(false)}
           /> */}
-          <a onClick={() => setModalShow2(true)}>Cancelled</a>
+          <button onClick={() => setModalShow2(true)}>Cancelled</button>
           {/* <CancelledModal
             show={modalShow2}
             onHide={() => setModalShow2(false)}
           /> */}
-        </div>
-
-        <div className="page-number">
-          <a className="page-turn">&#60;</a>
-          <a>1</a>
-          <a>&nbsp;of</a>
-          <a>&nbsp;5</a>
-          <a className="page-turn">&#62;</a>
         </div>
       </div>
     </div>
