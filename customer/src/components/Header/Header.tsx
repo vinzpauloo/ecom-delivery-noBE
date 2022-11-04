@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { Person } from "react-bootstrap-icons";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
@@ -9,26 +11,18 @@ import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 import SearchIcon from "../../assets/images/search.png";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
-  const { user, dispatch } = useAuthContext();
-  const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
 
   const handleLogout = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
-
-    // Remove the user from local storage
-    localStorage.removeItem(user);
-
-    // Dispatch logout action
-    dispatch({ type: "LOGOUT" });
-
-    navigate("/");
+    logout();
   };
 
   return (
@@ -110,11 +104,15 @@ const Header: React.FC<ContainerProps> = () => {
 
               <OffcanvasMenu />
 
-              <a href="#">
+              {user ? (
                 <div className={styles.account}>
-                  <Person color="#61481C" size={30} />
+                  <Link to="/account">
+                    <Person color="#61481C" size={30} />
+                  </Link>
                 </div>
-              </a>
+              ) : (
+                <></>
+              )}
             </div>
           </Col>
         </Row>
