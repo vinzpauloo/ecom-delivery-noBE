@@ -185,12 +185,9 @@
   border-top: 1px solid #000000;
 
   > div {
-    min-height: 155px;
+    // min-height: 155px;
     width: 50%;
     padding: 10px 20px;
-
-    &.cart {
-    }
 
     &.checkout {
       background-color: #d9d5d5;
