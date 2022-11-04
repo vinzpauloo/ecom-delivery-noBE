@@ -31,13 +31,13 @@ const LoginImage: React.FC<ContainerProps> = ({}) => {
       }}
       modules={[Autoplay, EffectFade]}
     >
-      <SwiperSlide className="bg-white">
+      <SwiperSlide className="bg-white text-center">
         <img src={chef1} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
-      <SwiperSlide className="bg-white">
+      <SwiperSlide className="bg-white text-center">
         <img src={chef2} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
-      <SwiperSlide className="bg-white">
+      <SwiperSlide className="bg-white text-center">
         <img src={chef3} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
     </Swiper>

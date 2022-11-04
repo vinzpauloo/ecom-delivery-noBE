@@ -93,7 +93,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Mayor's Permit Number (Landline)</Form.Label>
-                <Form.Control className="mb-0" id="permit_number" type="text" />
+                <Form.Control id="permit_number" type="text" />
               </Form.Group>
             </Col>
           </Row>
@@ -114,7 +114,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Barangay, City or Town</Form.Label>
-                <Form.Control className="mb-0" id="address2" type="text" />
+                <Form.Control id="address2" type="text" />
               </Form.Group>
             </Col>
           </Row>

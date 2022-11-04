@@ -9,5 +9,6 @@
   @include devices(md) {
     min-height: auto;
     margin-bottom: 40px + $FM_FOOTER_HEIGHT_MD;
+    padding-top: 0px;
   }
 }

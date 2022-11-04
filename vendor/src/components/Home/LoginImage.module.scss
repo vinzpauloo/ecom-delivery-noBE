@@ -1,6 +1,10 @@
 @import "../../theme/_mixins.scss";
 
 .image {
-  margin-left: 100px;
-  height: 500px;
+  margin: 0 auto;
+  height: 600px;
+
+  @include devices(md) {
+    height: 500px;
+  }
 }
