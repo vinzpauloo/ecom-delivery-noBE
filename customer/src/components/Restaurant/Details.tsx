@@ -19,11 +19,6 @@ import CategorySlider from "./CategorySlider";
 
 // Sample static images
 import restau01 from "../../assets/images/restau01.png";
-import restau02 from "../../assets/images/restau02.png";
-import restau03 from "../../assets/images/restau03.png";
-import restau04 from "../../assets/images/restau04.png";
-import restau05 from "../../assets/images/restau05.png";
-import restau06 from "../../assets/images/restau06.png";
 import cuisine01 from "../../assets/images/cuisine01.png";
 import cuisine02 from "../../assets/images/cuisine02.png";
 import cuisine03 from "../../assets/images/cuisine03.png";
@@ -38,6 +33,7 @@ import category04 from "../../assets/images/category04.jpg";
 import category05 from "../../assets/images/category05.jpg";
 import category06 from "../../assets/images/category06.jpg";
 import MenuSlider from "./MenuSlider";
+import CartSlider from "./CartSlider";
 
 const menuSlides = [
   {
@@ -105,25 +101,30 @@ const categoriesSlides = [
   },
 ];
 
-const cart = [
+const cartSlides = [
   {
-    image: restau02,
+    image: cuisine02,
+    price: 100,
     qty: 1,
   },
   {
-    image: restau03,
+    image: cuisine03,
+    price: 400,
     qty: 3,
   },
   {
-    image: restau04,
+    image: cuisine01,
+    price: 700,
     qty: 5,
   },
   {
-    image: restau05,
+    image: cuisine05,
+    price: 300,
     qty: 4,
   },
   {
-    image: restau06,
+    image: cuisine07,
+    price: 900,
     qty: 7,
   },
 ];
@@ -182,18 +183,8 @@ const Details: React.FC<ContainerProps> = ({}) => {
         {/* Ordered items */}
         <div className={styles.cart}>
           <h5>Ordered items</h5>
-          {/* Desktop version */}
-          <Swiper
-            slidesPerView={4}
-            spaceBetween={10}
-            navigation={true}
-            modules={[Navigation]}
-            className={`d-none d-lg-block ${styles.sliderContainer}`}
-          >
-            {cart.map((item, index) => {
-              return <>{item.qty}</>;
-            })}
-          </Swiper>
+
+          <CartSlider slides={cartSlides} />
         </div>
 
         <div className={`${styles.checkout}`}>
