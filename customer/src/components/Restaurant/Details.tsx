@@ -181,13 +181,17 @@ const Details: React.FC<ContainerProps> = ({}) => {
       {/* Ordered items & Checkout */}
       <div className={`d-flex align-items-center ${styles.bottom}`}>
         {/* Ordered items */}
-        <div className={styles.cart}>
+        <div className="d-flex flex-column justify-content-center">
           <h5>Ordered items</h5>
 
-          <CartSlider slides={cartSlides} />
+          <div>
+            <CartSlider slides={cartSlides} />
+          </div>
         </div>
 
-        <div className={`${styles.checkout}`}>
+        <div
+          className={`d-flex flex-column justify-content-center ${styles.checkout}`}
+        >
           <Row>
             {/* Checkout details */}
             <Col lg={{ span: 7 }}>
