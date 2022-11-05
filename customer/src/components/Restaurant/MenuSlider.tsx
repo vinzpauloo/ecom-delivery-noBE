@@ -74,11 +74,19 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
 
       {/* Mobile version */}
       <Swiper
-        slidesPerView={2}
+        slidesPerView={2.15}
+        spaceBetween={10}
         grid={{
           rows: 2,
         }}
-        spaceBetween={10}
+        breakpoints={{
+          576: {
+            slidesPerView: 2.5,
+          },
+          768: {
+            slidesPerView: 3.5,
+          },
+        }}
         modules={[Grid]}
         className={`d-lg-none ${styles.sliderContainer}`}
       >
