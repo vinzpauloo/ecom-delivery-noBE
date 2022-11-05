@@ -1,0 +1,17 @@
+footer {
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+
+  a {
+    cursor: pointer;
+    img {
+      @media (max-width: 425px) {
+        width: 110px;
+      }
+      @media (width: 320px) {
+        width: 80px;
+      }
+    }
+  }
+}

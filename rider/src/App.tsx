@@ -4,6 +4,7 @@ import "./App.scss";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
+import FooterMobile from "./components/FooterMobile";
 
 type Props = {};
 
@@ -15,7 +16,8 @@ const App: React.FC = (props: Props) => {
       <div className={`${location.pathname == "/login" ? "signupPage" : ""}`}>
         <Header />
         <Outlet />
-        <Footer />
+        {/* <Footer /> */}
+        <FooterMobile />
       </div>
     </>
   );
