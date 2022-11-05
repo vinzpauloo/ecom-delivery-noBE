@@ -26,9 +26,9 @@ const App: React.FC = (props: Props) => {
     RenderHeader = <Header />;
   }
 
-  if (customBgPages.includes(location.pathname)) {
-    customClassNames += "custom-bg ";
-  }
+  // if (customBgPages.includes(location.pathname)) {
+  //   customClassNames += "custom-bg ";
+  // }
 
   return (
     <>

@@ -16,7 +16,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <Form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.formInnerContainer}>
+        {/* Basic details */}
+        <div className={`mx-4 mx-md-5 mx-lg-0 ${styles.formInnerContainer}`}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
 
           <Row lg={3} xs={1}>
@@ -34,8 +35,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>User ID</Form.Label>
-                <Form.Control id="user_id" type="text" />
+                <Form.Label>Email</Form.Label>
+                <Form.Control id="email" type="email" />
               </Form.Group>
             </Col>
           </Row>
@@ -43,8 +44,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
-                <Form.Control id="email" type="email" />
+                <Form.Label>Contact number</Form.Label>
+                <Form.Control id="contact" type="text" />
               </Form.Group>
             </Col>
             <Col>
@@ -60,17 +61,9 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
-
-          <Row lg={3} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Contact number</Form.Label>
-                <Form.Control id="contact" type="text" />
-              </Form.Group>
-            </Col>
-          </Row>
         </div>
 
+        {/* Address details */}
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Enter Address</h3>
 

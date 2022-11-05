@@ -7,12 +7,16 @@
   padding: 40px;
 
   @include devices(md) {
-    background: none;
-    padding: 0 20px;
+    border-radius: 5px;
+    padding: 20px 20px 15px;
 
     &:first-child {
       margin-bottom: 20px;
     }
+  }
+
+  @include devices(xs) {
+    padding: 15px 15px 10px;
   }
 }
 
@@ -24,6 +28,10 @@
     font-size: 20px;
     line-height: 20px;
     margin-bottom: 20px;
+
+    @include devices(md) {
+      font-size: 18px;
+    }
   }
 
   label {
