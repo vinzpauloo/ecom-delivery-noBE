@@ -1,10 +1,20 @@
 @import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
+html {
+  @media (max-width: 490px) {
+    background-color: #e3d7c2;
+  }
+}
+
 .container {
   overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
   padding: 40px 0 !important;
+
+  @media (max-width: 768px) {
+    background: #e3d7c2;
+  }
 
   @include devices(md) {
     min-height: auto;

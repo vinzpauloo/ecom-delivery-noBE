@@ -168,7 +168,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           />
         </div> */}
       </Form>
-      <div className="d-flex flex-column justify-content-center align-items-center">
+      <div className="d-flex flex-column justify-content-center align-items-center gap-2">
         <img src={RiderProfile} className="w-25 img-fluid mb-3" />
         <div className="position-relative">
           <input

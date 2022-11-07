@@ -10,8 +10,12 @@ type Props = {};
 
 const App: React.FC = (props: Props) => {
   const location = useLocation();
+  let RenderHeader;
   let RenderFooter;
   let customClassNames = "";
+
+  // Pages with custom header
+  const customHeaderPages = ["/registration"];
 
   // Pages with custom footer
   const customFooterPages = [
@@ -25,7 +29,17 @@ const App: React.FC = (props: Props) => {
   const customBgPages = ["/register", "/otp", "/otp-order"];
 
   // Pages with no footer on mobile
-  const noFooterOnMobile = ["/restaurant"];
+  const noFooterOnMobile = ["/registration"];
+
+  if (
+    customHeaderPages.includes(location.pathname) &&
+    window.outerWidth <= 768
+  ) {
+    customClassNames += "no-header";
+    RenderHeader = <></>;
+  } else {
+    RenderHeader = <Header />;
+  }
 
   if (
     customFooterPages.includes(location.pathname) &&
@@ -50,7 +64,7 @@ const App: React.FC = (props: Props) => {
   return (
     <>
       <div className={customClassNames}>
-        <Header />
+        {RenderHeader}
         <Outlet />
         {RenderFooter}
       </div>
