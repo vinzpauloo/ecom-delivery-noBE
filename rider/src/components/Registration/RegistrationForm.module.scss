@@ -40,7 +40,7 @@
 
   @include devices(md) {
     background: none;
-    padding: 0 20px;
+    padding: 0 50px;
 
     &:first-child {
       margin-bottom: 40px;
@@ -50,6 +50,17 @@
 
 .form {
   text-align: center;
+
+  .test2 {
+    background: #d9d9d9;
+    border: 0.5px solid #b4b4b4;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    text-decoration: none;
+    color: black;
+    padding: 0 2em;
+    top: 5px;
+  }
 
   h3 {
     color: #61481c;
@@ -73,8 +84,8 @@
     border: 1px solid rgba(97, 72, 28, 0.5);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
-    margin-bottom: 20px;
-    padding: 15px 10px 5px;
+    margin-bottom: 10px;
+    padding: 8px 10px 5px;
   }
 
   button {
@@ -113,8 +124,57 @@
   }
 }
 
-::placeholder {
+.test::placeholder {
   font-size: 10px;
   position: absolute;
   top: 5px;
+  left: 4px;
+}
+
+.test2 {
+  background: #d9d9d9;
+  border: 0.5px solid #b4b4b4;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  text-decoration: none;
+  color: black;
+  padding: 0.5em 1.5em;
+  top: 5px;
+  left: 170px;
+  font-size: 10px;
+  cursor: pointer;
+
+  @media (max-width: 375px) {
+    font-size: 8px;
+    padding: 0.9em 1em;
+  }
+}
+
+input {
+  background: #f8f2e9;
+  border: 1px solid rgba(97, 72, 28, 0.5);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 8px 40px 5px;
+
+  @media (max-width: 375px) {
+    padding: 8px 30px 5px;
+  }
+}
+
+button {
+  background: #e6b325;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: none;
+  border-radius: 5px;
+  color: #61481c;
+  font-size: 20px;
+  padding: 10px 100px;
+  width: 200px;
+
+  &:hover {
+    background: #a47e3b;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
 }

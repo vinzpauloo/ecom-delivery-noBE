@@ -148,32 +148,15 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row> */}
+
           <Row>
-            <Col>
-              <img src={RiderProfile} className="w-25 img-fluid" />
-            </Col>
+            <Col></Col>
           </Row>
+
           <Row>
-            <Col className="position-relative">
-              <input
-                placeholder="Profile Picture (PDF*JPG*PNG)"
-                className="bg-white"
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col className="position-relative">
-              <input
-                placeholder="Driver’s License Image (PDF*JPG*PNG)"
-                className="bg-white"
-              />
-            </Col>
+            <Col className="position-relative"></Col>
           </Row>
         </div>
-
-        <Button variant="primary" size="lg" type="submit" className="mt-4">
-          Next
-        </Button>
 
         {/* <div
           className={`position-relative d-flex align-items-center justify-content-center ${styles.checkbox}`}
@@ -185,6 +168,34 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           />
         </div> */}
       </Form>
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <img src={RiderProfile} className="w-25 img-fluid mb-3" />
+        <div className="position-relative">
+          <input
+            placeholder="Profile Picture (PDF*JPG*PNG)"
+            className={`bg-white ${styles.test}`}
+          />
+          <a className={`position-absolute ${styles.test2}`}>Browse File</a>
+        </div>
+        <div className="position-relative">
+          <input
+            placeholder="Driver’s License Image (PDF*JPG*PNG)"
+            className={`bg-white ${styles.test}`}
+          />
+          <a className={`position-absolute ${styles.test2}`}>Browse File</a>
+        </div>
+        <div className="nextBtn">
+          <Button
+            variant="warning"
+            size="lg"
+            type="submit"
+            className="mt-4"
+            id="nextBtn-2"
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
