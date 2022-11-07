@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useFetch from "react-fetch-hook";
+// import useFetch from "react-fetch-hook";
 import axios from "axios";
 
 const thisKey = "1bit";
@@ -32,27 +32,30 @@ const TestApi = () => {
   };
 
   // START: Fetch via axios
-  // const [data, setData] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   axios(url, options)
-  //     .then((response) => {
-  //       setData(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data: ", error);
-  //       setError(error);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios(url, options)
+      .then((response) => {
+        setData(response.data);
+
+        console.log("Sample fetch from /api/restaurants");
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
   // END: Fetch via axios
 
   // START: Fetch via useFetch hook
-  const { isLoading, data, error } = useFetch(url, options);
+  // const { isLoading, data, error } = useFetch(url, options);
   // END: Fetch via useFetch hook
 
   return (

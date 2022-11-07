@@ -1,3 +1,4 @@
+@import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
 .form {
@@ -65,5 +66,17 @@
       height: 25px;
       top: 15px;
     }
+  }
+}
+
+.errors {
+  color: $FM_TEXT_RED;
+  margin-bottom: 10px;
+  text-align: left;
+
+  p {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-bottom: 0;
   }
 }
