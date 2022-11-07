@@ -3,7 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./LoginContainer.module.scss";
 import NewAccount from "./NewAccount";
-import LoginForm from "./LoginForm";
+// import LoginForm from "./LoginForm";
+import LoginForm_old from "./LoginForm_old";
 import LoginImage from "./LoginImage";
 
 interface ContainerProps {}
@@ -22,7 +23,8 @@ const LoginContainer: React.FC<ContainerProps> = ({}) => {
           </div>
         </Col>
         <Col>
-          <LoginForm />
+          {/* <LoginForm /> */}
+          <LoginForm_old />
           <NewAccount />
         </Col>
       </Row>

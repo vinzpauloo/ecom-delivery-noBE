@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { Person } from "react-bootstrap-icons";
-// import { useAuthContext } from "../../hooks/useAuthContext";
-// import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
@@ -15,16 +15,16 @@ import SearchIcon from "../../assets/images/search.png";
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
-  // const { user } = useAuthContext();
-  const user = false;
-  // const { logout } = useLogout();
+  const { user } = useAuthContext();
+  // const user = false;
+  const { logout } = useLogout();
 
-  // const handleLogout = (
-  //   event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  // ) => {
-  //   event.preventDefault();
-  //   logout();
-  // };
+  const handleLogout = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    logout();
+  };
 
   return (
     <header
@@ -77,8 +77,9 @@ const Header: React.FC<ContainerProps> = () => {
                 {user ? (
                   <>
                     <Link to="/account">Account</Link>
-                    {/* <Link to="#" onClick={handleLogout}> */}
-                    <Link to="#">Log out</Link>
+                    <Link to="#" onClick={handleLogout}>
+                      Log out
+                    </Link>
                   </>
                 ) : (
                   <>
