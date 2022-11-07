@@ -6,6 +6,7 @@ import App from "./App";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import Registration from "./pages/Registration";
+import Registration2 from "./pages/Registration2";
 import Otp from "./pages/Otp";
 import OtpOrder from "./pages/OtpOrder";
 import Delivery from "./pages/Account/Delivery";
@@ -25,6 +26,7 @@ root.render(
             <Route path="/" element={<App />}>
               <Route index element={<Home />} />
               <Route path="registration" element={<Registration />} />
+              <Route path="registration2" element={<Registration2 />} />
               <Route path="otp" element={<Otp />} />
               <Route path="otp-order" element={<OtpOrder />} />
 

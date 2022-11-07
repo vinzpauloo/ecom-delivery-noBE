@@ -191,6 +191,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             type="submit"
             className="mt-4"
             id="nextBtn-2"
+            href="/registration2"
           >
             Next
           </Button>
