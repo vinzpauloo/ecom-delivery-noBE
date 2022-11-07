@@ -30,19 +30,19 @@
 
 html {
   scroll-behavior: auto !important;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 .page {
   margin-top: $FM_HEADER_HEIGHT;
-  // margin-bottom: $FM_FOOTER_HEIGHT + 40px;
 
   @include devices(md) {
     margin-top: $FM_HEADER_HEIGHT_MD;
-    // margin-bottom: $FM_FOOTER_HEIGHT_MD + 20px;
   }
 
   @include devices(xs) {
@@ -50,16 +50,27 @@ body {
   }
 }
 
-.signupPage {
+.custom-header {
   @include devices(md) {
-    header {
-      display: none !important;
+    .page {
+      margin-top: 0;
     }
+  }
+}
 
+.custom-bg {
+  @include devices(md) {
+    header,
     .page {
       background: #e3d7c2;
-      margin-top: 0;
-      margin-bottom: 0;
+    }
+  }
+}
+
+.no-footer-on-mobile {
+  @include devices(sm) {
+    footer {
+      display: none;
     }
   }
 }

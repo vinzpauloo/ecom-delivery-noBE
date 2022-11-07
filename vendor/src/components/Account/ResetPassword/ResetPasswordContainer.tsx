@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./ResetPasswordContainer.module.scss";
-import Navigation from "../Navigation";
+import NavigationContainer from "../Navigation/NavigationContainer";
 import ResetPasswordContent from "./ResetPasswordContent";
 
 interface ContainerProps {}
@@ -13,7 +13,7 @@ const ResetPasswordContainer: React.FC<ContainerProps> = ({}) => {
       <Row className={styles.container}>
         <Col lg={4} className="d-none d-lg-block">
           <div className={styles.navigationContainer}>
-            <Navigation />
+            <NavigationContainer />
           </div>
         </Col>
         <Col lg={8}>

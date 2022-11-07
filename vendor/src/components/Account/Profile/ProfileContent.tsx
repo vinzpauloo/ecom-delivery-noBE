@@ -104,7 +104,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   id="contact_number"
                   type="text"

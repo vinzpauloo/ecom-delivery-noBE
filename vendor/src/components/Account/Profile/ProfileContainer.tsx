@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./ProfileContainer.module.scss";
-import Navigation from "../Navigation";
+import NavigationContainer from "../Navigation/NavigationContainer";
 import ProfileContent from "./ProfileContent";
 
 interface ContainerProps {}
@@ -14,7 +14,7 @@ const ProfileContainer: React.FC<ContainerProps> = ({}) => {
       <Row className={styles.container}>
         <Col lg={4} className="d-none d-lg-block">
           <div className={styles.navigationContainer}>
-            <Navigation />
+            <NavigationContainer />
           </div>
         </Col>
         <Col lg={8}>
