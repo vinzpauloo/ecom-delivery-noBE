@@ -7,23 +7,23 @@ import RiderIcon from "../assets/images/delivery.png";
 import HistoryIcon from "../assets/images/history.png";
 import LockIcon from "../assets/images/lock.png";
 
-function FooterMobile() {
+const FooterMobile = () => {
   return (
     <footer>
-      <a>
+      <a href="/account">
         <img src={HelmetIcon} alt="" />
       </a>
-      <a>
+      <a href="/account/for-delivery">
         <img src={RiderIcon} alt="" />
       </a>
-      <a>
+      <a href="/account/order-history">
         <img src={HistoryIcon} alt="" />
       </a>
-      <a>
+      <a href="/account/reset-password">
         <img src={LockIcon} alt="" />
       </a>
     </footer>
   );
-}
+};
 
 export default FooterMobile;
