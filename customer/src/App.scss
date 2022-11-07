@@ -66,3 +66,11 @@ body {
     }
   }
 }
+
+.no-footer-on-mobile {
+  @include devices(sm) {
+    footer {
+      display: none;
+    }
+  }
+}

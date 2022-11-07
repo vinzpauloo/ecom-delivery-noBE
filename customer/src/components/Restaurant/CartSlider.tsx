@@ -32,7 +32,7 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
       <Swiper
         slidesPerView={4}
         spaceBetween={10}
-        className={`d-none d-lg-block ${styles.sliderContainer}`}
+        className={`d-none d-md-block ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
           return (

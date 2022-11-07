@@ -2,7 +2,8 @@
 @import "../../theme/_mixins.scss";
 
 .sliderContainer {
-  padding: 0 15px 30px;
+  padding: 0 15px 10px;
+  margin-bottom: 160px;
 }
 
 .slideItem {
@@ -62,11 +63,14 @@
   }
 }
 
-@include devices(sm) {
+@include devices(md) {
   .sliderContainer {
-    padding: 0 30px 30px 5px;
+    margin: 0 5px 10px;
+    padding: 0 0 10px;
   }
+}
 
+@include devices(sm) {
   .slideItem {
     height: 90px;
   }

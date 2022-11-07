@@ -20,16 +20,16 @@ type Slide = {
 const CategorySlider: React.FC<ContainerProps> = ({ slides }) => {
   return (
     <Swiper
-      slidesPerView={3}
+      slidesPerView={3.3}
       spaceBetween={10}
       breakpoints={{
         576: {
-          slidesPerView: 4,
+          slidesPerView: 4.4,
           spaceBetween: 10,
         },
         768: {
-          slidesPerView: 4,
-          spaceBetween: 20,
+          slidesPerView: 4.7,
+          spaceBetween: 10,
         },
         1200: {
           slidesPerView: 5,

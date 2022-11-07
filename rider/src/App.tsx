@@ -1,21 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import "./App.scss";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
+import FooterMobile from "./components/FooterMobile";
 
 type Props = {};
 
 const App: React.FC = (props: Props) => {
   const location = useLocation();
+  let RenderFooter;
+  let customClassNames = "";
+
+  // Pages with custom footer
+  const customFooterPages = [
+    "/account",
+    "/account/for-delivery",
+    "/account/order-history",
+    "/account/reset-password",
+  ];
+
+  // Pages with custom background
+  const customBgPages = ["/register", "/otp", "/otp-order"];
+
+  // Pages with no footer on mobile
+  const noFooterOnMobile = ["/restaurant"];
+
+  if (
+    customFooterPages.includes(location.pathname) &&
+    window.outerWidth <= 768
+  ) {
+    customClassNames += "custom-footer ";
+    RenderFooter = <FooterMobile />;
+  } else {
+    RenderFooter = <Footer />;
+  }
+
+  // if (customBgPages.includes(location.pathname)) {
+  //   customClassNames += "custom-bg ";
+  // }
+
+  /* Checking if the current path is in the array of paths that have no footer on mobile. If it is, it
+ adds the class `no-footer-on-mobile` to the `customClassNames` variable. */
+  if (noFooterOnMobile.includes(location.pathname)) {
+    customClassNames += "no-footer-on-mobile ";
+  }
+
   return (
     <>
-      {/* Different header layout on signup page */}
-      <div className={`${location.pathname == "/login" ? "signupPage" : ""}`}>
+      <div className={customClassNames}>
         <Header />
         <Outlet />
-        <Footer />
+        {RenderFooter}
       </div>
     </>
   );

@@ -1,18 +1,7 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { Dash, Plus } from "react-bootstrap-icons";
+import { Star, StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/scss";
-import "swiper/scss/grid";
-import "swiper/scss/navigation";
-
-// Import required modules
-import { Grid, Navigation } from "swiper";
 
 import styles from "./Details.module.scss";
 import CategorySlider from "./CategorySlider";
@@ -136,11 +125,22 @@ const Details: React.FC<ContainerProps> = ({}) => {
     <div className={styles.container}>
       {/* Restaurant info */}
       <Row className={`d-flex align-items-center ${styles.top}`}>
-        <Col lg={{ span: 5 }}>
+        <Col
+          lg={{ span: 5 }}
+          md={{ span: 6, offset: 0 }}
+          sm={{ span: 8, offset: 2 }}
+        >
           <div className={`d-flex gap-2 ${styles.details}`}>
             <img className="img-fluid" src={restau01} />
             <div>
               <h3 className="mb-0">Chan’s Chinese Cuisine</h3>
+              <div className={`d-md-none ${styles.rating}`}>
+                <StarFill color="#E6B325" size={12} />
+                <StarFill color="#E6B325" size={12} />
+                <StarFill color="#E6B325" size={12} />
+                <StarFill color="#E6B325" size={12} />
+                <StarFill color="#D9D9D9" size={12} />
+              </div>
               <p className="mb-0">
                 What is the Chan’s Chinese cuisine? Asian Fusion uses
                 traditional Asian-style ingredients, dishes and techniques to
@@ -152,7 +152,11 @@ const Details: React.FC<ContainerProps> = ({}) => {
           </div>
         </Col>
 
-        <Col lg={{ span: 4, offset: 3 }}>
+        <Col
+          lg={{ span: 4, offset: 3 }}
+          md={{ span: 5, offset: 1 }}
+          className="d-none d-md-block"
+        >
           <div className={`d-flex flex-column gap-2 ${styles.buttons}`}>
             <Button className={styles.btnPromos}>
               Keep me updated on promos
@@ -165,14 +169,14 @@ const Details: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       {/* Menu slider */}
-      <Row>
+      <Row className={styles.menu}>
         <Col>
           <MenuSlider slides={menuSlides} />
         </Col>
       </Row>
 
       {/* Category filters */}
-      <Row>
+      <Row className={styles.categories}>
         <Col>
           <CategorySlider slides={categoriesSlides} />
         </Col>
@@ -181,8 +185,10 @@ const Details: React.FC<ContainerProps> = ({}) => {
       {/* Ordered items & Checkout */}
       <div className={`d-flex align-items-center ${styles.bottom}`}>
         {/* Ordered items */}
-        <div className="d-flex flex-column justify-content-center">
-          <h5>Ordered items</h5>
+        <div
+          className={`d-flex flex-column justify-content-center ${styles.cart}`}
+        >
+          <h5>Ordered Items</h5>
 
           <div>
             <CartSlider slides={cartSlides} />
@@ -192,10 +198,11 @@ const Details: React.FC<ContainerProps> = ({}) => {
         <div
           className={`d-flex flex-column justify-content-center ${styles.checkout}`}
         >
+          <h5 className="d-md-none">Ordered Amount</h5>
           <Row>
             {/* Checkout details */}
-            <Col lg={{ span: 7 }}>
-              <Row>
+            <Col md={{ span: 7 }}>
+              <Row className={styles.orderedAmountRow}>
                 <Col>
                   <span>Item count</span>
                 </Col>
@@ -203,20 +210,20 @@ const Details: React.FC<ContainerProps> = ({}) => {
                   <strong>003</strong>
                 </Col>
               </Row>
-              <Row>
+              <Row className={styles.orderedAmountRow}>
                 <Col>
                   <span>Sub-Total</span>
                 </Col>
                 <Col>
-                  <strong>1,126php</strong>
+                  <strong>1,126 php</strong>
                 </Col>
               </Row>
-              <Row>
+              <Row className={styles.orderedAmountRow}>
                 <Col>
                   <span>Delivery fee</span>
                 </Col>
                 <Col>
-                  <strong>86php</strong>
+                  <strong>86 php</strong>
                 </Col>
               </Row>
               <Row className={styles.total}>
@@ -224,17 +231,17 @@ const Details: React.FC<ContainerProps> = ({}) => {
                   <strong>Total</strong>
                 </Col>
                 <Col>
-                  <strong>1,212php</strong>
+                  <strong>1,212 php</strong>
                 </Col>
               </Row>
             </Col>
 
             {/* Checkout buttons */}
             <Col
-              lg={{ span: 4, offset: 1 }}
+              md={{ span: 4, offset: 1 }}
               className="d-flex flex-column justify-content-center"
             >
-              <div className="d-flex flex-column gap-2">
+              <div className="d-flex flex-md-column gap-2">
                 <Link to="/checkout" className={styles.btnCheckout}>
                   Checkout
                 </Link>

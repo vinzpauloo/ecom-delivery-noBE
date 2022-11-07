@@ -127,7 +127,9 @@
         Swiper Slide Grid layout requirement
         fixed height for one slider column (plus the space)
     */
-    height: 580px;
+    height: 570px;
+    margin: 5px;
+    padding-bottom: 20px;
 
     .swiperSlide {
       height: calc((100% - 10px) / 2) !important;

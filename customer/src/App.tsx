@@ -19,6 +19,9 @@ const App: React.FC = (props: Props) => {
   // Pages with custom background
   const customBgPages = ["/register", "/otp", "/otp-order"];
 
+  // Pages with no footer on mobile
+  const noFooterOnMobile = ["/restaurant"];
+
   if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "custom-header ";
     RenderHeader = <HeaderBasic />;
@@ -26,8 +29,12 @@ const App: React.FC = (props: Props) => {
     RenderHeader = <Header />;
   }
 
-  if (customBgPages.includes(location.pathname)) {
-    customClassNames += "custom-bg ";
+  // if (customBgPages.includes(location.pathname)) {
+  //   customClassNames += "custom-bg ";
+  // }
+
+  if (noFooterOnMobile.includes(location.pathname)) {
+    customClassNames += "no-footer-on-mobile ";
   }
 
   return (

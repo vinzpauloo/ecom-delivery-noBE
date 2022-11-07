@@ -84,7 +84,7 @@
     border-radius: 5px;
     color: #61481c;
     font-size: 20px;
-    padding: 10px 70px;
+    padding: 10px 100px;
 
     &:hover {
       background: #a47e3b;
@@ -111,4 +111,10 @@
       margin-left: 10px;
     }
   }
+}
+
+::placeholder {
+  font-size: 10px;
+  position: absolute;
+  top: 5px;
 }

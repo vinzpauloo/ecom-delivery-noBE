@@ -15,12 +15,16 @@
   }
 
   @include devices(md) {
-    padding: 20px 10px;
+    padding: 20px 10px 0;
 
     .innerContainer {
       border: none;
       min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
     }
+  }
+
+  @include devices(sm) {
+    padding-top: 0;
   }
 
   @include devices(xs) {
@@ -32,6 +36,7 @@
 
 .bgBrown {
   background-color: $FM_BG_BROWN;
+  position: relative;
 
   @include devices(md) {
     background-color: transparent;

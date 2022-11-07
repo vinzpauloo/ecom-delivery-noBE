@@ -1,12 +1,13 @@
 import React from "react";
-import { Button, Form } from "react-bootstrap";
-import { Row, Col } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./RegistrationForm.module.scss";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
+import RiderProfile from "../../assets/images/riderprofile.png";
 
 interface ContainerProps {}
 
@@ -37,7 +38,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
       <Form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Get started with FoodMonkey</h3>
+          <h3 className="text-center">Personal Information</h3>
 
           <Row lg={3} xs={1}>
             <Col>
@@ -54,7 +55,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>User ID</Form.Label>
+                <Form.Label>Email</Form.Label>
                 <Form.Control id="user_id" type="text" />
               </Form.Group>
             </Col>
@@ -63,7 +64,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>Contact Number</Form.Label>
                 <Form.Control id="email" type="email" />
               </Form.Group>
             </Col>
@@ -84,15 +85,23 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Contact number</Form.Label>
+                <Form.Label>Driver's License Number</Form.Label>
+                <Form.Control id="contact" type="text" />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Driver's License Expiration Date</Form.Label>
                 <Form.Control className="mb-0" id="contact" type="text" />
               </Form.Group>
             </Col>
           </Row>
         </div>
 
-        <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Vehicle Informations</h3>
+        <hr className="d-none d-lg-block" />
+
+        <div className="rider-2">
+          {/* <h3 className="text-center">Vehicle Informations</h3>
 
           <Row lg={3} xs={1}>
             <Col>
@@ -138,14 +147,35 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
+          </Row> */}
+          <Row>
+            <Col>
+              <img src={RiderProfile} className="w-25 img-fluid" />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="position-relative">
+              <input
+                placeholder="Profile Picture (PDF*JPG*PNG)"
+                className="bg-white"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="position-relative">
+              <input
+                placeholder="Driver’s License Image (PDF*JPG*PNG)"
+                className="bg-white"
+              />
+            </Col>
           </Row>
         </div>
 
         <Button variant="primary" size="lg" type="submit" className="mt-4">
-          Create Account
+          Next
         </Button>
 
-        <div
+        {/* <div
           className={`position-relative d-flex align-items-center justify-content-center ${styles.checkbox}`}
         >
           <Form.Check
@@ -153,7 +183,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             id="terms"
             label="By continuing, you indicate that you read and agreed to terms of use"
           />
-        </div>
+        </div> */}
       </Form>
     </div>
   );
