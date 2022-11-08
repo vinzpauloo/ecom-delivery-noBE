@@ -17,8 +17,8 @@ html {
   }
 
   @include devices(md) {
-    // min-height: auto;
+    min-height: auto;
     padding: 60px 0;
-    margin-bottom: 105px - $FM_FOOTER_HEIGHT_MD;
+    margin-bottom: 67px - $FM_FOOTER_HEIGHT_MD;
   }
 }

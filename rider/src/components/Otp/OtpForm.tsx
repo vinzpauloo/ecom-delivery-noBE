@@ -69,7 +69,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
           <Row>
             <Col>
               <Button
-                variant="primary"
+                variant="warning"
                 size="lg"
                 type="submit"
                 className={styles.button}
