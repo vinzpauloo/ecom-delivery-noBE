@@ -132,7 +132,6 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
 
       <Form.Group className="mb-4 position-relative">
         <Form.Control
-          id="email"
           size="lg"
           type="email"
           placeholder="Email or number"
@@ -149,7 +148,6 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
 
       <Form.Group className="mb-4 text-end position-relative">
         <Form.Control
-          id="password"
           size="lg"
           type={passwordType}
           placeholder="Enter Password"

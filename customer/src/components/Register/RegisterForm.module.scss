@@ -1,3 +1,4 @@
+@import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
 .formInnerContainer {
@@ -99,5 +100,16 @@
     @include devices(md) {
       margin-top: 10px;
     }
+  }
+}
+
+.errors {
+  color: $FM_TEXT_RED;
+  text-align: left;
+
+  p {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-bottom: 0;
   }
 }
