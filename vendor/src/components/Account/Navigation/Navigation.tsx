@@ -8,7 +8,7 @@ interface ContainerProps {}
 
 const Navigation: React.FC<ContainerProps> = ({}) => {
   return (
-    <div className={styles.navigation}>
+    <div className={`d-none d-lg-block ${styles.navigation}`}>
       <ul>
         <li>
           <Link to="/account">My Restaurant</Link>
