@@ -1,16 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "./useAuthContext";
+import { useSignOut } from "react-auth-kit";
 
 export const useLogout = () => {
-  const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+  const signOut = useSignOut();
 
   const logout = () => {
-    // Remove the user from local storage
-    localStorage.removeItem("user");
-
-    // Dispatch logout action
-    dispatch({ type: "LOGOUT" });
+    // React auth kit signout
+    signOut();
 
     // Navigate to home page
     navigate("/");

@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { Person } from "react-bootstrap-icons";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
@@ -15,9 +15,8 @@ import SearchIcon from "../../assets/images/search.png";
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
-  const { user } = useAuthContext();
-  // const user = false;
   const { logout } = useLogout();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -74,7 +73,7 @@ const Header: React.FC<ContainerProps> = () => {
               </div>
 
               <div className={`lh-1 text-end ${styles.links}`}>
-                {user ? (
+                {isAuthenticated() ? (
                   <>
                     <Link to="/account">Account</Link>
                     <Link to="#" onClick={handleLogout}>
@@ -105,7 +104,7 @@ const Header: React.FC<ContainerProps> = () => {
 
               <OffcanvasMenu />
 
-              {user ? (
+              {isAuthenticated() ? (
                 <div className={styles.account}>
                   <Link to="/account">
                     <Person color="#61481C" size={30} />

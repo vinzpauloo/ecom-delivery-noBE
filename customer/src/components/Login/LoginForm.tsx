@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
@@ -6,11 +6,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios, { AxiosError } from "axios";
-import { useSignIn } from "react-auth-kit";
+import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 
 import styles from "./LoginForm.module.scss";
 import constants from "../../utils/constants.json";
-// import { useAuthContext } from "../../hooks/useAuthContext";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -45,13 +44,18 @@ const EyeIcon = ({ type }: { type: string }) => {
 
 const LoginForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [authKitIsAuthenticated, setAuthKitIsAuthenticated] = useState(false);
   const signIn = useSignIn();
+  const isAuthenticated = useIsAuthenticated();
 
   const [passwordType, setPasswordType] = useState(
     constants.form.inputType.password
   );
   const navigate = useNavigate();
-  // const { dispatch } = useAuthContext();
+
+  useEffect(() => {
+    setAuthKitIsAuthenticated(isAuthenticated());
+  }, []);
 
   const {
     register,
@@ -62,59 +66,39 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    await axios
-      .get(process.env.REACT_APP_BASE + "/sanctum/csrf-cookie")
-      .then((response) => {
-        console.log(response);
-        console.log(response.headers["Set-Cookie"]);
-        console.log(response.headers["X-XSRF-TOKEN"]);
+    try {
+      // START: Access login API
+      const url = process.env.REACT_APP_API_LOCAL + "/login";
+      const options = {
+        headers: {
+          Accept: process.env.REACT_APP_HEADER_ACCEPT_VND,
+          "Content-Type": process.env.REACT_APP_HEADER_ACCEPT_VND,
+        },
+        withCredentials: true,
+      };
 
-        // try {
-        //   const url = process.env.REACT_APP_API_LOCAL + "/login";
-        //   const options = {
-        //     headers: {
-        //       Accept: process.env.REACT_APP_HEADER_ACCEPT_VND,
-        //       "Content-Type": process.env.REACT_APP_HEADER_ACCEPT_VND,
+      const response = await axios.post(url, data, options);
+      // END: Access login API
 
-        //     },
-        //   };
+      if (response.status === 200) {
+        const { data } = response.data;
 
-        //   console.log("Sample post from /api/login");
-        //   console.log("url", url);
-        //   console.log("options", options);
-        //   console.log("data", data);
+        signIn({
+          token: data.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: data.user,
+        });
 
-        //   const response = axios.post(url, data, options);
+        navigate("/");
+      }
+    } catch (err) {
+      if (err && err instanceof AxiosError)
+        setError("*" + err.response?.data.message);
+      else if (err && err instanceof Error) setError(err.message);
 
-        //   console.log("Logging response ...");
-        //   console.log(response);
-
-        //   // signIn({
-        //   //   token: response.data.token,
-        //   //   expiresIn: 3600,
-        //   //   tokenType: "Bearer",
-        //   //   authState: { email: data.email },
-        //   // });
-        // } catch (err) {
-        //   if (err && err instanceof AxiosError)
-        //     setError(err.response?.data.message);
-        //   else if (err && err instanceof Error) setError(err.message);
-
-        //   console.log("Error", err);
-        // }
-      });
-
-    // const user = {
-    //   isLoggedIn: true,
-    // };
-
-    // // Save the user to local storage
-    // localStorage.setItem("user", JSON.stringify(user));
-
-    // // Update the auth context
-    // dispatch({ type: "LOGIN", payload: user });
-
-    // navigate("/");
+      console.log("Error", err);
+    }
   };
 
   const onTogglePasswordType = () => {
@@ -130,8 +114,18 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
       className={`text-center ${styles.form}`}
       onSubmit={handleSubmit(onSubmit)}
     >
+      {/* IsAuthenticated test */}
+      {/* <div className="text-start">
+        {authKitIsAuthenticated ? (
+          <p className="text-success">User is authenticated.</p>
+        ) : (
+          <p className="text-danger">User is not authenticated.</p>
+        )}
+      </div> */}
+
       {/* Error messages */}
       <div className={styles.errors}>
+        <p>{error}</p>
         <p>{errors.email?.message}</p>
         <p>{errors.password?.message}</p>
       </div>
@@ -142,6 +136,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="email"
           placeholder="Email or number"
+          onKeyUp={() => setError("")}
           required
           {...register("email")}
         />

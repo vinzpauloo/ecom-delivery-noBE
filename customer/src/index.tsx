@@ -18,20 +18,15 @@ import OrderHistory from "./pages/Account/OrderHistory";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import { AuthProvider } from "react-auth-kit";
+import { AuthProvider } from "react-auth-kit";
 
 // const queryClient = new QueryClient();
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <AuthContextProvider>
-      {/* <AuthProvider
-      authType="cookie"
-      authName="_auth"
-      cookieDomain={window.location.pathname}
-      cookieSecure={false}
-    > */}
+    {/* <AuthContextProvider> */}
+    <AuthProvider authType="localstorage" authName="_auth">
       <BrowserRouter>
         {/* <QueryClientProvider client={queryClient}> */}
         <ScrollToTop>
@@ -58,7 +53,7 @@ root.render(
         </ScrollToTop>
         {/* </QueryClientProvider> */}
       </BrowserRouter>
-      {/* </AuthProvider> */}
-    </AuthContextProvider>
+    </AuthProvider>
+    {/* </AuthContextProvider> */}
   </React.StrictMode>
 );
