@@ -1,12 +1,12 @@
 import React from "react";
-import OtpContainerOrder from "../components/Otp/OtpContainerOrder";
+import OtpContainer from "../components/Otp/OtpContainer";
 
 type Props = {};
 
 const Otp = (props: Props) => {
   return (
     <div className="page">
-      <OtpContainerOrder />
+      <OtpContainer />
     </div>
   );
 };

@@ -15,7 +15,7 @@ const App: React.FC = (props: Props) => {
   let customClassNames = "";
 
   // Pages with custom header
-  const customHeaderPages = ["/registration", "/registration2"];
+  const customHeaderPages = ["/registration", "/registration2", "/otp"];
 
   // Pages with custom footer
   const customFooterPages = [

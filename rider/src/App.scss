@@ -38,15 +38,15 @@ body {
 
 .page {
   margin-top: $FM_HEADER_HEIGHT;
-  // margin-bottom: $FM_FOOTER_HEIGHT + 40px;
+  margin-bottom: $FM_FOOTER_HEIGHT;
 
   @include devices(md) {
     margin-top: $FM_HEADER_HEIGHT_MD;
-    // margin-bottom: $FM_FOOTER_HEIGHT_MD + 20px;
+    margin-bottom: $FM_FOOTER_HEIGHT_MD;
   }
 
   @include devices(xs) {
-    margin-top: $FM_HEADER_HEIGHT_XS;
+    margin-top: 28px - $FM_HEADER_HEIGHT_XS;
   }
 }
 
