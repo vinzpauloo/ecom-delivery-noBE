@@ -2,13 +2,14 @@
 @import "../../theme/_mixins.scss";
 
 .container {
-  overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
-  padding-top: 40px;
+  padding: 40px 0;
 
   @include devices(md) {
-    min-height: auto;
-    margin-bottom: 40px + $FM_FOOTER_HEIGHT_MD;
-    padding-top: 0px;
+    min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+  }
+
+  @include devices(xs) {
+    min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
   }
 }

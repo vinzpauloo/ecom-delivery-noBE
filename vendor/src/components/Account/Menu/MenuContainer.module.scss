@@ -7,6 +7,16 @@
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 15px 0;
+
+    h3 {
+      padding-left: 10px;
+    }
+
+    .mobileNav {
+      position: absolute;
+    }
+
     .navigationContainer {
       background: none;
       border: none;
@@ -17,6 +27,15 @@
 
   @include devices(xs) {
     min-height: calc(109vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    padding: 15px 0;
+
+    h3 {
+      padding-left: 10px;
+    }
+
+    .mobileNav {
+      position: absolute;
+    }
     .navigationContainer {
       background: none;
       border: none;

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./ProfileContainer.module.scss";
@@ -12,7 +11,7 @@ const ProfileContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4}>
+        <Col lg={4} className={styles.mobileNav}>
           <div className={styles.navigationContainer}>
             <NavigationContainer />
           </div>

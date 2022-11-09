@@ -1,158 +1,65 @@
 import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form, Row, Col, Button } from "react-bootstrap";
 
-import "./MenuContent.scss";
+import styles from "./MenuContent.module.scss";
 import SearchIcon from "../../../assets/images/search.png";
 
 interface ContainerProps {}
 
 const MenuContent: React.FC<ContainerProps> = ({}) => {
   return (
-    <div className="account-container">
-      <div className="table-container">
-        <div className="table-header">
-          <div className="table-header-1">
-            <h3 className="mb-3">
-              <strong>Restaurant Menu</strong>
-            </h3>
-            <div className="search">
-              <input type="text" placeholder="Search food and description" />
-              <img src={SearchIcon} alt="" />
-            </div>
-          </div>
-
-          <div className="table-header-buttons">
-            <a>Add Menu</a>
-          </div>
-        </div>
-
-        <Table size="sm">
-          <thead className="table-head">
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Availability</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-            <tr>
-              <td>Title of the food</td>
-              <td>Food Description</td>
-              <td>100 php</td>
-              <td>
-                <label className="switch">
-                  <input type="checkbox" />
-                  <span className="slider round"></span>
-                </label>
-              </td>
-              <td className="action-buttons">
-                <a>Edit</a>
-                <a>Delete</a>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        {/* <AddDeleteTableRows /> */}
-
-        <div className="page-number">
-          <a className="page-turn">&#60;</a>
-          <a>1</a>
-          <a>&nbsp;of</a>
-          <a>&nbsp;5</a>
-          <a className="page-turn">&#62;</a>
-        </div>
+    <div className={styles.tableContainer}>
+      <div className="">
+        <Form>
+          <Row>
+            <Col>
+              <h3>Restaurant Menu</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button className={styles.btnAddMenu}> Add Menu </Button>
+            </Col>
+          </Row>
+          <Row className="d-none d-lg-block">
+            <Col>
+              <Form.Control
+                className={styles.searchBar}
+                type="text"
+                placeholder="Search food and description"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <thead className={styles.theadHeader}>
+                <tr>
+                  <th className={styles.thHeader}>Name</th>
+                  <th className={styles.thHeader}>Description</th>
+                  <th className={styles.thHeader}>Price</th>
+                  <th className={styles.thHeader}>Availability</th>
+                  <th className={styles.thHeader}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={styles.tdBody}>Title of the food</td>
+                  <td className={styles.tdBody}>Food Description</td>
+                  <td className={styles.tdBody}>100 php</td>
+                  <td className={styles.tdBody}>
+                    <div>
+                      <Form.Check type="switch" />
+                    </div>
+                  </td>
+                  <td className={styles.tdBody}>
+                    <Button className={styles.btnEdit}>Edit</Button>{" "}
+                    <Button className={styles.btnDelete}>Delete</Button>
+                  </td>
+                </tr>
+              </tbody>
+            </Col>
+          </Row>
+        </Form>
       </div>
     </div>
   );

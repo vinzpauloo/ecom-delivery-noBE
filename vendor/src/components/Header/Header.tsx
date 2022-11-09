@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { List, Person } from "react-bootstrap-icons";
+import { useLogout } from "../../hooks/useLogout";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
@@ -9,28 +11,17 @@ import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
-import { useAuthContext } from "../../hooks/useAuthContext";
-
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
-  const { user, dispatch } = useAuthContext();
-  const navigate = useNavigate();
+  const { logout } = useLogout();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
-
-    // remove user from storage
-    localStorage.removeItem(user);
-
-    // Dispatch logout action
-    dispatch({ type: "LOGOUT" });
-
-    navigate("/");
-
-    console.log("logout!");
+    logout();
   };
 
   return (
@@ -43,7 +34,7 @@ const Header: React.FC<ContainerProps> = () => {
           <Col lg={6} xs={4}>
             <div className="d-flex align-items-center">
               <div className={styles.logo}>
-                <Link to="/">
+                <Link to="/account">
                   <img
                     src={LogoHeader}
                     alt="Food Monkey Logo"
@@ -72,7 +63,7 @@ const Header: React.FC<ContainerProps> = () => {
           {/* Search + Links for desktop */}
           <Col className="d-none d-lg-block">
             <div className={`lh-1 text-end ${styles.links}`}>
-              {user ? (
+              {isAuthenticated() ? (
                 <>
                   <Link to="/account">Account</Link>
                   <Link to="#" onClick={handleLogout}>

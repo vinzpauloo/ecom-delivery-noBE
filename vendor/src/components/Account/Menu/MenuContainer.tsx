@@ -11,13 +11,13 @@ const MenuContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4}>
+        <Col lg={4} className={styles.mobileNav}>
           <div className={styles.navigationContainer}>
             <NavigationContainer />
           </div>
         </Col>
         <Col lg={8}>
-          <div className={`d-none d-lg-block ${styles.contentContainer}`}>
+          <div className={styles.contentContainer}>
             <MenuContent />
           </div>
         </Col>

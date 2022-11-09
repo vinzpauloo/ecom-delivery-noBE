@@ -1,0 +1,183 @@
+@import "../../../theme/mixins.scss";
+
+.tableContainer {
+  form {
+    left: 0px;
+    top: 0px;
+
+    h3 {
+      // padding: 25px 25px 0px;
+      position: absolute;
+    }
+  }
+
+  .btnAddMenu {
+    background-color: #d9d9d9;
+    color: black;
+    border: #61481c;
+    font-weight: 400;
+    width: 150px;
+    border-radius: 5px;
+    float: right;
+  }
+
+  .btnEdit {
+    background: #f8f2e9;
+    border: #61481c;
+    color: #61481c;
+  }
+
+  .btnDelete {
+    background: #f8f2e9;
+    border: #61481c;
+    color: #61481c;
+  }
+
+  .searchBar {
+    width: 300px;
+    background-color: #f3f3f3;
+    width: 435px;
+    height: 38px;
+    border-radius: 5px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .theadHeader {
+    background: #61481c;
+    color: white;
+    font-weight: 300;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+
+    line-height: 45px;
+  }
+
+  .thHeader {
+    width: 500px;
+  }
+
+  .tdBody {
+    width: 200px;
+    background: #fde9b1;
+  }
+
+  @include devices(md) {
+    text-align: center;
+
+    input {
+      width: 300px;
+      height: 55px;
+      left: 630px;
+      top: 239px;
+
+      border: 1px solid #000000;
+      border-radius: 10px;
+      padding: 20px;
+
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+    }
+
+    .btnAddMenu {
+      width: 80px;
+      font-size: 10px;
+      line-height: 15px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+}
+
+// table {
+//   border-collapse: separate;
+//   border-spacing: 0 15px;
+// }
+
+// thead {
+//   background: #61481c;
+//   text-align: center;
+//   font-style: normal;
+//   font-weight: 300;
+//   font-size: 15px;
+//   line-height: 17px;
+//   color: white;
+// }
+
+// tbody {
+//   background: #fde9b1;
+//   border: 1px solid #000000;
+// }
+
+// th,
+// td {
+//   width: 150px;
+//   text-align: center;
+//   border-top: 1px solid black;
+//   padding: 5px;
+// }
+
+// //Switch CSS
+// .switch {
+//   position: relative;
+//   display: inline-block;
+//   width: 43px;
+//   height: 23px;
+// }
+
+// .switchInput {
+//   opacity: 0;
+//   width: 0;
+//   height: 0;
+// }
+
+// .slider {
+//   position: absolute;
+//   cursor: pointer;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: #ccc;
+//   -webkit-transition: 0.4s;
+//   transition: 0.4s;
+// }
+
+// .slider:before {
+//   position: absolute;
+//   content: "";
+//   height: 16px;
+//   width: 16px;
+//   left: 4px;
+//   bottom: 4px;
+//   background-color: white;
+//   -webkit-transition: 0.4s;
+//   transition: 0.4s;
+// }
+
+// input:checked + .slider {
+//   background-color: #2196f3;
+// }
+
+// input:focus + .slider {
+//   box-shadow: 0 0 1px #2196f3;
+// }
+
+// input:checked + .slider:before {
+//   -webkit-transform: translateX(26px);
+//   -ms-transform: translateX(26px);
+//   transform: translateX(20px);
+// }
+
+// .slider.round {
+//   border-radius: 34px;
+// }
+
+// .slider.round:before {
+//   border-radius: 50%;
+// }

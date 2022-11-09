@@ -11,12 +11,14 @@ import Menu from "./pages/Account/Menu";
 import History from "./pages/Account/History";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
+import { AuthProvider } from "react-auth-kit";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <AuthContextProvider>
+    <AuthProvider authType="localstorage" authName="_auth">
+      {/* <AuthContextProvider> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
@@ -34,6 +36,7 @@ root.render(
           </Route>
         </Routes>
       </BrowserRouter>
-    </AuthContextProvider>
+    </AuthProvider>
+    {/* </AuthContextProvider> */}
   </React.StrictMode>
 );
