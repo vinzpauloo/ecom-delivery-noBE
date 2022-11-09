@@ -438,22 +438,42 @@
 
       @media (max-width: 425px) {
         font-size: 12px;
-        padding: 0.5em 3em;
+        padding: 0.5em 4em;
       }
     }
     img {
       position: absolute;
       width: 30px;
       height: 30px;
-      top: -2px;
-      right: 50px;
+      top: -1px;
+      right: 90px;
 
       @media (max-width: 425px) {
-        top: 4px;
-        right: 8px;
+        top: 5px;
+        right: 25px;
         width: 20px;
         height: 20px;
       }
     }
   }
+}
+
+.modal-content {
+  background-color: #e3d7c2 !important;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transform: translateX(-100px);
 }
