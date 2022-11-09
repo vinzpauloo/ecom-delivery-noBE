@@ -71,3 +71,21 @@
     }
   }
 }
+
+@include devices(sm) {
+  .sliderContainer {
+    /* 
+        Swiper Slide Grid layout requirement
+        fixed height for one slider column (plus the space)
+    */
+    height: 190px;
+
+    .swiperSlide {
+      height: calc((100% - 10px) / 2) !important;
+    }
+  }
+
+  .slideContentContainer {
+    padding: 10px;
+  }
+}

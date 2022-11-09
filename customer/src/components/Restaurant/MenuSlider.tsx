@@ -25,6 +25,41 @@ type Slide = {
   description: string;
 };
 
+const SwiperSlideItem = (item: Slide, index: number) => {
+  return (
+    <SwiperSlide key={index} className={styles.swiperSlide}>
+      <div className={styles.slideItem}>
+        <div className={styles.slideImageContainer}>
+          <img src={item.image} alt="" />
+        </div>
+        <div className={styles.slideContentContainer}>
+          <p className={styles.slideTitle}>{item.title}</p>
+          <p className={styles.slideDescription}>{item.description}</p>
+          <p className={styles.slidePrice}>423php</p>
+          <div
+            className={`d-flex justify-content-between ${styles.slideOptions}`}
+          >
+            <div
+              className={`d-flex justify-content-center align-items-center ${styles.qty}`}
+            >
+              <Button>
+                <Dash color="#61481C" size={18} />
+              </Button>
+              <span className={styles.num}>1</span>
+              <Button>
+                <Plus color="#61481C" size={18} />
+              </Button>
+            </div>
+            <div className={styles.addToCart}>
+              <Button>Add to cart</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </SwiperSlide>
+  );
+};
+
 const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
   return (
     <>
@@ -37,38 +72,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <div className={styles.slideItem}>
-                <div className={styles.slideImageContainer}>
-                  <img src={item.image} alt="" />
-                </div>
-                <div className={styles.slideContentContainer}>
-                  <p className={styles.slideTitle}>{item.title}</p>
-                  <p className={styles.slideDescription}>{item.description}</p>
-                  <p className={styles.slidePrice}>423php</p>
-                  <div
-                    className={`d-flex justify-content-between ${styles.slideOptions}`}
-                  >
-                    <div
-                      className={`d-flex justify-content-center align-items-center ${styles.qty}`}
-                    >
-                      <Button>
-                        <Dash color="#61481C" size={18} />
-                      </Button>
-                      <span className={styles.num}>1</span>
-                      <Button>
-                        <Plus color="#61481C" size={18} />
-                      </Button>
-                    </div>
-                    <div className={styles.addToCart}>
-                      <Button>Add to cart</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          );
+          return SwiperSlideItem(item, index);
         })}
       </Swiper>
 
@@ -91,38 +95,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-lg-none ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return (
-            <SwiperSlide key={index} className={styles.swiperSlide}>
-              <div className={styles.slideItem}>
-                <div className={styles.slideImageContainer}>
-                  <img src={item.image} alt="" />
-                </div>
-                <div className={styles.slideContentContainer}>
-                  <p className={styles.slideTitle}>{item.title}</p>
-                  <p className={styles.slideDescription}>{item.description}</p>
-                  <p className={styles.slidePrice}>423php</p>
-                  <div
-                    className={`d-flex justify-content-between ${styles.slideOptions}`}
-                  >
-                    <div
-                      className={`d-flex justify-content-center align-items-center ${styles.qty}`}
-                    >
-                      <Button>
-                        <Dash color="#61481C" size={18} />
-                      </Button>
-                      <span className={styles.num}>1</span>
-                      <Button>
-                        <Plus color="#61481C" size={18} />
-                      </Button>
-                    </div>
-                    <div className={styles.addToCart}>
-                      <Button>Add to cart</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          );
+          return SwiperSlideItem(item, index);
         })}
       </Swiper>
     </>

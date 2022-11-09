@@ -30,32 +30,6 @@
       font-size: 10px;
     }
   }
-
-  .buttons {
-    button {
-      box-shadow: $FM_BUTTON_SHADOW;
-      border: 0.5px solid #61481c;
-      border-radius: 5px;
-      font-size: 14px;
-      line-height: 1;
-      text-shadow: $FM_TEXT_SHADOW;
-      padding: 10px;
-      transition: $FM_TRANSITION;
-
-      &:hover {
-        border: 0.5px solid #61481c;
-        opacity: 0.75;
-      }
-
-      &.btnPromos {
-        background-color: #bf9742;
-      }
-
-      &.btnDiscounts {
-        background-color: #868585;
-      }
-    }
-  }
 }
 
 .bottom {
@@ -68,6 +42,32 @@
     min-height: 150px;
     width: 50%;
     padding: 10px 20px;
+  }
+}
+
+.buttons {
+  button {
+    box-shadow: $FM_BUTTON_SHADOW;
+    border: 0.5px solid #61481c;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1;
+    text-shadow: $FM_TEXT_SHADOW;
+    padding: 10px;
+    transition: $FM_TRANSITION;
+
+    &:hover {
+      border: 0.5px solid #61481c;
+      opacity: 0.75;
+    }
+
+    &.btnPromos {
+      background-color: #bf9742;
+    }
+
+    &.btnDiscounts {
+      background-color: #868585;
+    }
   }
 }
 
@@ -146,12 +146,24 @@
     order: 1;
   }
 
-  .bottom {
+  .buttonsContainer {
     order: 2;
+
+    .buttons {
+      > * {
+        flex: 1;
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  }
+
+  .bottom {
+    order: 3;
   }
 
   .top {
-    order: 3;
+    order: 4;
     background-color: #2c2c2c;
     padding: 20px;
 
@@ -186,6 +198,7 @@
   }
 
   .checkout {
+    justify-content: flex-start !important;
     font-size: 13px;
 
     .orderedAmountRow {

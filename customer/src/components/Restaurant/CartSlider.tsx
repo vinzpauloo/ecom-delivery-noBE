@@ -25,6 +25,35 @@ type Slide = {
   qty: number;
 };
 
+const SwiperSlideItem = (item: Slide, index: number) => {
+  return (
+    <SwiperSlide key={index} className={styles.swiperSlide}>
+      <div className={styles.slideItem}>
+        <div className={styles.slideImageContainer}>
+          <img src={item.image} alt="" />
+          <div className={styles.slidePriceContainer}>
+            <p className={styles.slidePrice}>{item.price}php</p>
+          </div>
+        </div>
+
+        <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
+          <div
+            className={`d-flex justify-content-center align-items-center ${styles.qty}`}
+          >
+            <Button>
+              <Dash color="#000000" size={14} />
+            </Button>
+            <span className={styles.num}>{item.qty}</span>
+            <Button>
+              <Plus color="#000000" size={14} />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </SwiperSlide>
+  );
+};
+
 const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
   return (
     <>
@@ -35,34 +64,30 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-none d-md-block ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return (
-            <SwiperSlide key={index} className={`${styles.sliderContainer}`}>
-              <div className={styles.slideItem}>
-                <div className={styles.slideImageContainer}>
-                  <img src={item.image} alt="" />
-                  <div className={styles.slidePriceContainer}>
-                    <p className={styles.slidePrice}>{item.price}php</p>
-                  </div>
-                </div>
+          return SwiperSlideItem(item, index);
+        })}
+      </Swiper>
 
-                <div
-                  className={`d-flex justify-content-center ${styles.slideOptions}`}
-                >
-                  <div
-                    className={`d-flex justify-content-center align-items-center ${styles.qty}`}
-                  >
-                    <Button>
-                      <Dash color="#000000" size={14} />
-                    </Button>
-                    <span className={styles.num}>{item.qty}</span>
-                    <Button>
-                      <Plus color="#000000" size={14} />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          );
+      {/* Mobile version */}
+      <Swiper
+        slidesPerView={2.25}
+        spaceBetween={10}
+        grid={{
+          rows: 2,
+        }}
+        breakpoints={{
+          576: {
+            slidesPerView: 2.5,
+          },
+          768: {
+            slidesPerView: 3.5,
+          },
+        }}
+        modules={[Grid]}
+        className={`d-md-none ${styles.sliderContainer}`}
+      >
+        {slides.map((item, index) => {
+          return SwiperSlideItem(item, index);
         })}
       </Swiper>
     </>

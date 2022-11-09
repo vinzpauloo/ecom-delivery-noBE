@@ -182,6 +182,20 @@ const Details: React.FC<ContainerProps> = ({}) => {
         </Col>
       </Row>
 
+      {/* Mobile: Promo Buttons */}
+      <Row className={`d-md-none ${styles.buttonsContainer}`}>
+        <Col>
+          <div className={`d-flex mx-2 mb-3 gap-2 ${styles.buttons}`}>
+            <Button className={styles.btnDiscounts}>
+              Get voucher | Promo code
+            </Button>
+            <Button className={styles.btnPromos}>
+              Keep me updated on promos
+            </Button>
+          </div>
+        </Col>
+      </Row>
+
       {/* Ordered items & Checkout */}
       <div className={`d-flex align-items-center ${styles.bottom}`}>
         {/* Ordered items */}
