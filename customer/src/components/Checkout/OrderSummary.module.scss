@@ -1,0 +1,22 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  background-color: $FM_BG_BROWN;
+  border: 1px solid #000000;
+  min-height: 215px;
+  padding: 20px 30px;
+
+  @include devices(md) {
+    margin: 0 20px;
+    padding: 20px 10px;
+
+    h4 {
+      text-align: center;
+    }
+  }
+
+  @include devices(sm) {
+    margin: 0 10px;
+  }
+}

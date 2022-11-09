@@ -1,0 +1,84 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  background-color: $FM_BG_GRAY;
+  border: 1px solid #000000;
+  min-height: 215px;
+  padding: 20px 50px;
+
+  h4 {
+    margin-bottom: 10px;
+  }
+
+  @include devices(md) {
+    margin: 0 20px;
+    padding: 20px 10px;
+
+    h4 {
+      text-align: center;
+    }
+
+    .innerContainer {
+      margin: 0 auto;
+      width: 70%;
+    }
+  }
+
+  @include devices(sm) {
+    margin: 0 10px;
+
+    .innerContainer {
+      margin: 0 auto;
+      width: 50%;
+    }
+  }
+
+  @include devices(xs) {
+    .innerContainer {
+      margin: 0 auto;
+      width: 75%;
+    }
+  }
+
+  @include devices(xxs) {
+    .innerContainer {
+      margin: 0 auto;
+      width: 90%;
+    }
+  }
+}
+
+.promo {
+  input {
+    border: 1px solid #f0bb62;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.billDetails {
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0 20px;
+
+  strong {
+    font-weight: 500;
+  }
+
+  .total {
+    background: #ffffff;
+    border: 1px solid $FM_TEXT_BROWN;
+    border-radius: 5px;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-top: 5px;
+  }
+}
