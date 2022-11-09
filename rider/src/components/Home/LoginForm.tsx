@@ -54,7 +54,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="email"
           placeholder="Rider's username"
-          // required
+          required
         />
         <EnvelopeFill color="#8F887D" size={40} className={styles.icons} />
       </Form.Group>
@@ -65,13 +65,14 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type={passwordType}
           placeholder="Password"
+          required
           // required
           className="mb-2"
         />
         <Link to="#" onClick={handleTogglePasswordType}>
           <EyeIcon type={passwordType} />
         </Link>
-        <Link to="#" className={styles.forgotPassword}>
+        <Link to="/account/reset-password" className={styles.forgotPassword}>
           Forgot Password?
         </Link>
       </Form.Group>
