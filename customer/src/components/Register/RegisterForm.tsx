@@ -109,96 +109,65 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         <div className={`mx-4 mx-md-5 mx-lg-0 ${styles.formInnerContainer}`}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
 
-          <Row lg={3} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>First name</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("first_name")}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Last name</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("last_name")}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("email")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
+          <Form.Group className="position-relative">
+            <Form.Label>First name</Form.Label>
+            <Form.Control
+              type="text"
+              onKeyUp={() => setError("")}
+              required
+              {...register("first_name")}
+            />
+          </Form.Group>
 
-          <Row lg={3} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Mobile number</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("mobile")}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("password")}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("password_confirmation")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-        </div>
+          <Form.Group className="position-relative">
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              type="text"
+              onKeyUp={() => setError("")}
+              required
+              {...register("last_name")}
+            />
+          </Form.Group>
 
-        {/* Address details */}
-        <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Enter Address</h3>
+          <Form.Group className="position-relative">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              onKeyUp={() => setError("")}
+              required
+              {...register("email")}
+            />
+          </Form.Group>
 
-          <Row>
-            <Col lg={{ span: 8, offset: 2 }} xs={12}>
-              <Form.Group className="position-relative">
-                <Form.Label>Full Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("address")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
+          <Form.Group className="position-relative">
+            <Form.Label>Mobile number</Form.Label>
+            <Form.Control
+              type="text"
+              onKeyUp={() => setError("")}
+              required
+              {...register("mobile")}
+            />
+          </Form.Group>
+
+          <Form.Group className="position-relative">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              onKeyUp={() => setError("")}
+              required
+              {...register("password")}
+            />
+          </Form.Group>
+
+          <Form.Group className="position-relative">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              onKeyUp={() => setError("")}
+              required
+              {...register("password_confirmation")}
+            />
+          </Form.Group>
 
           {/* Error messages */}
           <div className={styles.errors}>
@@ -215,6 +184,21 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
               return <p key={index}>{item}</p>;
             })}
           </div>
+        </div>
+
+        {/* Address details */}
+        <div className={styles.formInnerContainer}>
+          <h3 className="text-center">Enter Address</h3>
+
+          <Form.Group className="position-relative">
+            <Form.Label>Full Address</Form.Label>
+            <Form.Control
+              type="text"
+              onKeyUp={() => setError("")}
+              required
+              {...register("address")}
+            />
+          </Form.Group>
         </div>
 
         <div
