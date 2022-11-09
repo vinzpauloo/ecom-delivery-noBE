@@ -1,68 +1,112 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
 
-import "./ResetPasswordContent.scss";
-
-import HideIcon from "../../../assets/images/hide.png";
-import ShowIcon from "../../../assets/images/show.png";
+import styles from "./ResetPasswordContent.module.scss";
 
 interface ContainerProps {}
 
-const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [passwordShown1, setPasswordShown1] = useState(false);
-  const [passwordShown2, setPasswordShown2] = useState(false);
+const EyeIcon = ({ type }: { type: string }) => {
+  return type === "password" ? (
+    <EyeFill color="#8F887D" size={30} className={styles.icons} />
+  ) : (
+    <EyeSlashFill color="#8F887D" size={30} className={styles.icons} />
+  );
+};
 
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
+const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
+  const [currentPassword, setCurrentPassword] = useState("password");
+  const [newPassword, setNewPassword] = useState("password");
+  const [retypePassword, setRetypePassword] = useState("password");
+
+  const handleToggleCurrentPassword = () => {
+    if (currentPassword === "password") {
+      setCurrentPassword("text");
+      return;
+    }
+    setCurrentPassword("password");
   };
-  const togglePassword1 = () => {
-    setPasswordShown1(!passwordShown1);
+  const handleToggleNewPassword = () => {
+    if (newPassword === "password") {
+      setNewPassword("text");
+      return;
+    }
+    setNewPassword("password");
   };
-  const togglePassword2 = () => {
-    setPasswordShown2(!passwordShown2);
+  const handleToggleRetypePassword = () => {
+    if (retypePassword === "password") {
+      setRetypePassword("text");
+      return;
+    }
+    setRetypePassword("password");
   };
 
   return (
-    <div className="reset-password-container">
-      <div className="resetpw-container">
-        <h3>Reset Password</h3>
-        <input placeholder="User Name" />
-        <div className="w-hide-icon">
-          <input
-            placeholder="Current Password"
-            type={passwordShown ? "text" : "password"}
-          />
-          <img
-            src={passwordShown ? ShowIcon : HideIcon}
-            alt=""
-            onClick={togglePassword}
-          />
+    <div>
+      <Form className={styles.form}>
+        <div className={styles.formInnerContainer}>
+          <h3>Reset Password</h3>
+          <Row>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Control
+                  id="username"
+                  type="text"
+                  placeholder="User Name"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Control
+                  id="current_password"
+                  type={currentPassword}
+                  placeholder="Current Password"
+                />
+                <Link to="#" onClick={handleToggleCurrentPassword}>
+                  <EyeIcon type={currentPassword} />
+                </Link>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Control
+                  id="new_password"
+                  type={newPassword}
+                  placeholder="New Password"
+                />
+                <Link to="#" onClick={handleToggleNewPassword}>
+                  <EyeIcon type={newPassword} />
+                </Link>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Control
+                  id="retype_password"
+                  type={retypePassword}
+                  placeholder="Re-type Password"
+                />
+                <Link to="#" onClick={handleToggleRetypePassword}>
+                  <EyeIcon type={retypePassword} />
+                </Link>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button className={styles.btnReset}>Reset Password</Button>
+            </Col>
+          </Row>
         </div>
-        <div className="w-hide-icon">
-          <input
-            placeholder="New Password"
-            type={passwordShown1 ? "text" : "password"}
-          />
-          <img
-            src={passwordShown1 ? ShowIcon : HideIcon}
-            alt=""
-            onClick={togglePassword1}
-          />
-        </div>
-        <div className="w-hide-icon">
-          <input
-            placeholder="ReType Password"
-            type={passwordShown2 ? "text" : "password"}
-          />
-          <img
-            src={passwordShown2 ? ShowIcon : HideIcon}
-            alt=""
-            onClick={togglePassword2}
-          />
-        </div>
-
-        <a>Reset Password</a>
-      </div>
+      </Form>
     </div>
   );
 };
