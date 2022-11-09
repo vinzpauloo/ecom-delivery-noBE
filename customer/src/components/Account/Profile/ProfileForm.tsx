@@ -6,8 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios, { AxiosError } from "axios";
 
-import styles from "./RegisterForm.module.scss";
-import constants from "../../utils/constants.json";
+import styles from "./ProfileForm.module.scss";
+import constants from "../../../utils/constants.json";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -44,7 +44,7 @@ const schema = yup
 
 interface ContainerProps {}
 
-const RegisterForm: React.FC<ContainerProps> = ({}) => {
+const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const navigate = useNavigate();
@@ -60,6 +60,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
 
+    /*
     try {
       // START: Access register API
       const url = process.env.REACT_APP_API_LOCAL + "/customer/register";
@@ -100,6 +101,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
       console.log("Error", err);
     }
+    */
   };
 
   return (
@@ -201,22 +203,22 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           </Form.Group>
         </div>
 
-        <div
-          className={`d-flex align-items-center justify-content-center ${styles.checkbox}`}
-        >
-          <Form.Check
-            type="checkbox"
-            id="terms"
-            label="By continuing, you indicate that you read and agreed to terms of use"
-          />
-        </div>
+        <div className="d-flex justify-content-center gap-5 mt-5">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => navigate("/account/orders")}
+          >
+            Order
+          </Button>
 
-        <Button variant="primary" size="lg" type="submit" className="mt-4">
-          Create Account
-        </Button>
+          <Button variant="primary" size="lg" type="submit">
+            Save Info
+          </Button>
+        </div>
       </Form>
     </>
   );
 };
 
-export default RegisterForm;
+export default ProfileForm;

@@ -14,9 +14,7 @@ import Checkout from "./pages/Checkout";
 import OrderTracker from "./pages/OrderTracker";
 import Restaurants from "./pages/Restaurants";
 import Profile from "./pages/Account/Profile";
-import OrderHistory from "./pages/Account/OrderHistory";
-import ResetPassword from "./pages/Account/ResetPassword";
-import { AuthContextProvider } from "./context/AuthContext";
+import Orders from "./pages/Account/Orders";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -25,7 +23,6 @@ const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    {/* <AuthContextProvider> */}
     <AuthProvider authType="localstorage" authName="_auth">
       <BrowserRouter>
         {/* <QueryClientProvider client={queryClient}> */}
@@ -45,8 +42,7 @@ root.render(
               {/* Account dashboard routes */}
               <Route path="account">
                 <Route index element={<Profile />} />
-                <Route path="order-history" element={<OrderHistory />} />
-                <Route path="reset-password" element={<ResetPassword />} />
+                <Route path="orders" element={<Orders />} />
               </Route>
             </Route>
           </Routes>
@@ -54,6 +50,5 @@ root.render(
         {/* </QueryClientProvider> */}
       </BrowserRouter>
     </AuthProvider>
-    {/* </AuthContextProvider> */}
   </React.StrictMode>
 );
