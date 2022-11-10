@@ -53,7 +53,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           id="email"
           size="lg"
           type="email"
-          placeholder="Rider's username"
+          placeholder="Email or number"
           required
         />
         <EnvelopeFill color="#8F887D" size={40} className={styles.icons} />

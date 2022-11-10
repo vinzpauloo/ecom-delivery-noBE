@@ -148,7 +148,7 @@ function CompletedModal(props: any) {
       </Modal.Header>
       <Modal.Body className="p-0">
         <Container
-          className="order-delivery-container d-flex flex-column gap-3 d-md-none"
+          className="order-delivery-container d-flex flex-column gap-2"
           fluid
         >
           <Row className="mx-md-3">
@@ -304,7 +304,7 @@ function CancelledModal(props: any) {
       </Modal.Header>
       <Modal.Body className="p-0">
         <Container
-          className="order-delivery-container d-flex flex-column gap-3 d-md-none"
+          className="order-delivery-container d-flex flex-column gap-3"
           fluid
         >
           <Row className="mx-md-3">
@@ -613,7 +613,7 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
             <div className="order-id">
               <p>ORDER ID: XRF123</p>
             </div>
-            <div className="order-items">
+            {/* <div className="order-items">
               <ul aria-label="Order Items">
                 <li>Ramen Noodles(3x)</li>
                 <li>Milk Tea(2x)</li>
@@ -633,50 +633,88 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
                 Grand Total <br />
                 <span>1,350 php</span>
               </p>
-            </div>
+            </div> */}
           </Col>
           <Col md={4}>
             <div className="customer-info">
-              <li>
-                Customer Name: <span>Brandon Boyd</span>
-              </li>
-              <li>
-                Contact Number: <span>0917 123 4567</span>
-              </li>
-              <li>
-                Pick up Address :
-                <span>
-                  Chan's Chinese Restaurant, Panglao, Bohol, Philippines
-                </span>
-              </li>
-              <li>
-                Delivery Address:
-                <span>
-                  4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                </span>
-              </li>
-              <li>
-                Order Placed Time: <span>01:30pm</span>
-              </li>
-              <li>
-                Order Status: <span>Order Received</span>
-                <img src={OrderReceivedIcon} />
-              </li>
-
-              <div className="decline-accept">
-                <a>Decline</a>
-                <a>Accept</a>
-              </div>
+              <Row>
+                <Col md={8}>
+                  <div className="d-flex gap-5">
+                    <li>
+                      Customer Name: <span>Brandon Boyd</span>
+                    </li>
+                    <li>
+                      Contact Number: <span>0917 123 4567</span>
+                    </li>
+                  </div>
+                  <li>
+                    Pick up Address :
+                    <span>
+                      Chan's Chinese Restaurant, Panglao, Bohol, Philippines
+                    </span>
+                  </li>
+                  <li>
+                    Delivery Address:
+                    <span>
+                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                    </span>
+                  </li>
+                  <li>
+                    Order Placed Time: <span>01:30pm</span>
+                  </li>
+                </Col>
+                <Col>
+                  <li className="d-flex flex-column justify-content-center align-items-center">
+                    Order Status: <span>Order Received</span>
+                    <img src={OrderReceivedIcon} />
+                  </li>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={3}>
+                  <div className="order-items overflow-auto">
+                    <ul aria-label="Order Items">
+                      <li>Ramen Noodles(3x)</li>
+                      <li>Milk Tea(2x)</li>
+                      <li>1 Water Melon</li>
+                      <li>1 Boba Soya</li>
+                      <li>Pecking Duck (1x)</li>
+                    </ul>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div className="delivery-fee">
+                    <p>
+                      Delivery Fee <br />
+                      <span>85 php</span>
+                    </p>
+                    <div className="decline-accept">
+                      <a>Decline</a>
+                    </div>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div className="grand-total">
+                    <p>
+                      Grand Total <br />
+                      <span>1,350 php</span>
+                    </p>
+                    <div className="decline-accept">
+                      <a>Accept</a>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </div>
           </Col>
         </Row>
 
         <Row className="mx-md-3">
-          <Col xs={3} md={2} className="d-flex flex-column gap-1">
+          <Col md={2} className="d-flex flex-column gap-1">
             <div className="order-id">
               <p>ORDER ID: XRF123</p>
             </div>
-            <div className="order-items">
+            {/* <div className="order-items">
               <ul aria-label="Order Items">
                 <li>Ramen Noodles(3x)</li>
                 <li>Milk Tea(2x)</li>
@@ -696,40 +734,78 @@ const DeliveryContent: React.FC<ContainerProps> = () => {
                 Grand Total <br />
                 <span>1,350 php</span>
               </p>
-            </div>
+            </div> */}
           </Col>
-          <Col xs={8} md={4}>
+          <Col md={4}>
             <div className="customer-info">
-              <li>
-                Customer Name: <span>Brandon Boyd</span>
-              </li>
-              <li>
-                Contact Number: <span>0917 123 4567</span>
-              </li>
-              <li>
-                Pick up Address :
-                <span>
-                  Chan's Chinese Restaurant, Panglao, Bohol, Philippines
-                </span>
-              </li>
-              <li>
-                Delivery Address:
-                <span>
-                  4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                </span>
-              </li>
-              <li>
-                Order Placed Time: <span>01:30pm</span>
-              </li>
-              <li>
-                Order Status: <span>Order Received</span>
-                <img src={OrderReceivedIcon} />
-              </li>
-
-              <div className="decline-accept">
-                <a>Decline</a>
-                <a>Accept</a>
-              </div>
+              <Row>
+                <Col md={8}>
+                  <div className="d-flex gap-5">
+                    <li>
+                      Customer Name: <span>Brandon Boyd</span>
+                    </li>
+                    <li>
+                      Contact Number: <span>0917 123 4567</span>
+                    </li>
+                  </div>
+                  <li>
+                    Pick up Address :
+                    <span>
+                      Chan's Chinese Restaurant, Panglao, Bohol, Philippines
+                    </span>
+                  </li>
+                  <li>
+                    Delivery Address:
+                    <span>
+                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                    </span>
+                  </li>
+                  <li>
+                    Order Placed Time: <span>01:30pm</span>
+                  </li>
+                </Col>
+                <Col>
+                  <li className="d-flex flex-column justify-content-center align-items-center">
+                    Order Status: <span>Order Received</span>
+                    <img src={OrderReceivedIcon} />
+                  </li>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={3}>
+                  <div className="order-items overflow-auto">
+                    <ul aria-label="Order Items">
+                      <li>Ramen Noodles(3x)</li>
+                      <li>Milk Tea(2x)</li>
+                      <li>1 Water Melon</li>
+                      <li>1 Boba Soya</li>
+                      <li>Pecking Duck (1x)</li>
+                    </ul>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div className="delivery-fee">
+                    <p>
+                      Delivery Fee <br />
+                      <span>85 php</span>
+                    </p>
+                    <div className="decline-accept">
+                      <a>Decline</a>
+                    </div>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div className="grand-total">
+                    <p>
+                      Grand Total <br />
+                      <span>1,350 php</span>
+                    </p>
+                    <div className="decline-accept">
+                      <a>Accept</a>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </div>
           </Col>
         </Row>

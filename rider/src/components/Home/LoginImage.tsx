@@ -12,6 +12,7 @@ const LoginImage: React.FC<ContainerProps> = ({}) => {
     <div className={styles.images}>
       <img src={BGImg} alt="Signin Image" className={styles.image1} />
       <img src={ThisImage} alt="BG Image" className={styles.image2} />
+      {/* <img src={ThisImage} alt="Signin Image" /> */}
     </div>
   );
 };
