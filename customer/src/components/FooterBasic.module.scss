@@ -1,0 +1,23 @@
+@import "../theme/_mixins.scss";
+@import "../theme/_variables.scss";
+
+.footer {
+  background: #2c2c2c;
+  color: #969696;
+  font-size: 14px;
+  padding: 10px 0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  height: $FM_FOOTER_HEIGHT;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  @include devices(md) {
+    padding: 15px 0;
+  }
+}

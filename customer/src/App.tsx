@@ -5,16 +5,20 @@ import "./App.scss";
 import Header from "./components/Header/Header";
 import HeaderBasic from "./components/Header/HeaderBasic";
 import Footer from "./components/Footer";
+import FooterBasic from "./components/FooterBasic";
 
 type Props = {};
 
 const App: React.FC = (props: Props) => {
   const location = useLocation();
-  let RenderHeader;
+  let RenderHeader, RenderFooter;
   let customClassNames = "";
 
   // Pages with custom header
   const customHeaderPages = ["/login", "/register", "/otp", "/otp-order"];
+
+  // Pages with custom footer
+  const customFooterPages = ["/login"];
 
   // Pages with custom background
   const customBgPages = ["/register", "/otp", "/otp-order"];
@@ -27,6 +31,13 @@ const App: React.FC = (props: Props) => {
     RenderHeader = <HeaderBasic />;
   } else {
     RenderHeader = <Header />;
+  }
+
+  if (customFooterPages.includes(location.pathname)) {
+    customClassNames += "custom-footer ";
+    RenderFooter = <FooterBasic />;
+  } else {
+    RenderFooter = <Footer />;
   }
 
   // if (customBgPages.includes(location.pathname)) {
@@ -42,7 +53,7 @@ const App: React.FC = (props: Props) => {
       <div className={customClassNames}>
         {RenderHeader}
         <Outlet />
-        <Footer />
+        {RenderFooter}
       </div>
     </>
   );

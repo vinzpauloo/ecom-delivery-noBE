@@ -37,7 +37,7 @@ const NewAccount: React.FC<ContainerProps> = ({}) => {
         <span className={styles.small}>or connect using</span>
       </p>
       <div>
-        <Row xs="auto" className={styles.socials}>
+        <Row xs="auto" className={`d-flex gap-4 ${styles.socials}`}>
           {socialMedias.map((item, index) => {
             return (
               <Col key={index}>
