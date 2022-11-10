@@ -1,11 +1,16 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import axios from "axios";
 import "./App.scss";
 
 import Header from "./components/Header/Header";
 import HeaderBasic from "./components/Header/HeaderBasic";
 import Footer from "./components/Footer";
 import FooterBasic from "./components/FooterBasic";
+
+// Set axios defaults
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.headers.common["Accept"] = process.env.REACT_APP_HEADER_ACCEPT;
 
 type Props = {};
 
