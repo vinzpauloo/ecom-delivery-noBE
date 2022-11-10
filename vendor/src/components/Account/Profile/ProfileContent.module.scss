@@ -4,12 +4,6 @@
   margin-left: 30px;
   margin-right: 30px;
 
-  @include devices(md) {
-    margin-left: 0;
-    margin-right: 0;
-    text-align: center;
-  }
-
   // @include devices(xs) {
   //   margin-left: none;
   //   margin-right: none;
@@ -48,7 +42,7 @@
 
   .btnEdit {
     background: #d9d9d9;
-    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    border-color: #61481c;
     color: #000000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
@@ -109,4 +103,61 @@
   //   border-radius: 5px;
   //   text-decoration: none;
   // }
+
+  @include devices(md) {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+}
+
+.modalHeader {
+  background-color: #e3d7c2;
+  border-color: black;
+}
+
+.modalBody {
+  background-color: #e3d7c2;
+  input {
+    background: #d9d9d9;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    color: #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 5px;
+  }
+
+  textarea {
+    background: #d9d9d9;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    color: #000000;
+    box-shadow: 2px 2px #d9d9d9;
+    margin-bottom: 5px;
+
+    resize: none;
+    height: 121px;
+    top: 21px;
+    radius: 10px;
+    border-radius: 10px;
+  }
+
+  .btnUpdate {
+    background: #d9d9d9;
+    border-color: #61481c;
+    color: #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 10px 32px;
+    margin-top: 15px;
+    margin-right: 15px;
+
+    float: right;
+
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 12px;
+
+    &:hover {
+      background-color: #61481c;
+      color: #d9d9d9;
+    }
+  }
 }
