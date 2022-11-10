@@ -36,10 +36,14 @@ export const useOTP = () => {
   const verifyOTP = async (data) => {
     try {
       // START: Access Verify OTP API
-      const url = process.env.REACT_APP_API_LOCAL + "/verify-otp";
-      const options = {};
+      const endpoint = "api/verify-otp";
+      const options = {
+        headers: {
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
 
-      const response = await axios.post(url, data, options);
+      const response = await axios.post(endpoint, data, options);
       // END: Access Verify OTP API
 
       if (response.status === 200) {
