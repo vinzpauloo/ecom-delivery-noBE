@@ -123,13 +123,6 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         )}
       </div> */}
 
-      {/* Error messages */}
-      <div className={styles.errors}>
-        <p>{error}</p>
-        <p>{errors.email?.message}</p>
-        <p>{errors.password?.message}</p>
-      </div>
-
       <Form.Group className="mb-4 position-relative">
         <Form.Control
           size="lg"
@@ -146,7 +139,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         />
       </Form.Group>
 
-      <Form.Group className="mb-4 text-end position-relative">
+      <Form.Group className="mb-2 position-relative">
         <Form.Control
           size="lg"
           type={passwordType}
@@ -158,10 +151,20 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         <Link to="#" onClick={onTogglePasswordType}>
           <EyeIcon type={passwordType} />
         </Link>
+      </Form.Group>
+
+      <div className="mb-5 position-relative text-end">
         <Link to="#" className={styles.forgotPassword}>
           Forgot Password?
         </Link>
-      </Form.Group>
+
+        {/* Error messages */}
+        <div className={styles.errors}>
+          <p>{error}</p>
+          <p>{errors.email?.message}</p>
+          <p>{errors.password?.message}</p>
+        </div>
+      </div>
 
       <Button variant="primary" size="lg" type="submit">
         Login
