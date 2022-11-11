@@ -1,20 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import styles from "./RegistrationForm.module.scss";
+import constants from "../../utils/constants.json";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import RiderProfile from "../../assets/images/riderprofile.png";
 
+// Setup form schema & validation
+interface IFormInputs {
+  first_name: string;
+  last_name: string;
+  address: string;
+  mobile: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+const schema = yup
+  .object({
+    first_name: yup
+      .string()
+      .min(2, constants.form.error.firstNameMin)
+      .required(),
+    last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
+    address: yup.string().required(),
+    mobile: yup
+      .string()
+      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .required(),
+    email: yup.string().email(constants.form.error.email).required(),
+    password: yup
+      .string()
+      .min(6, constants.form.error.passwordMin)
+      .max(16, constants.form.error.passwordMax)
+      .required(),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
+      .required(),
+  })
+  .required();
+
 interface ContainerProps {}
 
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
+  const [error, setError] = useState("");
+  const [multipleErrors, setMultipleErrors] = useState([""]);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    console.log("onSubmit", data);
+
+    // Set register data on local storage
+    localStorage.setItem("registerUser", JSON.stringify(data));
+
+    // Navigate to OTP page
     navigate("/otp");
   };
   return (
@@ -36,7 +92,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         </div>
       </div>
 
-      <Form className={styles.form} onSubmit={handleSubmit}>
+      <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Personal Information</h3>
 
@@ -44,19 +100,29 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>First name</Form.Label>
-                <Form.Control id="first_name" type="text" />
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("first_name")}
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Last name</Form.Label>
-                <Form.Control id="last_name" type="text" />
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("last_name")}
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
-                <Form.Control id="user_id" type="text" />
+                <Form.Control type="email" />
               </Form.Group>
             </Col>
           </Row>
