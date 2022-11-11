@@ -160,6 +160,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
             size="lg"
             type={passwordType}
             placeholder="Enter Password"
+            onKeyUp={() => setError("")}
             className="mb-2"
             required
             {...register("password")}

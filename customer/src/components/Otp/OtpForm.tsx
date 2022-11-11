@@ -62,6 +62,7 @@ const formatCounter = (counter: number) => {
 
 const OtpForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [otpCode, setOtpCode] = useState();
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const [counter, setCounter] = useState(30);
   const [modalShow, setModalShow] = useState(false);
@@ -109,7 +110,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
     };
 
     console.log("Requesting otp ...", otpRequestData);
-    requestOTP(otpRequestData);
+    handleSendOTP();
   }, []);
 
   // Countdown timer
@@ -118,8 +119,11 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   }, [counter]);
 
   // Send OTP request
-  const handleSendOTP = () => {
-    requestOTP(otpRequestData);
+  const handleSendOTP = async () => {
+    setCounter(30);
+    const response = await requestOTP(otpRequestData);
+    console.log("handleSendOTP response", response);
+    setOtpCode(response.code);
   };
 
   // Verify OTP request
@@ -316,6 +320,14 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
         </Form>
+      </div>
+
+      <div>
+        <h6 className="mt-4 text-center text-success">
+          For testing only.
+          <br />
+          OTP Code: {otpCode}
+        </h6>
       </div>
     </>
   );
