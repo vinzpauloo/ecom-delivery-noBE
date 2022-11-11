@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { List, Person } from "react-bootstrap-icons";
+import { useLogout } from "../../hooks/useLogout";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
@@ -9,28 +11,17 @@ import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
-import { useAuthContext } from "../../hooks/useAuthContext";
-
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
-  const { user, dispatch } = useAuthContext();
-  const navigate = useNavigate();
+  const { logout } = useLogout();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event.preventDefault();
-
-    // remove user from storage
-    localStorage.removeItem(user);
-
-    // Dispatch logout action
-    dispatch({ type: "LOGOUT" });
-
-    navigate("/");
-
-    console.log("logout!");
+    logout();
   };
 
   return (

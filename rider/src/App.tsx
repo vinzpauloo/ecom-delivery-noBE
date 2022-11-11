@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import axios from "axios";
 import "./App.scss";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
 import FooterMobile from "./components/FooterMobile";
+
+// Set axios defaults
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.headers.common["Accept"] = process.env.REACT_APP_HEADER_ACCEPT;
 
 type Props = {};
 
@@ -26,7 +31,7 @@ const App: React.FC = (props: Props) => {
   ];
 
   // Pages with custom background
-  const customBgPages = ["/register", "/otp", "/otp-order"];
+  const customBgPages = ["/registration", "/otp", "/otp-order"];
 
   // Pages with no footer on mobile
   const noFooterOnMobile = ["/registration"];

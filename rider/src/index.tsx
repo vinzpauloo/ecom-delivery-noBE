@@ -13,34 +13,35 @@ import Delivery from "./pages/Account/Delivery";
 import History from "./pages/Account/History";
 import Profile from "./pages/Account/Profile";
 import ResetPassword from "./pages/Account/ResetPassword";
-import { AuthContextProvider } from "./context/AuthContext";
+// import { AuthContextProvider } from "./context/AuthContext";
+import { AuthProvider } from "react-auth-kit";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
-  <React.StrictMode>
-    <AuthContextProvider>
-      <BrowserRouter>
-        <ScrollToTop>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route index element={<Home />} />
-              <Route path="registration" element={<Registration />} />
-              <Route path="registration2" element={<Registration2 />} />
-              <Route path="otp" element={<Otp />} />
-              <Route path="otp-order" element={<OtpOrder />} />
+  // <React.StrictMode>
+  <AuthProvider authType="localstorage" authName="_auth">
+    <BrowserRouter>
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Home />} />
+            <Route path="registration" element={<Registration />} />
+            <Route path="registration2" element={<Registration2 />} />
+            <Route path="otp" element={<Otp />} />
+            <Route path="otp-order" element={<OtpOrder />} />
 
-              {/* Account dashboard routes */}
-              <Route path="account">
-                <Route index element={<Profile />} />
-                <Route path="for-delivery" element={<Delivery />} />
-                <Route path="order-history" element={<History />} />
-                <Route path="reset-password" element={<ResetPassword />} />
-              </Route>
+            {/* Account dashboard routes */}
+            <Route path="account">
+              <Route index element={<Profile />} />
+              <Route path="for-delivery" element={<Delivery />} />
+              <Route path="order-history" element={<History />} />
+              <Route path="reset-password" element={<ResetPassword />} />
             </Route>
-          </Routes>
-        </ScrollToTop>
-      </BrowserRouter>
-    </AuthContextProvider>
-  </React.StrictMode>
+          </Route>
+        </Routes>
+      </ScrollToTop>
+    </BrowserRouter>
+  </AuthProvider>
+  // </React.StrictMode>
 );

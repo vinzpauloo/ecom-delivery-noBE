@@ -1,10 +1,35 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import axios, { AxiosError } from "axios";
+import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 
+import ForgotPassword from "./ForgotPassword";
 import styles from "./LoginForm.module.scss";
+import constants from "../../utils/constants.json";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useCalculateHash } from "../../hooks/useCalculateHash";
+
+// Setup form schema & validation
+interface IFormInputs {
+  email: string;
+  password: string;
+}
+
+const schema = yup
+  .object({
+    email: yup.string().email(constants.form.error.email).required(),
+    password: yup
+      .string()
+      .min(6, constants.form.error.passwordMin)
+      .max(16, constants.form.error.passwordMax)
+      .required(),
+  })
+  .required();
 
 interface ContainerProps {}
 
@@ -16,71 +41,146 @@ const EyeIcon = ({ type }: { type: string }) => {
   );
 };
 
+const ForgotModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <ForgotPassword />
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const LoginForm: React.FC<ContainerProps> = ({}) => {
-  const [passwordType, setPasswordType] = useState("password");
+  const [error, setError] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const [authKitIsAuthenticated, setAuthKitIsAuthenticated] = useState(false);
+  const signIn = useSignIn();
+  const isAuthenticated = useIsAuthenticated();
+  const { calculateHash } = useCalculateHash();
+
+  const [passwordType, setPasswordType] = useState(
+    constants.form.inputType.password
+  );
   const navigate = useNavigate();
-  const { dispatch } = useAuthContext();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  useEffect(() => {
+    setAuthKitIsAuthenticated(isAuthenticated());
+  }, []);
 
-    const user = {
-      isLoggedIn: true,
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-    // Save the user to local storage
-    localStorage.setItem("user", JSON.stringify(user));
+  const onSubmit = async (data: IFormInputs) => {
+    try {
+      // START: Access login API
+      const endpoint = "api/rider/login";
+      const options = {
+        headers: {
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+        withCredentials: true,
+      };
 
-    // Update the auth context
-    dispatch({ type: "LOGIN", payload: user });
+      const response = await axios.post(endpoint, data, options);
+      // END: Access login API
 
-    navigate("/account");
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        signIn({
+          token: data.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: data.user,
+        });
+
+        navigate("/");
+      }
+    } catch (err) {
+      if (err && err instanceof AxiosError)
+        setError("*" + err.response?.data.message);
+      else if (err && err instanceof Error) setError(err.message);
+
+      console.log("Error", err);
+    }
   };
 
-  const handleTogglePasswordType = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
+  const onTogglePasswordType = () => {
+    if (passwordType === constants.form.inputType.password) {
+      setPasswordType(constants.form.inputType.text);
       return;
     }
-    setPasswordType("password");
+    setPasswordType(constants.form.inputType.password);
   };
 
   return (
-    <Form className={`text-center ${styles.form}`} onSubmit={handleSubmit}>
-      <h4 className={`d-none d-md-block`}>Welcome to FOODMONKEY Riders</h4>
-      <Form.Group className="mb-4 position-relative">
-        <Form.Control
-          id="email"
-          size="lg"
-          type="email"
-          placeholder="Email or number"
-          required
-        />
-        <EnvelopeFill color="#8F887D" size={40} className={styles.icons} />
-      </Form.Group>
+    <>
+      <ForgotModal show={modalShow} onHide={() => setModalShow(false)} />
+      <Form
+        className={`text-center ${styles.form}`}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <h4 className={`d-none d-md-block`}>Welcome to FOODMONKEY Riders</h4>
+        <Form.Group className="mb-4 position-relative">
+          <Form.Control
+            id="email"
+            size="lg"
+            type="email"
+            placeholder="Email or number"
+            onKeyUp={() => setError("")}
+            required
+            {...register("email")}
+          />
+          <EnvelopeFill color="#8F887D" size={40} className={styles.icons} />
+        </Form.Group>
 
-      <Form.Group className="mb-4 text-end position-relative">
-        <Form.Control
-          id="password"
-          size="lg"
-          type={passwordType}
-          placeholder="Password"
-          required
-          // required
-          className="mb-2"
-        />
-        <Link to="#" onClick={handleTogglePasswordType}>
-          <EyeIcon type={passwordType} />
-        </Link>
-        <Link to="/account/reset-password" className={styles.forgotPassword}>
-          Forgot Password?
-        </Link>
-      </Form.Group>
+        <Form.Group className="mb-4 text-end position-relative">
+          <Form.Control
+            id="password"
+            size="lg"
+            type={passwordType}
+            placeholder="Password"
+            onKeyUp={() => setError("")}
+            className="mb-2"
+            required
+            {...register("password")}
+          />
+          <Link to="#" onClick={onTogglePasswordType}>
+            <EyeIcon type={passwordType} />
+          </Link>
+          {/* <Link to="/account/reset-password" className={styles.forgotPassword}>
+            Forgot Password?
+          </Link> */}
+        </Form.Group>
 
-      <Button variant="primary" size="lg" type="submit">
-        Login
-      </Button>
-    </Form>
+        <div className="mb-5 position-relative text-end">
+          <Link
+            to="#"
+            onClick={() => setModalShow(true)}
+            className={styles.forgotPassword}
+          >
+            Forgot Password?
+          </Link>
+
+          {/* Error messages */}
+          <div className={styles.errors}>
+            <p>{error}</p>
+            <p>{errors.email?.message}</p>
+            <p>{errors.password?.message}</p>
+          </div>
+        </div>
+
+        <Button variant="primary" size="lg" type="submit">
+          Login
+        </Button>
+      </Form>
+    </>
   );
 };
 
