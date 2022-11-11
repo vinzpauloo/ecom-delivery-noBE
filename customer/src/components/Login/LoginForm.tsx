@@ -15,13 +15,14 @@ import { useCalculateHash } from "../../hooks/useCalculateHash";
 
 // Setup form schema & validation
 interface IFormInputs {
-  email: string;
+  username: string;
   password: string;
 }
 
 const schema = yup
   .object({
-    email: yup.string().email(constants.form.error.email).required(),
+    // email: yup.string().email(constants.form.error.email).required(),
+    username: yup.string().required(),
     password: yup
       .string()
       .min(6, constants.form.error.passwordMin)
@@ -142,11 +143,11 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="email"
-            placeholder="Email or number"
+            type="text"
+            placeholder="Mobile number"
             onKeyUp={() => setError("")}
             required
-            {...register("email")}
+            {...register("username")}
           />
           <EnvelopeFill
             color={constants.color.gray}
@@ -182,7 +183,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           {/* Error messages */}
           <div className={styles.errors}>
             <p>{error}</p>
-            <p>{errors.email?.message}</p>
+            <p>{errors.username?.message}</p>
             <p>{errors.password?.message}</p>
           </div>
         </div>
