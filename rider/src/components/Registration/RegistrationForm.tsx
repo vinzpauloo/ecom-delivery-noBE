@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
-import { Link, useNavigate } from "react-router-dom";
-=======
 import React, { useState, useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
 import useHistory from "react-router-dom";
->>>>>>> master
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -25,20 +18,13 @@ import RiderProfile from "../../assets/images/riderprofile.png";
 interface IFormInputs {
   first_name: string;
   last_name: string;
-<<<<<<< HEAD
-  address: string;
-=======
   // address: string;
->>>>>>> master
   mobile: string;
   email: string;
   password: string;
   password_confirmation: string;
-<<<<<<< HEAD
-=======
   license_number: string;
   license_expiration: string;
->>>>>>> master
 }
 
 const schema = yup
@@ -48,11 +34,7 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-<<<<<<< HEAD
-    address: yup.string().required(),
-=======
     // address: yup.string().required(),
->>>>>>> master
     mobile: yup
       .string()
       .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
@@ -67,11 +49,8 @@ const schema = yup
       .string()
       .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
       .required(),
-<<<<<<< HEAD
-=======
     license_number: yup.string().required(),
     license_expiration: yup.string().required(),
->>>>>>> master
   })
   .required();
 
@@ -80,10 +59,7 @@ interface ContainerProps {}
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
-<<<<<<< HEAD
-=======
   const [data, setData] = useState([]);
->>>>>>> master
   const navigate = useNavigate();
   const Continue = (e: any) => {
     e.preventDefault();
@@ -101,30 +77,11 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
 
-<<<<<<< HEAD
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
-
-    // Set register data on local storage
-    localStorage.setItem("registerUser", JSON.stringify(data));
-
-    // Navigate to OTP page
-    navigate("/otp");
-=======
     // Set register data on local storage
     localStorage.setItem("oldRegisterUser", JSON.stringify(data));
 
     // Navigate to OTP page
     navigate("/registration2");
->>>>>>> master
   };
 
   return (
@@ -176,16 +133,12 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
-<<<<<<< HEAD
-                <Form.Control type="email" />
-=======
                 <Form.Control
                   type="email"
                   onKeyUp={() => setError("")}
                   required
                   {...register("email")}
                 />
->>>>>>> master
               </Form.Group>
             </Col>
           </Row>
