@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import * as yup from "yup";
 import axios, { AxiosError } from "axios";
 import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 
+import ForgotPassword from "./ForgotPassword";
 import styles from "./LoginForm.module.scss";
 import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
@@ -43,8 +44,19 @@ const EyeIcon = ({ type }: { type: string }) => {
   );
 };
 
+const ForgotModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <ForgotPassword />
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const LoginForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [modalShow, setModalShow] = useState(false);
   const [authKitIsAuthenticated, setAuthKitIsAuthenticated] = useState(false);
   const signIn = useSignIn();
   const isAuthenticated = useIsAuthenticated();
@@ -111,66 +123,74 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
   };
 
   return (
-    <Form
-      className={`text-center ${styles.form}`}
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      {/* IsAuthenticated test */}
-      {/* <div className="text-start">
-        {authKitIsAuthenticated ? (
-          <p className="text-success">User is authenticated.</p>
-        ) : (
-          <p className="text-danger">User is not authenticated.</p>
-        )}
-      </div> */}
+    <>
+      <ForgotModal show={modalShow} onHide={() => setModalShow(false)} />
 
-      <Form.Group className="mb-4 position-relative">
-        <Form.Control
-          size="lg"
-          type="email"
-          placeholder="Email or number"
-          onKeyUp={() => setError("")}
-          required
-          {...register("email")}
-        />
-        <EnvelopeFill
-          color={constants.color.gray}
-          size={30}
-          className={styles.icons}
-        />
-      </Form.Group>
+      <Form
+        className={`text-center ${styles.form}`}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {/* IsAuthenticated test */}
+        {/* <div className="text-start">
+      {authKitIsAuthenticated ? (
+        <p className="text-success">User is authenticated.</p>
+      ) : (
+        <p className="text-danger">User is not authenticated.</p>
+      )}
+    </div> */}
 
-      <Form.Group className="mb-2 position-relative">
-        <Form.Control
-          size="lg"
-          type={passwordType}
-          placeholder="Enter Password"
-          className="mb-2"
-          required
-          {...register("password")}
-        />
-        <Link to="#" onClick={onTogglePasswordType}>
-          <EyeIcon type={passwordType} />
-        </Link>
-      </Form.Group>
+        <Form.Group className="mb-4 position-relative">
+          <Form.Control
+            size="lg"
+            type="email"
+            placeholder="Email or number"
+            onKeyUp={() => setError("")}
+            required
+            {...register("email")}
+          />
+          <EnvelopeFill
+            color={constants.color.gray}
+            size={30}
+            className={styles.icons}
+          />
+        </Form.Group>
 
-      <div className="mb-5 position-relative text-end">
-        <Link to="#" className={styles.forgotPassword}>
-          Forgot Password?
-        </Link>
+        <Form.Group className="mb-2 position-relative">
+          <Form.Control
+            size="lg"
+            type={passwordType}
+            placeholder="Enter Password"
+            className="mb-2"
+            required
+            {...register("password")}
+          />
+          <Link to="#" onClick={onTogglePasswordType}>
+            <EyeIcon type={passwordType} />
+          </Link>
+        </Form.Group>
 
-        {/* Error messages */}
-        <div className={styles.errors}>
-          <p>{error}</p>
-          <p>{errors.email?.message}</p>
-          <p>{errors.password?.message}</p>
+        <div className="mb-5 position-relative text-end">
+          <Link
+            to="#"
+            onClick={() => setModalShow(true)}
+            className={styles.forgotPassword}
+          >
+            Forgot Password?
+          </Link>
+
+          {/* Error messages */}
+          <div className={styles.errors}>
+            <p>{error}</p>
+            <p>{errors.email?.message}</p>
+            <p>{errors.password?.message}</p>
+          </div>
         </div>
-      </div>
 
-      <Button variant="primary" size="lg" type="submit">
-        Login
-      </Button>
-    </Form>
+        <Button variant="primary" size="lg" type="submit">
+          Login
+        </Button>
+      </Form>
+    </>
   );
 };
 
