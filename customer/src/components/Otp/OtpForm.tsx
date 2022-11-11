@@ -113,9 +113,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   const handleSendOTP = async () => {
     const otpRequestData = {
       mobile: getMobile(),
-
-      /* Remove in production */
-      // testing: true,
+      testing: process.env.NODE_ENV !== "production",
     };
 
     // Reset counter & errors
