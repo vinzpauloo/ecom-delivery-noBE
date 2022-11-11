@@ -20,8 +20,9 @@ interface ContainerProps {
 }
 
 type Slide = {
-  image: string;
-  title: string;
+  id: number;
+  name: string;
+  photo: string;
 };
 
 const CategoryRow: React.FC<ContainerProps> = ({ title, slides }) => {
@@ -29,53 +30,60 @@ const CategoryRow: React.FC<ContainerProps> = ({ title, slides }) => {
     <Container fluid="xxl" className={styles.container}>
       <h3 className={styles.sectionTitle}>Shop by {title}</h3>
 
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={5}
-        loop={true}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        breakpoints={{
-          576: {
-            slidesPerView: 4,
-            spaceBetween: 7,
-          },
-          768: {
-            slidesPerView: 5,
-            spaceBetween: 10,
-          },
-          992: {
-            slidesPerView: 6,
-            spaceBetween: 10,
-          },
-          1200: {
-            slidesPerView: 7,
-            spaceBetween: 15,
-          },
-        }}
-        navigation={true}
-        modules={[Autoplay, Navigation]}
-        className={styles.sliderContainer}
-      >
-        {slides.map((item, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <Link to="/restaurants" className="text-decoration-none">
-                <div className={styles.slideItem}>
-                  <div className={styles.slideImageContainer}>
-                    <img src={item.image} alt="" />
+      {slides.length ? (
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={5}
+          loop={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+          breakpoints={{
+            576: {
+              slidesPerView: 4,
+              spaceBetween: 7,
+            },
+            768: {
+              slidesPerView: 5,
+              spaceBetween: 10,
+            },
+            992: {
+              slidesPerView: 6,
+              spaceBetween: 10,
+            },
+            1200: {
+              slidesPerView: 7,
+              spaceBetween: 15,
+            },
+          }}
+          navigation={true}
+          modules={[Autoplay, Navigation]}
+          className={styles.sliderContainer}
+        >
+          {slides.map((item, index) => {
+            return (
+              <SwiperSlide key={item.id}>
+                <Link to="/restaurants" className="text-decoration-none">
+                  <div className={styles.slideItem}>
+                    <div className={styles.slideImageContainer}>
+                      <img
+                        src={process.env.REACT_APP_BASE_URL + item.photo}
+                        alt=""
+                      />
+                    </div>
+                    <div className={styles.slideContentContainer}>
+                      <p className="mb-0 lh-1">{item.name}</p>
+                    </div>
                   </div>
-                  <div className={styles.slideContentContainer}>
-                    <p className="mb-0 lh-1">{item.title}</p>
-                  </div>
-                </div>
-              </Link>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+                </Link>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      ) : (
+        <>Loading ...</>
+      )}
     </Container>
   );
 };
