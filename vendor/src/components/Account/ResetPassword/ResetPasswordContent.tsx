@@ -51,9 +51,9 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
-                  id="username"
+                  id="email"
                   type="text"
-                  placeholder="User Name"
+                  placeholder="Enter Email"
                 />
               </Form.Group>
             </Col>

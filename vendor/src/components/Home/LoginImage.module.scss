@@ -2,9 +2,13 @@
 
 .image {
   margin: 0 auto;
-  height: 600px;
+  height: 400px;
 
   @include devices(md) {
-    height: 300px;
+    height: 200px;
+  }
+
+  @include devices(xs) {
+    max-width: 200px;
   }
 }

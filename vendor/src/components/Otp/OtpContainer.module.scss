@@ -11,6 +11,6 @@
   }
 
   @include devices(xs) {
-    min-height: calc(105vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
   }
 }

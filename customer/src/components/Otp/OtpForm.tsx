@@ -101,7 +101,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
       navigate("/register");
       return;
     }
-    // handleSendOTP();
+    handleSendOTP();
   }, []);
 
   // Countdown timer
@@ -115,7 +115,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
       mobile: getMobile(),
 
       /* Remove in production */
-      testing: true,
+      // testing: true,
     };
 
     // Reset counter & errors

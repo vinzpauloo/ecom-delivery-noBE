@@ -445,51 +445,6 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               <td>Food Items</td>
               <td>456 php</td>
             </tr>
-            <tr>
-              <td>BLH-0005</td>
-              <td>10/13/2022</td>
-              <td>12:30PM</td>
-              <td>1:30PM</td>
-              <td>Aerox-Alexan</td>
-              <td>Food Items</td>
-              <td>456 php</td>
-            </tr>
-            <tr>
-              <td>BLH-0006</td>
-              <td>10/13/2022</td>
-              <td>12:30PM</td>
-              <td>1:30PM</td>
-              <td>Aerox-Alexan</td>
-              <td>Food Items</td>
-              <td>456 php</td>
-            </tr>
-            <tr>
-              <td>BLH-0007</td>
-              <td>10/13/2022</td>
-              <td>12:30PM</td>
-              <td>1:30PM</td>
-              <td>Aerox-Alexan</td>
-              <td>Food Items</td>
-              <td>456 php</td>
-            </tr>
-            <tr>
-              <td>BLH-0008</td>
-              <td>10/13/2022</td>
-              <td>12:30PM</td>
-              <td>1:30PM</td>
-              <td>Aerox-Alexan</td>
-              <td>Food Items</td>
-              <td>456 php</td>
-            </tr>
-            <tr>
-              <td>BLH-0009</td>
-              <td>10/13/2022</td>
-              <td>12:30PM</td>
-              <td>1:30PM</td>
-              <td>Aerox-Alexan</td>
-              <td>Food Items</td>
-              <td>456 php</td>
-            </tr>
           </tbody>
         </Table>
 

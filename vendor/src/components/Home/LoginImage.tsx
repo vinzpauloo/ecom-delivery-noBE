@@ -13,9 +13,9 @@ import "swiper/scss/navigation";
 
 import styles from "./LoginImage.module.scss";
 
-import chef1 from "../../assets/images/slider-chef1.jpg";
-import chef2 from "../../assets/images/slider-chef2.jpg";
-import chef3 from "../../assets/images/slider-chef3.jpg";
+import chef1 from "../../assets/images/chef-1.png";
+import chef2 from "../../assets/images/chef-2.png";
+import chef3 from "../../assets/images/chef-3.png";
 
 interface ContainerProps {}
 

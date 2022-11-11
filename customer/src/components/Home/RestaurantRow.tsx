@@ -19,10 +19,10 @@ interface ContainerProps {
 }
 
 type Slide = {
-  image: string;
-  title: string;
-  description: string;
-  link: string;
+  photo: string;
+  name: string;
+  address: string;
+  social_link: string;
 };
 
 const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
@@ -53,11 +53,14 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
             <SwiperSlide key={index}>
               <div className={styles.slideItem}>
                 <div className={styles.slideImageContainer}>
-                  <img src={item.image} alt="" />
+                  <img
+                    src={process.env.REACT_APP_BASE_URL + item.photo}
+                    alt=""
+                  />
                 </div>
                 <div className={styles.slideContentContainer}>
-                  <p className={styles.slideTitle}>{item.title}</p>
-                  <p className={styles.slideDescription}>{item.description}</p>
+                  <p className={styles.slideTitle}>{item.name}</p>
+                  <p className={styles.slideDescription}>{item.address}</p>
                   <Link to="/restaurant" className={styles.slideLink}>
                     Visit
                   </Link>
@@ -80,11 +83,14 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
             >
               <div className={styles.slideItem}>
                 <div className={styles.slideImageContainer}>
-                  <img src={item.image} alt="" />
+                  <img
+                    src={process.env.REACT_APP_BASE_URL + item.photo}
+                    alt=""
+                  />
                 </div>
                 <div className={styles.slideContentContainer}>
-                  <p className={styles.slideTitle}>{item.title}</p>
-                  <p className={styles.slideDescription}>{item.description}</p>
+                  <p className={styles.slideTitle}>{item.name}</p>
+                  <p className={styles.slideDescription}>{item.address}</p>
                   <Link to="/restaurant" className={styles.slideLink}>
                     Visit
                   </Link>
