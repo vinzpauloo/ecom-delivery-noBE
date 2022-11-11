@@ -10,6 +10,7 @@ import { useSignIn, useIsAuthenticated } from "react-auth-kit";
 
 import styles from "./LoginForm.module.scss";
 import constants from "../../utils/constants.json";
+import { useCalculateHash } from "../../hooks/useCalculateHash";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -47,6 +48,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
   const [authKitIsAuthenticated, setAuthKitIsAuthenticated] = useState(false);
   const signIn = useSignIn();
   const isAuthenticated = useIsAuthenticated();
+  const { calculateHash } = useCalculateHash();
 
   const [passwordType, setPasswordType] = useState(
     constants.form.inputType.password
@@ -68,16 +70,15 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Access login API
-      const url = process.env.REACT_APP_API_LOCAL + "/login";
+      const endpoint = "api/customer/login";
       const options = {
         headers: {
-          Accept: process.env.REACT_APP_HEADER_ACCEPT_VND,
-          "Content-Type": process.env.REACT_APP_HEADER_ACCEPT_VND,
+          "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
 
-      const response = await axios.post(url, data, options);
+      const response = await axios.post(endpoint, data, options);
       // END: Access login API
 
       if (response.status === 200) {
