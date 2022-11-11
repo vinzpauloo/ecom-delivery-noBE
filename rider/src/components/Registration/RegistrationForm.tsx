@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
+=======
+import React, { useState, useEffect } from "react";
+import { Button, Form, Row, Col } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
+import { Link, useNavigate } from "react-router-dom";
+import useHistory from "react-router-dom";
+>>>>>>> master
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -17,11 +25,20 @@ import RiderProfile from "../../assets/images/riderprofile.png";
 interface IFormInputs {
   first_name: string;
   last_name: string;
+<<<<<<< HEAD
   address: string;
+=======
+  // address: string;
+>>>>>>> master
   mobile: string;
   email: string;
   password: string;
   password_confirmation: string;
+<<<<<<< HEAD
+=======
+  license_number: string;
+  license_expiration: string;
+>>>>>>> master
 }
 
 const schema = yup
@@ -31,7 +48,11 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
+<<<<<<< HEAD
     address: yup.string().required(),
+=======
+    // address: yup.string().required(),
+>>>>>>> master
     mobile: yup
       .string()
       .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
@@ -46,6 +67,11 @@ const schema = yup
       .string()
       .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
       .required(),
+<<<<<<< HEAD
+=======
+    license_number: yup.string().required(),
+    license_expiration: yup.string().required(),
+>>>>>>> master
   })
   .required();
 
@@ -54,8 +80,28 @@ interface ContainerProps {}
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
+<<<<<<< HEAD
+=======
+  const [data, setData] = useState([]);
+>>>>>>> master
   const navigate = useNavigate();
+  const Continue = (e: any) => {
+    e.preventDefault();
+    navigate("/registration2");
+  };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    console.log("onSubmit", data);
+
+<<<<<<< HEAD
   const {
     register,
     handleSubmit,
@@ -72,7 +118,15 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
     // Navigate to OTP page
     navigate("/otp");
+=======
+    // Set register data on local storage
+    localStorage.setItem("oldRegisterUser", JSON.stringify(data));
+
+    // Navigate to OTP page
+    navigate("/registration2");
+>>>>>>> master
   };
+
   return (
     <div>
       <div className="d-flex d-lg-none justify-content-center mb-4">
@@ -122,7 +176,16 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
+<<<<<<< HEAD
                 <Form.Control type="email" />
+=======
+                <Form.Control
+                  type="email"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("email")}
+                />
+>>>>>>> master
               </Form.Group>
             </Col>
           </Row>
@@ -131,19 +194,36 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Contact Number</Form.Label>
-                <Form.Control id="email" type="email" />
+                <Form.Control
+                  type="text"
+                  placeholder="+639xxxxxxxxx"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("mobile")}
+                  defaultValue="+63"
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Password</Form.Label>
-                <Form.Control id="password" type="password" />
+                <Form.Control
+                  type="password"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("password")}
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control id="confirm_password" type="password" />
+                <Form.Control
+                  type="password"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("password_confirmation")}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -152,117 +232,83 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Driver's License Number</Form.Label>
-                <Form.Control id="contact" type="text" />
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("license_number")}
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Driver's License Expiration Date</Form.Label>
-                <Form.Control className="mb-0" id="contact" type="text" />
+                <Form.Label>Driver's License Expiration</Form.Label>
+                <Form.Control
+                  className="mb-0"
+                  type="text"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("license_expiration")}
+                />
               </Form.Group>
             </Col>
           </Row>
+        </div>
+
+        {/* Error messages */}
+        <div className={styles.errors}>
+          <p>{errors.first_name?.message}</p>
+          <p>{errors.last_name?.message}</p>
+          {/* <p>{errors.address?.message}</p> */}
+          <p>{errors.mobile?.message}</p>
+          <p>{errors.email?.message}</p>
+          <p>{errors.password?.message}</p>
+          <p>{errors.password_confirmation?.message}</p>
+          <p>{errors.license_number?.message}</p>
+          <p>{errors.license_expiration?.message}</p>
+
+          {/* Errors from backend */}
+          {multipleErrors.map((item, index) => {
+            return <p key={index}>{item}</p>;
+          })}
         </div>
 
         <hr className="d-none d-lg-block" />
 
-        <div className="rider-2">
-          {/* <h3 className="text-center">Vehicle Informations</h3>
-
-          <Row lg={3} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Model</Form.Label>
-                <Form.Control id="model" type="text" />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Make</Form.Label>
-                <Form.Control id="make" type="text" />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>year</Form.Label>
-                <Form.Control className="mb-0" id="year" type="text" />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row lg={3} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>OR/CR number</Form.Label>
-                <Form.Control id="orcr_number" type="text" />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Plate number</Form.Label>
-                <Form.Control id="plate_number" type="text" />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>License number</Form.Label>
-                <Form.Control
-                  className="mb-0"
-                  id="license_number"
-                  type="text"
-                />
-              </Form.Group>
-            </Col>
-          </Row> */}
-
-          <Row>
-            <Col></Col>
-          </Row>
-
-          <Row>
-            <Col className="position-relative"></Col>
-          </Row>
+        <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+          <img src={RiderProfile} className="w-25 img-fluid mb-3" />
+          <div className="position-relative">
+            <input
+              placeholder="Profile Picture (PDF*JPG*PNG)"
+              className={`bg-white ${styles.test}`}
+            />
+            <a className={`position-absolute ${styles.test2}`}>Browse File</a>
+          </div>
+          <div className="position-relative">
+            <input
+              placeholder="Driver’s License Image (PDF*JPG*PNG)"
+              className={`bg-white ${styles.test}`}
+            />
+            <a className={`position-absolute ${styles.test2}`}>Browse File</a>
+          </div>
+          <div className="nextBtn">
+            {/* <Link to="/registration2">
+            
+          </Link> */}
+            <Button
+              variant="warning"
+              size="lg"
+              type="submit"
+              className="mt-4"
+              id="nextBtn-2"
+              // href="/registration2"
+              // onClick={Continue}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-
-        {/* <div
-          className={`position-relative d-flex align-items-center justify-content-center ${styles.checkbox}`}
-        >
-          <Form.Check
-            type="checkbox"
-            id="terms"
-            label="By continuing, you indicate that you read and agreed to terms of use"
-          />
-        </div> */}
       </Form>
-      <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-        <img src={RiderProfile} className="w-25 img-fluid mb-3" />
-        <div className="position-relative">
-          <input
-            placeholder="Profile Picture (PDF*JPG*PNG)"
-            className={`bg-white ${styles.test}`}
-          />
-          <a className={`position-absolute ${styles.test2}`}>Browse File</a>
-        </div>
-        <div className="position-relative">
-          <input
-            placeholder="Driver’s License Image (PDF*JPG*PNG)"
-            className={`bg-white ${styles.test}`}
-          />
-          <a className={`position-absolute ${styles.test2}`}>Browse File</a>
-        </div>
-        <div className="nextBtn">
-          <Button
-            variant="warning"
-            size="lg"
-            type="submit"
-            className="mt-4"
-            id="nextBtn-2"
-            href="/registration2"
-          >
-            Next
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

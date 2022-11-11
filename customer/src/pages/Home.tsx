@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Lunbo from "../components/Home/Lunbo";
 import CategoryRow from "../components/Home/CategoryRow";
 import RestaurantRow from "../components/Home/RestaurantRow";
@@ -35,6 +35,9 @@ import restau03 from "../assets/images/restau03.png";
 import restau04 from "../assets/images/restau04.png";
 import restau05 from "../assets/images/restau05.png";
 import restau06 from "../assets/images/restau06.png";
+import { useCategories } from "../hooks/useCategories";
+import { useCuisines } from "../hooks/useCuisines";
+import { useRestaurants } from "../hooks/useRestaurants";
 
 const lunbos = [
   {
@@ -69,67 +72,67 @@ const lunbos = [
   },
 ];
 
-const categories = [
-  {
-    image: category01,
-    title: "Healthy",
-  },
-  {
-    image: category02,
-    title: "Burgers",
-  },
-  {
-    image: category03,
-    title: "Shawarma",
-  },
-  {
-    image: category04,
-    title: "Pizzas",
-  },
-  {
-    image: category05,
-    title: "Biryani",
-  },
-  {
-    image: category06,
-    title: "Chicken Meals",
-  },
-  {
-    image: category07,
-    title: "Pork Meals",
-  },
-];
+// const categories = [
+//   {
+//     image: category01,
+//     title: "Healthy",
+//   },
+//   {
+//     image: category02,
+//     title: "Burgers",
+//   },
+//   {
+//     image: category03,
+//     title: "Shawarma",
+//   },
+//   {
+//     image: category04,
+//     title: "Pizzas",
+//   },
+//   {
+//     image: category05,
+//     title: "Biryani",
+//   },
+//   {
+//     image: category06,
+//     title: "Chicken Meals",
+//   },
+//   {
+//     image: category07,
+//     title: "Pork Meals",
+//   },
+// ];
 
-const cuisines = [
-  {
-    image: cuisine01,
-    title: "Chinese",
-  },
-  {
-    image: cuisine02,
-    title: "Indian",
-  },
-  {
-    image: cuisine03,
-    title: "Japanese",
-  },
-  {
-    image: cuisine04,
-    title: "Thai",
-  },
-  {
-    image: cuisine05,
-    title: "Italian",
-  },
-  {
-    image: cuisine06,
-    title: "French",
-  },
-  {
-    image: cuisine07,
-    title: "Turkish",
-  },
-];
+// const cuisines = [
+//   {
+//     image: cuisine01,
+//     title: "Chinese",
+//   },
+//   {
+//     image: cuisine02,
+//     title: "Indian",
+//   },
+//   {
+//     image: cuisine03,
+//     title: "Japanese",
+//   },
+//   {
+//     image: cuisine04,
+//     title: "Thai",
+//   },
+//   {
+//     image: cuisine05,
+//     title: "Italian",
+//   },
+//   {
+//     image: cuisine06,
+//     title: "French",
+//   },
+//   {
+//     image: cuisine07,
+//     title: "Turkish",
+//   },
+// ];
 
 const restaurantRowData = [
   {
@@ -176,15 +179,61 @@ const restaurantRowData = [
   },
 ];
 
+type Slide = {
+  id: number;
+  name: string;
+  photo: string;
+};
+
+type Restaurants = {
+  photo: string;
+  name: string;
+  address: string;
+  social_link: string;
+};
+
 type Props = {};
 
 const Home = (props: Props) => {
+  const [categories, setCategories] = useState<Slide[]>([]);
+  const [cuisines, setCuisines] = useState<Slide[]>([]);
+  const [restaurants, setRestaurants] = useState<Restaurants[]>([]);
+  const { getCategories } = useCategories();
+  const { getCuisines } = useCuisines();
+  const { getRestaurants } = useRestaurants();
+
+  const loadCategories = async () => {
+    const response = await getCategories();
+    console.log("getCategories response", response);
+    setCategories(response);
+  };
+
+  const loadCuisines = async () => {
+    const response = await getCuisines();
+    console.log("getCuisines response", response);
+    setCuisines(response);
+  };
+
+  const loadShops = async () => {
+    const response = await getRestaurants();
+    console.log("getShops response", response);
+    setRestaurants(response.data);
+  };
+
+  useEffect(() => {
+    // Load initial data
+    loadCategories();
+    loadCuisines();
+    loadShops();
+  }, []);
+
   return (
     <div className="page">
       <Lunbo slides={lunbos} />
+
       <CategoryRow title="Category" slides={categories} />
       <CategoryRow title="Cuisine" slides={cuisines} />
-      <RestaurantRow slides={restaurantRowData} />
+      <RestaurantRow slides={restaurants} />
     </div>
   );
 };

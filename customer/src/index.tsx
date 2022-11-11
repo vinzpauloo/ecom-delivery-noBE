@@ -15,6 +15,7 @@ import OrderTracker from "./pages/OrderTracker";
 import Restaurants from "./pages/Restaurants";
 import Profile from "./pages/Account/Profile";
 import Orders from "./pages/Account/Orders";
+import GetHash from "./pages/GetHash";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -30,6 +31,7 @@ root.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
+            <Route path="get-hash" element={<GetHash />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="otp" element={<Otp />} />

@@ -6,7 +6,7 @@ const thisKey = process.env.REACT_APP_API_SECRET_KEY;
 console.log('reading .env "thisKey" =', thisKey);
 
 export const useCalculateHash = () => {
-  const calculateHash = (endpoint, body = {}) => {
+  const calculateHash = (endpoint, body) => {
     let code = "==";
     code += endpoint;
     code += "?";
