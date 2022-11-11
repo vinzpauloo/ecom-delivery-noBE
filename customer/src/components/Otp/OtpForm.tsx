@@ -101,16 +101,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
       navigate("/register");
       return;
     }
-
-    otpRequestData = {
-      mobile: getMobile(),
-
-      /* Remove in production */
-      testing: true,
-    };
-
-    console.log("Requesting otp ...", otpRequestData);
-    handleSendOTP();
+    // handleSendOTP();
   }, []);
 
   // Countdown timer
@@ -120,7 +111,19 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
 
   // Send OTP request
   const handleSendOTP = async () => {
+    const otpRequestData = {
+      mobile: getMobile(),
+
+      /* Remove in production */
+      testing: true,
+    };
+
+    // Reset counter & errors
     setCounter(30);
+    setError("");
+
+    console.log("Requesting otp ...", otpRequestData);
+
     const response = await requestOTP(otpRequestData);
     console.log("handleSendOTP response", response);
     setOtpCode(response.code);
