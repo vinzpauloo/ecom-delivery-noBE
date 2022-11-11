@@ -22,33 +22,33 @@ import { AuthProvider } from "react-auth-kit";
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
-  <React.StrictMode>
-    <AuthProvider authType="localstorage" authName="_auth">
-      <BrowserRouter>
-        {/* <QueryClientProvider client={queryClient}> */}
-        <ScrollToTop>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="otp" element={<Otp />} />
-              <Route path="otp-order" element={<OtpOrder />} />
-              <Route path="restaurant" element={<Restaurant />} />
-              <Route path="restaurants" element={<Restaurants />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="delivery-status" element={<OrderTracker />} />
+  // <React.StrictMode>
+  <AuthProvider authType="localstorage" authName="_auth">
+    <BrowserRouter>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <ScrollToTop>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route index element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="otp" element={<Otp />} />
+            <Route path="otp-order" element={<OtpOrder />} />
+            <Route path="restaurant" element={<Restaurant />} />
+            <Route path="restaurants" element={<Restaurants />} />
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="delivery-status" element={<OrderTracker />} />
 
-              {/* Account dashboard routes */}
-              <Route path="account">
-                <Route index element={<Profile />} />
-                <Route path="orders" element={<Orders />} />
-              </Route>
+            {/* Account dashboard routes */}
+            <Route path="account">
+              <Route index element={<Profile />} />
+              <Route path="orders" element={<Orders />} />
             </Route>
-          </Routes>
-        </ScrollToTop>
-        {/* </QueryClientProvider> */}
-      </BrowserRouter>
-    </AuthProvider>
-  </React.StrictMode>
+          </Route>
+        </Routes>
+      </ScrollToTop>
+      {/* </QueryClientProvider> */}
+    </BrowserRouter>
+  </AuthProvider>
+  // </React.StrictMode>
 );

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios, { AxiosError } from "axios";
 
 import styles from "./RegisterForm.module.scss";
 import constants from "../../utils/constants.json";
@@ -24,11 +23,14 @@ const schema = yup
   .object({
     first_name: yup
       .string()
-      .min(6, constants.form.error.firstNameMin)
+      .min(2, constants.form.error.firstNameMin)
       .required(),
-    last_name: yup.string().min(6, constants.form.error.lastNameMin).required(),
+    last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
     address: yup.string().required(),
-    mobile: yup.string().required(),
+    mobile: yup
+      .string()
+      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .required(),
     email: yup.string().email(constants.form.error.email).required(),
     password: yup
       .string()
@@ -60,46 +62,11 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
 
-    try {
-      // START: Access register API
-      const url = process.env.REACT_APP_API_LOCAL + "/customer/register";
-      const options = {
-        headers: {
-          Accept: process.env.REACT_APP_HEADER_ACCEPT_VND,
-          "Content-Type": process.env.REACT_APP_HEADER_ACCEPT_VND,
-        },
-        withCredentials: true,
-      };
+    // Set register data on local storage
+    localStorage.setItem("registerUser", JSON.stringify(data));
 
-      const response = await axios.post(url, data, options);
-      // END: Access register API
-
-      console.log("/customer/register", response);
-
-      if (response.status === 201) {
-        const { data } = response.data;
-
-        console.log("Register success!", response);
-
-        // navigate("/");
-      }
-    } catch (err) {
-      if (err && err instanceof AxiosError) {
-        if (err.response && err.response.data.errors) {
-          // Multiple errors from the backend
-          let tempErrors: any[] = [];
-          for (const [key, value] of Object.entries(err.response.data.errors)) {
-            tempErrors.push(value);
-          }
-          setMultipleErrors(tempErrors);
-        } else {
-          // Single error
-          setError("*" + err.response?.data.message);
-        }
-      } else if (err && err instanceof Error) setError(err.message);
-
-      console.log("Error", err);
-    }
+    // Navigate to OTP page
+    navigate("/otp");
   };
 
   return (
@@ -143,9 +110,11 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Mobile number</Form.Label>
             <Form.Control
               type="text"
+              placeholder="+639xxxxxxxxx"
               onKeyUp={() => setError("")}
               required
               {...register("mobile")}
+              defaultValue="+63"
             />
           </Form.Group>
 
@@ -208,6 +177,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             type="checkbox"
             id="terms"
             label="By continuing, you indicate that you read and agreed to terms of use"
+            required
           />
         </div>
 
