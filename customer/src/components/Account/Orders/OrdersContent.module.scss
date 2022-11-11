@@ -2,4 +2,105 @@
 @import "../../../theme/mixins";
 
 .container {
+  h1 {
+    color: $FM_TEXT_BROWN;
+    font-size: 30px;
+    line-height: 1;
+    text-shadow: $FM_TITLE_SHADOW;
+  }
+
+  a {
+    background-color: $FM_BG_GRAY;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    border-radius: 5px;
+    box-shadow: $FM_BUTTON_SHADOW;
+    color: #000000;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    min-width: 150px;
+    padding: 8px;
+  }
+
+  p {
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+}
+
+.innerContainer {
+  background-color: $FM_BG_BROWN;
+  margin: 20px 0;
+  padding: 20px;
+
+  .item:not(:last-child) {
+    margin-bottom: 30px;
+  }
+}
+
+.orderId {
+  background-color: #a47e3b;
+  border: 0.5px solid $FM_TEXT_BROWN;
+  border-radius: 2px;
+
+  h6 {
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    padding: 10px 5px;
+    text-shadow: $FM_TEXT_SHADOW;
+  }
+}
+
+.orderDetails {
+  background-color: #fde9b1;
+  border: 1px solid $FM_TEXT_BROWN;
+  border-radius: 0px 5px 5px 5px;
+  font-size: 14px;
+  padding: 10px 15px;
+
+  .value,
+  .label {
+    font-weight: 500;
+  }
+
+  @include devices(xs) {
+    .value {
+      font-weight: 400;
+    }
+  }
+}
+
+.boxGray {
+  background-color: $FM_BG_GRAY;
+  border: 0.5px solid #525252;
+  border-radius: 5px;
+  line-height: 1.2;
+  padding: 6px;
+
+  .price {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+
+  .orders {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-height: 80px;
+    overflow-y: scroll;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

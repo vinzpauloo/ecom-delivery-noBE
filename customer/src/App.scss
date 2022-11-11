@@ -59,11 +59,8 @@ body {
 }
 
 .custom-bg {
-  @include devices(md) {
-    header,
-    .page {
-      background: #e3d7c2;
-    }
+  .page {
+    background: $FM_BG_LIGHT_BROWN;
   }
 }
 
