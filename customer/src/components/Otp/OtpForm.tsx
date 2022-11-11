@@ -101,7 +101,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
       navigate("/register");
       return;
     }
-    // handleSendOTP();
+    handleSendOTP();
   }, []);
 
   // Countdown timer
