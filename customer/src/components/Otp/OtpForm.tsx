@@ -9,6 +9,7 @@ import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
 import { useSignIn } from "react-auth-kit";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+import { useHelper } from "../../hooks/useHelper";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -64,12 +65,13 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [otpCode, setOtpCode] = useState();
   const [multipleErrors, setMultipleErrors] = useState([""]);
-  const [counter, setCounter] = useState(30);
+  const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
   const signIn = useSignIn();
   const { calculateHash } = useCalculateHash();
+  const { getCountdown } = useHelper();
   let otpRequestData = {};
 
   const {
@@ -90,18 +92,18 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     console.log("OtpForm");
 
-    if (!registerUser) {
-      console.log("Register user not found!!!");
-      navigate("/register");
-      return;
-    }
+    // if (!registerUser) {
+    //   console.log("Register user not found!!!");
+    //   navigate("/register");
+    //   return;
+    // }
 
-    if (!getMobile()) {
-      console.log("Mobile number not found!!!");
-      navigate("/register");
-      return;
-    }
-    handleSendOTP();
+    // if (!getMobile()) {
+    //   console.log("Mobile number not found!!!");
+    //   navigate("/register");
+    //   return;
+    // }
+    // handleSendOTP();
   }, []);
 
   // Countdown timer
@@ -117,7 +119,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
     };
 
     // Reset counter & errors
-    setCounter(30);
+    setCounter(constants.otpCountdown);
     setError("");
 
     console.log("Requesting otp ...", otpRequestData);
@@ -295,7 +297,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
                   <p className="mb-0 text-lg-end">
                     {counter ? (
                       <>
-                        Resend OTP in <span>00:{formatCounter(counter)}</span>
+                        Resend OTP in <span>{getCountdown(counter)}</span>
                       </>
                     ) : (
                       <Link to="#" onClick={handleSendOTP}>

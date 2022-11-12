@@ -17,5 +17,6 @@
       "passwordMax": "*Password must be at most 16 characters.",
       "passwordConfirm": "*Password don't match."
     }
-  }
+  },
+  "otpCountdown": 300
 }
