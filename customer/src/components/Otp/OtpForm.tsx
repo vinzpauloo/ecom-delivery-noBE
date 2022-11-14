@@ -37,12 +37,36 @@ const OtpSuccessModal = (props: any) => {
   );
 };
 
+const OtpErrorModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4 ${styles.lottie}`}>
+          {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+          <h4 className="mt-4 text-danger">Oops!</h4>
+          <p className="mt-4">{props?.modalerror}</p>
+
+          <Link
+            to="#"
+            className={`d-inline-block mt-2 ${styles.button}`}
+            onClick={() => props?.setmodalerrorshow(false)}
+          >
+            Close
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const OtpForm: React.FC<ContainerProps> = () => {
   const [error, setError] = useState("");
+  const [modalError, setModalError] = useState("");
   const [otpCode, setOtpCode] = useState();
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
+  const [modalErrorShow, setModalErrorShow] = useState(false);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
   const signIn = useSignIn();
@@ -50,7 +74,10 @@ const OtpForm: React.FC<ContainerProps> = () => {
   const { getCountdown } = useHelper();
 
   const [otp, setOtp] = useState("");
-  const onChange = (value: string) => setOtp(value);
+  const onChange = (value: string) => {
+    console.log(otp);
+    setOtp(value);
+  };
 
   const { handleSubmit } = useForm();
 
@@ -64,14 +91,8 @@ const OtpForm: React.FC<ContainerProps> = () => {
   useEffect(() => {
     console.log("OtpForm");
 
-    if (!registerUser) {
-      console.log("Register user not found!!!");
-      navigate("/register");
-      return;
-    }
-
-    if (!getMobile()) {
-      console.log("Mobile number not found!!!");
+    if (!registerUser || !getMobile()) {
+      console.log("Missing required details!");
       navigate("/register");
       return;
     }
@@ -104,6 +125,14 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
   // Verify OTP request
   const onSubmit = async () => {
+    console.log("inside onSubmit");
+
+    if (!otp) {
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
+      return;
+    }
+
     console.log("onSubmit", otp);
     console.log("mobile", getMobile());
 
@@ -120,7 +149,9 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
     if (response.error) {
       // OTP Verification error
-      setError(response.error);
+      // setError(response.error);
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
     } else {
       // OTP Verification success
       console.log("OTP Verification success");
@@ -181,6 +212,12 @@ const OtpForm: React.FC<ContainerProps> = () => {
   return (
     <>
       <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpErrorModal
+        show={modalErrorShow}
+        onHide={() => setModalErrorShow(false)}
+        modalerror={modalError}
+        setmodalerrorshow={setModalErrorShow}
+      />
 
       <div className="text-center">
         <div className={styles.title}>

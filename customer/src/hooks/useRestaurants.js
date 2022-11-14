@@ -8,7 +8,7 @@ export const useRestaurants = () => {
     console.log("getRestaurants hook ...");
 
     try {
-      // START: Access cuisines API
+      // START: Access restaurants API
       const endpoint = "api/restaurants";
       const options = {
         headers: {
@@ -18,7 +18,7 @@ export const useRestaurants = () => {
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access cuisines API
+      // END: Access restaurants API
 
       if (response.status === 200) {
         const { data } = response.data;
