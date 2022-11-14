@@ -56,7 +56,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -76,13 +76,17 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
     console.log("responseMobile", responseMobile);
 
     if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.message);
+      setErrorEmail(responseEmail.error);
       return;
+    } else {
+      setErrorEmail("");
     }
 
     if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.message);
+      setErrorMobile(responseMobile.error);
       return;
+    } else {
+      setErrorMobile("");
     }
 
     // Set register data on local storage
@@ -174,7 +178,13 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           />
         </div>
 
-        <Button variant="primary" size="lg" type="submit" className="mt-4">
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          className="mt-4"
+          disabled={!isDirty || !isValid}
+        >
           Create Account
         </Button>
       </Form>
