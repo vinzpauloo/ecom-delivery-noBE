@@ -20,5 +20,6 @@
       "passwordConfirm": "*Password don't match.",
       "nameMin": "*Name must be at least 6 characters."
     }
-  }
+  },
+  "otpCountdown": 300
 }

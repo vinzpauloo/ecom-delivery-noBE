@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-import styles from "./MenuContainer.module.scss";
+import styles from "./ProductContainer.module.scss";
 import NavigationContainer from "../Navigation/NavigationContainer";
-import MenuContent from "./MenuContent";
+import ProductContent from "./ProductContent";
 
 interface ContainerProps {}
 
-const MenuContainer: React.FC<ContainerProps> = ({}) => {
+const ProductContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
@@ -18,7 +18,7 @@ const MenuContainer: React.FC<ContainerProps> = ({}) => {
         </Col>
         <Col lg={8}>
           <div className={styles.contentContainer}>
-            <MenuContent />
+            <ProductContent />
           </div>
         </Col>
       </Row>
@@ -26,4 +26,4 @@ const MenuContainer: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default MenuContainer;
+export default ProductContainer;
