@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios, { AxiosError } from "axios";
+import { useUser } from "../../../hooks/useUser";
 
 import styles from "./ProfileForm.module.scss";
 import constants from "../../../utils/constants.json";
@@ -16,8 +16,6 @@ interface IFormInputs {
   address: string;
   mobile: string;
   email: string;
-  password: string;
-  password_confirmation: string;
 }
 
 const schema = yup
@@ -30,15 +28,6 @@ const schema = yup
     address: yup.string().required(),
     mobile: yup.string().required(),
     email: yup.string().email(constants.form.error.email).required(),
-    password: yup
-      .string()
-      .min(6, constants.form.error.passwordMin)
-      .max(16, constants.form.error.passwordMax)
-      .required(),
-    password_confirmation: yup
-      .string()
-      .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
-      .required(),
   })
   .required();
 
@@ -49,7 +38,10 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const navigate = useNavigate();
 
+  const { getUser } = useUser();
+
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -59,50 +51,28 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
-
-    /*
-    try {
-      // START: Access register API
-      const url = process.env.REACT_APP_API_LOCAL + "/customer/register";
-      const options = {
-        headers: {
-          Accept: process.env.REACT_APP_HEADER_ACCEPT_VND,
-          "Content-Type": process.env.REACT_APP_HEADER_ACCEPT_VND,
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios.post(url, data, options);
-      // END: Access register API
-
-      console.log("/customer/register", response);
-
-      if (response.status === 201) {
-        const { data } = response.data;
-
-        console.log("Register success!", response);
-
-        // navigate("/");
-      }
-    } catch (err) {
-      if (err && err instanceof AxiosError) {
-        if (err.response && err.response.data.errors) {
-          // Multiple errors from the backend
-          let tempErrors: any[] = [];
-          for (const [key, value] of Object.entries(err.response.data.errors)) {
-            tempErrors.push(value);
-          }
-          setMultipleErrors(tempErrors);
-        } else {
-          // Single error
-          setError("*" + err.response?.data.message);
-        }
-      } else if (err && err instanceof Error) setError(err.message);
-
-      console.log("Error", err);
-    }
-    */
   };
+
+  // Get user request
+  const handleGetUser = async () => {
+    console.log("Requesting getUser ...");
+
+    const response = await getUser();
+    console.log("handleGetUser response", response);
+    let defaultValues = {
+      first_name: response.first_name,
+      last_name: response.last_name,
+      email: response.email,
+      mobile: response.mobile,
+      address: response.address[0]?.address,
+    };
+
+    reset(defaultValues);
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <>
@@ -138,6 +108,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
               onKeyUp={() => setError("")}
               required
               {...register("email")}
+              disabled
             />
           </Form.Group>
 
@@ -148,26 +119,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
               onKeyUp={() => setError("")}
               required
               {...register("mobile")}
-            />
-          </Form.Group>
-
-          <Form.Group className="position-relative">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              onKeyUp={() => setError("")}
-              required
-              {...register("password")}
-            />
-          </Form.Group>
-
-          <Form.Group className="position-relative">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              onKeyUp={() => setError("")}
-              required
-              {...register("password_confirmation")}
+              disabled
             />
           </Form.Group>
 
@@ -178,8 +130,6 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <p>{errors.address?.message}</p>
             <p>{errors.mobile?.message}</p>
             <p>{errors.email?.message}</p>
-            <p>{errors.password?.message}</p>
-            <p>{errors.password_confirmation?.message}</p>
 
             {/* Errors from backend */}
             {multipleErrors.map((item, index) => {
