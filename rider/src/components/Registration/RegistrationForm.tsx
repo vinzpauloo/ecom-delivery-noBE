@@ -73,7 +73,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -88,13 +88,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     const responseMobile = await validateMobile({ mobile: data.mobile });
 
     if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.message);
+      setErrorEmail(responseEmail.error);
       return;
+    } else {
+      setErrorEmail("");
     }
 
     if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.message);
+      setErrorMobile(responseMobile.error);
       return;
+    } else {
+      setErrorMobile("");
     }
 
     // Set register data on local storage
