@@ -19,7 +19,8 @@ import RiderProfile from "../../assets/images/riderprofile.png";
 interface IFormInputs {
   first_name: string;
   last_name: string;
-  // address: string;
+  // full_name: string;
+  address: string;
   mobile: string;
   email: string;
   password: string;
@@ -35,7 +36,8 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-    // address: yup.string().required(),
+    // full_name: yup.string().min(2, constants.form.error.fullNameMin).required(),
+    address: yup.string().required(),
     mobile: yup
       .string()
       .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
@@ -144,14 +146,18 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Last name</Form.Label>
+                <Form.Label>Last Name</Form.Label>
                 <Form.Control type="text" required {...register("last_name")} />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" required {...register("email")} />
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  type="address"
+                  required
+                  {...register("address")}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -171,6 +177,12 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" required {...register("email")} />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
@@ -179,6 +191,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
+          </Row>
+
+          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Confirm Password</Form.Label>
@@ -189,9 +204,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
 
-          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Driver's License Number</Form.Label>
@@ -222,9 +235,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         <div className={styles.errors}>
           <p>{errorEmail}</p>
           <p>{errorMobile}</p>
-          <p>{errors.first_name?.message}</p>
-          <p>{errors.last_name?.message}</p>
-          {/* <p>{errors.address?.message}</p> */}
+          <p>{errors.address?.message}</p>
+          {/* <p>{errors.last_name?.message}</p> */}
+          <p>{errors.address?.message}</p>
           <p>{errors.mobile?.message}</p>
           <p>{errors.email?.message}</p>
           <p>{errors.password?.message}</p>
