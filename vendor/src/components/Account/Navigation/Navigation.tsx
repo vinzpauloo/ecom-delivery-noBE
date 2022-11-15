@@ -11,7 +11,8 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
     <div className={`d-none d-lg-block ${styles.navigation}`}>
       <ul>
         <li>
-          <Link to="/account">My Restaurant</Link>
+          {/* <Link to="/account/reset-password">Reset Password</Link> */}
+          <Link to="/account/for-delivery">For Delivery</Link>
         </li>
         <li>
           <Link to="/account/my-restaurant-menu">Menu</Link>
@@ -20,7 +21,7 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
           <Link to="/account/order-history">Order History</Link>
         </li>
         <li>
-          <Link to="/account/reset-password">Reset Password</Link>
+          <Link to="/account">My Account</Link>
         </li>
       </ul>
     </div>

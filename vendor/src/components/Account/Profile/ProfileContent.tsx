@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Form, Row, Col, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,26 +12,7 @@ import constants from "../../../utils/constants.json";
 import SearchIcon from "../../../assets/images/search.png";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
 
-// Setup form schema & validation
-interface IFormInputs {
-  owner_name: string;
-  restaurant_name: string;
-  restaurant_description: string;
-  address: string;
-  email: string;
-  cellphone: string;
-}
 
-const schema = yup
-  .object({
-    owner_name: yup.string().required(),
-    restaurant_name: yup.string().required(),
-    restaurant_description: yup.string().required(),
-    address: yup.string().required(),
-    email: yup.string().email(constants.form.error.email).required(),
-    contact_number: yup.string().required(),
-  })
-  .required();
 
 interface ContainerProps {}
 
@@ -42,6 +23,15 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
 
   const { getUser, updateUser } = useUser();
+
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
   // Get user request
   const handleGetUser = async () => {
@@ -153,6 +143,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row>
             <Col>
+            
               <Button
                 className={styles.btnEdit}
                 onClick={() => setProfileModal(true)}
@@ -163,6 +154,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 show={profileModal}
                 onHide={() => setProfileModal(false)}
               />
+              <Button className={styles.btnChangePass} onClick={() => navigate("/account/reset-password")}>Change Password</Button>
             </Col>
           </Row>
         </Form>
@@ -171,7 +163,32 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   );
 };
 
+// Setup form schema & validation
+interface IFormInputs {
+  owner_name: string;
+  restaurant_name: string;
+  restaurant_description: string;
+  address: string;
+  email: string;
+  cellphone: string;
+}
+
+const schema = yup
+  .object({
+    owner_name: yup.string().required(),
+    restaurant_name: yup.string().required(),
+    restaurant_description: yup.string().required(),
+    address: yup.string().required(),
+    email: yup.string().email(constants.form.error.email).required(),
+    contact_number: yup.string().required(),
+  })
+  .required();
+
 function ProfileModal(props: any) {
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const { getUser, updateUser } = useUser();
+
   const {
     reset,
     register,
@@ -193,6 +210,27 @@ function ProfileModal(props: any) {
       setError(response.error);
     }
   };
+
+   // Get user request
+  const handleGetUser = async () => {
+    console.log("Requesting getUser ...");
+
+    const response = await getUser();
+    console.log("handleGetUser response", response);
+    let defaultValues = {
+      owner_name: response.owner_name,
+      restaurant_name: response.restaurant_name,
+      restaurant_description: response.restaurant_description,
+      address: response.address,
+      email: response.email[0]?.address,
+      contact_number: response.contact_number,
+    };
+    reset(defaultValues);
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <Modal {...props} size="lg">

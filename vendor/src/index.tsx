@@ -8,6 +8,7 @@ import Registration from "./pages/Registration";
 import Otp from "./pages/Otp";
 import Profile from "./pages/Account/Profile";
 import Product from "./pages/Account/Product";
+import Order from "./pages/Account/Order";
 import History from "./pages/Account/History";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -29,6 +30,7 @@ root.render(
             {/* Account dashboard routes */}
             <Route path="account">
               <Route index element={<Profile />} />
+              <Route path="for-delivery" element={<Order />} />
               <Route path="my-restaurant-menu" element={<Product />} />
               <Route path="order-history" element={<History />} />
               <Route path="reset-password" element={<ResetPassword />} />
