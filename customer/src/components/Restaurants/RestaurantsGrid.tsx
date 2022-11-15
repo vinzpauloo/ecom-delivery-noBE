@@ -1,142 +1,60 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import styles from "./RestaurantsGrid.module.scss";
+import { useRestaurants } from "../../hooks/useRestaurants";
 
-// Sample restaurants
-import restau01 from "../../assets/images/restau01.png";
-import restau02 from "../../assets/images/restau02.png";
-import restau03 from "../../assets/images/restau03.png";
-import restau04 from "../../assets/images/restau04.png";
-import restau05 from "../../assets/images/restau05.png";
-import restau06 from "../../assets/images/restau06.png";
-import restau07 from "../../assets/images/restau07.png";
-import restau08 from "../../assets/images/restau08.png";
-import restau09 from "../../assets/images/restau09.png";
-import restau10 from "../../assets/images/restau10.png";
-import restau11 from "../../assets/images/restau11.png";
-import restau12 from "../../assets/images/restau12.png";
-import restau13 from "../../assets/images/restau13.png";
-import restau14 from "../../assets/images/restau14.png";
+type RestaurantsItem = {
+  id: number;
+  name: string;
+  address: string;
+  photo: string;
+  social_link: string;
+};
 
 interface ContainerProps {}
 
-const restaurantRowData = [
-  {
-    image: restau01,
-    title: "Chan's Chinese Restaurant",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau02,
-    title: "Jollibee",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau03,
-    title: "Yellow Cab",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau04,
-    title: "Tokyo Tokyo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau05,
-    title: "Italianni's Restaurant",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau06,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau07,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau08,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau09,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau10,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau11,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau12,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau13,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-  {
-    image: restau14,
-    title: "Al Chubibo",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    link: "https://www.hapchan.com.ph/",
-  },
-];
-
 const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
+  const [restaurants, setRestaurants] = useState<RestaurantsItem[]>([]);
+  const { getRestaurantsByType } = useRestaurants();
+
+  // Get the params from the URL
+  const { type, id } = useParams();
+
+  const loadRestaurants = async () => {
+    // Setup dynamic params
+    const params = { [`${type}_id`]: id };
+
+    const response = await getRestaurantsByType(params);
+    console.log("getRestaurantsByType response", response);
+    setRestaurants(response.data);
+  };
+
+  useEffect(() => {
+    loadRestaurants();
+  }, []);
+
   return (
     <div
       className={`d-flex flex-wrap justify-content-start ${styles.restaurantGrid}`}
     >
-      {restaurantRowData.map((item, index) => {
+      {restaurants.map((item, index) => {
         return (
           <div key={index} className={`flex-grow-1 ${styles.sliderContainer}`}>
             <div className={styles.slideItem}>
               <div className={styles.slideImageContainer}>
-                <img src={item.image} alt="" />
+                <img
+                  src={
+                    item.photo == "no-images.jpg"
+                      ? "https://via.placeholder.com/500"
+                      : item.photo
+                  }
+                  alt=""
+                />
               </div>
               <div className={styles.slideContentContainer}>
-                <p className={styles.slideTitle}>{item.title}</p>
-                <p className={styles.slideDescription}>{item.description}</p>
+                <p className={styles.slideTitle}>{item.name}</p>
+                <p className={styles.slideDescription}>{item.address}</p>
                 <Link to="/restaurant" className={styles.slideLink}>
                   Visit
                 </Link>

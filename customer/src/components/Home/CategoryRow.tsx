@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 
 interface ContainerProps {
   title: string;
+  type: string;
   slides: Slide[];
 }
 
@@ -25,7 +26,7 @@ type Slide = {
   photo: string;
 };
 
-const CategoryRow: React.FC<ContainerProps> = ({ title, slides }) => {
+const CategoryRow: React.FC<ContainerProps> = ({ title, type, slides }) => {
   return (
     <Container fluid="xxl" className={styles.container}>
       <h3 className={styles.sectionTitle}>Shop by {title}</h3>
@@ -64,7 +65,10 @@ const CategoryRow: React.FC<ContainerProps> = ({ title, slides }) => {
           {slides.map((item, index) => {
             return (
               <SwiperSlide key={item.id}>
-                <Link to="/restaurants" className="text-decoration-none">
+                <Link
+                  to={`/restaurants/${type}/${item.id}`}
+                  className="text-decoration-none"
+                >
                   <div className={styles.slideItem}>
                     <div className={styles.slideImageContainer}>
                       <img
