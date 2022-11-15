@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import ScrollToTop from "./components/ScrollToTop";
@@ -37,7 +37,14 @@ root.render(
             <Route path="otp" element={<Otp />} />
             <Route path="otp-order" element={<OtpOrder />} />
             <Route path="restaurant" element={<Restaurant />} />
-            <Route path="restaurants" element={<Restaurants />} />
+
+            {/* Restaurants routes */}
+            <Route path="restaurants">
+              <Route index element={<Navigate to="/" replace />} />
+              <Route path=":type/:id" element={<Restaurants />} />
+              <Route path=":id" element={<Restaurant />} />
+            </Route>
+
             <Route path="checkout" element={<Checkout />} />
             <Route path="delivery-status" element={<OrderTracker />} />
 
