@@ -16,6 +16,7 @@ import bike2 from "../../../assets/images/bike2.png";
 import bike3 from "../../../assets/images/bike3.png";
 import bike4 from "../../../assets/images/bike4.png";
 import bike5 from "../../../assets/images/bike5.png";
+import { string } from "yup/lib/locale";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -25,6 +26,9 @@ interface IFormInputs {
   mobile: string;
   email: string;
   address: string;
+  brand: string;
+  model: string;
+  or_number: string;
 }
 
 const schema = yup
@@ -37,6 +41,9 @@ const schema = yup
     address: yup.string().required(),
     mobile: yup.string().required(),
     email: yup.string().email(constants.form.error.email).required(),
+    brand: yup.string().required(),
+    model: yup.string().required(),
+    or_number: yup.string().required(),
   })
   .required();
 
@@ -79,6 +86,9 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       address: response.address,
       email: response.email,
       mobile: response.mobile,
+      brand: response.rider.brand,
+      model: response.rider.model,
+      or_number: response.rider.or_number,
     };
 
     reset(defaultValues);
@@ -168,7 +178,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="model"
                   type="text"
-                  placeholder="Yamaha"
+                  {...register("brand")}
                   disabled={disabled}
                 />
               </Form.Group>
@@ -181,7 +191,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="year"
                   type="text"
-                  placeholder="Xmax"
+                  {...register("model")}
                   disabled={disabled}
                 />
               </Form.Group>
@@ -192,7 +202,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="or_number"
                   type="text"
-                  placeholder="0123456789"
+                  {...register("or_number")}
                   disabled={disabled}
                 />
               </Form.Group>
@@ -211,7 +221,9 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
             <Button id="editBtn" onClick={handleInput}>
               Edit
             </Button>
-            <Button id="saveBtn">Save</Button>
+            <Button id="saveBtn" type="submit">
+              Save
+            </Button>
           </div>
         </Form>
       </div>
