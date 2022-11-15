@@ -3,9 +3,19 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 
 import styles from "./DeliveryDetails.module.scss";
 
-interface ContainerProps {}
+interface ContainerProps {
+  isNewAddress: boolean;
+  setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const DeliveryDetails: React.FC<ContainerProps> = ({}) => {
+const DeliveryDetails: React.FC<ContainerProps> = ({
+  isNewAddress,
+  setIsNewAddress,
+}) => {
+  const handleUseNewAddress = () => {
+    setIsNewAddress(!isNewAddress);
+  };
+
   return (
     <div className={styles.container}>
       <h4>Delivery Details</h4>
@@ -61,6 +71,8 @@ const DeliveryDetails: React.FC<ContainerProps> = ({}) => {
                 type="checkbox"
                 id="address_new"
                 label="Use Different Address"
+                checked={isNewAddress}
+                onChange={handleUseNewAddress}
               />
             </div>
           </Col>
