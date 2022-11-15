@@ -7,13 +7,10 @@ import styles from "./Details.module.scss";
 import CategorySlider from "./CategorySlider";
 
 // Sample static images
-import restau01 from "../../assets/images/restau01.png";
 import cuisine01 from "../../assets/images/cuisine01.png";
 import cuisine02 from "../../assets/images/cuisine02.png";
 import cuisine03 from "../../assets/images/cuisine03.png";
-import cuisine04 from "../../assets/images/cuisine04.png";
 import cuisine05 from "../../assets/images/cuisine05.png";
-import cuisine06 from "../../assets/images/cuisine06.png";
 import cuisine07 from "../../assets/images/cuisine07.png";
 import category01 from "../../assets/images/category01.jpg";
 import category02 from "../../assets/images/category02.jpg";
@@ -23,45 +20,6 @@ import category05 from "../../assets/images/category05.jpg";
 import category06 from "../../assets/images/category06.jpg";
 import MenuSlider from "./MenuSlider";
 import CartSlider from "./CartSlider";
-
-const menuSlides = [
-  {
-    image: cuisine01,
-    title: "Lorem Ipsum 1 Test long title Test long title Test long title",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    image: cuisine02,
-    title: "Lorem Ipsum 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur test long description lorem ipsum test long description lorem ipsum blablabla.",
-  },
-  {
-    image: cuisine03,
-    title: "Lorem Ipsum 3",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    image: cuisine04,
-    title: "Lorem Ipsum 4",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    image: cuisine05,
-    title: "Lorem Ipsum 5",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    image: cuisine06,
-    title: "Lorem Ipsum 6",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    image: cuisine07,
-    title: "Lorem Ipsum 7",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-];
 
 const categoriesSlides = [
   {
@@ -118,9 +76,42 @@ const cartSlides = [
   },
 ];
 
-interface ContainerProps {}
+interface ContainerProps {
+  restaurant: TRestaurant | null;
+  menu: TMenu[] | null;
+  categories: TCategory[] | null;
+}
 
-const Details: React.FC<ContainerProps> = ({}) => {
+type TRestaurant = {
+  id: number;
+  name: string;
+  address: string;
+  description: string;
+  contact_number: string;
+  landline: string;
+  photo: string;
+};
+
+type TMenu = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  photo: string;
+  is_available: number;
+};
+
+type TCategory = {
+  id: number;
+  name: string;
+  photo: string;
+};
+
+const Details: React.FC<ContainerProps> = ({
+  restaurant,
+  menu,
+  categories,
+}) => {
   return (
     <div className={styles.container}>
       {/* Restaurant info */}
@@ -131,9 +122,16 @@ const Details: React.FC<ContainerProps> = ({}) => {
           sm={{ span: 8, offset: 2 }}
         >
           <div className={`d-flex gap-2 ${styles.details}`}>
-            <img className="img-fluid" src={restau01} />
+            <img
+              className="img-fluid"
+              src={
+                restaurant
+                  ? process.env.REACT_APP_BASE_URL + restaurant.photo
+                  : "https://via.placeholder.com/500"
+              }
+            />
             <div>
-              <h3 className="mb-0">Chan’s Chinese Cuisine</h3>
+              <h3 className="mb-0">{restaurant?.name}</h3>
               <div className={`d-md-none ${styles.rating}`}>
                 <StarFill color="#E6B325" size={12} />
                 <StarFill color="#E6B325" size={12} />
@@ -141,13 +139,9 @@ const Details: React.FC<ContainerProps> = ({}) => {
                 <StarFill color="#E6B325" size={12} />
                 <StarFill color="#D9D9D9" size={12} />
               </div>
-              <p className="mb-0">
-                What is the Chan’s Chinese cuisine? Asian Fusion uses
-                traditional Asian-style ingredients, dishes and techniques to
-                create innovative and flavorful new fusions. It is a cuisine
-                style that typically combines Asian foods with the likes of
-                traditional Mexican, American or other Asian-style dishes.
-              </p>
+              <p className="mb-1">{restaurant?.description}</p>
+              <p className="mb-1">Address: {restaurant?.address}</p>
+              <p className="mb-0">Contact #: {restaurant?.contact_number}</p>
             </div>
           </div>
         </Col>
@@ -171,14 +165,14 @@ const Details: React.FC<ContainerProps> = ({}) => {
       {/* Menu slider */}
       <Row className={styles.menu}>
         <Col>
-          <MenuSlider slides={menuSlides} />
+          <MenuSlider slides={menu} />
         </Col>
       </Row>
 
       {/* Category filters */}
       <Row className={styles.categories}>
         <Col>
-          <CategorySlider slides={categoriesSlides} />
+          <CategorySlider slides={categories} />
         </Col>
       </Row>
 

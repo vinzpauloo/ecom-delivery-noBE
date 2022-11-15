@@ -47,7 +47,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
                   src={
                     item.photo == "no-images.jpg"
                       ? "https://via.placeholder.com/500"
-                      : item.photo
+                      : process.env.REACT_APP_BASE_URL + item.photo
                   }
                   alt=""
                 />
@@ -55,7 +55,10 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
               <div className={styles.slideContentContainer}>
                 <p className={styles.slideTitle}>{item.name}</p>
                 <p className={styles.slideDescription}>{item.address}</p>
-                <Link to="/restaurant" className={styles.slideLink}>
+                <Link
+                  to={`/restaurants/${item.id}`}
+                  className={styles.slideLink}
+                >
                   Visit
                 </Link>
               </div>

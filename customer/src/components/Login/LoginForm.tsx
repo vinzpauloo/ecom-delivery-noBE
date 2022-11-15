@@ -144,7 +144,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           <Form.Control
             size="lg"
             type="text"
-            placeholder="Mobile number"
+            placeholder="Email or mobile number"
             onKeyUp={() => setError("")}
             required
             {...register("username")}

@@ -54,9 +54,10 @@ type TypeSlide = {
 };
 
 type RestaurantsSlide = {
-  photo: string;
+  id: string;
   name: string;
   address: string;
+  photo: string;
   social_link: string;
 };
 
@@ -68,7 +69,7 @@ const Home = (props: Props) => {
   const [restaurants, setRestaurants] = useState<RestaurantsSlide[]>([]);
   const { getCategories } = useCategories();
   const { getCuisines } = useCuisines();
-  const { getRestaurants, getRestaurantsByType } = useRestaurants();
+  const { getRestaurants } = useRestaurants();
 
   const loadCategories = async () => {
     const response = await getCategories();

@@ -19,9 +19,10 @@ interface ContainerProps {
 }
 
 type Slide = {
-  photo: string;
+  id: string;
   name: string;
   address: string;
+  photo: string;
   social_link: string;
 };
 
@@ -61,7 +62,10 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
                 <div className={styles.slideContentContainer}>
                   <p className={styles.slideTitle}>{item.name}</p>
                   <p className={styles.slideDescription}>{item.address}</p>
-                  <Link to="/restaurant" className={styles.slideLink}>
+                  <Link
+                    to={`/restaurants/${item.id}`}
+                    className={styles.slideLink}
+                  >
                     Visit
                   </Link>
                 </div>
@@ -91,7 +95,10 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
                 <div className={styles.slideContentContainer}>
                   <p className={styles.slideTitle}>{item.name}</p>
                   <p className={styles.slideDescription}>{item.address}</p>
-                  <Link to="/restaurant" className={styles.slideLink}>
+                  <Link
+                    to={`/restaurants/${item.id}`}
+                    className={styles.slideLink}
+                  >
                     Visit
                   </Link>
                 </div>
