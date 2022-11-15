@@ -29,6 +29,7 @@ interface IFormInputs {
   brand: string;
   model: string;
   or_number: string;
+  plate_number: string;
 }
 
 const schema = yup
@@ -44,6 +45,7 @@ const schema = yup
     brand: yup.string().required(),
     model: yup.string().required(),
     or_number: yup.string().required(),
+    plate_number: yup.string().required(),
   })
   .required();
 
@@ -89,6 +91,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       brand: response.rider.brand,
       model: response.rider.model,
       or_number: response.rider.or_number,
+      plate_number: response.rider.plate_number,
     };
 
     reset(defaultValues);
@@ -146,20 +149,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("email")}
-                  disabled={disabled}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
+
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Contact Number</Form.Label>
@@ -168,6 +158,20 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("mobile")}
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("email")}
                   disabled={disabled}
                 />
               </Form.Group>
@@ -203,6 +207,17 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   id="or_number"
                   type="text"
                   {...register("or_number")}
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Plate Number</Form.Label>
+                <Form.Control
+                  id="plate_number"
+                  type="text"
+                  {...register("plate_number")}
                   disabled={disabled}
                 />
               </Form.Group>
