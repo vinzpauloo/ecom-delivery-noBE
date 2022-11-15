@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ interface IFormInputs {
   full_name: string;
   mobile: string;
   email: string;
+  address: string;
 }
 
 const schema = yup
@@ -33,6 +34,7 @@ const schema = yup
       .min(6, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(6, constants.form.error.lastNameMin).required(),
+    address: yup.string().required(),
     mobile: yup.string().required(),
     email: yup.string().email(constants.form.error.email).required(),
   })
@@ -44,6 +46,11 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(true);
+
+  const handleInput = () => {
+    setDisabled(!disabled);
+  };
 
   const { getUser } = useUser();
 
@@ -69,6 +76,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     let defaultValues = {
       first_name: response.first_name,
       last_name: response.last_name,
+      address: response.address,
       email: response.email,
       mobile: response.mobile,
     };
@@ -88,84 +96,43 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           <Row lg={2} xs={1}>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Full name</Form.Label>
+                <Form.Label>First name</Form.Label>
                 <Form.Control
-                  id="full_name"
+                  id="first_name"
                   type="text"
                   onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
-                  disabled
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Motor Vehicle</Form.Label>
-                <Form.Control
-                  id="motor_vehicle"
-                  type="text"
-                  placeholder="Yamaha T-MAX 2022"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Building number and Name</Form.Label>
-                <Form.Control
-                  id="building_details"
-                  type="text"
-                  placeholder="Unit 123, GT Tower Intl. "
+                  autoFocus
+                  disabled={disabled}
                 />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Street Name and Barangay</Form.Label>
+                <Form.Label>Last name</Form.Label>
                 <Form.Control
-                  id="street_details"
-                  type="text"
-                  placeholder="Ayala Avenue, Brgy Poblacion"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>City or Town, Pincode</Form.Label>
-                <Form.Control
-                  id="city_details"
-                  type="text"
-                  placeholder="Makati City 4114"
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Driver's License Number</Form.Label>
-                <Form.Control
-                  id="landmark"
-                  type="text"
-                  placeholder="DLC - 12345"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Contact Number</Form.Label>
-                <Form.Control
+                  id="last_name"
                   type="text"
                   onKeyUp={() => setError("")}
                   required
-                  {...register("mobile")}
-                  disabled
+                  {...register("last_name")}
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  id="address"
+                  type="text"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("address")}
+                  disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -177,7 +144,56 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("email")}
-                  disabled
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Contact Number</Form.Label>
+                <Form.Control
+                  type="mobile"
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("mobile")}
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Brand</Form.Label>
+                <Form.Control
+                  id="model"
+                  type="text"
+                  placeholder="Yamaha"
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Model</Form.Label>
+                <Form.Control
+                  id="year"
+                  type="text"
+                  placeholder="Xmax"
+                  disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>OR Number</Form.Label>
+                <Form.Control
+                  id="or_number"
+                  type="text"
+                  placeholder="0123456789"
+                  disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -192,7 +208,9 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </div>
 
           <div className="buttons">
-            <Button id="editBtn">Edit</Button>
+            <Button id="editBtn" onClick={handleInput}>
+              Edit
+            </Button>
             <Button id="saveBtn">Save</Button>
           </div>
         </Form>

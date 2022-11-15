@@ -78,7 +78,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -216,6 +216,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
           type="submit"
           className="mt-4"
           id="nextBtn-2"
+          disabled={!isDirty || !isValid}
         >
           Create Account
         </Button>
