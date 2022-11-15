@@ -9,12 +9,13 @@ import "swiper/scss";
 import styles from "./CategorySlider.module.scss";
 
 interface ContainerProps {
-  slides: Slide[];
+  slides: Slide[] | null;
 }
 
 type Slide = {
-  image: string;
-  title: string;
+  id: number;
+  name: string;
+  photo: string;
 };
 
 const CategorySlider: React.FC<ContainerProps> = ({ slides }) => {
@@ -38,17 +39,23 @@ const CategorySlider: React.FC<ContainerProps> = ({ slides }) => {
       }}
       className={`${styles.sliderContainer}`}
     >
-      {slides.map((item, index) => {
+      {slides?.map((item, index) => {
         return (
           <SwiperSlide key={index}>
             <div className={`d-flex align-items-center ${styles.slideItem}`}>
               <div className={styles.imageContainer}>
-                <img src={item.image} />
+                <img
+                  src={
+                    item.photo == "no-images.jpg"
+                      ? "https://via.placeholder.com/500"
+                      : process.env.REACT_APP_BASE_URL + item.photo
+                  }
+                />
               </div>
               <div
                 className={`d-flex justify-content-center align-items-center ${styles.title}`}
               >
-                <h4>{item.title}</h4>
+                <h4>{item.name}</h4>
               </div>
             </div>
           </SwiperSlide>

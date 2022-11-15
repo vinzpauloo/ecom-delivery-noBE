@@ -13,9 +13,12 @@
       "notNumber": "*Invalid number.",
       "firstNameMin": "*First name must be at least 6 characters.",
       "lastNameMin": "*Last name must be at least 6 characters.",
+      "fullNameMin": "*Full name must be at least 6 characters",
       "passwordMin": "*Password must be at least 6 characters.",
       "passwordMax": "*Password must be at most 16 characters.",
-      "passwordConfirm": "*Password don't match."
+      "passwordConfirm": "*Password don't match.",
+      "missingOtp": "Please input your OTP code."
     }
-  }
+  },
+  "otpCountdown": 300
 }

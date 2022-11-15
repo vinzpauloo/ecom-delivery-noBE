@@ -15,13 +15,14 @@ import { useCalculateHash } from "../../hooks/useCalculateHash";
 
 // Setup form schema & validation
 interface IFormInputs {
-  email: string;
+  username: string;
   password: string;
 }
 
 const schema = yup
   .object({
-    email: yup.string().email(constants.form.error.email).required(),
+    // email: yup.string().email(constants.form.error.email).required(),
+    username: yup.string().required(),
     password: yup
       .string()
       .min(6, constants.form.error.passwordMin)
@@ -136,11 +137,11 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="email"
-            placeholder="Enter Email"
+            type="text"
+            placeholder="Mobile Number"
             onKeyUp={() => setError("")}
             required
-            {...register("email")}
+            {...register("username")}
           />
           <EnvelopeFill color="#8F887D" size={30} className={styles.icons} />
         </Form.Group>
@@ -157,6 +158,9 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           <Link to="#" onClick={onTogglePasswordType}>
             <EyeIcon type={passwordType} />
           </Link>
+        </Form.Group>
+
+        <div className="mb-5 position-relative text-end">
           <Link
             to="#"
             onClick={() => setModalShow(true)}
@@ -168,10 +172,10 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           {/* Error Messages */}
           <div className={styles.errors}>
             <p>{error}</p>
-            <p>{errors.email?.message}</p>
+            <p>{errors.username?.message}</p>
             <p>{errors.password?.message}</p>
           </div>
-        </Form.Group>
+        </div>
 
         <Button variant="primary" size="lg" type="submit">
           Login

@@ -6,6 +6,7 @@ import useHistory from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useValidate } from "../../hooks/useValidate";
 
 import styles from "./RegistrationForm.module.scss";
 import constants from "../../utils/constants.json";
@@ -18,7 +19,8 @@ import RiderProfile from "../../assets/images/riderprofile.png";
 interface IFormInputs {
   first_name: string;
   last_name: string;
-  // address: string;
+  // full_name: string;
+  address: string;
   mobile: string;
   email: string;
   password: string;
@@ -34,7 +36,8 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-    // address: yup.string().required(),
+    // full_name: yup.string().min(2, constants.form.error.fullNameMin).required(),
+    address: yup.string().required(),
     mobile: yup
       .string()
       .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
@@ -59,8 +62,11 @@ interface ContainerProps {}
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorMobile, setErrorMobile] = useState("");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const { validateEmail, validateMobile } = useValidate();
   const Continue = (e: any) => {
     e.preventDefault();
     navigate("/registration2");
@@ -69,13 +75,33 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
+
+    // Validate email
+    const responseEmail = await validateEmail({ email: data.email });
+
+    // Validate mobile
+    const responseMobile = await validateMobile({ mobile: data.mobile });
+
+    if (!responseEmail.isValid) {
+      setErrorEmail(responseEmail.error);
+      return;
+    } else {
+      setErrorEmail("");
+    }
+
+    if (!responseMobile.isValid) {
+      setErrorMobile(responseMobile.error);
+      return;
+    } else {
+      setErrorMobile("");
+    }
 
     // Set register data on local storage
     localStorage.setItem("oldRegisterUser", JSON.stringify(data));
@@ -113,7 +139,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Label>First name</Form.Label>
                 <Form.Control
                   type="text"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
                 />
@@ -121,23 +146,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Last name</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("last_name")}
-                />
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control type="text" required {...register("last_name")} />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>Address</Form.Label>
                 <Form.Control
-                  type="email"
-                  onKeyUp={() => setError("")}
+                  type="address"
                   required
-                  {...register("email")}
+                  {...register("address")}
                 />
               </Form.Group>
             </Col>
@@ -150,7 +169,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="+639xxxxxxxxx"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("mobile")}
                   defaultValue="+63"
@@ -159,29 +177,34 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("password")}
-                />
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" required {...register("email")} />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  onKeyUp={() => setError("")}
                   required
-                  {...register("password_confirmation")}
+                  {...register("password")}
                 />
               </Form.Group>
             </Col>
           </Row>
 
           <Row lg={3} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  required
+                  {...register("password_confirmation")}
+                />
+              </Form.Group>
+            </Col>
+
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Driver's License Number</Form.Label>
@@ -210,20 +233,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
         {/* Error messages */}
         <div className={styles.errors}>
-          <p>{errors.first_name?.message}</p>
-          <p>{errors.last_name?.message}</p>
-          {/* <p>{errors.address?.message}</p> */}
+          <p>{errorEmail}</p>
+          <p>{errorMobile}</p>
+          <p>{errors.address?.message}</p>
+          {/* <p>{errors.last_name?.message}</p> */}
+          <p>{errors.address?.message}</p>
           <p>{errors.mobile?.message}</p>
           <p>{errors.email?.message}</p>
           <p>{errors.password?.message}</p>
           <p>{errors.password_confirmation?.message}</p>
           <p>{errors.license_number?.message}</p>
           <p>{errors.license_expiration?.message}</p>
-
-          {/* Errors from backend */}
-          {multipleErrors.map((item, index) => {
-            return <p key={index}>{item}</p>;
-          })}
         </div>
 
         <hr className="d-none d-lg-block" />

@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Registration from "./pages/Registration";
 import Otp from "./pages/Otp";
 import Profile from "./pages/Account/Profile";
-import Menu from "./pages/Account/Menu";
+import Product from "./pages/Account/Product";
 import History from "./pages/Account/History";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -29,7 +29,7 @@ root.render(
             {/* Account dashboard routes */}
             <Route path="account">
               <Route index element={<Profile />} />
-              <Route path="my-restaurant-menu" element={<Menu />} />
+              <Route path="my-restaurant-menu" element={<Product />} />
               <Route path="order-history" element={<History />} />
               <Route path="reset-password" element={<ResetPassword />} />
             </Route>

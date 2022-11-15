@@ -16,13 +16,16 @@ import { Grid, Navigation } from "swiper";
 import styles from "./MenuSlider.module.scss";
 
 interface ContainerProps {
-  slides: Slide[];
+  slides: Slide[] | null;
 }
 
 type Slide = {
-  image: string;
-  title: string;
+  id: number;
+  name: string;
   description: string;
+  price: number;
+  photo: string;
+  is_available: number;
 };
 
 const SwiperSlideItem = (item: Slide, index: number) => {
@@ -30,12 +33,19 @@ const SwiperSlideItem = (item: Slide, index: number) => {
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
         <div className={styles.slideImageContainer}>
-          <img src={item.image} alt="" />
+          <img
+            src={
+              item.photo == "no-images.jpg"
+                ? "https://via.placeholder.com/500"
+                : process.env.REACT_APP_BASE_URL + item.photo
+            }
+            alt=""
+          />
         </div>
         <div className={styles.slideContentContainer}>
-          <p className={styles.slideTitle}>{item.title}</p>
+          <p className={styles.slideTitle}>{item.name}</p>
           <p className={styles.slideDescription}>{item.description}</p>
-          <p className={styles.slidePrice}>423php</p>
+          <p className={styles.slidePrice}>{item.price}php</p>
           <div
             className={`d-flex justify-content-between ${styles.slideOptions}`}
           >
@@ -71,7 +81,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         modules={[Navigation]}
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
-        {slides.map((item, index) => {
+        {slides?.map((item, index) => {
           return SwiperSlideItem(item, index);
         })}
       </Swiper>
@@ -94,7 +104,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         modules={[Grid]}
         className={`d-lg-none ${styles.sliderContainer}`}
       >
-        {slides.map((item, index) => {
+        {slides?.map((item, index) => {
           return SwiperSlideItem(item, index);
         })}
       </Swiper>

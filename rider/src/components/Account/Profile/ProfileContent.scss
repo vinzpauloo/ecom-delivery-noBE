@@ -4,6 +4,10 @@
   }
   .right h3 {
     padding: 15px;
+
+    @media (max-width: 768px) {
+      padding: 0;
+    }
   }
 
   .right form {
@@ -11,10 +15,18 @@
     top: 0px;
     padding: 20px;
 
+    @media (max-width: 768px) {
+      padding: 0px;
+    }
+
     label {
       font-weight: 300;
       font-size: 15px;
       line-height: 20px;
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+      }
     }
 
     input {
@@ -56,7 +68,8 @@
 
   .right .buttons #editBtn {
     background: #d9d9d9;
-    padding: 1em 5em;
+    // padding: 1em 5em;
+    width: 100px;
     color: black;
 
     border: 0.5px solid rgba(97, 72, 28, 0.5);
@@ -65,13 +78,15 @@
     text-decoration: none;
 
     @media (max-width: 425px) {
-      padding: 0.5em 2em;
+      // padding: 0.5em 2em;
+      width: 80px;
     }
   }
 
   .right .buttons #saveBtn {
     background: #d9d9d9;
-    padding: 1em 5em;
+    // padding: 1em 5em;
+    width: 100px;
     color: black;
 
     border: 0.5px solid rgba(97, 72, 28, 0.5);
@@ -80,7 +95,8 @@
     text-decoration: none;
 
     @media (max-width: 425px) {
-      padding: 0.5em 2em;
+      // padding: 0.5em 2em;
+      width: 80px;
     }
   }
 
@@ -103,8 +119,8 @@
         height: 70px;
       }
       @media (max-width: 425px) {
-        width: 60px;
-        height: 50px;
+        width: 74px;
+        height: 70px;
       }
     }
   }

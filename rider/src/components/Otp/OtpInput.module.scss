@@ -1,0 +1,25 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 4px solid $FM_TEXT_BROWN;
+  border-radius: 0;
+  font-size: 60px;
+  line-height: 1;
+  text-align: center;
+  max-width: 40px;
+  padding: 0;
+
+  &:focus {
+    background-color: transparent;
+    border-bottom: 4px solid $FM_TEXT_BROWN;
+    box-shadow: none;
+    outline: none;
+  }
+
+  @include devices(md) {
+    font-size: 40px;
+  }
+}

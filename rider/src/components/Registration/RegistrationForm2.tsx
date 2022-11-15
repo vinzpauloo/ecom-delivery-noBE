@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useValidate } from "../../hooks/useValidate";
 
 import styles from "./RegistrationForm2.module.scss";
 import constants from "../../utils/constants.json";
@@ -68,12 +69,16 @@ interface ContainerProps {}
 const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorMobile, setErrorMobile] = useState("");
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const { validateEmail, validateMobile } = useValidate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -211,6 +216,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
           type="submit"
           className="mt-4"
           id="nextBtn-2"
+          disabled={!isDirty || !isValid}
         >
           Create Account
         </Button>
