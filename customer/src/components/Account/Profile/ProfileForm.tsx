@@ -35,10 +35,10 @@ interface ContainerProps {}
 
 const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
-  const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const { getUser } = useUser();
+  const { getUser, updateUser } = useUser();
 
   const {
     reset,
@@ -49,8 +49,22 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
     resolver: yupResolver(schema),
   });
 
+  const resetMessages = () => {
+    setMessage("");
+    setError("");
+  };
+
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    console.log("Requesting updateUser ...");
+
+    const response = await updateUser(data);
+    console.log("updateUser response", response);
+
+    if (!response.error) {
+      setMessage(constants.form.success.updateProfile);
+    } else {
+      setError(response.error);
+    }
   };
 
   // Get user request
@@ -85,7 +99,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>First name</Form.Label>
             <Form.Control
               type="text"
-              onKeyUp={() => setError("")}
+              onKeyUp={() => resetMessages()}
               required
               {...register("first_name")}
             />
@@ -95,7 +109,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Last name</Form.Label>
             <Form.Control
               type="text"
-              onKeyUp={() => setError("")}
+              onKeyUp={() => resetMessages()}
               required
               {...register("last_name")}
             />
@@ -105,7 +119,6 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              onKeyUp={() => setError("")}
               required
               {...register("email")}
               disabled
@@ -116,7 +129,6 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Mobile number</Form.Label>
             <Form.Control
               type="text"
-              onKeyUp={() => setError("")}
               required
               {...register("mobile")}
               disabled
@@ -125,16 +137,12 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
           {/* Error messages */}
           <div className={styles.errors}>
+            <p>{error}</p>
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
             <p>{errors.address?.message}</p>
             <p>{errors.mobile?.message}</p>
             <p>{errors.email?.message}</p>
-
-            {/* Errors from backend */}
-            {multipleErrors.map((item, index) => {
-              return <p key={index}>{item}</p>;
-            })}
           </div>
         </div>
 
@@ -146,11 +154,16 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Full Address</Form.Label>
             <Form.Control
               type="text"
-              onKeyUp={() => setError("")}
+              onKeyUp={() => resetMessages()}
               required
               {...register("address")}
             />
           </Form.Group>
+        </div>
+
+        {/* Success messages */}
+        <div className={styles.success}>
+          <p className="text-success">{message}</p>
         </div>
 
         <div className="d-flex justify-content-center gap-5 mt-5">
