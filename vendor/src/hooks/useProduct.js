@@ -1,54 +1,39 @@
-import "./App.css";
-import { useState, useEffect } from "react";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  listAll,
-  list,
-} from "firebase/storage";
-import { storage } from "./firebase";
-import { v4 } from "uuid";
+import { useCalculateHash } from "./useCalculateHash";
+import { useAuthHeader } from "react-auth-kit";
 
-function App() {
-  const [imageUpload, setImageUpload] = useState(null);
-  const [imageUrls, setImageUrls] = useState([]);
+export const useProduct = () => {
+  const { calculateHash } = useCalculateHash();
+  const authHeader = useAuthHeader();
 
-  const imagesListRef = ref(storage, "images/");
-  const uploadFile = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrls((prev) => [...prev, url]);
-      });
-    });
+  const postProduct = async () => {
+    try {
+      // START: Add product API
+      const endpoint = "api/products/";
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint),
+        },
+      };
+
+      const response = await axios.post(endpoint, options);
+      // END: Add product API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
   };
 
-  useEffect(() => {
-    listAll(imagesListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageUrls((prev) => [...prev, url]);
-        });
-      });
-    });
-  }, []);
-
-  return (
-    <div className="App">
-      <input
-        type="file"
-        onChange={(event) => {
-          setImageUpload(event.target.files[0]);
-        }}
-      />
-      <button onClick={uploadFile}> Upload Image</button>
-      {imageUrls.map((url) => {
-        return <img src={url} />;
-      })}
-    </div>
-  );
-}
-
-export default App;
+  return { postProduct };
+};
