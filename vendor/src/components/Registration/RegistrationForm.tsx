@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useValidate } from "../../hooks/useValidate";
 
 import styles from "./RegistrationForm.module.scss";
 import constants from "../../utils/constants.json";
@@ -59,20 +60,46 @@ const schema = yup
 interface ContainerProps {}
 
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
-  const [error, setError] = useState("");
-  const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorMobile, setErrorMobile] = useState("");
   const navigate = useNavigate();
+  const { validateEmail, validateMobile } = useValidate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
+
+    // Validate email
+    console.log("validating email ...");
+    const responseEmail = await validateEmail({ email: data.email });
+
+    // Validate email
+    console.log("validating mobile ...");
+    const responseMobile = await validateMobile({ mobile: data.mobile });
+
+    console.log("responseEmail", responseEmail);
+    console.log("responseMobile", responseMobile);
+
+    if (!responseEmail.isValid) {
+      setErrorEmail(responseEmail.error);
+      return;
+    } else {
+      setErrorEmail("");
+    }
+
+    if (!responseMobile.isValid) {
+      setErrorMobile(responseMobile.error);
+      return;
+    } else {
+      setErrorMobile("");
+    }
 
     // Set Register data on local storage
     localStorage.setItem("registerUser", JSON.stringify(data));
@@ -93,7 +120,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="First Name"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
                 />
@@ -106,7 +132,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="Last Name"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("last_name")}
                 />
@@ -119,10 +144,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="Contact Number (+639xxxxxxxxx)"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("mobile")}
-                  defaultValue="+639"
+                  defaultValue="+63"
                 />
               </Form.Group>
             </Col>
@@ -133,7 +157,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="email"
                   placeholder="Email"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("email")}
                 />
@@ -146,7 +169,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="password"
                   placeholder="Password"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("password")}
                 />
@@ -159,7 +181,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="password"
                   placeholder="Confirm Password"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("password_confirmation")}
                 />
@@ -179,11 +200,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <p>{errors.address?.message}</p>
             <p>{errors.landline?.message}</p>
             <p>{errors.cellphone?.message}</p>
-
-            {/* Errors from backend */}
-            {multipleErrors.map((item, index) => {
-              return <p key={index}>{item}</p>;
-            })}
           </div>
         </div>
 
@@ -196,7 +212,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="Restaurant Name"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("name")}
                 />
@@ -210,7 +225,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="Full Address"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("address")}
                 />
@@ -221,9 +235,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
-                  type="text"
-                  placeholder="Landline Number"
-                  onKeyUp={() => setError("")}
+                  type="tel"
+                  placeholder="Landline Number (123-456-7890)"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   required
                   {...register("landline")}
                 />
@@ -236,10 +250,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   type="text"
                   placeholder="Contact Number (+639xxxxxxxxx)"
-                  onKeyUp={() => setError("")}
                   required
                   {...register("cellphone")}
-                  defaultValue="+639"
+                  defaultValue="+63"
                 />
               </Form.Group>
             </Col>
@@ -257,7 +270,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           />
         </div>
 
-        <Button variant="primary" size="lg" type="submit" className="mt-4">
+        <Button
+          variant="primary"
+          size="lg"
+          type="submit"
+          className="mt-4"
+          disabled={!isDirty || !isValid}
+        >
           Create Account
         </Button>
       </Form>

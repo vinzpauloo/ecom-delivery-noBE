@@ -9,9 +9,10 @@ import {
   Dropdown,
 } from "react-bootstrap";
 
-import styles from "./MenuContent.module.scss";
+import styles from "./ProductContent.module.scss";
 import SearchIcon from "../../../assets/images/search.png";
 import ResetPassword from "../../../pages/Account/ResetPassword";
+import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
 
 interface ContainerProps {}
 
@@ -36,6 +37,7 @@ function MenuModal(props: any) {
                   className={styles.inputForm}
                   type="text"
                   placeholder="Chinese Special Ramen"
+                  required
                 />
               </Form.Group>
             </Col>
@@ -47,6 +49,7 @@ function MenuModal(props: any) {
                 <Form.Control
                   as="textarea"
                   placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+                  required
                 />
               </Form.Group>
             </Col>
@@ -59,12 +62,19 @@ function MenuModal(props: any) {
                   className={styles.inputForm}
                   type="text"
                   placeholder="Php 130.00"
+                  required
                 />
               </Form.Group>
             </Col>
+            <Col>
+              <img src={DefaultThumbnail} className={styles.thumbNail} />
+              <img src={DefaultThumbnail} className={styles.thumbNail} />
+              <img src={DefaultThumbnail} className={styles.thumbNail} />
+              <img src={DefaultThumbnail} className={styles.thumbNail} />
+            </Col>
           </Row>
           <Row>
-            <Col lg={4} xs={8}>
+            <Col lg={6} xs={8}>
               <Form.Label>Category</Form.Label>
               <Dropdown>
                 <Dropdown.Toggle className={styles.btnCategory}>
@@ -83,7 +93,7 @@ function MenuModal(props: any) {
             </Col>
           </Row>
           <Row>
-            <Col lg={4} xs={8}>
+            <Col lg={6} xs={8}>
               <Form.Label>Cuisine</Form.Label>
               <Dropdown>
                 <Dropdown.Toggle className={styles.btnCuisine}>
@@ -107,7 +117,7 @@ function MenuModal(props: any) {
               <Button className={styles.btnDiscard} onClick={props.onHide}>
                 Discard
               </Button>
-              <Button className={styles.btnAddMenu}>Add Menu</Button>
+              <Button className={styles.btnAddProduct}>Add Menu</Button>
             </Col>
           </Row>
         </Form>
@@ -236,7 +246,7 @@ function DeleteModal(props: any) {
   );
 }
 
-const MenuContent: React.FC<ContainerProps> = ({}) => {
+const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -253,7 +263,7 @@ const MenuContent: React.FC<ContainerProps> = ({}) => {
           <Row>
             <Col>
               <Button
-                className={styles.btnAddMenu}
+                className={styles.btnAddProduct}
                 onClick={() => setMenuModal(true)}
               >
                 Add Menu
@@ -337,4 +347,4 @@ const MenuContent: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-export default MenuContent;
+export default ProductContent;

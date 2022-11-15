@@ -1,12 +1,12 @@
 import React from "react";
-import MenuContainer from "../../components/Account/Menu/MenuContainer";
+import ProductContainer from "../../components/Account/Menu/ProductContainer";
 
 type Props = {};
 
 const Menu = (props: Props) => {
   return (
     <div className="page">
-      <MenuContainer />
+      <ProductContainer />
     </div>
   );
 };
