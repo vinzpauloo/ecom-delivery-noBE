@@ -4,6 +4,7 @@
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
   padding: 60px 0;
+  overflow: hidden;
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
@@ -11,6 +12,6 @@
   }
 
   @include devices(xs) {
-    min-height: calc(105vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
   }
 }

@@ -28,32 +28,19 @@
   }
 }
 
-.form {
-  input {
-    background-color: transparent;
-    border: none;
-    border-bottom: 4px solid $FM_TEXT_BROWN;
-    border-radius: 0;
-    font-size: 60px;
-    line-height: 1;
-    text-align: center;
-    max-width: 60px;
-    padding: 0;
-
-    &:focus {
-      background-color: transparent;
-      border-bottom: 4px solid $FM_TEXT_BROWN;
-      box-shadow: none;
-    }
-
-    @include devices(md) {
-      font-size: 40px;
-    }
-  }
-}
-
 .countdown {
   color: $FM_TEXT_BROWN;
+
+  a {
+    color: $FM_TEXT_BROWN;
+    border-bottom: 1px solid transparent;
+    transition: $FM_TRANSITION;
+    text-decoration: none;
+
+    &:hover {
+      border-color: $FM_TEXT_BROWN;
+    }
+  }
 }
 
 .button {
@@ -83,5 +70,23 @@
 
   svg {
     width: 300px !important;
+  }
+}
+
+.errors {
+  position: absolute;
+  top: 5px;
+
+  color: $FM_TEXT_RED;
+  margin-bottom: 10px;
+
+  p {
+    font-size: 12px;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  @include devices(md) {
+    position: initial;
   }
 }
