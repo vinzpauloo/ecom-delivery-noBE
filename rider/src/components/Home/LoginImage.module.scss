@@ -1,34 +1,45 @@
 @import "../../theme/_mixins.scss";
 
+// .images {
+//   position: relative;
+//   margin-top: 200px;
+
+//   .image1 {
+//     position: relative;
+//     width: 300px;
+//     height: 320px;
+//     opacity: 0.25;
+//     top: -170px;
+//     left: 0;
+
+//     @media (max-width: 425px) {
+//       width: 200px;
+//       height: 200px;
+//     }
+//   }
+
+//   .image2 {
+//     position: absolute;
+//     width: 650px;
+//     height: 500px;
+//     top: -240px;
+//     left: -170px;
+
+//     @media (max-width: 425px) {
+//       width: 550px;
+//       height: 380px;
+//       left: -180px;
+//     }
+//   }
+// }
+
 .images {
-  position: relative;
-  margin-top: 200px;
-
-  .image1 {
-    position: relative;
-    width: 300px;
-    height: 320px;
-    opacity: 0.25;
-    top: -170px;
-    left: 0;
-
-    @media (max-width: 425px) {
-      width: 200px;
-      height: 200px;
-    }
-  }
-
   .image2 {
-    position: absolute;
-    width: 650px;
-    height: 500px;
-    top: -240px;
-    left: -170px;
-
-    @media (max-width: 425px) {
-      width: 550px;
-      height: 380px;
-      left: -180px;
+    width: 800px;
+    margin-bottom: 150px;
+    @include devices(md) {
+      width: 500px;
+      margin-bottom: 0;
     }
   }
 }

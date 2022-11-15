@@ -16,13 +16,14 @@ import { useCalculateHash } from "../../hooks/useCalculateHash";
 
 // Setup form schema & validation
 interface IFormInputs {
-  email: string;
+  username: string;
   password: string;
 }
 
 const schema = yup
   .object({
-    email: yup.string().email(constants.form.error.email).required(),
+    // email: yup.string().email(constants.form.error.email).required(),
+    username: yup.string(),
     password: yup
       .string()
       .min(6, constants.form.error.passwordMin)
@@ -100,7 +101,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           authState: data.user,
         });
 
-        navigate("/");
+        navigate("/account");
       }
     } catch (err) {
       if (err && err instanceof AxiosError)
@@ -129,13 +130,13 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         <h4 className={`d-none d-md-block`}>Welcome to FOODMONKEY Riders</h4>
         <Form.Group className="mb-4 position-relative">
           <Form.Control
-            id="email"
+            id="username"
             size="lg"
-            type="email"
-            placeholder="Email or number"
+            type="text"
+            placeholder="Username or number"
             onKeyUp={() => setError("")}
             required
-            {...register("email")}
+            {...register("username")}
           />
           <EnvelopeFill color="#8F887D" size={40} className={styles.icons} />
         </Form.Group>
@@ -171,7 +172,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           {/* Error messages */}
           <div className={styles.errors}>
             <p>{error}</p>
-            <p>{errors.email?.message}</p>
+            <p>{errors.username?.message}</p>
             <p>{errors.password?.message}</p>
           </div>
         </div>
