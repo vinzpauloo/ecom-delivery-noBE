@@ -1,5 +1,5 @@
 import React from "react";
-import ProductContainer from "../../components/Account/Menu/ProductContainer";
+import ProductContainer from "../../components/Account/Product/ProductContainer";
 
 type Props = {};
 

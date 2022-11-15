@@ -11,14 +11,18 @@
       "email": "*Please enter a valid email.",
       "mobile": "*Invalid mobile number.",
       "notNumber": "*Invalid number.",
-      "cellphone": "Invalid cellphone number",
+      "contact_number": "Invalid cellphone number",
       "landline": "Invalid landline number",
       "firstNameMin": "*First name must be at least 6 characters.",
       "lastNameMin": "*Last name must be at least 6 characters.",
       "passwordMin": "*Password must be at least 6 characters.",
       "passwordMax": "*Password must be at most 16 characters.",
       "passwordConfirm": "*Password don't match.",
-      "nameMin": "*Name must be at least 6 characters."
+      "nameMin": "*Name must be at least 6 characters.",
+      "missingOtp": "Please input your OTP code."
+    },
+    "success": {
+      "updateProfile": "Vendor profile updated successfully!"
     }
   },
   "otpCountdown": 300

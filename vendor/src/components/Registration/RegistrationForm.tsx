@@ -22,8 +22,7 @@ interface IFormInputs {
   email: string;
   name: string;
   address: string;
-  landline: string;
-  cellphone: string;
+  contact_number: string;
 }
 
 const schema = yup
@@ -49,10 +48,12 @@ const schema = yup
     email: yup.string().email(constants.form.error.email).required(),
     name: yup.string().min(2, constants.form.error.nameMin).required(),
     address: yup.string().required(),
-    landline: yup.string().required(),
-    cellphone: yup
+    contact_number: yup
       .string()
-      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.cellphone)
+      .matches(
+        /^\+(?:[0-9] ?){11,12}[0-9]$/,
+        constants.form.error.contact_number
+      )
       .required(),
   })
   .required();
@@ -198,8 +199,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <p>{errors.password_confirmation?.message}</p>
             <p>{errors.name?.message}</p>
             <p>{errors.address?.message}</p>
-            <p>{errors.landline?.message}</p>
-            <p>{errors.cellphone?.message}</p>
+            <p>{errors.contact_number?.message}</p>
           </div>
         </div>
 
@@ -235,23 +235,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
-                  type="tel"
-                  placeholder="Landline Number (123-456-7890)"
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  required
-                  {...register("landline")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Control
                   type="text"
                   placeholder="Contact Number (+639xxxxxxxxx)"
                   required
-                  {...register("cellphone")}
+                  {...register("contact_number")}
                   defaultValue="+63"
                 />
               </Form.Group>

@@ -3,41 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
 import { useSignIn } from "react-auth-kit";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+import { useHelper } from "../../hooks/useHelper";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
 
+import OtpInput from "./OtpInput";
 import styles from "./OtpForm.module.scss";
 import constants from "../../utils/constants.json";
 
-// Setup form schema & validation
-interface IFormInputs {
-  num1: number;
-  num2: number;
-  num3: number;
-  num4: number;
-  num5: number;
-  num6: number;
-}
-
-const schema = yup
-  .object({
-    num1: yup.number().required().typeError(constants.form.error.notNumber),
-    num2: yup.number().required().typeError(constants.form.error.notNumber),
-    num3: yup.number().required().typeError(constants.form.error.notNumber),
-    num4: yup.number().required().typeError(constants.form.error.notNumber),
-    num5: yup.number().required().typeError(constants.form.error.notNumber),
-    num6: yup.number().required().typeError(constants.form.error.notNumber),
-  })
-  .required();
-
 interface ContainerProps {}
+
+const IS_TESTING = process.env.NODE_ENV !== "production";
 
 const OtpSuccessModal = (props: any) => {
   return (
@@ -47,10 +28,7 @@ const OtpSuccessModal = (props: any) => {
           <Lottie animationData={otpSuccess} loop={true} />
           <p className="mt-4">OTP Verified Successfully</p>
 
-          <Link
-            to="/account"
-            className={`d-inline-block mt-2 ${styles.button}`}
-          >
+          <Link to="/" className={`d-inline-block mt-2 ${styles.button}`}>
             Back to Home Page
           </Link>
         </div>
@@ -59,29 +37,49 @@ const OtpSuccessModal = (props: any) => {
   );
 };
 
-const formatCounter = (counter: number) => {
-  return counter < 10 ? "0" + counter : counter;
+const OtpErrorModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4 ${styles.lottie}`}>
+          {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+          <h4 className="mt-4 text-danger">Oops!</h4>
+          <p className="mt-4">{props?.modalerror}</p>
+
+          <Link
+            to="#"
+            className={`d-inline-block mt-2 ${styles.button}`}
+            onClick={() => props?.setmodalerrorshow(false)}
+          >
+            Close
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 };
 
-const OtpForm: React.FC<ContainerProps> = ({}) => {
+const OtpForm: React.FC<ContainerProps> = () => {
   const [error, setError] = useState("");
+  const [modalError, setModalError] = useState("");
   const [otpCode, setOtpCode] = useState();
   const [multipleErrors, setMultipleErrors] = useState([""]);
-  const [counter, setCounter] = useState(30);
+  const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
+  const [modalErrorShow, setModalErrorShow] = useState(false);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
   const signIn = useSignIn();
   const { calculateHash } = useCalculateHash();
-  let otpRequestData = {};
+  const { getCountdown } = useHelper();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>({
-    resolver: yupResolver(schema),
-  });
+  const [otp, setOtp] = useState("");
+  const onChange = (value: string) => {
+    console.log(otp);
+    setOtp(value);
+  };
+
+  const { handleSubmit } = useForm();
 
   // Prepare mobile number
   const registerUser = localStorage.getItem("registerUser") || "";
@@ -93,17 +91,12 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     console.log("OtpForm");
 
-    if (!registerUser) {
-      console.log("Register user not found!!!");
+    if (!registerUser || !getMobile()) {
+      console.log("Missing required details!");
       navigate("/registration");
       return;
     }
 
-    if (!getMobile()) {
-      console.log("Mobile number not found!!!");
-      navigate("/registration");
-      return;
-    }
     handleSendOTP();
   }, []);
 
@@ -116,13 +109,11 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   const handleSendOTP = async () => {
     const otpRequestData = {
       mobile: getMobile(),
-
-      /* Remove in production */
-      testing: true,
+      testing: IS_TESTING,
     };
 
     // Reset counter & errors
-    setCounter(30);
+    setCounter(constants.otpCountdown);
     setError("");
 
     console.log("Requesting otp ...", otpRequestData);
@@ -133,22 +124,21 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   };
 
   // Verify OTP request
-  const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
-    console.log("mobile", getMobile());
+  const onSubmit = async () => {
+    console.log("inside onSubmit");
 
-    let otpNumber =
-      "" +
-      data.num1 +
-      data.num2 +
-      data.num3 +
-      data.num4 +
-      data.num5 +
-      data.num6;
+    if (!otp) {
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
+      return;
+    }
+
+    console.log("onSubmit", otp);
+    console.log("mobile", getMobile());
 
     const otpVerifyData = {
       mobile: getMobile(),
-      code: parseInt(otpNumber),
+      code: parseInt(otp),
       guest: false,
     };
 
@@ -159,7 +149,9 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
 
     if (response.error) {
       // OTP Verification error
-      setError(response.error);
+      // setError(response.error);
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
     } else {
       // OTP Verification success
       console.log("OTP Verification success");
@@ -169,7 +161,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
       try {
         // START: Access register API
         const registerData = JSON.parse(registerUser);
-        const endpoint = "api/merchant/register";
+        const endpoint = "api/customer/register";
         const options = {
           headers: {
             "X-Authorization": calculateHash(endpoint, registerData),
@@ -180,7 +172,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
         const response = await axios.post(endpoint, registerData, options);
         // END: Access register API
 
-        console.log("/merchant/register", response);
+        console.log("/customer/register", response);
 
         if (response.status === 201) {
           const { data } = response.data;
@@ -202,9 +194,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
           if (err.response && err.response.data.errors) {
             // Multiple errors from the backend
             let tempErrors: any[] = [];
-            for (const [key, value] of Object.entries(
-              err.response.data.errors
-            )) {
+            for (const [value] of Object.entries(err.response.data.errors)) {
               tempErrors.push(value);
             }
             setMultipleErrors(tempErrors);
@@ -222,6 +212,12 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpErrorModal
+        show={modalErrorShow}
+        onHide={() => setModalErrorShow(false)}
+        modalerror={modalError}
+        setmodalerrorshow={setModalErrorShow}
+      />
 
       <div className="text-center">
         <div className={styles.title}>
@@ -231,49 +227,8 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
 
         <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Row>
-            <Col className="d-flex justify-content-center gap-3 gap-lg-5">
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num1")}
-              />
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num2")}
-              />
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num3")}
-              />
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num4")}
-              />
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num5")}
-              />
-              <Form.Control
-                type="text"
-                maxLength={1}
-                onKeyUp={() => setError("")}
-                required
-                {...register("num6")}
-              />
+            <Col>
+              <OtpInput value={otp} valueLength={6} onChange={onChange} />
             </Col>
           </Row>
 
@@ -284,12 +239,6 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
                   {/* Error messages */}
                   <div className={styles.errors}>
                     <p>{error}</p>
-                    <p>{errors.num1?.message}</p>
-                    <p>{errors.num2?.message}</p>
-                    <p>{errors.num3?.message}</p>
-                    <p>{errors.num4?.message}</p>
-                    <p>{errors.num5?.message}</p>
-                    <p>{errors.num6?.message}</p>
 
                     {/* Errors from backend */}
                     {multipleErrors.map((item, index) => {
@@ -300,7 +249,7 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
                   <p className="mb-0 text-lg-end">
                     {counter ? (
                       <>
-                        Resend OTP in <span>00:{formatCounter(counter)}</span>
+                        Resend OTP in <span>{getCountdown(counter)}</span>
                       </>
                     ) : (
                       <Link to="#" onClick={handleSendOTP}>
@@ -328,13 +277,13 @@ const OtpForm: React.FC<ContainerProps> = ({}) => {
         </Form>
       </div>
 
-      <div>
+      {IS_TESTING ? (
         <h6 className="mt-4 text-center text-success">
           For testing only.
           <br />
           OTP Code: {otpCode}
         </h6>
-      </div>
+      ) : null}
     </>
   );
 };

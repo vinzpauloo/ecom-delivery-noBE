@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Form, Row, Col, Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,10 @@ import * as yup from "yup";
 import { useUser } from "../../../hooks/useUser";
 
 import styles from "./ProfileContent.module.scss";
+import constants from "../../../utils/constants.json";
+
 import SearchIcon from "../../../assets/images/search.png";
+import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -25,8 +28,8 @@ const schema = yup
     restaurant_name: yup.string().required(),
     restaurant_description: yup.string().required(),
     address: yup.string().required(),
-    email: yup.string().required(),
-    cellphone: yup.string().required(),
+    email: yup.string().email(constants.form.error.email).required(),
+    contact_number: yup.string().required(),
   })
   .required();
 
@@ -34,24 +37,11 @@ interface ContainerProps {}
 
 const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
-  const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [message, setMessage] = useState([""]);
   const [profileModal, setProfileModal] = useState(false);
   const navigate = useNavigate();
 
-  const { getUser } = useUser();
-
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInputs>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
-  };
+  const { getUser, updateUser } = useUser();
 
   // Get user request
   const handleGetUser = async () => {
@@ -65,10 +55,14 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       restaurant_description: response.restaurant_description,
       address: response.address,
       email: response.email[0]?.address,
-      cellphone: response.cellphone,
+      contact_number: response.contact_number,
     };
     reset(defaultValues);
   };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <div className={styles.profileContentContainer}>
@@ -82,7 +76,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="owner_name"
                   type="text"
-                  placeholder="JohnDoe2022"
+                  onKeyUp={() => setError("")}
+                  {...register("owner_name")}
                   disabled
                 />
               </Form.Group>
@@ -95,7 +90,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="restaurant_name"
                   type="text"
-                  placeholder="Měiwèi de shíwù 美味的食物"
+                  onKeyUp={() => setError("")}
+                  {...register("restaurant_name")}
                   disabled
                 />
               </Form.Group>
@@ -108,7 +104,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="restaurant_description"
                   as="textarea"
-                  placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                  onKeyUp={() => setError("")}
+                  {...register("restaurant_description")}
                   disabled
                 />
               </Form.Group>
@@ -121,7 +118,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="address"
                   type="text"
-                  placeholder="Unit 123, GT Tower Intl., Ayala Avenue, Makati City"
+                  onKeyUp={() => setError("")}
+                  {...register("address")}
                   disabled
                 />
               </Form.Group>
@@ -134,7 +132,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="email"
                   type="text"
-                  placeholder="johndoe2022@gmail.com"
+                  onKeyUp={() => setError("")}
+                  {...register("email")}
                   disabled
                 />
               </Form.Group>
@@ -145,7 +144,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 <Form.Control
                   id="contact_number"
                   type="text"
-                  placeholder="(+63)917 456 7890"
+                  onKeyUp={() => setError("")}
+                  {...register("cellphone")}
                   disabled
                 />
               </Form.Group>
@@ -172,20 +172,38 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
 };
 
 function ProfileModal(props: any) {
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    console.log("Requesting updateUser ...");
+
+    const response = await updateUser(data);
+    console.log("updateUser response", response);
+
+    if (!response.error) {
+      setMessage(constants.form.success.updateProfile);
+    } else {
+      setError(response.error);
+    }
+  };
+
   return (
     <Modal {...props} size="lg">
       <Modal.Header closeButton className={styles.modalHeader}></Modal.Header>
       <Modal.Body className={styles.modalBody}>
-        <Form>
+        <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Row lg={2} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Owner Name</Form.Label>
-                <Form.Control
-                  id="owner_name"
-                  type="text"
-                  placeholder="JohnDoe2022"
-                />
+                <Form.Control id="owner_name" type="text" />
               </Form.Group>
             </Col>
           </Row>
@@ -193,11 +211,7 @@ function ProfileModal(props: any) {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Restaurant Name</Form.Label>
-                <Form.Control
-                  id="restaurant_name"
-                  type="text"
-                  placeholder="Měiwèi de shíwù 美味的食物"
-                />
+                <Form.Control id="restaurant_name" type="text" />
               </Form.Group>
             </Col>
           </Row>
@@ -205,11 +219,7 @@ function ProfileModal(props: any) {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Restaurant Description</Form.Label>
-                <Form.Control
-                  id="restaurant_description"
-                  as="textarea"
-                  placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                />
+                <Form.Control id="restaurant_description" as="textarea" />
               </Form.Group>
             </Col>
           </Row>
@@ -217,11 +227,7 @@ function ProfileModal(props: any) {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Resturant Address</Form.Label>
-                <Form.Control
-                  id="address"
-                  type="text"
-                  placeholder="Unit 123, GT Tower Intl., Ayala Avenue, Makati City"
-                />
+                <Form.Control id="address" type="text" />
               </Form.Group>
             </Col>
           </Row>
@@ -229,27 +235,21 @@ function ProfileModal(props: any) {
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
-                <Form.Control
-                  id="email"
-                  type="text"
-                  placeholder="johndoe2022@gmail.com"
-                />
+                <Form.Control id="email" type="text" />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Contact Number</Form.Label>
-                <Form.Control
-                  id="contact_number"
-                  type="text"
-                  placeholder="(+63)917 456 7890"
-                />
+                <Form.Control id="contact_number" type="text" />
               </Form.Group>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button className={styles.btnUpdate}>Update</Button>
+              <Button className={styles.btnUpdate} type="submit">
+                Update
+              </Button>
             </Col>
           </Row>
         </Form>
