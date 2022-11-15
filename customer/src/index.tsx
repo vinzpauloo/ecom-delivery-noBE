@@ -16,6 +16,7 @@ import Restaurants from "./pages/Restaurants";
 import Profile from "./pages/Account/Profile";
 import Orders from "./pages/Account/Orders";
 import GetHash from "./pages/GetHash";
+import Order from "./pages/Order";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -47,6 +48,7 @@ root.render(
 
             <Route path="checkout" element={<Checkout />} />
             <Route path="delivery-status" element={<OrderTracker />} />
+            <Route path="order/:id" element={<Order />} />
 
             {/* Account dashboard routes */}
             <Route path="account">
