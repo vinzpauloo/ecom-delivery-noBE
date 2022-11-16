@@ -46,14 +46,14 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
     <div>
       <Form className={styles.form}>
         <div className={styles.formInnerContainer}>
-          <h3>Reset Password</h3>
+          <h3>Change Password</h3>
           <Row>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
                   id="username"
                   type="text"
-                  placeholder="User Name"
+                  placeholder="Enter email or number"
                 />
               </Form.Group>
             </Col>
