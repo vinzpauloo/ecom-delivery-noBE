@@ -22,7 +22,8 @@
       "missingOtp": "Please input your OTP code."
     },
     "success": {
-      "updateProfile": "Vendor profile updated successfully!"
+      "updateProfile": "Vendor profile updated successfully!",
+      "addProduct": "Add Product successfully!"
     }
   },
   "otpCountdown": 300

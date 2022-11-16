@@ -188,19 +188,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
-
-          {/* Error messages */}
-          <div className={styles.errors}>
-            <p>{errors.first_name?.message}</p>
-            <p>{errors.last_name?.message}</p>
-            <p>{errors.mobile?.message}</p>
-            <p>{errors.email?.message}</p>
-            <p>{errors.password?.message}</p>
-            <p>{errors.password_confirmation?.message}</p>
-            <p>{errors.name?.message}</p>
-            <p>{errors.address?.message}</p>
-            <p>{errors.contact_number?.message}</p>
-          </div>
         </div>
 
         <div className={styles.formInnerContainer}>
@@ -244,6 +231,18 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
+          {/* Error messages */}
+          <div className={styles.errors}>
+            <p>{errors.first_name?.message}</p>
+            <p>{errors.last_name?.message}</p>
+            <p>{errors.mobile?.message}</p>
+            <p>{errors.email?.message}</p>
+            <p>{errors.password?.message}</p>
+            <p>{errors.password_confirmation?.message}</p>
+            <p>{errors.name?.message}</p>
+            <p>{errors.address?.message}</p>
+            <p>{errors.contact_number?.message}</p>
+          </div>
         </div>
 
         <div
