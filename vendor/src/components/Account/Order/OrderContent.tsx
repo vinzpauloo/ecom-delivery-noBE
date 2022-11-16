@@ -5,9 +5,7 @@ import styles from "./OrderContent.module.scss";
 interface ContainerProps {}
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
-  return (
-    <div></div>
-  );
+  return <div></div>;
 };
 
 export default OrderContent;

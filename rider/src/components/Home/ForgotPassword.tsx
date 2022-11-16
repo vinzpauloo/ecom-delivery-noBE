@@ -50,7 +50,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
   return (
     <div className={styles.container}>
-      <h4 className="mb-4">Change Password</h4>
+      <h4 className="mb-4">Reset Password</h4>
 
       <Form
         className={`text-center ${styles.form}`}

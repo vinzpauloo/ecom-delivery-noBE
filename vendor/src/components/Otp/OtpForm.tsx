@@ -161,7 +161,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
       try {
         // START: Access register API
         const registerData = JSON.parse(registerUser);
-        const endpoint = "api/customer/register";
+        const endpoint = "api/merchant/register";
         const options = {
           headers: {
             "X-Authorization": calculateHash(endpoint, registerData),
@@ -172,7 +172,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
         const response = await axios.post(endpoint, registerData, options);
         // END: Access register API
 
-        console.log("/customer/register", response);
+        console.log("/merchant/register", response);
 
         if (response.status === 201) {
           const { data } = response.data;

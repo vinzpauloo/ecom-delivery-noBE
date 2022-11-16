@@ -2,14 +2,14 @@ import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
 import { useAuthHeader } from "react-auth-kit";
 
-export const useUser = () => {
+export const useRiderOTW = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 
-  const getUser = async () => {
+  const getForDelivery = async () => {
     try {
-      // START: Access user API
-      const endpoint = "api/user";
+      // START: Access For Delivery API
+      const endpoint = "api/orders";
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -36,19 +36,24 @@ export const useUser = () => {
     }
   };
 
-  const updateUser = async (data) => {
+  const getForDeliveryOTW = async (data) => {
+    console.log("getForDeliveryOTW hook ...");
+    console.log(data);
+
     try {
-      // START: Access update user API
-      const endpoint = "api/user";
+      // START: Access order for delivery API
+      const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
           Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint, data),
         },
+        withCredentials: true,
       };
 
-      const response = await axios.put(endpoint, data, options);
-      // END: Access update user API
+      const response = await axios.get(endpoint, options);
+      // END: Access order for delivery API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -62,9 +67,9 @@ export const useUser = () => {
       else if (err && err instanceof Error) error = err.message;
 
       console.log("Error", err);
-      return { error: error };
+      return error;
     }
   };
 
-  return { getUser, updateUser };
+  return { getForDelivery, getForDeliveryOTW };
 };

@@ -37,11 +37,12 @@
   padding: 30px 0;
   @media (max-width: 768px) {
     height: 800px;
+    background: none;
   }
 }
 
 .bg {
   @media (max-width: 425px) {
-    background-color: #fdf5e7;
+    // background-color: #fdf5e7;
   }
 }
