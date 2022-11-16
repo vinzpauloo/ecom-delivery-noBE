@@ -32,8 +32,8 @@ interface IFormInputs {
   plate_number: string;
   license_expiration: string;
   license_number: string;
-  license_type: string;
-  year: string;
+  // license_type: string;
+  // year: string;
 }
 
 const schema = yup
@@ -52,8 +52,8 @@ const schema = yup
     plate_number: yup.string().required(),
     license_expiration: yup.string().required(),
     license_number: yup.string().required(),
-    license_type: yup.string().required(),
-    year: yup.string().required(),
+    // license_type: yup.string().required(),
+    // year: yup.string().required(),
   })
   .required();
 
@@ -102,7 +102,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     let defaultValues = {
       first_name: response.first_name,
       last_name: response.last_name,
-      address: response.address,
+      address: response.rider.address,
       email: response.email,
       mobile: response.mobile,
       brand: response.rider.brand,
@@ -111,8 +111,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       plate_number: response.rider.plate_number,
       license_expiration: response.rider.license_expiration,
       license_number: response.rider.license_number,
-      license_type: response.rider.license_type,
-      year: response.rider.year,
+      // license_type: response.rider.license_type,
+      // year: response.rider.year,
     };
 
     reset(defaultValues);
@@ -137,7 +137,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -150,7 +150,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("last_name")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -165,7 +165,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("address")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -178,24 +178,12 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("mobile")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
           </Row>
           <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative d-none d-md-block">
-                <Form.Label>Driver's License Expiration Date</Form.Label>
-                <Form.Control
-                  type="text"
-                  onKeyUp={() => setError("")}
-                  required
-                  {...register("license_expiration")}
-                  disabled={disabled}
-                />
-              </Form.Group>
-            </Col>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
@@ -204,30 +192,19 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("email")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
-          </Row>
-          <Row lg={2} xs={1}>
             <Col>
               <Form.Group className="position-relative d-none d-md-block">
-                <Form.Label>Driver's License Number</Form.Label>
+                <Form.Label>Driver's License Expiration Date</Form.Label>
                 <Form.Control
                   type="text"
-                  {...register("license_number")}
-                  disabled={disabled}
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Model</Form.Label>
-                <Form.Control
-                  id="year"
-                  type="text"
-                  {...register("model")}
-                  disabled={disabled}
+                  onKeyUp={() => setError("")}
+                  required
+                  {...register("license_expiration")}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -237,10 +214,33 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               <Form.Group className="position-relative">
                 <Form.Label>Brand</Form.Label>
                 <Form.Control
-                  id="model"
+                  id="year"
                   type="text"
                   {...register("brand")}
-                  disabled={disabled}
+                  // disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="position-relative d-none d-md-block">
+                <Form.Label>Driver's License Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  {...register("license_number")}
+                  // disabled={disabled}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row lg={2} xs={1}>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Model</Form.Label>
+                <Form.Control
+                  id="model"
+                  type="text"
+                  {...register("model")}
+                  // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -249,7 +249,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   id="or_number"
                   type="text"
                   {...register("or_number")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -258,7 +258,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   id="plate_number"
                   type="text"
                   {...register("plate_number")}
-                  disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -268,9 +268,13 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               <img src={bike2} alt="" />
               <img src={bike3} alt="" />
               <img src={bike4} alt="" />
+
+              <div className="px-4 d-none d-lg-block">
+                <Button>Upload</Button>
+              </div>
             </Col>
           </Row>
-          <Row lg={2} xs={1}>
+          {/* <Row lg={2} xs={1}>
             <Col>
               <Form.Group className="position-relative d-none d-md-block">
                 <Form.Label>License Type</Form.Label>
@@ -296,7 +300,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
 
           {/* <div className="bike-images">
             <img src={bike1} alt="" />
@@ -307,8 +311,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </div> */}
 
           <div className="buttons">
-            <Button id="editBtn" onClick={handleInput}>
-              Edit
+            <Button id="editBtn" onClick={handleInput} className="d-lg-none">
+              Upload
             </Button>
             <Button id="saveBtn" type="submit">
               Save

@@ -91,13 +91,13 @@ const OtpForm: React.FC<ContainerProps> = () => {
   useEffect(() => {
     console.log("OtpForm");
 
-    // if (!registerUser || !getMobile()) {
-    //   console.log("Missing required details!");
-    //   navigate("/register");
-    //   return;
-    // }
+    if (!registerUser || !getMobile()) {
+      console.log("Missing required details!");
+      navigate("/register");
+      return;
+    }
 
-    // handleSendOTP();
+    handleSendOTP();
   }, []);
 
   // Countdown timer

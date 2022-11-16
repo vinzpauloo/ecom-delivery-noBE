@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { Star, StarFill } from "react-bootstrap-icons";
+import { StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
 import styles from "./Details.module.scss";
 import CategorySlider from "./CategorySlider";
+import MenuSlider from "./MenuSlider";
+import CartSlider from "./CartSlider";
 
 // Sample static images
 import cuisine01 from "../../assets/images/cuisine01.png";
@@ -12,41 +14,6 @@ import cuisine02 from "../../assets/images/cuisine02.png";
 import cuisine03 from "../../assets/images/cuisine03.png";
 import cuisine05 from "../../assets/images/cuisine05.png";
 import cuisine07 from "../../assets/images/cuisine07.png";
-import category01 from "../../assets/images/category01.jpg";
-import category02 from "../../assets/images/category02.jpg";
-import category03 from "../../assets/images/category03.jpg";
-import category04 from "../../assets/images/category04.jpg";
-import category05 from "../../assets/images/category05.jpg";
-import category06 from "../../assets/images/category06.jpg";
-import MenuSlider from "./MenuSlider";
-import CartSlider from "./CartSlider";
-
-const categoriesSlides = [
-  {
-    image: category01,
-    title: "Family Meals",
-  },
-  {
-    image: category02,
-    title: "Holiday Promos",
-  },
-  {
-    image: category03,
-    title: "Ala Carte",
-  },
-  {
-    image: category04,
-    title: "Milk Shakes",
-  },
-  {
-    image: category05,
-    title: "Beers and Wine",
-  },
-  {
-    image: category06,
-    title: "Others",
-  },
-];
 
 const cartSlides = [
   {
@@ -101,6 +68,14 @@ type TMenu = {
   is_available: number;
 };
 
+type TCart = {
+  id: number;
+  name: string;
+  price: number;
+  photo: string;
+  qty: number;
+};
+
 type TCategory = {
   id: number;
   name: string;
@@ -112,6 +87,32 @@ const Details: React.FC<ContainerProps> = ({
   menu,
   categories,
 }) => {
+  const [cart, setCart] = useState<TCart[]>([]);
+  const [itemCount, setItemCount] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(86);
+
+  const getItemCount = () => {
+    const initialValue = 0;
+    return cart.reduce((prev, cur) => prev + cur.qty, initialValue);
+  };
+
+  const getSubtotal = () => {
+    const initialValue = 0;
+    return cart.reduce((prev, cur) => prev + cur.qty * cur.price, initialValue);
+  };
+
+  const updateSummary = () => {
+    setItemCount(getItemCount());
+    setSubtotal(getSubtotal());
+    setTotal(getSubtotal() + deliveryFee);
+  };
+
+  useEffect(() => {
+    updateSummary();
+  }, [cart]);
+
   return (
     <div className={styles.container}>
       {/* Restaurant info */}
@@ -165,7 +166,7 @@ const Details: React.FC<ContainerProps> = ({
       {/* Menu slider */}
       <Row className={styles.menu}>
         <Col>
-          <MenuSlider slides={menu} />
+          <MenuSlider slides={menu} setCart={setCart} />
         </Col>
       </Row>
 
@@ -199,7 +200,11 @@ const Details: React.FC<ContainerProps> = ({
           <h5>Ordered Items</h5>
 
           <div>
-            <CartSlider slides={cartSlides} />
+            {cart && cart.length ? (
+              <CartSlider slides={cart} setCart={setCart} />
+            ) : (
+              <p>Cart is empty</p>
+            )}
           </div>
         </div>
 
@@ -215,7 +220,7 @@ const Details: React.FC<ContainerProps> = ({
                   <span>Item count</span>
                 </Col>
                 <Col>
-                  <strong>003</strong>
+                  <strong>{itemCount}</strong>
                 </Col>
               </Row>
               <Row className={styles.orderedAmountRow}>
@@ -223,7 +228,7 @@ const Details: React.FC<ContainerProps> = ({
                   <span>Sub-Total</span>
                 </Col>
                 <Col>
-                  <strong>1,126 php</strong>
+                  <strong>{subtotal} php</strong>
                 </Col>
               </Row>
               <Row className={styles.orderedAmountRow}>
@@ -231,7 +236,7 @@ const Details: React.FC<ContainerProps> = ({
                   <span>Delivery fee</span>
                 </Col>
                 <Col>
-                  <strong>86 php</strong>
+                  <strong>{deliveryFee} php</strong>
                 </Col>
               </Row>
               <Row className={styles.total}>
@@ -239,7 +244,7 @@ const Details: React.FC<ContainerProps> = ({
                   <strong>Total</strong>
                 </Col>
                 <Col>
-                  <strong>1,212 php</strong>
+                  <strong>{total} php</strong>
                 </Col>
               </Row>
             </Col>
