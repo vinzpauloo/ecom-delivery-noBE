@@ -28,7 +28,9 @@
 }
 
 .contentContainer {
-  background-color: #fdf5e7;
+  // background-color: #fdf5e7;
+  border: none;
+  background: none;
 
   @media (max-width: 768px) {
     background: none;
