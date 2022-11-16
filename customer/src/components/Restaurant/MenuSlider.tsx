@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
 
@@ -17,6 +17,7 @@ import styles from "./MenuSlider.module.scss";
 
 interface ContainerProps {
   slides: Slide[] | null;
+  setCart: React.Dispatch<React.SetStateAction<TCart[]>>;
 }
 
 type Slide = {
@@ -28,7 +29,50 @@ type Slide = {
   is_available: number;
 };
 
-const SwiperSlideItem = (item: Slide, index: number) => {
+type TCart = {
+  id: number;
+  name: string;
+  price: number;
+  photo: string;
+  qty: number;
+};
+
+const SwiperSlideItem = (
+  item: Slide,
+  index: number,
+  setCart: ContainerProps["setCart"]
+) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    const newItem = {
+      id: item.id,
+      name: item.name,
+      photo: item.photo,
+      price: item.price,
+      qty: quantity,
+    };
+
+    setCart((cart) => {
+      const cartCopy = cart.slice();
+      const index = cartCopy.findIndex((product) => newItem.id === product.id);
+
+      if (index === -1) {
+        cartCopy.push({ ...newItem });
+      } else {
+        const pr = cartCopy[index];
+        cartCopy[index] = { ...pr, qty: pr.qty + newItem.qty };
+      }
+
+      return cartCopy;
+    });
+
+    setQuantity(1);
+
+    console.log("Added new item in cart ...");
+    console.log(newItem);
+  };
+
   return (
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
@@ -53,15 +97,23 @@ const SwiperSlideItem = (item: Slide, index: number) => {
               className={`d-flex justify-content-center align-items-center ${styles.qty}`}
             >
               <Button>
-                <Dash color="#61481C" size={18} />
+                <Dash
+                  color="#61481C"
+                  size={18}
+                  onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                />
               </Button>
-              <span className={styles.num}>1</span>
+              <span className={styles.num}>{quantity}</span>
               <Button>
-                <Plus color="#61481C" size={18} />
+                <Plus
+                  color="#61481C"
+                  size={18}
+                  onClick={() => setQuantity(quantity + 1)}
+                />
               </Button>
             </div>
             <div className={styles.addToCart}>
-              <Button>Add to cart</Button>
+              <Button onClick={handleAddToCart}>Add to cart</Button>
             </div>
           </div>
         </div>
@@ -70,7 +122,7 @@ const SwiperSlideItem = (item: Slide, index: number) => {
   );
 };
 
-const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
+const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   return (
     <>
       {/* Desktop version */}
@@ -82,7 +134,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
         {slides?.map((item, index) => {
-          return SwiperSlideItem(item, index);
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
 
@@ -105,7 +157,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-lg-none ${styles.sliderContainer}`}
       >
         {slides?.map((item, index) => {
-          return SwiperSlideItem(item, index);
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
     </>

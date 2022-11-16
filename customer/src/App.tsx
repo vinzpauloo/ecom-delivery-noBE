@@ -29,7 +29,9 @@ const App: React.FC = (props: Props) => {
   const customBgPages = ["/account/orders"];
 
   // Pages with no footer on mobile
-  const noFooterOnMobile = ["/restaurant"];
+  const noFooterOnMobile = [/^\/restaurants\/\d+$/];
+
+  console.log(location.pathname);
 
   if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "custom-header ";
@@ -49,7 +51,7 @@ const App: React.FC = (props: Props) => {
     customClassNames += "custom-bg ";
   }
 
-  if (noFooterOnMobile.includes(location.pathname)) {
+  if (noFooterOnMobile.some((rx) => rx.test(location.pathname))) {
     customClassNames += "no-footer-on-mobile ";
   }
 

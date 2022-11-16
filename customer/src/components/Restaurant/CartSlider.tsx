@@ -8,29 +8,89 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/scss";
 import "swiper/scss/grid";
-import "swiper/scss/navigation";
 
 // Import required modules
-import { Grid, Navigation } from "swiper";
+import { Grid } from "swiper";
 
 import styles from "./CartSlider.module.scss";
 
 interface ContainerProps {
   slides: Slide[];
+  setCart: React.Dispatch<React.SetStateAction<TCart[]>>;
 }
 
 type Slide = {
-  image: string;
+  id: number;
+  name: string;
   price: number;
+  photo: string;
   qty: number;
 };
 
-const SwiperSlideItem = (item: Slide, index: number) => {
+type TCart = {
+  id: number;
+  name: string;
+  price: number;
+  photo: string;
+  qty: number;
+};
+
+const SwiperSlideItem = (
+  item: Slide,
+  index: number,
+  setCart: ContainerProps["setCart"]
+) => {
+  const updateCart = (item: TCart) => {
+    setCart((current) =>
+      current.map((obj) => {
+        if (obj.id === item.id) {
+          return item;
+        }
+
+        return obj;
+      })
+    );
+  };
+
+  const handleIncrement = (item: TCart) => {
+    // Prepare new cart item
+    const newItem = { ...item, qty: item.qty + 1 };
+
+    // Update cart state
+    updateCart(newItem);
+  };
+
+  const handleDecrement = (item: TCart) => {
+    if (item.qty > 1) {
+      // Prepare new cart item
+      const newItem = { ...item, qty: item.qty - 1 };
+
+      // Update cart state
+      updateCart(newItem);
+    } else {
+      // Remove item from the cart
+      setCart((current) =>
+        current.filter((obj) => {
+          return obj.id !== item.id;
+        })
+      );
+
+      console.log("removing item from the cart ...", item.id);
+    }
+  };
+
   return (
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
         <div className={styles.slideImageContainer}>
-          <img src={item.image} alt="" />
+          <img
+            src={
+              item.photo == "no-images.jpg"
+                ? "https://via.placeholder.com/500"
+                : process.env.REACT_APP_BASE_URL + item.photo
+            }
+            alt=""
+          />
           <div className={styles.slidePriceContainer}>
             <p className={styles.slidePrice}>{item.price}php</p>
           </div>
@@ -41,11 +101,19 @@ const SwiperSlideItem = (item: Slide, index: number) => {
             className={`d-flex justify-content-center align-items-center ${styles.qty}`}
           >
             <Button>
-              <Dash color="#000000" size={14} />
+              <Dash
+                color="#000000"
+                size={14}
+                onClick={() => handleDecrement(item)}
+              />
             </Button>
             <span className={styles.num}>{item.qty}</span>
             <Button>
-              <Plus color="#000000" size={14} />
+              <Plus
+                color="#000000"
+                size={14}
+                onClick={() => handleIncrement(item)}
+              />
             </Button>
           </div>
         </div>
@@ -54,7 +122,7 @@ const SwiperSlideItem = (item: Slide, index: number) => {
   );
 };
 
-const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
+const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   return (
     <>
       {/* Desktop version */}
@@ -64,7 +132,7 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-none d-md-block ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return SwiperSlideItem(item, index);
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
 
@@ -87,7 +155,7 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-md-none ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return SwiperSlideItem(item, index);
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
     </>
