@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 import OrderSummary from "./OrderSummary";
@@ -8,10 +8,45 @@ import BillDetails from "./BillDetails";
 import ConfirmOrder from "./ConfirmOrder";
 import NewAddress from "./NewAddress";
 
+type TCart = {
+  id: number;
+  name: string;
+  price: number;
+  photo: string;
+  qty: number;
+};
+
+type TSummaryDetails = {
+  deliveryFee: number;
+  itemCount: number;
+  subtotal: number;
+  total: number;
+};
+
+type TCheckout = {
+  products: TCart[];
+  restaurant_id: number;
+  summaryDetails: TSummaryDetails;
+};
+
 interface ContainerProps {}
 
 const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [isNewAddress, setIsNewAddress] = useState(false);
+  const [checkout, setCheckout] = useState<TCheckout | null>(null);
+
+  useEffect(() => {
+    // Get checkout details from localStorage
+    let checkoutDetails = localStorage.getItem("checkout") || null;
+
+    // if (checkoutDetails) {
+    //   checkoutDetails =
+    //     checkoutDetails && (JSON.parse(checkoutDetails) as TCheckout);
+    //   setCheckout(checkoutDetails);
+    // }
+
+    // console.log(checkoutDetails);
+  }, []);
 
   return (
     <Container fluid="md" className={styles.container}>

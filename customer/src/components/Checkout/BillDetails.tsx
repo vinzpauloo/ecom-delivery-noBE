@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Form } from "react-bootstrap";
 
 import styles from "./BillDetails.module.scss";
 
+type TSummary = {
+  deliveryFee: number;
+  itemCount: number;
+  subtotal: number;
+  total: number;
+};
+
 interface ContainerProps {}
 
 const BillDetails: React.FC<ContainerProps> = ({}) => {
+  const [summary, setSummary] = useState<TSummary>();
+
+  useEffect(() => {
+    let checkoutDetails = localStorage.getItem("checkout") || "";
+    let checkoutDetailsObj = JSON.parse(checkoutDetails);
+    setSummary(checkoutDetailsObj.summaryDetails);
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.innerContainer}>
@@ -27,7 +42,7 @@ const BillDetails: React.FC<ContainerProps> = ({}) => {
               <span>Item count</span>
             </Col>
             <Col>
-              <strong>003</strong>
+              <strong>{summary?.itemCount}</strong>
             </Col>
           </Row>
 
@@ -36,7 +51,7 @@ const BillDetails: React.FC<ContainerProps> = ({}) => {
               <span>Sub-Total</span>
             </Col>
             <Col>
-              <strong>1,126 php</strong>
+              <strong>{summary?.subtotal} php</strong>
             </Col>
           </Row>
 
@@ -45,7 +60,7 @@ const BillDetails: React.FC<ContainerProps> = ({}) => {
               <span>Delivery fee</span>
             </Col>
             <Col>
-              <strong>86 php</strong>
+              <strong>{summary?.deliveryFee} php</strong>
             </Col>
           </Row>
 
@@ -54,7 +69,7 @@ const BillDetails: React.FC<ContainerProps> = ({}) => {
               <strong>Total</strong>
             </Col>
             <Col>
-              <strong>1,212 php</strong>
+              <strong>{summary?.total} php</strong>
             </Col>
           </Row>
         </div>

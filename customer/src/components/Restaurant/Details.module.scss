@@ -93,8 +93,7 @@
     margin-top: 5px;
   }
 
-  button,
-  a {
+  button {
     border: 1px solid #584016;
     border-radius: 5px;
     display: block;
@@ -110,10 +109,13 @@
 
     &.btnCheckout {
       background-color: $FM_BG_YELLOW;
+      border-color: #584016;
+      color: #000000;
     }
 
     &.btnCancel {
       background-color: #bf9520;
+      border-color: #584016;
       color: #000000;
     }
 
@@ -216,8 +218,7 @@
       margin: 15px -3px 20px;
     }
 
-    button,
-    a {
+    button {
       font-size: 12px;
       flex: 50%;
       line-height: 28px;

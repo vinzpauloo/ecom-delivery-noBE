@@ -6,17 +6,13 @@ import styles from "./ConfirmOrder.module.scss";
 interface ContainerProps {}
 
 const ConfirmOrder: React.FC<ContainerProps> = ({}) => {
-  const handleOnClick = () => {
-    console.log("Confirming order ...");
-  };
-
   return (
     <div className={styles.container}>
       <Button
         variant="primary"
         type="submit"
         className="mt-4"
-        onClick={handleOnClick}
+        form="delivery-details"
       >
         Confirm Order
       </Button>
