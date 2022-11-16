@@ -37,9 +37,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
   const { getUser, updateUser } = useUser();
-
   const {
     reset,
     register,

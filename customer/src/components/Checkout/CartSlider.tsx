@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
 
@@ -20,8 +20,10 @@ interface ContainerProps {
 }
 
 type Slide = {
-  image: string;
+  id: number;
+  name: string;
   price: number;
+  photo: string;
   qty: number;
 };
 
@@ -30,7 +32,14 @@ const SwiperSlideItem = (item: Slide, index: number) => {
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
         <div className={styles.slideImageContainer}>
-          <img src={item.image} alt="" />
+          <img
+            src={
+              item.photo == "no-images.jpg"
+                ? "https://via.placeholder.com/500"
+                : process.env.REACT_APP_BASE_URL + item.photo
+            }
+            alt=""
+          />
           <div className={styles.slidePriceContainer}>
             <p className={styles.slidePrice}>{item.price}php</p>
           </div>
@@ -55,20 +64,19 @@ const SwiperSlideItem = (item: Slide, index: number) => {
 };
 
 const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
-  return (
+  return slides.length ? (
     <>
-      {/* Desktop version */}
       <Swiper
         slidesPerView={4}
         spaceBetween={10}
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
+        {/* Desktop version */}
         {slides.map((item, index) => {
           return SwiperSlideItem(item, index);
         })}
       </Swiper>
 
-      {/* Mobile version */}
       <Swiper
         slidesPerView={2.25}
         spaceBetween={10}
@@ -86,11 +94,14 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         modules={[Grid]}
         className={`d-lg-none ${styles.sliderContainer}`}
       >
+        {/* Mobile version */}
         {slides.map((item, index) => {
           return SwiperSlideItem(item, index);
         })}
       </Swiper>
     </>
+  ) : (
+    <>Cart is empty.</>
   );
 };
 

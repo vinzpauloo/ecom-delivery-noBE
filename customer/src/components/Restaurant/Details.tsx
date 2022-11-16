@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { StarFill } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Details.module.scss";
 import CategorySlider from "./CategorySlider";
@@ -92,6 +92,7 @@ const Details: React.FC<ContainerProps> = ({
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(86);
+  const navigate = useNavigate();
 
   const getItemCount = () => {
     const initialValue = 0;
@@ -107,6 +108,30 @@ const Details: React.FC<ContainerProps> = ({
     setItemCount(getItemCount());
     setSubtotal(getSubtotal());
     setTotal(getSubtotal() + deliveryFee);
+  };
+
+  const handleCheckout = () => {
+    console.log("Navigating to checkout page ...");
+
+    const summaryDetails = {
+      itemCount,
+      subtotal,
+      deliveryFee,
+      total,
+    };
+
+    const checkout = {
+      products: cart,
+      summaryDetails,
+      restaurant_id: restaurant?.id,
+    };
+
+    localStorage.setItem("checkout", JSON.stringify(checkout));
+    navigate("/checkout");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancel order ....");
   };
 
   useEffect(() => {
@@ -255,10 +280,12 @@ const Details: React.FC<ContainerProps> = ({
               className="d-flex flex-column justify-content-center"
             >
               <div className="d-flex flex-md-column gap-2">
-                <Link to="/checkout" className={styles.btnCheckout}>
+                <Button className={styles.btnCheckout} onClick={handleCheckout}>
                   Checkout
-                </Link>
-                <Button className={styles.btnCancel}>Cancel Order</Button>
+                </Button>
+                <Button className={styles.btnCancel} onClick={handleCancel}>
+                  Cancel Order
+                </Button>
               </div>
             </Col>
           </Row>

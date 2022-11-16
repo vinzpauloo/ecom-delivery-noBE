@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios, { AxiosError } from "axios";
+import { useOTP } from "../../hooks/useOTP";
+import { useCalculateHash } from "../../hooks/useCalculateHash";
+import { useHelper } from "../../hooks/useHelper";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
 
+import OtpInput from "./OtpInput";
 import styles from "./OtpForm.module.scss";
+import constants from "../../utils/constants.json";
+import { useOrder } from "../../hooks/useOrder";
 
 interface ContainerProps {}
+
+const IS_TESTING = process.env.NODE_ENV !== "production";
 
 const OtpSuccessModal = (props: any) => {
   return (
@@ -18,7 +29,7 @@ const OtpSuccessModal = (props: any) => {
           <p className="mt-4">OTP Verified Successfully</p>
 
           <Link
-            to="/delivery-status"
+            to="/order/1"
             className={`d-inline-block mt-2 ${styles.button}`}
           >
             Go to Delivery Status
@@ -29,17 +40,150 @@ const OtpSuccessModal = (props: any) => {
   );
 };
 
-const OtpFormOrder: React.FC<ContainerProps> = ({}) => {
-  const [modalShow, setModalShow] = useState(false);
+const OtpErrorModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4 ${styles.lottie}`}>
+          {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+          <h4 className="mt-4 text-danger">Oops!</h4>
+          <p className="mt-4">{props?.modalerror}</p>
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setModalShow(true);
+          <Link
+            to="#"
+            className={`d-inline-block mt-2 ${styles.button}`}
+            onClick={() => props?.setmodalerrorshow(false)}
+          >
+            Close
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+const OtpFormOrder: React.FC<ContainerProps> = () => {
+  const [error, setError] = useState("");
+  const [modalError, setModalError] = useState("");
+  const [otpCode, setOtpCode] = useState();
+  const [multipleErrors, setMultipleErrors] = useState([""]);
+  const [counter, setCounter] = useState(constants.otpCountdown);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalErrorShow, setModalErrorShow] = useState(false);
+  const { requestOTP, verifyOTP } = useOTP();
+  const navigate = useNavigate();
+  const { calculateHash } = useCalculateHash();
+  const { getCountdown } = useHelper();
+  const { createOrder } = useOrder();
+
+  const [otp, setOtp] = useState("");
+  const onChange = (value: string) => {
+    console.log(otp);
+    setOtp(value);
+  };
+
+  const { handleSubmit } = useForm();
+
+  // Prepare order object
+  const order = localStorage.getItem("order") || "";
+
+  const getMobile = () => {
+    return JSON.parse(order)?.mobile;
+  };
+
+  useEffect(() => {
+    console.log("OtpFormOrder");
+
+    if (!order || !getMobile()) {
+      console.log("Missing required details!");
+      navigate("/register");
+      return;
+    }
+
+    handleSendOTP();
+  }, []);
+
+  // Countdown timer
+  useEffect(() => {
+    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
+
+  // Send OTP request
+  const handleSendOTP = async () => {
+    const otpRequestData = {
+      mobile: getMobile(),
+      testing: IS_TESTING,
+    };
+
+    // Reset counter & errors
+    setCounter(constants.otpCountdown);
+    setError("");
+
+    console.log("Requesting otp ...", otpRequestData);
+
+    const response = await requestOTP(otpRequestData);
+    console.log("handleSendOTP response", response);
+    setOtpCode(response.code);
+  };
+
+  // Verify OTP request
+  const onSubmit = async () => {
+    console.log("inside onSubmit");
+
+    if (!otp) {
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
+      return;
+    }
+
+    console.log("onSubmit", otp);
+    console.log("mobile", getMobile());
+
+    const otpVerifyData = {
+      mobile: getMobile(),
+      code: parseInt(otp),
+      guest: false,
+    };
+
+    console.log("otpVerifyData", otpVerifyData);
+
+    const response = await verifyOTP(otpVerifyData);
+    console.log("response", response);
+
+    if (response.error) {
+      // OTP Verification error
+      // setError(response.error);
+      setModalError(constants.form.error.missingOtp);
+      setModalErrorShow(true);
+    } else {
+      // OTP Verification success
+      console.log("OTP Verification success");
+      console.log("Creating order ...", JSON.parse(order));
+
+      /* Create order */
+      const responseOrder = await createOrder(JSON.parse(order));
+      console.log("/api/orders", responseOrder);
+
+      if (responseOrder.error) {
+        setModalError("Something went wrong when creating order.");
+        setModalErrorShow(true);
+      } else {
+        console.log("Create order success!", response);
+
+        setModalShow(true);
+      }
+    }
   };
 
   return (
     <>
       <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpErrorModal
+        show={modalErrorShow}
+        onHide={() => setModalErrorShow(false)}
+        modalerror={modalError}
+        setmodalerrorshow={setModalErrorShow}
+      />
 
       <div className="text-center">
         <div className={styles.title}>
@@ -47,24 +191,39 @@ const OtpFormOrder: React.FC<ContainerProps> = ({}) => {
           <p>We have sent an OTP to your mobile number</p>
         </div>
 
-        <Form className={styles.form} onSubmit={handleSubmit}>
+        <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Row>
-            <Col className="d-flex justify-content-center gap-3 gap-lg-5">
-              <Form.Control id="num1" name="num1" type="text" maxLength={1} />
-              <Form.Control id="num2" name="num2" type="text" maxLength={1} />
-              <Form.Control id="num3" name="num3" type="text" maxLength={1} />
-              <Form.Control id="num4" name="num4" type="text" maxLength={1} />
-              <Form.Control id="num5" name="num5" type="text" maxLength={1} />
-              <Form.Control id="num6" name="num6" type="text" maxLength={1} />
+            <Col>
+              <OtpInput value={otp} valueLength={6} onChange={onChange} />
             </Col>
           </Row>
 
           <Row>
             <Col lg={{ span: 8, offset: 2 }}>
               <div className={styles.countdown}>
-                <p className="text-center text-lg-end my-5">
-                  Resend OTP in <span>00:30</span>
-                </p>
+                <div className="position-relative text-center text-lg-start my-5">
+                  {/* Error messages */}
+                  <div className={styles.errors}>
+                    <p>{error}</p>
+
+                    {/* Errors from backend */}
+                    {multipleErrors.map((item, index) => {
+                      return <p key={index}>{item}</p>;
+                    })}
+                  </div>
+
+                  <p className="mb-0 text-lg-end">
+                    {counter ? (
+                      <>
+                        Resend OTP in <span>{getCountdown(counter)}</span>
+                      </>
+                    ) : (
+                      <Link to="#" onClick={handleSendOTP}>
+                        Click to Resend OTP
+                      </Link>
+                    )}
+                  </p>
+                </div>
               </div>
             </Col>
           </Row>
@@ -83,6 +242,14 @@ const OtpFormOrder: React.FC<ContainerProps> = ({}) => {
           </Row>
         </Form>
       </div>
+
+      {IS_TESTING ? (
+        <h6 className="mt-4 text-center text-success">
+          For testing only.
+          <br />
+          OTP Code: {otpCode}
+        </h6>
+      ) : null}
     </>
   );
 };

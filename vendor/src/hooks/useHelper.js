@@ -26,15 +26,15 @@ export const useHelper = () => {
     return result;
   };
 
-  const uploadToFirebase = async (imageUpload) => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `merchant/menu/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        console.log(url);
-      });
-    });
-  };
+  // const uploadToFirebase = async (imageUpload) => {
+  //   if (imageUpload == null) return;
+  //   const imageRef = ref(storage, `merchant/menu/${imageUpload.name + v4()}`);
+  //   uploadBytes(imageRef, imageUpload).then((snapshot) => {
+  //     getDownloadURL(snapshot.ref).then((url) => {
+  //       console.log(url);
+  //     });
+  //   });
+  // };
 
-  return { getCountdown, uploadToFirebase };
+  return { getCountdown };
 };

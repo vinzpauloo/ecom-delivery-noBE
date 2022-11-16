@@ -8,24 +8,58 @@ import {
   Modal,
   Dropdown,
 } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useHelper } from "../../../hooks/useHelper";
+import { useProduct } from "../../../hooks/useProduct";
+
+import { useAuthUser } from "react-auth-kit";
 
 import styles from "./ProductContent.module.scss";
+import constants from "../../../utils/constants.json";
 
 import SearchIcon from "../../../assets/images/search.png";
-import ResetPassword from "../../../pages/Account/ResetPassword";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
-import { ConeStriped } from "react-bootstrap-icons";
 
 interface ContainerProps {}
+
+type TMenu = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  photo: string;
+  is_available: number;
+};
 
 const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const [product, setProduct] = useState<TMenu[] | null>(null);
+  const { getProduct } = useProduct();
+
+  const auth = useAuthUser();
+
+  const loadRestaurantProduct = async () => {
+    const params = {
+      restaurant_id: auth()?.restaurant[0].id,
+      with: "categories",
+    };
+    console.log(params);
+
+    const response = await getProduct(params);
+    console.log("getRestaurantProduct response", response);
+    setProduct(response);
+  };
+
+  useEffect(() => {
+    loadRestaurantProduct();
+  }, []);
+
   return (
     <div className={styles.tableContainer}>
       <div className="">
@@ -63,9 +97,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                   <p className={styles.textParagrap}>Name</p>
                 </th>
                 <th>
-                  <p className={styles.textParagrap}>Description</p>
-                </th>
-                <th>
                   <p className={styles.textParagrap}>Price</p>
                 </th>
                 <th>
@@ -77,12 +108,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
               </tr>
             </thead>
             <tbody className={styles.tBody}>
-              <tr>
+              {/* <tr>
                 <td>
                   <p className={styles.textParagrap2}>Title of the Food</p>
-                </td>
-                <td>
-                  <p className={styles.textParagrap2}>Food Description</p>
                 </td>
                 <td>
                   <p className={styles.textParagrap2}>100 php</p>
@@ -91,7 +119,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                   <Form.Check type="switch" />
                 </td>
                 <td>
-                  {/* <div>
+                  <div>
                     <Button
                       className={styles.btnEdit}
                       onClick={() => setEditModal(true)}
@@ -112,9 +140,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       show={deleteModal}
                       onHide={() => setDeleteModal(false)}
                     />
-                  </div> */}
+                  </div>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </Table>
         </Form>
@@ -123,13 +151,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-const imageMimeType = /image\/(png|jpg|jpeg)/i;
+// const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 // Setup form schema & validation
 interface IFormInputs {
   name: string;
   description: string;
   price: string;
+  photo: string;
 }
 
 const schema = yup
@@ -141,8 +170,12 @@ const schema = yup
   .required();
 
 function MenuModal(props: any) {
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorMobile, setErrorMobile] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const { postProduct } = useProduct();
+
+  const auth = useAuthUser();
 
   const {
     register,
@@ -155,48 +188,57 @@ function MenuModal(props: any) {
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
 
+    const response = await postProduct(data);
+    console.log("add product response", response);
+
+    if (!response.error) {
+      setMessage(constants.form.success.addProduct);
+    } else {
+      setError(response.error);
+    }
+
     // const response = await uploadToFirebase(file);
 
-    uploadToFirebase(file).then((response) => {
-      console.log(response);
-    });
+    // uploadToFirebase(file).then((response) => {
+    //   console.log(response);
+    // });
 
     // console.log(response);
   };
 
-  const [file, setFile] = useState();
-  const [fileDataURL, setFileDataURL] = useState("");
-  const { uploadToFirebase } = useHelper();
+  // const [file, setFile] = useState();
+  // const [fileDataURL, setFileDataURL] = useState("");
+  // const { uploadToFirebase } = useHelper();
 
-  const changeHandler = (e: any) => {
-    const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      alert("Image mime type is not valid");
-      return;
-    }
-    setFile(file);
-  };
+  // const changeHandler = (e: any) => {
+  //   const file = e.target.files[0];
+  //   if (!file.type.match(imageMimeType)) {
+  //     alert("Image mime type is not valid");
+  //     return;
+  //   }
+  //   setFile(file);
+  // };
 
-  useEffect(() => {
-    let fileReader,
-      isCancel = false;
-    if (file) {
-      fileReader = new FileReader();
-      fileReader.onload = (e: any) => {
-        const { result } = e.target;
-        if (result && !isCancel) {
-          setFileDataURL(result);
-        }
-      };
-      fileReader.readAsDataURL(file);
-    }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
-  }, [file]);
+  // useEffect(() => {
+  //   let fileReader,
+  //     isCancel = false;
+  //   if (file) {
+  //     fileReader = new FileReader();
+  //     fileReader.onload = (e: any) => {
+  //       const { result } = e.target;
+  //       if (result && !isCancel) {
+  //         setFileDataURL(result);
+  //       }
+  //     };
+  //     fileReader.readAsDataURL(file);
+  //   }
+  //   return () => {
+  //     isCancel = true;
+  //     if (fileReader && fileReader.readyState === 1) {
+  //       fileReader.abort();
+  //     }
+  //   };
+  // }, [file]);
 
   return (
     <Modal {...props} size="xl">
@@ -248,7 +290,7 @@ function MenuModal(props: any) {
               </Form.Group>
             </Col>
             <Col>
-              <img src={fileDataURL} className={styles.thumbNail} />
+              {/* <img src={fileDataURL} className={styles.thumbNail} /> */}
             </Col>
           </Row>
           <Row>
@@ -269,9 +311,11 @@ function MenuModal(props: any) {
             <Col>
               <Form.Control
                 className={styles.btnUpload}
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                onChange={changeHandler}
+                type="text"
+                // accept=".png, .jpg, .jpeg"
+                value="https://placeholder.com/"
+                // onChange={changeHandler}
+                {...register("photo")}
               />
             </Col>
           </Row>
