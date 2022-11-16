@@ -18,6 +18,9 @@
       "passwordMax": "*Password must be at most 16 characters.",
       "passwordConfirm": "*Password don't match.",
       "missingOtp": "Please input your OTP code."
+    },
+    "success": {
+      "updateProfile": "Customer profile updated successfully!"
     }
   },
   "otpCountdown": 300
