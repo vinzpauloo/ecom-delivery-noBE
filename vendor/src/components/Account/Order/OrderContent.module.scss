@@ -22,3 +22,351 @@
     margin-left: 28px;
   }
 }
+
+//
+
+.orderDeliveryContainer {
+  .orderId {
+    background: #a47e3b;
+    border: 0.5px solid #61481c;
+    border-radius: 2px;
+    width: 85px;
+    height: 22px;
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  .orderItems {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 90px;
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    color: black;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+    overflow-y: scroll;
+
+    ul:before {
+      content: attr(aria-label);
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: -29px;
+      text-align: center;
+    }
+
+    li {
+      list-style: none;
+      font-weight: 300;
+      font-size: 10px;
+      line-height: 10px;
+      margin-left: -29px;
+    }
+  }
+  .deliveryFee {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 30px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    span {
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .grandTotal {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 30px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    span {
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .customerInfo {
+    background: #fde9b1;
+    border: 1px solid #61481c;
+    border-radius: 0px 5px 5px 5px;
+    width: 262px;
+    height: 185px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    @media (width: 320px) {
+      width: 209px;
+    }
+
+    @media (min-width: 768px) {
+      width: 600px;
+    }
+
+    li {
+      font-weight: 250;
+      font-size: 10px;
+      line-height: 13px;
+      list-style: none;
+
+      span {
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 13px;
+      }
+      img {
+        margin-left: 2px;
+        width: 15%;
+
+        @media (min-width: 768px) {
+          width: 10%;
+        }
+      }
+    }
+    .declineAccept {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      font-size: 8px;
+      margin-top: 5px;
+
+      a {
+        background: black;
+        padding: 0.1em 1em;
+        border: 0.5px solid #61481c;
+        border-radius: 3px;
+        color: #f0bb62;
+      }
+    }
+  }
+}
+//
+.orderDeliveryContainerDesktop {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+
+  .orderId {
+    background: #a47e3b;
+    border: 0.5px solid #61481c;
+    border-radius: 2px;
+    width: 105px;
+    height: 42px;
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 38px;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  .orderItems {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 90px;
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    color: black;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+
+    ul:before {
+      content: attr(aria-label);
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: -29px;
+      text-align: center;
+    }
+
+    li {
+      list-style: none;
+      font-weight: 300;
+      font-size: 10px;
+      line-height: 10px;
+      margin-left: -29px;
+    }
+  }
+  .deliveryFee {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 30px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    span {
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .grandTotal {
+    background: #d9d9d9;
+    border: 1px solid #525252;
+    border-radius: 5px;
+    width: 85px;
+    height: 30px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: center;
+
+    span {
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .customerInfo {
+    background: #fde9b1;
+    border: 1px solid #61481c;
+    border-radius: 0px 5px 5px 5px;
+    width: 562px;
+    height: 185px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    @media (width: 320px) {
+      width: 209px;
+    }
+
+    li {
+      font-weight: 250;
+      font-size: 10px;
+      line-height: 13px;
+      list-style: none;
+      margin-top: 5px;
+
+      span {
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 13px;
+      }
+      img {
+        margin-left: 2px;
+        width: 8%;
+
+        @media (min-width: 768px) {
+          width: 10%;
+        }
+      }
+    }
+    .declineAccept {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      font-size: 8px;
+      margin-top: 5px;
+
+      a {
+        background: black;
+        padding: 0.1em 1em;
+        border: 0.5px solid #61481c;
+        border-radius: 3px;
+        color: #f0bb62;
+      }
+    }
+  }
+}
+//
+
+.bottomButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+
+  @media (max-width: 425px) {
+    // margin-top: 270px;
+  }
+
+  button {
+    background: #d9d9d9;
+    padding: 0.5em 2em;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 15px;
+    cursor: pointer;
+
+    @media (max-width: 425px) {
+      font-size: 10px;
+    }
+  }
+}
+
+.rewardsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  .rewardsBtn {
+    color: white;
+    margin-top: 30px;
+    position: relative;
+    a {
+      background: #e6b325;
+      border: 1px solid #61481c;
+      border-radius: 5px;
+      padding: 1em 7em;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 24px;
+      margin-top: 40px;
+      cursor: pointer;
+
+      @media (max-width: 425px) {
+        font-size: 12px;
+        padding: 0.5em 4em;
+      }
+    }
+    img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: -1px;
+      right: 90px;
+
+      @media (max-width: 425px) {
+        top: 5px;
+        right: 25px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

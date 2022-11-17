@@ -180,7 +180,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
           console.log("Register success!", response);
 
           // Reset localStorage values
-          localStorage.removeItem("register");
+          localStorage.removeItem("registerUser");
 
           // Show modal after register
           setModalShow(true);

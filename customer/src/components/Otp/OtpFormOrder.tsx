@@ -14,7 +14,7 @@ import otpSuccess from "../../assets/otp-success.json";
 import OtpInput from "./OtpInput";
 import styles from "./OtpForm.module.scss";
 import constants from "../../utils/constants.json";
-import { useOrder } from "../../hooks/useOrder";
+import { useOrders } from "../../hooks/useOrders";
 
 interface ContainerProps {}
 
@@ -29,7 +29,7 @@ const OtpSuccessModal = (props: any) => {
           <p className="mt-4">OTP Verified Successfully</p>
 
           <Link
-            to="/order/1"
+            to={`/order/${props?.orderid}`}
             className={`d-inline-block mt-2 ${styles.button}`}
           >
             Go to Delivery Status
@@ -70,11 +70,11 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
   const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
   const [modalErrorShow, setModalErrorShow] = useState(false);
+  const [orderId, setOrderId] = useState(0);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
-  const { calculateHash } = useCalculateHash();
   const { getCountdown } = useHelper();
-  const { createOrder } = useOrder();
+  const { createOrder } = useOrders();
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
@@ -86,7 +86,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   // Prepare order object
   const order = localStorage.getItem("order") || "";
-  const orderObject = JSON.parse(order);
+  const orderObject = order ? JSON.parse(order) : "";
 
   const getMobile = () => {
     return orderObject?.mobile;
@@ -169,11 +169,14 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
         setModalError("Something went wrong when creating order.");
         setModalErrorShow(true);
       } else {
-        console.log("Create order success!", response);
+        console.log("Create order success!", responseOrder);
 
         // Reset localStorage values
         localStorage.removeItem("checkout");
         localStorage.removeItem("order");
+
+        // Set new order id
+        setOrderId(responseOrder.id);
 
         // Show modal after create order
         setModalShow(true);
@@ -183,7 +186,11 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   return (
     <>
-      <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpSuccessModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        orderid={orderId}
+      />
       <OtpErrorModal
         show={modalErrorShow}
         onHide={() => setModalErrorShow(false)}
