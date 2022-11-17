@@ -150,7 +150,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
     if (response.error) {
       // OTP Verification error
       // setError(response.error);
-      setModalError(constants.form.error.missingOtp);
+      setModalError(response.error);
       setModalErrorShow(true);
     } else {
       // OTP Verification success
@@ -178,6 +178,9 @@ const OtpForm: React.FC<ContainerProps> = () => {
           const { data } = response.data;
 
           console.log("Register success!", response);
+
+          // Reset localStorage values
+          localStorage.removeItem("register");
 
           // Show modal after register
           setModalShow(true);

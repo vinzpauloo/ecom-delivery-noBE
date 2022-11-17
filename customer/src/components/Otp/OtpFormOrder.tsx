@@ -86,9 +86,10 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   // Prepare order object
   const order = localStorage.getItem("order") || "";
+  const orderObject = JSON.parse(order);
 
   const getMobile = () => {
-    return JSON.parse(order)?.mobile;
+    return orderObject?.mobile;
   };
 
   useEffect(() => {
@@ -153,15 +154,15 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
     if (response.error) {
       // OTP Verification error
       // setError(response.error);
-      setModalError(constants.form.error.missingOtp);
+      setModalError(response.error);
       setModalErrorShow(true);
     } else {
       // OTP Verification success
       console.log("OTP Verification success");
-      console.log("Creating order ...", JSON.parse(order));
+      console.log("Creating order ...", orderObject);
 
       /* Create order */
-      const responseOrder = await createOrder(JSON.parse(order));
+      const responseOrder = await createOrder(orderObject);
       console.log("/api/orders", responseOrder);
 
       if (responseOrder.error) {
@@ -170,6 +171,11 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
       } else {
         console.log("Create order success!", response);
 
+        // Reset localStorage values
+        localStorage.removeItem("checkout");
+        localStorage.removeItem("order");
+
+        // Show modal after create order
         setModalShow(true);
       }
     }
