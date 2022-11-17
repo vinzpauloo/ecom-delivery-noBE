@@ -29,7 +29,7 @@ const OtpSuccessModal = (props: any) => {
           <p className="mt-4">OTP Verified Successfully</p>
 
           <Link
-            to="/order/1"
+            to={`/order/${props?.orderid}`}
             className={`d-inline-block mt-2 ${styles.button}`}
           >
             Go to Delivery Status
@@ -70,6 +70,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
   const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
   const [modalErrorShow, setModalErrorShow] = useState(false);
+  const [orderId, setOrderId] = useState(0);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
   const { getCountdown } = useHelper();
@@ -174,6 +175,9 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
         localStorage.removeItem("checkout");
         localStorage.removeItem("order");
 
+        // Set new order id
+        setOrderId(responseOrder.id);
+
         // Show modal after create order
         setModalShow(true);
       }
@@ -182,7 +186,11 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   return (
     <>
-      <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpSuccessModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        orderid={orderId}
+      />
       <OtpErrorModal
         show={modalErrorShow}
         onHide={() => setModalErrorShow(false)}

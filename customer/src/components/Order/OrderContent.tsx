@@ -11,11 +11,7 @@ import styles from "./OrderContent.module.scss";
 interface ContainerProps {}
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
-  useEffect(() => {
-    // Reset localStorage values
-    localStorage.removeItem("checkout");
-    localStorage.removeItem("order");
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.container}>

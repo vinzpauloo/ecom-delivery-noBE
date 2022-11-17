@@ -8,41 +8,6 @@ import CategorySlider from "./CategorySlider";
 import MenuSlider from "./MenuSlider";
 import CartSlider from "./CartSlider";
 
-// Sample static images
-import cuisine01 from "../../assets/images/cuisine01.png";
-import cuisine02 from "../../assets/images/cuisine02.png";
-import cuisine03 from "../../assets/images/cuisine03.png";
-import cuisine05 from "../../assets/images/cuisine05.png";
-import cuisine07 from "../../assets/images/cuisine07.png";
-
-const cartSlides = [
-  {
-    image: cuisine02,
-    price: 100,
-    qty: 1,
-  },
-  {
-    image: cuisine03,
-    price: 400,
-    qty: 3,
-  },
-  {
-    image: cuisine01,
-    price: 700,
-    qty: 5,
-  },
-  {
-    image: cuisine05,
-    price: 300,
-    qty: 4,
-  },
-  {
-    image: cuisine07,
-    price: 900,
-    qty: 7,
-  },
-];
-
 interface ContainerProps {
   restaurant: TRestaurant | null;
   menu: TMenu[] | null;
