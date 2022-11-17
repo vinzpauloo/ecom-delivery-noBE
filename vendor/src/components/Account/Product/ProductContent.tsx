@@ -107,7 +107,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
             </thead>
             {product?.map((item, index) => {
               return (
-                <tbody className={styles.tBody}>
+                <tbody className={styles.tBody} key={index}>
                   <tr>
                     <td>
                       <p className={styles.textParagrap2}>{item.name}</p>
