@@ -6,7 +6,7 @@
   padding: 40px 0;
   @include devices(md) {
     min-height: auto;
-    margin-bottom: -285px + $FM_FOOTER_HEIGHT_MD;
+    margin-bottom: -175px + $FM_FOOTER_HEIGHT_MD;
   }
   @media (max-width: 767px) {
     background-color: #fdf5e7;

@@ -9,7 +9,7 @@ export const useProduct = () => {
   const postProduct = async (data) => {
     try {
       // START: Add product API
-      const endpoint = "api/products/";
+      const endpoint = "api/products";
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -71,7 +71,7 @@ export const useProduct = () => {
 
     try {
       // START: Get restaurant product API
-      const endpoint = "api/products/all";
+      const endpoint = "api/products/merchant/all";
       const options = {
         params: data,
         headers: {

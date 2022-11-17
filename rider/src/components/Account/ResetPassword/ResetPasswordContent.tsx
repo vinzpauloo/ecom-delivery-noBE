@@ -1,9 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { EyeFill, EyeSlashFill, EnvelopeFill } from "react-bootstrap-icons";
 
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useChangePass } from "../../../hooks/useChangePass";
+
 import styles from "./ResetPasswordContent.module.scss";
+import constants from "../../../utils/constants.json";
+
+// Setup form schema & validation
+interface IFormInputs {
+  password: string;
+  password_confirmation: string;
+  current_password: string;
+}
+
+const schema = yup
+  .object({
+    password: yup.string().min(6, constants.form.error.passwordMin).required(),
+    password_confirmation: yup.string().required(),
+    current_password: yup.string().required(),
+  })
+  .required();
 
 interface ContainerProps {}
 
@@ -19,6 +40,49 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
   const [currentPassword, setCurrentPassword] = useState("password");
   const [newPassword, setNewPassword] = useState("password");
   const [retypePassword, setRetypePassword] = useState("password");
+
+  const { getUser, updatePassword } = useChangePass();
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async (data: IFormInputs) => {
+    console.log("Requesting updateUser ...");
+
+    const response = await updatePassword(data);
+    console.log("updateUser response", response);
+
+    if (!response.error) {
+      setMessage(constants.form.success.updatePassword);
+    } else {
+      setError(response.error);
+    }
+  };
+
+  // Get user request
+  // const handleGetUser = async () => {
+  //   console.log("Requesting getUser ...");
+
+  //   const response = await getUser();
+  //   console.log("handleGetUser response", response);
+  //   let defaultValues = {
+  //     password: response.password,
+  //   };
+
+  //   reset(defaultValues);
+  // };
+
+  useEffect(() => {
+    // handleGetUser();
+  }, []);
 
   const handleToggleCurrentPassword = () => {
     if (currentPassword === "password") {
@@ -44,10 +108,10 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
 
   return (
     <div>
-      <Form className={styles.form}>
+      <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInnerContainer}>
           <h3>Change Password</h3>
-          <Row>
+          {/* <Row>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
@@ -57,7 +121,7 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col>
               <Form.Group className="position-relative">
@@ -65,6 +129,7 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
                   id="current_password"
                   type={currentPassword}
                   placeholder="Current Password"
+                  {...register("current_password")}
                 />
                 <Link to="#" onClick={handleToggleCurrentPassword}>
                   <EyeIcon type={currentPassword} />
@@ -79,6 +144,7 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
                   id="new_password"
                   type={newPassword}
                   placeholder="New Password"
+                  {...register("password")}
                 />
                 <Link to="#" onClick={handleToggleNewPassword}>
                   <EyeIcon type={newPassword} />
@@ -93,6 +159,7 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
                   id="retype_password"
                   type={retypePassword}
                   placeholder="Re-type Password"
+                  {...register("password_confirmation")}
                 />
                 <Link to="#" onClick={handleToggleRetypePassword}>
                   <EyeIcon type={retypePassword} />
@@ -102,7 +169,9 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row>
             <Col>
-              <Button className={styles.btnReset}>Reset Password</Button>
+              <Button className={styles.btnReset} type="submit">
+                Reset Password
+              </Button>
             </Col>
           </Row>
         </div>

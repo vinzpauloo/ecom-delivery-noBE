@@ -30,6 +30,7 @@ const App: React.FC = (props: Props) => {
     "/account/my-restaurant-menu",
     "/account/order-history",
     "/account/reset-password",
+    "/account/for-delivery",
   ];
 
   if (customHeaderPages.includes(location.pathname)) {

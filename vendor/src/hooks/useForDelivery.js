@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
 import { useAuthHeader } from "react-auth-kit";
 
-export const useRiderOTW = () => {
+export const useForDelivery = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 

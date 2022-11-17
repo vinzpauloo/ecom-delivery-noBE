@@ -47,7 +47,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const loadRestaurantProduct = async () => {
     const params = {
       restaurant_id: auth()?.restaurant[0].id,
-      with: "categories",
+      with: "restaurant",
     };
     console.log(params);
 
@@ -69,8 +69,15 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
               <h3>Restaurant Menu</h3>
             </Col>
           </Row>
-          {/* Button trigger modal */}
-          <Row>
+          <Row className="d-none d-lg-block">
+            <Col>
+              <Form.Control
+                className={styles.searchBar}
+                type="text"
+                placeholder="Search food and description"
+              />
+            </Col>
+            {/* Button trigger modal */}
             <Col>
               <Button
                 className={styles.btnAddProduct}
@@ -79,15 +86,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 Add Menu
               </Button>
               <MenuModal show={menuModal} onHide={() => setMenuModal(false)} />
-            </Col>
-          </Row>
-          <Row className="d-none d-lg-block">
-            <Col>
-              <Form.Control
-                className={styles.searchBar}
-                type="text"
-                placeholder="Search food and description"
-              />
             </Col>
           </Row>
           <Table>
@@ -107,43 +105,47 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 </th>
               </tr>
             </thead>
-            <tbody className={styles.tBody}>
-              {/* <tr>
-                <td>
-                  <p className={styles.textParagrap2}>Title of the Food</p>
-                </td>
-                <td>
-                  <p className={styles.textParagrap2}>100 php</p>
-                </td>
-                <td>
-                  <Form.Check type="switch" />
-                </td>
-                <td>
-                  <div>
-                    <Button
-                      className={styles.btnEdit}
-                      onClick={() => setEditModal(true)}
-                    >
-                      Edit
-                    </Button>
-                    <EditModal
+            {product?.map((item, index) => {
+              return (
+                <tbody className={styles.tBody} key={index}>
+                  <tr>
+                    <td>
+                      <p className={styles.textParagrap2}>{item.name}</p>
+                    </td>
+                    <td>
+                      <p className={styles.textParagrap2}>Php {item.price}</p>
+                    </td>
+                    <td>
+                      <Form.Check type="switch" />
+                    </td>
+                    <td>
+                      <div>
+                        <Button
+                          className={styles.btnEdit}
+                          onClick={() => setEditModal(true)}
+                        >
+                          Edit
+                        </Button>
+                        {/* <EditModal
                       show={editModal}
                       onHide={() => setEditModal(false)}
-                    />
-                    <Button
-                      className={styles.btnDelete}
-                      onClick={() => setDeleteModal(true)}
-                    >
-                      Delete
-                    </Button>
-                    <DeleteModal
+                    /> */}
+                        <Button
+                          className={styles.btnDelete}
+                          onClick={() => setDeleteModal(true)}
+                        >
+                          Delete
+                        </Button>
+                        {/* <DeleteModal
                       show={deleteModal}
                       onHide={() => setDeleteModal(false)}
-                    />
-                  </div>
-                </td>
-              </tr> */}
-            </tbody>
+                    /> */}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })}
           </Table>
         </Form>
       </div>
@@ -186,9 +188,17 @@ function MenuModal(props: any) {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    const menu = {
+      ...data,
+      restaurant_id: auth()?.restaurant[0].id,
+      is_available: true,
+      categories: [],
+      cuisines: [],
+    };
 
-    const response = await postProduct(data);
+    console.log("onSubmit", menu);
+
+    const response = await postProduct(menu);
     console.log("add product response", response);
 
     if (!response.error) {

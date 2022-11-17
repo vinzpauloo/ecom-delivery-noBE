@@ -2,23 +2,86 @@ import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
 import { useAuthHeader } from "react-auth-kit";
 
-export const useRiderOTW = () => {
+export const useOrders = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 
-  const getForDelivery = async () => {
+  const createOrder = async (data) => {
     try {
-      // START: Access For Delivery API
+      // START: Access create order API
+      const endpoint = "api/orders";
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.post(endpoint, data, options);
+      // END: Access create order API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
+  const createOrderGuest = async (data, guestSession) => {
+    try {
+      // START: Access create order as guest API
+      const endpoint = "api/guests/orders";
+      const options = {
+        headers: {
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.post(endpoint, data, options);
+      // END: Access create order as guest API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
+  const getOrders = async () => {
+    console.log("getOrders hook ...");
+
+    try {
+      // START: Access get orders API
       const endpoint = "api/orders";
       const options = {
         headers: {
           Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint),
         },
+        withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access user API
+      // END: Access get orders API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -36,24 +99,22 @@ export const useRiderOTW = () => {
     }
   };
 
-  const getForDeliveryOTW = async (data) => {
-    console.log("getForDeliveryOTW hook ...");
-    console.log(data);
+  const getOrdersById = async (id) => {
+    console.log("getOrdersById hook ...");
 
     try {
-      // START: Access order for delivery API
-      const endpoint = "api/orders";
+      // START: Access orders by id API
+      const endpoint = `api/orders/${id}`;
       const options = {
-        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Authorization": calculateHash(endpoint),
         },
         withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access order for delivery API
+      // END: Access orders by id API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -71,59 +132,22 @@ export const useRiderOTW = () => {
     }
   };
 
-  const getOrderCompleted = async (data) => {
-    console.log("getOrderCompleted hook ...");
-    console.log(data);
+  const getOrdersByIdGuest = async (id, guestSession) => {
+    console.log("getOrdersByIdGuest hook ...");
 
     try {
-      // START: Access completed orders API
-      const endpoint = "api/orders";
+      // START: Access guests orders by id API
+      const endpoint = `api/guests/orders/${id}`;
       const options = {
-        params: data,
         headers: {
-          Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint),
         },
         withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access completed orders API
-
-      if (response.status === 200) {
-        const { data } = response.data;
-
-        return data;
-      }
-    } catch (err) {
-      let error;
-      if (err && err instanceof AxiosError)
-        error = "*" + err.response?.data.message;
-      else if (err && err instanceof Error) error = err.message;
-
-      console.log("Error", err);
-      return error;
-    }
-  };
-
-  const getOrderCanceled = async (data) => {
-    console.log("getOrderCanceled hook ...");
-    console.log(data);
-
-    try {
-      // START: Access completed orders API
-      const endpoint = "api/orders";
-      const options = {
-        params: data,
-        headers: {
-          Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios.get(endpoint, options);
-      // END: Access completed orders API
+      // END: Access guests orders by id API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -142,9 +166,10 @@ export const useRiderOTW = () => {
   };
 
   return {
-    getForDelivery,
-    getForDeliveryOTW,
-    getOrderCompleted,
-    getOrderCanceled,
+    createOrder,
+    createOrderGuest,
+    getOrders,
+    getOrdersById,
+    getOrdersByIdGuest,
   };
 };

@@ -23,7 +23,8 @@
     },
     "success": {
       "updateProfile": "Vendor profile updated successfully!",
-      "addProduct": "Add Product successfully!"
+      "addProduct": "Add Product successfully!",
+      "updatePassword": "You have successfully changed your password!"
     }
   },
   "otpCountdown": 300

@@ -11,19 +11,49 @@
     }
   }
   .searchBar {
-    width: 300px;
     background-color: #f3f3f3;
     width: 435px;
     height: 38px;
     border-radius: 5px;
 
-    margin-top: 10px;
-    margin-bottom: 10px;
     margin-left: 28px;
+
+    position: absolute;
+  }
+
+  .btnCompleted {
+    background: #d9d9d9;
+    color: black;
+    font-weight: 400;
+    width: 150px;
+    border-color: #61481c;
+    float: right;
+
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: #61481c;
+      color: #d9d9d9;
+    }
+  }
+
+  .btnCancelled {
+    background: #d9d9d9;
+    color: black;
+    font-weight: 400;
+    width: 150px;
+    border-color: #61481c;
+    float: right;
+    margin-right: 20px;
+
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: #61481c;
+      color: #d9d9d9;
+    }
   }
 }
-
-//
 
 .orderDeliveryContainer {
   .orderId {
@@ -325,48 +355,6 @@
 
     @media (max-width: 425px) {
       font-size: 10px;
-    }
-  }
-}
-
-.rewardsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  .rewardsBtn {
-    color: white;
-    margin-top: 30px;
-    position: relative;
-    a {
-      background: #e6b325;
-      border: 1px solid #61481c;
-      border-radius: 5px;
-      padding: 1em 7em;
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 24px;
-      margin-top: 40px;
-      cursor: pointer;
-
-      @media (max-width: 425px) {
-        font-size: 12px;
-        padding: 0.5em 4em;
-      }
-    }
-    img {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      top: -1px;
-      right: 90px;
-
-      @media (max-width: 425px) {
-        top: 5px;
-        right: 25px;
-        width: 20px;
-        height: 20px;
-      }
     }
   }
 }

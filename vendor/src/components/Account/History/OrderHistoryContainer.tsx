@@ -17,7 +17,7 @@ const OrderHistoryContainer: React.FC<ContainerProps> = ({}) => {
           </div>
         </Col>
         <Col lg={8}>
-          <div className={`d-none d-lg-block ${styles.contentContainer}`}>
+          <div className={`${styles.contentContainer}`}>
             <OrderHistoryContent />
           </div>
         </Col>

@@ -274,42 +274,6 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </div>
             </Col>
           </Row>
-          {/* <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative d-none d-md-block">
-                <Form.Label>License Type</Form.Label>
-                <Form.Control
-                  id="license_type"
-                  type="text"
-                  {...register("license_type")}
-                  disabled={disabled}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row lg={2} xs={1}>
-            <Col>
-              <Form.Group className="position-relative d-none d-md-block">
-                <Form.Label>Year</Form.Label>
-                <Form.Control
-                  id="year"
-                  type="text"
-                  {...register("year")}
-                  disabled={disabled}
-                />
-              </Form.Group>
-            </Col>
-          </Row> */}
-
-          {/* <div className="bike-images">
-            <img src={bike1} alt="" />
-            <img src={bike2} alt="" />
-            <img src={bike3} alt="" />
-            <img src={bike4} alt="" />
-            <img src={bike5} alt="" className="d-none d-md-block" />
-          </div> */}
-
           <div className="buttons">
             <Button id="editBtn" onClick={handleInput} className="d-lg-none">
               Upload

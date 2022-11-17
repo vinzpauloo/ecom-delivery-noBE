@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
-import { useCalculateHash } from "../../hooks/useCalculateHash";
 import { useHelper } from "../../hooks/useHelper";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -14,7 +13,7 @@ import otpSuccess from "../../assets/otp-success.json";
 import OtpInput from "./OtpInput";
 import styles from "./OtpForm.module.scss";
 import constants from "../../utils/constants.json";
-import { useOrder } from "../../hooks/useOrder";
+import { useOrders } from "../../hooks/useOrders";
 
 interface ContainerProps {}
 
@@ -29,7 +28,7 @@ const OtpSuccessModal = (props: any) => {
           <p className="mt-4">OTP Verified Successfully</p>
 
           <Link
-            to="/order/1"
+            to={`/order/${props?.orderid}`}
             className={`d-inline-block mt-2 ${styles.button}`}
           >
             Go to Delivery Status
@@ -70,11 +69,12 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
   const [counter, setCounter] = useState(constants.otpCountdown);
   const [modalShow, setModalShow] = useState(false);
   const [modalErrorShow, setModalErrorShow] = useState(false);
+  const [orderId, setOrderId] = useState(0);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
-  const { calculateHash } = useCalculateHash();
+  const isAuthenticated = useIsAuthenticated();
   const { getCountdown } = useHelper();
-  const { createOrder } = useOrder();
+  const { createOrder, createOrderGuest } = useOrders();
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
@@ -86,9 +86,10 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   // Prepare order object
   const order = localStorage.getItem("order") || "";
+  const orderObject = order ? JSON.parse(order) : "";
 
   const getMobile = () => {
-    return JSON.parse(order)?.mobile;
+    return orderObject?.mobile;
   };
 
   useEffect(() => {
@@ -142,7 +143,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
     const otpVerifyData = {
       mobile: getMobile(),
       code: parseInt(otp),
-      guest: false,
+      guest: !isAuthenticated(),
     };
 
     console.log("otpVerifyData", otpVerifyData);
@@ -153,31 +154,71 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
     if (response.error) {
       // OTP Verification error
       // setError(response.error);
-      setModalError(constants.form.error.missingOtp);
+      setModalError(response.error);
       setModalErrorShow(true);
     } else {
       // OTP Verification success
       console.log("OTP Verification success");
-      console.log("Creating order ...", JSON.parse(order));
+      console.log("Creating order ...", orderObject);
 
-      /* Create order */
-      const responseOrder = await createOrder(JSON.parse(order));
-      console.log("/api/orders", responseOrder);
+      if (isAuthenticated()) {
+        /* Create order as logged in user */
+        const responseOrder = await createOrder(orderObject);
+        console.log("/api/orders", responseOrder);
 
-      if (responseOrder.error) {
-        setModalError("Something went wrong when creating order.");
-        setModalErrorShow(true);
+        if (responseOrder.error) {
+          setModalError("Something went wrong when creating order.");
+          setModalErrorShow(true);
+        } else {
+          console.log("Create order success!", responseOrder);
+
+          // Reset localStorage values
+          localStorage.removeItem("checkout");
+          localStorage.removeItem("order");
+
+          // Set new order id
+          setOrderId(responseOrder.id);
+
+          // Show modal after create order
+          setModalShow(true);
+        }
       } else {
-        console.log("Create order success!", response);
+        const guestSession = response.session;
 
-        setModalShow(true);
+        // Save guest session in local storage
+        localStorage.setItem("guestSession", guestSession);
+
+        /* Create order as guest */
+        const responseOrder = await createOrderGuest(orderObject, guestSession);
+        console.log("/api/orders", responseOrder);
+
+        if (responseOrder.error) {
+          setModalError("Something went wrong when creating order.");
+          setModalErrorShow(true);
+        } else {
+          console.log("Create order success!", responseOrder);
+
+          // Reset localStorage values
+          localStorage.removeItem("checkout");
+          localStorage.removeItem("order");
+
+          // Set new order id
+          setOrderId(responseOrder.id);
+
+          // Show modal after create order
+          setModalShow(true);
+        }
       }
     }
   };
 
   return (
     <>
-      <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
+      <OtpSuccessModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        orderid={orderId}
+      />
       <OtpErrorModal
         show={modalErrorShow}
         onHide={() => setModalErrorShow(false)}
