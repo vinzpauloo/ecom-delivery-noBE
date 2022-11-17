@@ -76,7 +76,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
           {/* Mobile */}
-          {forDelivery.map((item, index) => {
+          {forDelivery?.map((item, index) => {
             console.log(item);
             return (
               <Container
@@ -146,7 +146,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             );
           })}
           {/* Desktop */}
-          {forDelivery.map((item, index) => {
+          {forDelivery?.map((item, index) => {
             return (
               <Container
                 className={styles.orderDeliveryContainerDesktop}
