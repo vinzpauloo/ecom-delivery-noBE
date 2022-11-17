@@ -19,35 +19,6 @@ import OrderReceivedIcon from "../../../assets/images/order-received-icon.png";
 import RewardsIcon from "../../../assets/images/rewards-icon.png";
 import Delivery from "../../../pages/Account/Delivery";
 
-// Setup form schema & validation
-interface IFormInputs {
-  order_id: string;
-  order_items: string;
-  delivery_fee: string;
-  grand_total: string;
-  customer_name: string;
-  contact_number: string;
-  pickup_address: string;
-  delivery_address: string;
-  order_placed_time: string;
-  order_status: string;
-}
-
-// const schema = yup
-//   .object({
-//     order_id: yup.string().required(),
-//     order_items: yup.string().required(),
-//     delivery_fee: yup.string().required(),
-//     grand_total: yup.string().required(),
-//     customer_name: yup.string().required(),
-//     contact_number: yup.string().required(),
-//     pickup_address: yup.string().required(),
-//     delivery_address: yup.string().required(),
-//     order_placed_time: yup.string().required(),
-//     order_status: yup.string().required(),
-//   })
-//   .required();
-
 interface ContainerProps {}
 
 type ForDeliveryItem = {
@@ -66,6 +37,7 @@ type ForDeliveryItem = {
   restaurant_id: string;
   updated_at: string;
   rider_id: string;
+  rider_vehicle_model: string;
 };
 
 type ForCompletedItem = {
@@ -246,8 +218,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
 
   const { otw } = useParams();
 
-  // const [forDelivery, setForDelivery] = useState<TForDelivery[] | null>(null);
-
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
   const [forOrderCompleted, setForOrderCompleted] = useState<
@@ -258,56 +228,25 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     []
   );
 
-  // const {
-  //   reset,
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<IFormInputs>({
-  //   resolver: yupResolver(schema),
-  // });
-
-  // Get for delivery request
-  // const handleGetForDelivery = async () => {
-  //   console.log("Requesting getUser ...");
-
-  //   const response = await getForDelivery();
-  //   console.log("handleGetForDelivery response", response);
-  //   let defaultValues = {
-  //     order_id: response.order_id,
-  //     order_items: response.order_items,
-  //     delivery_fee: response.delivery_fee,
-  //     grand_total: response.grand_total,
-  //     customer_name: response.customer_name,
-  //     contact_number: response.contact_number,
-  //     pickup_address: response.pickup_address,
-  //     delivery_address: response.delivery_address,
-  //     order_placed_time: response.order_placed_time,
-  //     order_status: response.order_status,
-  //   };
-
-  //   reset(defaultValues);
-  // };
-
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
     console.log("getForDelivery", response);
-    setForDelivery(response);
+    setForDelivery(response.data);
   };
 
   const loadOrderCompleted = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCompleted(params);
     console.log("getOrderCompleted", response);
-    setForOrderCompleted(response);
+    setForOrderCompleted(response.data);
   };
 
   const loadOrderCanceled = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCanceled(params);
     console.log("getOrderCanceled", response);
-    setForOrderCanceled(response);
+    setForOrderCanceled(response.data);
   };
 
   useEffect(() => {
@@ -420,140 +359,73 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-          <Container
-            className="order-delivery-container d-flex flex-column gap-3"
-            fluid
-          >
-            <Row className="mx-md-3">
-              <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                <div className="order-id">
-                  <p>ORDER ID: XRF123</p>
-                </div>
-                <div className="order-items">
-                  <ul aria-label="Order Items">
-                    <li>Ramen Noodles(3x)</li>
-                    <li>Milk Tea(2x)</li>
-                    <li>1 Water Melon</li>
-                    <li>1 Boba Soya</li>
-                    <li>Pecking Duck (1x)</li>
-                  </ul>
-                </div>
-                <div className="delivery-fee">
-                  <p>
-                    Delivery Fee <br />
-                    <span>85 php</span>
-                  </p>
-                </div>
-                <div className="grand-total">
-                  <p>
-                    Grand Total <br />
-                    <span>1,350 php</span>
-                  </p>
-                </div>
-              </Col>
-              <Col xs={8} md={4}>
-                <div className="customer-info">
-                  <li>
-                    Customer Name: <span>Brandon Boyd</span>
-                  </li>
-                  <li>
-                    Contact Number: <span>0917 123 4567</span>
-                  </li>
-                  <li>
-                    Pick up Address :
-                    <span>
-                      Chan's Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </li>
-                  <li>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </li>
-                  <li>
-                    Order Placed Time: <span>01:30pm</span>
-                  </li>
-                  <li>
-                    Order Status: <span>Order Received</span>
-                    <img src={OrderReceivedIcon} />
-                  </li>
+          {forOrderCanceled.map((item, index) => {
+            return (
+              <Container
+                className="order-delivery-container d-flex flex-column gap-3"
+                fluid
+                key={index}
+              >
+                <Row className="mx-md-3">
+                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
+                    <div className="order-id">
+                      <p>ORDER ID: {item.customer_id}</p>
+                    </div>
+                    <div className="order-items">
+                      <ul aria-label="Order Items">
+                        <li>Ramen Noodles(3x)</li>
+                        <li>Milk Tea(2x)</li>
+                        <li>1 Water Melon</li>
+                        <li>1 Boba Soya</li>
+                        <li>Pecking Duck (1x)</li>
+                      </ul>
+                    </div>
+                    <div className="delivery-fee">
+                      <p>
+                        Delivery Fee <br />
+                        <span>85 php</span>
+                      </p>
+                    </div>
+                    <div className="grand-total">
+                      <p>
+                        Grand Total <br />
+                        <span>1,350 php</span>
+                      </p>
+                    </div>
+                  </Col>
+                  <Col xs={8} md={4}>
+                    <div className="customer-info">
+                      <li>
+                        Customer Name: <span> {item.customer_name}</span>
+                      </li>
+                      <li>
+                        Contact Number: <span> {item.customer_mobile}</span>
+                      </li>
+                      <li>
+                        Pick up Address :<span> {item.restaurant_name}</span>
+                      </li>
+                      <li>
+                        Delivery Address:
+                        <span> {item.order_address}</span>
+                      </li>
+                      <li>
+                        Order Placed Time: <span> {item.created_at}</span>
+                      </li>
+                      <li>
+                        Order Status: <span> {item.order_status}</span>
+                        <img src={OrderReceivedIcon} />
+                      </li>
 
-                  <div className="decline-accept">
-                    <a>Decline</a>
-                    <a>Accept</a>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-
-            <Row className="mx-md-3">
-              <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                <div className="order-id">
-                  <p>ORDER ID: XRF123</p>
-                </div>
-                <div className="order-items">
-                  <ul aria-label="Order Items">
-                    <li>Ramen Noodles(3x)</li>
-                    <li>Milk Tea(2x)</li>
-                    <li>1 Water Melon</li>
-                    <li>1 Boba Soya</li>
-                    <li>Pecking Duck (1x)</li>
-                    <li>Pecking Duck (1x)</li>
-                    <li>Pecking Duck (1x)</li>
-                    <li>Pecking Duck (1x)</li>
-                    <li>Pecking Duck (1x)</li>
-                  </ul>
-                </div>
-                <div className="delivery-fee">
-                  <p>
-                    Delivery Fee <br />
-                    <span>85 php</span>
-                  </p>
-                </div>
-                <div className="grand-total">
-                  <p>
-                    Grand Total <br />
-                    <span>1,350 php</span>
-                  </p>
-                </div>
-              </Col>
-              <Col xs={8} md={4}>
-                <div className="customer-info">
-                  <li>
-                    Customer Name: <span>Brandon Boyd</span>
-                  </li>
-                  <li>
-                    Contact Number: <span>0917 123 4567</span>
-                  </li>
-                  <li>
-                    Pick up Address :
-                    <span>
-                      Chan's Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </li>
-                  <li>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </li>
-                  <li>
-                    Order Placed Time: <span>01:30pm</span>
-                  </li>
-                  <li>
-                    Order Status: <span>Order Received</span>
-                    <img src={OrderReceivedIcon} />
-                  </li>
-
-                  <div className="decline-accept">
-                    <a>Decline</a>
-                    <a>Accept</a>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Container>
+                      <div className="decline-accept">
+                        <a>Decline</a>
+                        <a>Accept</a>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </Container>
+            );
+          })}
         </Modal.Body>
         <Modal.Footer>
           {/* <button onClick={props.onHide}>Close</button> */}
@@ -600,23 +472,23 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 <div className="delivery-fee">
                   <p>
                     Delivery Fee <br />
-                    <span>₱ {item.rider_id} .00</span>
+                    <span>₱{item.rider_id}.00</span>
                   </p>
                 </div>
                 <div className="grand-total">
                   <p>
                     Grand Total <br />
-                    <span>₱ {item.restaurant_id} .00</span>
+                    <span>₱{item.rider_vehicle_model}.00</span>
                   </p>
                 </div>
               </Col>
               <Col xs={8} md={4}>
                 <div className="customer-info">
                   <li>
-                    Customer Name: <span>{item.customer_name}</span>
+                    Customer Name: <span> {item.customer_name}</span>
                   </li>
                   <li>
-                    Contact Number: <span>{item.customer_mobile} </span>
+                    Contact Number: <span> {item.customer_mobile}</span>
                   </li>
                   <li>
                     Pick up Address :<span> {item.restaurant_name}</span>
@@ -626,7 +498,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     <span> {item.order_address}</span>
                   </li>
                   <li>
-                    Order Placed Time: <span> {item.created_at} </span>
+                    Order Placed Time: <span> {item.created_at}</span>
                   </li>
                   <li>
                     Order Status: <span> {item.order_status}</span>

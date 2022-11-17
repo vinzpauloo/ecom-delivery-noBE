@@ -71,7 +71,7 @@ export const useProduct = () => {
 
     try {
       // START: Get restaurant product API
-      const endpoint = "api/products/all";
+      const endpoint = "api/products/merchant/all";
       const options = {
         params: data,
         headers: {
