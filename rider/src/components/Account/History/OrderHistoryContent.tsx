@@ -609,8 +609,8 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
 
         <div className="rewards-container">
           <div className="rewards-btn">
-            <a>Rewards</a>
-            <img src={RewardsIcon} alt="" />
+            {/* <a>Rewards</a>
+            <img src={RewardsIcon} alt="" /> */}
           </div>
         </div>
       </div>
