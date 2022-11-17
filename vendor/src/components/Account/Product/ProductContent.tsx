@@ -188,9 +188,17 @@ function MenuModal(props: any) {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    const menu = {
+      ...data,
+      restaurant_id: auth()?.restaurant[0].id,
+      is_available: true,
+      categories: [],
+      cuisines: [],
+    };
 
-    const response = await postProduct(data);
+    console.log("onSubmit", menu);
+
+    const response = await postProduct(menu);
     console.log("add product response", response);
 
     if (!response.error) {
