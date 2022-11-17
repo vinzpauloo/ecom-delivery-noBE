@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import statusIsReceived from "../../assets/images/order-received.png";
 import statusIsPreparing from "../../assets/images/kitchen-prep.png";
@@ -26,15 +27,27 @@ type TOrder = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder | null>(null);
-  const { getOrdersById } = useOrders();
+  const { getOrdersById, getOrdersByIdGuest } = useOrders();
+  const isAuthenticated = useIsAuthenticated();
 
   // Get the params from the URL
   const { id } = useParams();
 
   const loadOrder = async () => {
-    const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
-    setOrder(response);
+    if (isAuthenticated()) {
+      // Get user order
+      const response = await getOrdersById(id);
+      console.log("getOrdersById response", response);
+      setOrder(response);
+    } else {
+      // Get guest session in local storage
+      const guestSession = localStorage.getItem("guestSession");
+
+      // Get guest order
+      const response = await getOrdersByIdGuest(id, guestSession);
+      console.log("getOrdersByIdGuest response", response);
+      setOrder(response);
+    }
   };
 
   useEffect(() => {
@@ -80,6 +93,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       <div className={styles.testing}>
         <h6 className="mt-4 text-success">
           For testing only.
+          <br />
+          Is Guest?: {!isAuthenticated() ? "yes" : "no"}
           <br />
           Order ID: {order?.id}
           <br />
