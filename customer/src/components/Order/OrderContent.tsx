@@ -96,11 +96,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <br />
           Is Guest?: {!isAuthenticated() ? "yes" : "no"}
           <br />
-          Order ID: {order?.id}
+          Can view order?: {order ? "yes" : "no"}
           <br />
-          Order status: {order?.order_status || "Processing..."}
-          <br />
-          Created at: {order?.created_at}
+          {order ? (
+            <>
+              Order ID: {order?.id}
+              <br />
+              Order status: {order?.order_status || "Processing..."}
+              <br />
+              Created at: {order?.created_at}
+            </>
+          ) : (
+            <></>
+          )}
         </h6>
       </div>
     </div>
