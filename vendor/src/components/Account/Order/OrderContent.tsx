@@ -32,6 +32,8 @@ type ForDeliveryItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  id: number;
+  restaurant_address: string;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
@@ -45,14 +47,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
   const loadOrderForDelivery = async (status: string) => {
-    const params = { status: status };
+    const params = { paginate: 49, status: status };
     const response = await getForDeliveryOTW(params);
     console.log("getForDelivery", response);
     setForDelivery(response.data);
+    console.log(response.data);
   };
 
   useEffect(() => {
-    loadOrderForDelivery("received");
+    loadOrderForDelivery("pending");
   }, []);
   return (
     <div className={styles.tableContainer}>
@@ -74,6 +77,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           {/* Mobile */}
           {forDelivery.map((item, index) => {
+            console.log(item);
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3 d-md-none`}
@@ -84,7 +88,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <Row className="mx-md-3">
                   <Col xs={3} md={2} className="d-flex flex-column gap-1">
                     <div className={styles.orderId}>
-                      <p>Order ID: {item.customer_id}</p>
+                      <p>Order ID: {item.id}</p>
                     </div>
                     <div className={styles.orderItems}>
                       <ul aria-label="Order Items">
@@ -117,7 +121,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         Contact Number: <span>{item.customer_mobile}</span>
                       </li>
                       <li>
-                        Pick up Address :<span> {item.restaurant_name}</span>
+                        Pick up Address :<span> {item.restaurant_address}</span>
                       </li>
                       <li>
                         Delivery Address:
@@ -152,7 +156,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <Row className="mx-md-3">
                   <Col md={2} className="d-flex flex-column gap-1">
                     <div className={styles.orderId}>
-                      <p>ORDER ID: {item.customer_id}</p>
+                      <p>ORDER ID: {item.id}</p>
                     </div>
                   </Col>
                   <Col md={4}>
@@ -170,7 +174,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </div>
                           <li>
                             Pick up Address :
-                            <span> {item.restaurant_name}</span>
+                            <span> {item.restaurant_address}</span>
                           </li>
                           <li>
                             Delivery Address:
