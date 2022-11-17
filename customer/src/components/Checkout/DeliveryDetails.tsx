@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../hooks/useUser";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import styles from "./DeliveryDetails.module.scss";
 import constants from "../../utils/constants.json";
@@ -52,6 +53,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
+  const isAuthenticated = useIsAuthenticated();
 
   const resetMessages = () => {
     setMessage("");
@@ -111,7 +113,9 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   };
 
   useEffect(() => {
-    handleGetUser();
+    if (isAuthenticated()) {
+      handleGetUser();
+    }
   }, []);
 
   return (
@@ -156,7 +160,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
                 type="text"
                 required
                 {...register("mobile")}
-                disabled
+                disabled={isAuthenticated()}
               />
             </Form.Group>
           </Col>
@@ -167,7 +171,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
                 type="email"
                 required
                 {...register("email")}
-                disabled
+                disabled={isAuthenticated()}
               />
             </Form.Group>
           </Col>
@@ -186,22 +190,26 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             </Form.Group>
           </Col>
           <Col>
-            <div
-              className={`d-flex justify-content-center gap-4 ${styles.checkbox}`}
-            >
-              <Form.Check
-                type="checkbox"
-                id="address_this"
-                label="Use this Address"
-              />
-              <Form.Check
-                type="checkbox"
-                id="address_new"
-                label="Use Different Address"
-                checked={isNewAddress}
-                onChange={handleUseNewAddress}
-              />
-            </div>
+            {isAuthenticated() ? (
+              <div
+                className={`d-flex justify-content-center gap-4 ${styles.checkbox}`}
+              >
+                <Form.Check
+                  type="checkbox"
+                  id="address_this"
+                  label="Use this Address"
+                />
+                <Form.Check
+                  type="checkbox"
+                  id="address_new"
+                  label="Use Different Address"
+                  checked={isNewAddress}
+                  onChange={handleUseNewAddress}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
       </Form>

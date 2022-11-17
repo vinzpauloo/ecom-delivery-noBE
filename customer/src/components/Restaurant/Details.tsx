@@ -246,7 +246,7 @@ const Details: React.FC<ContainerProps> = ({
             >
               <div className="d-flex flex-md-column gap-2">
                 <Button className={styles.btnCheckout} onClick={handleCheckout}>
-                  Checkout
+                  Check out
                 </Button>
                 <Button className={styles.btnCancel} onClick={handleCancel}>
                   Cancel Order

@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
-import { useCalculateHash } from "../../hooks/useCalculateHash";
 import { useHelper } from "../../hooks/useHelper";
+import { useIsAuthenticated } from "react-auth-kit";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -73,8 +72,9 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
   const [orderId, setOrderId] = useState(0);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
   const { getCountdown } = useHelper();
-  const { createOrder } = useOrders();
+  const { createOrder, createOrderGuest } = useOrders();
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
@@ -143,7 +143,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
     const otpVerifyData = {
       mobile: getMobile(),
       code: parseInt(otp),
-      guest: false,
+      guest: !isAuthenticated(),
     };
 
     console.log("otpVerifyData", otpVerifyData);
@@ -161,25 +161,53 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
       console.log("OTP Verification success");
       console.log("Creating order ...", orderObject);
 
-      /* Create order */
-      const responseOrder = await createOrder(orderObject);
-      console.log("/api/orders", responseOrder);
+      if (isAuthenticated()) {
+        /* Create order as logged in user */
+        const responseOrder = await createOrder(orderObject);
+        console.log("/api/orders", responseOrder);
 
-      if (responseOrder.error) {
-        setModalError("Something went wrong when creating order.");
-        setModalErrorShow(true);
+        if (responseOrder.error) {
+          setModalError("Something went wrong when creating order.");
+          setModalErrorShow(true);
+        } else {
+          console.log("Create order success!", responseOrder);
+
+          // Reset localStorage values
+          localStorage.removeItem("checkout");
+          localStorage.removeItem("order");
+
+          // Set new order id
+          setOrderId(responseOrder.id);
+
+          // Show modal after create order
+          setModalShow(true);
+        }
       } else {
-        console.log("Create order success!", responseOrder);
+        const guestSession = response.session;
 
-        // Reset localStorage values
-        localStorage.removeItem("checkout");
-        localStorage.removeItem("order");
+        // Save guest session in local storage
+        localStorage.setItem("guestSession", guestSession);
 
-        // Set new order id
-        setOrderId(responseOrder.id);
+        /* Create order as guest */
+        const responseOrder = await createOrderGuest(orderObject, guestSession);
+        console.log("/api/orders", responseOrder);
 
-        // Show modal after create order
-        setModalShow(true);
+        if (responseOrder.error) {
+          setModalError("Something went wrong when creating order.");
+          setModalErrorShow(true);
+        } else {
+          console.log("Create order success!", responseOrder);
+
+          // Reset localStorage values
+          localStorage.removeItem("checkout");
+          localStorage.removeItem("order");
+
+          // Set new order id
+          setOrderId(responseOrder.id);
+
+          // Show modal after create order
+          setModalShow(true);
+        }
       }
     }
   };

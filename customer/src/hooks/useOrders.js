@@ -36,6 +36,36 @@ export const useOrders = () => {
     }
   };
 
+  const createOrderGuest = async (data, guestSession) => {
+    try {
+      // START: Access create order as guest API
+      const endpoint = "api/guests/orders";
+      const options = {
+        headers: {
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.post(endpoint, data, options);
+      // END: Access create order as guest API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
   const getOrders = async () => {
     console.log("getOrders hook ...");
 
@@ -102,5 +132,5 @@ export const useOrders = () => {
     }
   };
 
-  return { createOrder, getOrders, getOrdersById };
+  return { createOrder, createOrderGuest, getOrders, getOrdersById };
 };
