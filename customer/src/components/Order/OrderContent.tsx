@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
 import statusIsReceived from "../../assets/images/order-received.png";
@@ -11,6 +11,12 @@ import styles from "./OrderContent.module.scss";
 interface ContainerProps {}
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
+  useEffect(() => {
+    // Reset localStorage values
+    localStorage.removeItem("checkout");
+    localStorage.removeItem("order");
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className="text-center">
