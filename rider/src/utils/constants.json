@@ -20,7 +20,8 @@
       "missingOtp": "Please input your OTP code."
     },
     "success": {
-      "updateProfile": "Customer profile updated successfully!"
+      "updateProfile": "Customer profile updated successfully!",
+      "updatePassword": "You have successfully changed your password!"
     }
   },
   "otpCountdown": 300
