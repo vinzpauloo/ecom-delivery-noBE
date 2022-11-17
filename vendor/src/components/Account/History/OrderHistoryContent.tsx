@@ -132,7 +132,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-          {forOrderCompleted.map((item, index) => {
+          {forOrderCompleted?.map((item, index) => {
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
@@ -222,7 +222,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-          {forOrderCanceled.map((item, index) => {
+          {forOrderCanceled?.map((item, index) => {
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3`}
@@ -339,7 +339,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           </Row>
         </Form>
         {/* Mobile */}
-        {forDelivery.map((item, index) => {
+        {forDelivery?.map((item, index) => {
           return (
             <Container
               className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3 d-md-none`}
