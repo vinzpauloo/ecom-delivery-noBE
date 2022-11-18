@@ -17,7 +17,7 @@ export const useOrder = () => {
         },
       };
 
-      const response = await axios.put(endpoint, options);
+      const response = await axios.put(endpoint, {}, options);
       // END: Access update user API
 
       if (response.status === 200) {
