@@ -159,15 +159,15 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
         <Link to="/account">Go Back</Link>
       </div>
 
-      {orders?.length ? (
-        <div className={styles.innerContainer}>
-          {orders?.map((item, index) => {
+      <div className={styles.innerContainer}>
+        {orders?.length ? (
+          orders?.map((item, index) => {
             return OrderItem(item, index);
-          })}
-        </div>
-      ) : (
-        <>No orders found.</>
-      )}
+          })
+        ) : (
+          <h5>No orders found.</h5>
+        )}
+      </div>
     </div>
   );
 };
