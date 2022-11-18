@@ -229,21 +229,21 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   );
 
   //Original
-  // const loadOrderForDelivery = async (status: string) => {
-  //   const params = { status: status };
-  //   const response = await getForDeliveryOTW(params);
-  //   console.log("getForDelivery", response);
-  //   setForDelivery(response.data);
-  // };
-
-  //Temporary
   const loadOrderForDelivery = async (status: string) => {
-    const params = { paginate: 49, status: status };
+    const params = { status: status };
     const response = await getForDeliveryOTW(params);
     console.log("getForDelivery", response);
     setForDelivery(response.data);
-    console.log(response.data);
   };
+
+  //Temporary
+  // const loadOrderForDelivery = async (status: string) => {
+  //   const params = { paginate: 49, status: status };
+  //   const response = await getForDeliveryOTW(params);
+  //   console.log("getForDelivery", response);
+  //   setForDelivery(response.data);
+  //   console.log(response.data);
+  // };
 
   const loadOrderCompleted = async (status: string) => {
     const params = { status: status };
@@ -261,8 +261,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     // handleGetForDelivery();
-    // loadOrderForDelivery("otw");
-    loadOrderForDelivery("pending");
+    loadOrderForDelivery("otw");
+    // loadOrderForDelivery("pending");
     loadOrderCompleted("delivered");
     loadOrderCanceled("canceled");
   }, []);
