@@ -23,11 +23,14 @@ const schema = yup
   .object({
     first_name: yup
       .string()
-      .min(6, constants.form.error.firstNameMin)
+      .min(2, constants.form.error.firstNameMin)
       .required(),
-    last_name: yup.string().min(6, constants.form.error.lastNameMin).required(),
+    last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
     address: yup.string().required(),
-    mobile: yup.string().required(),
+    mobile: yup
+      .string()
+      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .required(),
     email: yup.string().email(constants.form.error.email).required(),
   })
   .required();
@@ -69,6 +72,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     let checkoutDetailsObj = JSON.parse(checkoutDetails);
     let productsObj = checkoutDetailsObj.products;
 
+    // Temporary get products from local storage
     let tempProducts: any[] = [];
     productsObj.forEach((element: any) => {
       tempProducts.push({
@@ -78,8 +82,9 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     });
 
     const order = {
-      // Temporary get from local storage
       products: tempProducts,
+      first_name: data.first_name,
+      last_name: data.last_name,
       address: data.address,
       email: data.email,
       mobile: data.mobile,
@@ -210,6 +215,19 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             ) : (
               <></>
             )}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            {/* Error messages */}
+            <div className={styles.errors}>
+              <p>{errors.first_name?.message}</p>
+              <p>{errors.last_name?.message}</p>
+              <p>{errors.address?.message}</p>
+              <p>{errors.mobile?.message}</p>
+              <p>{errors.email?.message}</p>
+            </div>
           </Col>
         </Row>
       </Form>
