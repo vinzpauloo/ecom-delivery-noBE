@@ -66,6 +66,12 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
   const { validateEmail, validateMobile } = useValidate();
 
+  const [disabled, setDisabled] = useState(true);
+
+  const handleInput = () => {
+    setDisabled(!disabled);
+  };
+
   const {
     register,
     handleSubmit,
@@ -253,6 +259,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             id="terms"
             label="By continuing, you indicate that you read and agreed to terms of use"
             required
+            onChange={handleInput}
           />
         </div>
 
@@ -261,7 +268,8 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="mt-4"
-          disabled={!isDirty || !isValid}
+          // disabled={!isDirty || !isValid}
+          disabled={disabled}
         >
           Create Account
         </Button>
