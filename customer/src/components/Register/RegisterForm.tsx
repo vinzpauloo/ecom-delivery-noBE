@@ -56,7 +56,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -183,7 +183,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="mt-4"
-          disabled={!isDirty || !isValid}
+          disabled={!isValid}
         >
           Create Account
         </Button>
