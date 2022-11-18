@@ -9,6 +9,7 @@ import {
   Dropdown,
   Container,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { number } from "yup";
 import { useForDelivery } from "../../../hooks/useForDelivery";
 import { useOrder } from "../../../hooks/useOrder";
@@ -59,10 +60,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(response.data);
   };
 
+  const navigate = useNavigate();
+
   const handleAccept = async (id: any) => {
     console.log(id);
     const response = await updateOrder(id, "received");
     console.log(response);
+    navigate("/account/order/status");
   };
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
@@ -11,6 +12,11 @@ import styles from "./StatusContent.module.scss";
 interface ContainerProps {}
 
 const StatusContent: React.FC<ContainerProps> = ({}) => {
+  const { id } = useParams();
+
+  //   useEffect(() => {
+  //     loadOrderForDelivery("preparing");
+  //   }, []);
   return (
     <div className={styles.container}>
       <div className="text-center">
