@@ -48,6 +48,7 @@ const schema = yup
 interface ContainerProps {}
 
 const RegisterForm: React.FC<ContainerProps> = ({}) => {
+  const [isChecked, setIsChecked] = useState(false);
   const [errorEmail, setErrorEmail] = useState("");
   const [errorMobile, setErrorMobile] = useState("");
   const navigate = useNavigate();
@@ -175,6 +176,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             id="terms"
             label="By continuing, you indicate that you read and agreed to terms of use"
             required
+            onChange={() => setIsChecked(!isChecked)}
+            checked={isChecked}
           />
         </div>
 
@@ -183,7 +186,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="mt-4"
-          disabled={!isValid}
+          disabled={!isValid || !isChecked}
         >
           Create Account
         </Button>
