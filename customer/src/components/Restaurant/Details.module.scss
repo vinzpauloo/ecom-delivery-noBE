@@ -111,6 +111,10 @@
       background-color: $FM_BG_YELLOW;
       border-color: #584016;
       color: #000000;
+
+      &:disabled {
+        background: $FM_BG_GRAY2;
+      }
     }
 
     &.btnCancel {

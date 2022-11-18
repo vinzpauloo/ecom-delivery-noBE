@@ -21,6 +21,11 @@
     width: 100%;
     height: 150px;
     object-fit: cover;
+
+    &.placeholder {
+      object-fit: contain;
+      opacity: 0.4;
+    }
   }
 }
 
