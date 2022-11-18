@@ -9,7 +9,10 @@ import {
   Dropdown,
   Container,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { number } from "yup";
 import { useForDelivery } from "../../../hooks/useForDelivery";
+import { useOrder } from "../../../hooks/useOrder";
 
 import styles from "./OrderContent.module.scss";
 
@@ -34,6 +37,7 @@ type ForDeliveryItem = {
   rider_vehicle_model: string;
   id: number;
   restaurant_address: string;
+  total_amount: number;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
@@ -44,6 +48,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     getOrderCanceled,
   } = useForDelivery();
 
+  const { updateOrder } = useOrder();
+
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
   const loadOrderForDelivery = async (status: string) => {
@@ -52,6 +58,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log("getForDelivery", response);
     setForDelivery(response.data);
     console.log(response.data);
+  };
+
+  const navigate = useNavigate();
+
+  const handleAccept = async (id: any) => {
+    console.log(id);
+    const response = await updateOrder(id, "received");
+    console.log(response);
+    navigate("/account/order/status");
   };
 
   useEffect(() => {
@@ -169,7 +184,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </li>
                             <li>
                               Contact Number:{" "}
-                              <span> {item.customer_mobile}</span>
+                              <span>
+                                {" "}
+                                {item.customer_mobile || item.order_mobile}
+                              </span>
                             </li>
                           </div>
                           <li>
@@ -212,7 +230,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               <span> ₱{item.rider_id}.00</span>
                             </p>
                             <div className={styles.declineAccept}>
-                              <a>Decline</a>
+                              <a type="submit">Decline</a>
                             </div>
                           </div>
                         </Col>
@@ -220,10 +238,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <div className={styles.grandTotal}>
                             <p>
                               Grand Total <br />
-                              <span> ₱{item.rider_vehicle_model}.00</span>
+                              <span> ₱{item.total_amount}.00</span>
                             </p>
                             <div className={styles.declineAccept}>
-                              <a>Accept</a>
+                              <a
+                                type="submit"
+                                onClick={() => handleAccept(item.id)}
+                              >
+                                Accept
+                              </a>
                             </div>
                           </div>
                         </Col>
