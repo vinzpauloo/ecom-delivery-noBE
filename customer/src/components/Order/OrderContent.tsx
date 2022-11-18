@@ -11,6 +11,15 @@ import statusIsDelivered from "../../assets/images/delivered.png";
 import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../hooks/useOrders";
 
+import Pusher from "pusher-js";
+import * as PusherTypes from "pusher-js";
+
+var presenceChannel: PusherTypes.PresenceChannel;
+
+const pusher = new Pusher("dda7bca342e12a644ba2", {
+  cluster: "ap1",
+});
+
 interface ContainerProps {}
 
 type TOrder = {
@@ -52,6 +61,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadOrder();
+    // console.log(pusher);
+
+    // pusher.connection.bind("error", function (err: any) {
+    //   if (err.error.data.code === 4004) {
+    //     alert("Over limit!");
+    //     pusher.disconnect();
+    //   }
+    // });
+
+    // const channel = pusher.subscribe("foodmonkey-channel");
+    // channel.bind("ordercheckout-event", function (data: any) {
+    //   console.log(data); //check data
+    // });
   }, []);
 
   return (

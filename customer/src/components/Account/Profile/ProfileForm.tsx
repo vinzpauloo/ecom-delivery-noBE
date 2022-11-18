@@ -22,11 +22,14 @@ const schema = yup
   .object({
     first_name: yup
       .string()
-      .min(6, constants.form.error.firstNameMin)
+      .min(2, constants.form.error.firstNameMin)
       .required(),
-    last_name: yup.string().min(6, constants.form.error.lastNameMin).required(),
+    last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
     address: yup.string().required(),
-    mobile: yup.string().required(),
+    mobile: yup
+      .string()
+      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .required(),
     email: yup.string().email(constants.form.error.email).required(),
   })
   .required();
@@ -42,7 +45,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
     reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
@@ -173,7 +176,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             Order
           </Button>
 
-          <Button variant="primary" size="lg" type="submit">
+          <Button variant="primary" size="lg" type="submit" disabled={!isValid}>
             Save Info
           </Button>
         </div>

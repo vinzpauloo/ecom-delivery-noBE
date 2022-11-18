@@ -250,20 +250,30 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
         <div className="d-flex flex-column justify-content-center align-items-center gap-2">
           <img src={RiderProfile} className="w-25 img-fluid mb-3" />
-          <div className="position-relative">
-            <input
-              placeholder="Profile Picture (PDF*JPG*PNG)"
-              className={`bg-white ${styles.test}`}
-            />
-            <a className={`position-absolute ${styles.test2}`}>Browse File</a>
-          </div>
-          <div className="position-relative">
-            <input
-              placeholder="Driver’s License Image (PDF*JPG*PNG)"
-              className={`bg-white ${styles.test}`}
-            />
-            <a className={`position-absolute ${styles.test2}`}>Browse File</a>
-          </div>
+          <Row className="">
+            <Col sm={2} md={8}>
+              <input
+                placeholder="Profile Picture (PDF*JPG*PNG)"
+                className={`bg-white ${styles.test}`}
+                disabled
+              />
+            </Col>
+            <Col>
+              <a className={`${styles.test2}`}>Browse File</a>
+            </Col>
+          </Row>
+          <Row className="">
+            <Col sm={2} md={8}>
+              <input
+                placeholder="Driver’s License Image (PDF*JPG*PNG)"
+                className={`bg-white ${styles.test}`}
+                disabled
+              />
+            </Col>
+            <Col>
+              <a className={`${styles.test2}`}>Browse File</a>
+            </Col>
+          </Row>
           <div className="nextBtn">
             {/* <Link to="/registration2">
             
