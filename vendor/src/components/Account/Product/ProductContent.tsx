@@ -82,11 +82,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
         <Form>
           <Row>
             <Col>
-              <h3>Restaurant Menu</h3>
+              <h3 className="d-none d-lg-block">Restaurant Menu</h3>
             </Col>
           </Row>
-          <Row className="d-none d-lg-block">
-            <Col>
+          <Row>
+            <Col className="d-none d-lg-block">
               <Form.Control
                 className={styles.searchBar}
                 type="text"
@@ -95,6 +95,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
             </Col>
             {/* Button trigger modal */}
             <Col>
+              <h3 className="d-lg-none">Restaurant Menu</h3>
               <Button
                 className={styles.btnAddProduct}
                 onClick={() => setMenuModal(true)}
@@ -219,6 +220,7 @@ function MenuModal(props: any) {
 
     if (!response.error) {
       setMessage(constants.form.success.addProduct);
+      window.location.reload();
     } else {
       setError(response.error);
     }

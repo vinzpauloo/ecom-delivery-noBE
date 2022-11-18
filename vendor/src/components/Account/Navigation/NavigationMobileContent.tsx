@@ -19,7 +19,7 @@ const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
   return (
     <div className="d-lg-none fixed-bottom">
       <div className={styles.container}>
-        <Link to="/account">
+        <Link to="/account/for-delivery">
           <img src={variant01} alt="" className="img-fluid" />
         </Link>
         <Link to="/account/my-restaurant-menu">
@@ -28,7 +28,7 @@ const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
         <Link to="/account/order-history">
           <img src={variant05} alt="" className="img-fluid" />
         </Link>
-        <Link to="/account/reset-password">
+        <Link to="/account">
           <img src={variant07} alt="" className="img-fluid" />
         </Link>
       </div>

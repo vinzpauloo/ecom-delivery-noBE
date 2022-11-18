@@ -35,7 +35,7 @@ root.render(
               <Route path="for-delivery" element={<Order />} />
               <Route path="order">
                 <Route index element={<Order />} />
-                <Route path="status/:id" element={<Status />} />
+                <Route path="status" element={<Status />} />
                 <Route
                   path="order-information"
                   element={<OrderInformation />}
