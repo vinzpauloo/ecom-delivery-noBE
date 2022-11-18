@@ -4,6 +4,8 @@ import { StarFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Details.module.scss";
+import placeholder from "../../assets/images/placeholder.png";
+
 import CategorySlider from "./CategorySlider";
 import MenuSlider from "./MenuSlider";
 import CartSlider from "./CartSlider";
@@ -118,7 +120,7 @@ const Details: React.FC<ContainerProps> = ({
               src={
                 restaurant
                   ? process.env.REACT_APP_BASE_URL + restaurant.photo
-                  : "https://via.placeholder.com/500"
+                  : placeholder
               }
             />
             <div>
@@ -245,7 +247,11 @@ const Details: React.FC<ContainerProps> = ({
               className="d-flex flex-column justify-content-center"
             >
               <div className="d-flex flex-md-column gap-2">
-                <Button className={styles.btnCheckout} onClick={handleCheckout}>
+                <Button
+                  className={styles.btnCheckout}
+                  onClick={handleCheckout}
+                  disabled={!cart.length}
+                >
                   Check out
                 </Button>
                 <Button className={styles.btnCancel} onClick={handleCancel}>

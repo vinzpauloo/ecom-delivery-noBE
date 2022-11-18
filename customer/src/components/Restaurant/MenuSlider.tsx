@@ -14,6 +14,7 @@ import "swiper/scss/navigation";
 import { Grid, Navigation } from "swiper";
 
 import styles from "./MenuSlider.module.scss";
+import placeholder from "../../assets/images/placeholder.png";
 
 interface ContainerProps {
   slides: Slide[] | null;
@@ -77,14 +78,11 @@ const SwiperSlideItem = (
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
         <div className={styles.slideImageContainer}>
-          <img
-            src={
-              item.photo == "no-images.jpg"
-                ? "https://via.placeholder.com/500"
-                : process.env.REACT_APP_BASE_URL + item.photo
-            }
-            alt=""
-          />
+          {item.photo == "no-images.jpg" ? (
+            <img className={styles.placeholder} src={placeholder} alt="" />
+          ) : (
+            <img src={process.env.REACT_APP_BASE_URL + item.photo} alt="" />
+          )}
         </div>
         <div className={styles.slideContentContainer}>
           <p className={styles.slideTitle}>{item.name}</p>
