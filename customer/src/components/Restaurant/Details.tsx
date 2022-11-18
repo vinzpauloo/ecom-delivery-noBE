@@ -98,7 +98,7 @@ const Details: React.FC<ContainerProps> = ({
   };
 
   const handleCancel = () => {
-    console.log("Cancel order ....");
+    navigate("/");
   };
 
   useEffect(() => {
