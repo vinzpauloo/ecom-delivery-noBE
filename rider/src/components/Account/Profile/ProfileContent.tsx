@@ -69,6 +69,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     setDisabled(!disabled);
   };
 
+  const saveAlert = () => {
+    alert("Profile has been updated.");
+  };
+
   const { getUser, updateUser } = useUser();
 
   const {
@@ -278,7 +282,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
             <Button id="editBtn" onClick={handleInput} className="d-lg-none">
               Upload
             </Button>
-            <Button id="saveBtn" type="submit">
+            <Button id="saveBtn" type="submit" onClick={saveAlert}>
               Save
             </Button>
           </div>

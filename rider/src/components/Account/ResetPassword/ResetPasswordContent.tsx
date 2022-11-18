@@ -45,6 +45,13 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
+  const passwordChangeAlert = () => {
+    alert("Password has been successfully updated.");
+    navigate("/");
+  };
+
   const {
     reset,
     register,
@@ -169,7 +176,11 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row>
             <Col>
-              <Button className={styles.btnReset} type="submit">
+              <Button
+                className={styles.btnReset}
+                type="submit"
+                onClick={passwordChangeAlert}
+              >
                 Reset Password
               </Button>
             </Col>
