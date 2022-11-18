@@ -8,12 +8,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
 
+import ImageUploading, { ImageListType } from "react-images-uploading";
+
 import styles from "./RegistrationForm.module.scss";
 import constants from "../../utils/constants.json";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import RiderProfile from "../../assets/images/riderprofile.png";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -68,8 +71,22 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
   const { validateEmail, validateMobile } = useValidate();
 
-  const uploadedImage = React.useRef(null);
-  const imageUploader = React.useRef(null);
+  const [currentFile, setCurrentFile] = useState(undefined);
+  const [previewImage, setPreviewImage] = useState(undefined);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const [images, setImages] = React.useState([]);
+  const maxNumber = 1;
+
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
 
   const {
     register,
@@ -246,50 +263,75 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <hr className="d-none d-lg-block" />
-
-        <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-          <img src={RiderProfile} className="w-25 img-fluid mb-3" />
-          <Row className="">
-            <Col sm={2} md={8}>
-              <input
-                placeholder="Profile Picture (PDF*JPG*PNG)"
-                className={`bg-white ${styles.test}`}
-                disabled
-              />
-            </Col>
-            <Col>
-              <a className={`${styles.test2}`}>Browse File</a>
-            </Col>
-          </Row>
-          <Row className="">
-            <Col sm={2} md={8}>
-              <input
-                placeholder="Driver’s License Image (PDF*JPG*PNG)"
-                className={`bg-white ${styles.test}`}
-                disabled
-              />
-            </Col>
-            <Col>
-              <a className={`${styles.test2}`}>Browse File</a>
-            </Col>
-          </Row>
-          <div className="nextBtn">
-            {/* <Link to="/registration2">
+        <ImageUploading
+          multiple
+          value={images}
+          onChange={onChange}
+          maxNumber={maxNumber}
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps,
+          }) => (
+            <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+              {imageList.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image.dataURL} className="w-25 img-fluid mb-3" />
+                  <div className="image-item__btn-wrapper">
+                    <a onClick={() => onImageRemove(index)}>Remove</a>
+                  </div>
+                </div>
+              ))}
+              <Row className="">
+                <Col sm={2} md={8}>
+                  <input
+                    placeholder="Profile Picture (PDF*JPG*PNG)"
+                    className={`bg-white ${styles.test}`}
+                    disabled
+                  />
+                </Col>
+                <Col>
+                  <a className={`${styles.test2}`} onClick={onImageUpload}>
+                    Browse File
+                  </a>
+                </Col>
+              </Row>
+              <Row className="">
+                <Col sm={2} md={8}>
+                  <input
+                    placeholder="Driver’s License Image (PDF*JPG*PNG)"
+                    className={`bg-white ${styles.test}`}
+                    disabled
+                  />
+                </Col>
+                <Col>
+                  <a className={`${styles.test2}`}>Browse File</a>
+                </Col>
+              </Row>
+              <div className="nextBtn">
+                {/* <Link to="/registration2">
             
           </Link> */}
-            <Button
-              variant="warning"
-              size="lg"
-              type="submit"
-              className="mt-4"
-              id="nextBtn-2"
-              // href="/registration2"
-              // onClick={Continue}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+                <Button
+                  variant="warning"
+                  size="lg"
+                  type="submit"
+                  className="mt-4"
+                  id="nextBtn-2"
+                  // href="/registration2"
+                  // onClick={Continue}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
+        </ImageUploading>
       </Form>
     </div>
   );
