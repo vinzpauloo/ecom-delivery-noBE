@@ -9,6 +9,8 @@ import Otp from "./pages/Otp";
 import Profile from "./pages/Account/Profile";
 import Product from "./pages/Account/Product";
 import Order from "./pages/Account/Order";
+import Status from "./pages/Account/Status";
+import OrderInformation from "./pages/Account/OrderInformation";
 import History from "./pages/Account/History";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -31,6 +33,14 @@ root.render(
             <Route path="account">
               <Route index element={<Profile />} />
               <Route path="for-delivery" element={<Order />} />
+              <Route path="order">
+                <Route index element={<Order />} />
+                <Route path="status/:id" element={<Status />} />
+                <Route
+                  path="order-information"
+                  element={<OrderInformation />}
+                />
+              </Route>
               <Route path="my-restaurant-menu" element={<Product />} />
               <Route path="order-history" element={<History />} />
               <Route path="reset-password" element={<ResetPassword />} />

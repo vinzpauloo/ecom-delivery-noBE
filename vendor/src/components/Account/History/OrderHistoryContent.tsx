@@ -33,6 +33,7 @@ type ForDeliveryItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  id: number;
 };
 
 type ForCompletedItem = {
@@ -52,6 +53,7 @@ type ForCompletedItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  id: number;
 };
 
 type ForCanceledItem = {
@@ -71,6 +73,7 @@ type ForCanceledItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  id: number;
 };
 
 const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
@@ -143,7 +146,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 <Row className="mx-md-3">
                   <Col xs={3} md={2} className="d-flex flex-column gap-1">
                     <div className={styles.orderId}>
-                      <p>ORDER ID: {item.customer_id}</p>
+                      <p>ORDER ID: {item.id}</p>
                     </div>
                     <div className={styles.orderItems}>
                       <ul aria-label="Order Items">
@@ -233,7 +236,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 <Row className="mx-md-3">
                   <Col xs={3} md={2} className="d-flex flex-column gap-1">
                     <div className={styles.orderId}>
-                      <p>ORDER ID: {item.customer_id}</p>
+                      <p>ORDER ID: {item.id}</p>
                     </div>
                     <div className={styles.orderItems}>
                       <ul aria-label="Order Items">
@@ -350,7 +353,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               <Row className="mx-md-3">
                 <Col xs={3} md={2} className="d-flex flex-column gap-1">
                   <div className={styles.orderId}>
-                    <p>Order ID: {item.customer_id}</p>
+                    <p>Order ID: {item.id}</p>
                   </div>
                   <div className={styles.orderItems}>
                     <ul aria-label="Order Items">
@@ -418,7 +421,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               <Row className="mx-md-3">
                 <Col md={2} className="d-flex flex-column gap-1">
                   <div className={styles.orderId}>
-                    <p>ORDER ID: {item.customer_id}</p>
+                    <p>ORDER ID: {item.id}</p>
                   </div>
                 </Col>
                 <Col md={4}>

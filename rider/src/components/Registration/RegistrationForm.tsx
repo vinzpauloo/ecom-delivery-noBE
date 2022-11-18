@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { Link, useNavigate } from "react-router-dom";
@@ -67,10 +67,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const { validateEmail, validateMobile } = useValidate();
-  const Continue = (e: any) => {
-    e.preventDefault();
-    navigate("/registration2");
-  };
+
+  const uploadedImage = React.useRef(null);
+  const imageUploader = React.useRef(null);
 
   const {
     register,
