@@ -20,7 +20,7 @@ export const useProduct = () => {
       const response = await axios.post(endpoint, data, options);
       // END: Add product API
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const { data } = response.data;
 
         return data;

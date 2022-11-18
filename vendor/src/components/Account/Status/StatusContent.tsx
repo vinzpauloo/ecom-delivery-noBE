@@ -12,7 +12,7 @@ import styles from "./StatusContent.module.scss";
 interface ContainerProps {}
 
 const StatusContent: React.FC<ContainerProps> = ({}) => {
-  const { id } = useParams();
+  //   const { id } = useParams();
 
   //   useEffect(() => {
   //     loadOrderForDelivery("preparing");
