@@ -515,7 +515,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           </Container>
         );
       })}
-      ;{/* Desktop */}
+      {/* Desktop */}
       {forDelivery.map((item, index) => {
         return (
           <Container
