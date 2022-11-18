@@ -36,35 +36,35 @@ export const useProduct = () => {
     }
   };
 
-  // const getProductById = async (id) => {
-  //   try {
-  //     // START: Access user API
-  //     const endpoint = `api/products/all${id}`;
-  //     const options = {
-  //       headers: {
-  //         Authorization: authHeader(),
-  //         "X-Authorization": calculateHash(endpoint),
-  //       },
-  //     };
+  const getProductById = async (id) => {
+    try {
+      // START: Access user API
+      const endpoint = `api/products/${id}`;
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint),
+        },
+      };
 
-  //     const response = await axios.get(endpoint, options);
-  //     // END: Access user API
+      const response = await axios.get(endpoint, options);
+      // END: Access user API
 
-  //     if (response.status === 200) {
-  //       const { data } = response.data;
+      if (response.status === 200) {
+        const { data } = response.data;
 
-  //       return data;
-  //     }
-  //   } catch (err) {
-  //     let error;
-  //     if (err && err instanceof AxiosError)
-  //       error = "*" + err.response?.data.message;
-  //     else if (err && err instanceof Error) error = err.message;
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
 
-  //     console.log("Error", err);
-  //     return error;
-  //   }
-  // };
+      console.log("Error", err);
+      return error;
+    }
+  };
 
   const getProduct = async (data) => {
     console.log("getRestaurantProduct hook ...");

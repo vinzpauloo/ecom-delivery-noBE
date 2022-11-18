@@ -42,6 +42,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const { getProduct } = useProduct();
 
+  const handleEdit = (id: any) => {
+    setEditModal(true);
+    console.log(id);
+  };
+
   const auth = useAuthUser();
 
   const loadRestaurantProduct = async () => {
@@ -55,6 +60,17 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     console.log("getRestaurantProduct response", response);
     setProduct(response);
   };
+
+  //   const loadRestaurantByProductId = async () => {
+  //   const params = {
+  //     id: auth()?.id,
+  //   };
+  //   console.log(params);
+
+  //   const response = await getProductById(params);
+  //   console.log("getRestaurantProduct response", response);
+  //   setProduct(response);
+  // };
 
   useEffect(() => {
     loadRestaurantProduct();
@@ -122,24 +138,24 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       <div>
                         <Button
                           className={styles.btnEdit}
-                          onClick={() => setEditModal(true)}
+                          onClick={() => handleEdit(item.id)}
                         >
                           Edit
                         </Button>
-                        {/* <EditModal
-                      show={editModal}
-                      onHide={() => setEditModal(false)}
-                    /> */}
+                        <EditModal
+                          show={editModal}
+                          onHide={() => setEditModal(false)}
+                        />
                         <Button
                           className={styles.btnDelete}
                           onClick={() => setDeleteModal(true)}
                         >
                           Delete
                         </Button>
-                        {/* <DeleteModal
-                      show={deleteModal}
-                      onHide={() => setDeleteModal(false)}
-                    /> */}
+                        <DeleteModal
+                          show={deleteModal}
+                          onHide={() => setDeleteModal(false)}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -365,124 +381,133 @@ function MenuModal(props: any) {
   );
 }
 
-// function EditModal(props: any) {
-//   return (
-//     <Modal {...props} size="lg">
-//       <Modal.Header closeButton className={styles.modalHeader}>
-//         <Modal.Title id="contained-modal-title-vcenter">Menu</Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body className={styles.modalBody}>
-//         <Form>
-//           <Row>
-//             <Col>
-//               <h6>Add Menu</h6>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col lg={4} xs={8}>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Food Name</Form.Label>
-//                 <Form.Control
-//                   className={styles.inputForm}
-//                   type="text"
-//                   placeholder="Chinese Special Ramen"
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Food Description</Form.Label>
-//                 <Form.Control
-//                   as="textarea"
-//                   placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col lg={4} xs={8}>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Price in PH-PESO</Form.Label>
-//                 <Form.Control
-//                   className={styles.inputForm}
-//                   type="text"
-//                   placeholder="Php 130.00"
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col lg={4} xs={8}>
-//               <Form.Label>Category</Form.Label>
-//               <Dropdown>
-//                 <Dropdown.Toggle className={styles.btnCategory}>
-//                   Category
-//                 </Dropdown.Toggle>
+function EditModal(props: any) {
+  // const [product, setProduct] = useState<TMenu[] | null>(null);
+  // const { getProductById } = useProduct();
 
-//                 <Dropdown.Menu>
-//                   <Dropdown.Item href="#action-1">Category1</Dropdown.Item>
-//                   <Dropdown.Item href="#action-2">Category2</Dropdown.Item>
-//                   <Dropdown.Item href="#action-3">Category3</Dropdown.Item>
-//                 </Dropdown.Menu>
-//               </Dropdown>
-//             </Col>
-//             <Col>
-//               <Button className={styles.btnUpload}>Upload</Button>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col lg={4} xs={8}>
-//               <Form.Label>Cuisine</Form.Label>
-//               <Dropdown>
-//                 <Dropdown.Toggle className={styles.btnCuisine}>
-//                   Cuisine
-//                 </Dropdown.Toggle>
+  // const auth = useAuthUser();
 
-//                 <Dropdown.Menu>
-//                   <Dropdown.Item href="#action-1">Cuisine1</Dropdown.Item>
-//                   <Dropdown.Item href="#action-2">Cuisine2</Dropdown.Item>
-//                   <Dropdown.Item href="#action-3">Cuisine3</Dropdown.Item>
-//                 </Dropdown.Menu>
-//               </Dropdown>
-//             </Col>
-//             <Col>
-//               <Form.Label>Availability</Form.Label>
-//               <Form.Check type="switch" />
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col className="d-flex justify-content-center gap-2">
-//               <Button className={styles.btnDiscard} onClick={props.onHide}>
-//                 Discard
-//               </Button>
-//               <Button className={styles.btnSaveMenu}>Save Menu</Button>
-//             </Col>
-//           </Row>
-//         </Form>
-//       </Modal.Body>
-//     </Modal>
-//   );
-// }
+  // const loadRestaurantByProductId = async () => {
+  //   const params = {
+  //     id: auth()?.id,
+  //   };
+  //   console.log(params);
 
-// function DeleteModal(props: any) {
-//   return (
-//     <Modal {...props} size="lg">
-//       <Modal.Header closeButton className={styles.modalHeader}></Modal.Header>
-//       <Modal.Body className={styles.modalBody}>
-//         <h3 className={`d-flex justify-content-center ${styles.alert}`}>
-//           Are you sure you want to delete this menu?
-//         </h3>
-//         <Row>
-//           <Col className="d-flex justify-content-center gap-2">
-//             <Button className={styles.btnYes}>Yes</Button>
-//             <Button className={styles.btnNo}>No</Button>
-//           </Col>
-//         </Row>
-//       </Modal.Body>
-//     </Modal>
-//   );
-// }
+  //   const response = await getProductById(params);
+  //   console.log("getRestaurantProduct response", response);
+  //   setProduct(response);
+  // };
+
+  // useEffect(() => {
+  //   loadRestaurantByProductId();
+  // }, []);
+
+  return (
+    <Modal {...props} size="lg">
+      <Modal.Header closeButton className={styles.modalHeader}>
+        <Modal.Title id="contained-modal-title-vcenter">Menu</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className={styles.modalBody}>
+        <Form>
+          <Row>
+            <Col>
+              <h6>Add Menu</h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4} xs={8}>
+              <Form.Group className="position-relative">
+                <Form.Label>Food Name</Form.Label>
+                <Form.Control className={styles.inputForm} type="text" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Food Description</Form.Label>
+                <Form.Control as="textarea" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4} xs={8}>
+              <Form.Group className="position-relative">
+                <Form.Label>Price in PH-PESO</Form.Label>
+                <Form.Control className={styles.inputForm} type="text" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4} xs={8}>
+              <Form.Label>Category</Form.Label>
+              <Dropdown>
+                <Dropdown.Toggle className={styles.btnCategory}>
+                  Category
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#action-1">Category1</Dropdown.Item>
+                  <Dropdown.Item href="#action-2">Category2</Dropdown.Item>
+                  <Dropdown.Item href="#action-3">Category3</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+            <Col>
+              <Button className={styles.btnUpload}>Upload</Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={4} xs={8}>
+              <Form.Label>Cuisine</Form.Label>
+              <Dropdown>
+                <Dropdown.Toggle className={styles.btnCuisine}>
+                  Cuisine
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#action-1">Cuisine1</Dropdown.Item>
+                  <Dropdown.Item href="#action-2">Cuisine2</Dropdown.Item>
+                  <Dropdown.Item href="#action-3">Cuisine3</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+            <Col>
+              <Form.Label>Availability</Form.Label>
+              <Form.Check type="switch" />
+            </Col>
+          </Row>
+          <Row>
+            <Col className="d-flex justify-content-center gap-2">
+              <Button className={styles.btnDiscard} onClick={props.onHide}>
+                Discard
+              </Button>
+              <Button className={styles.btnSaveMenu}>Save Menu</Button>
+            </Col>
+          </Row>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
+}
+
+function DeleteModal(props: any) {
+  return (
+    <Modal {...props} size="lg">
+      <Modal.Header closeButton className={styles.modalHeader}></Modal.Header>
+      <Modal.Body className={styles.modalBody}>
+        <h3 className={`d-flex justify-content-center ${styles.alert}`}>
+          Are you sure you want to delete this menu?
+        </h3>
+        <Row>
+          <Col className="d-flex justify-content-center gap-2">
+            <Button className={styles.btnYes}>Yes</Button>
+            <Button className={styles.btnNo}>No</Button>
+          </Col>
+        </Row>
+      </Modal.Body>
+    </Modal>
+  );
+}
 
 export default ProductContent;
