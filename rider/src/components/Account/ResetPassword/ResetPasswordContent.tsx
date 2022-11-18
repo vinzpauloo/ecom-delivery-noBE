@@ -49,7 +49,9 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
 
   const passwordChangeAlert = () => {
     alert("Password has been successfully updated.");
-    navigate("/");
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   };
 
   const {
