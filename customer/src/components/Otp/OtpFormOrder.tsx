@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useOTP } from "../../hooks/useOTP";
 import { useIsAuthenticated } from "react-auth-kit";
-import formatCountdown from "../../utils/formatCountdown";
+import { getCountdown } from "../../utils/formatCountdown";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -255,7 +255,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
                   <p className="mb-0 text-lg-end">
                     {counter ? (
                       <>
-                        Resend OTP in <span>{formatCountdown(counter)}</span>
+                        Resend OTP in <span>{getCountdown(counter)}</span>
                       </>
                     ) : (
                       <Link to="#" onClick={handleSendOTP}>

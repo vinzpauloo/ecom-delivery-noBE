@@ -1,4 +1,4 @@
-export default (totalSeconds: number) => {
+export const getCountdown = (totalSeconds: number) => {
   // Get number of full minutes
   const minutes = Math.floor(totalSeconds / 60);
 
