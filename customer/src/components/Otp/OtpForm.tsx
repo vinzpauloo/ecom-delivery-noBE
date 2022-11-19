@@ -7,7 +7,7 @@ import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
 import { useSignIn } from "react-auth-kit";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
-import { useHelper } from "../../hooks/useHelper";
+import formatCountdown from "../../utils/formatCountdown";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -71,7 +71,6 @@ const OtpForm: React.FC<ContainerProps> = () => {
   const navigate = useNavigate();
   const signIn = useSignIn();
   const { calculateHash } = useCalculateHash();
-  const { getCountdown } = useHelper();
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
@@ -252,7 +251,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
                   <p className="mb-0 text-lg-end">
                     {counter ? (
                       <>
-                        Resend OTP in <span>{getCountdown(counter)}</span>
+                        Resend OTP in <span>{formatCountdown(counter)}</span>
                       </>
                     ) : (
                       <Link to="#" onClick={handleSendOTP}>
