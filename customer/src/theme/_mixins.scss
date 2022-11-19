@@ -23,6 +23,18 @@
   ##################################################
 */
 @mixin devices($breakpoint) {
+  @if $breakpoint == xl {
+    @media only screen and (max-width: 1399px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == lg {
+    @media only screen and (max-width: 1199px) {
+      @content;
+    }
+  }
+
   @if $breakpoint == md {
     @media only screen and (max-width: 991px) {
       @content;
