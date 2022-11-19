@@ -13,4 +13,4 @@ export const getCountdown = (totalSeconds: number) => {
   const result = `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
 
   return result;
-}
+};
