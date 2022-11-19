@@ -11,7 +11,6 @@ import Otp from "./pages/Otp";
 import OtpOrder from "./pages/OtpOrder";
 import Restaurant from "./pages/Restaurant";
 import Checkout from "./pages/Checkout";
-import OrderTracker from "./pages/OrderTracker";
 import Restaurants from "./pages/Restaurants";
 import Profile from "./pages/Account/Profile";
 import Orders from "./pages/Account/Orders";
@@ -47,7 +46,6 @@ root.render(
             </Route>
 
             <Route path="checkout" element={<Checkout />} />
-            <Route path="delivery-status" element={<OrderTracker />} />
             <Route path="order/:id" element={<Order />} />
 
             {/* Account dashboard routes */}
