@@ -3,7 +3,7 @@
 
 .background {
   background-image: url(../../assets/images/bg-register.png);
-  background-position: right bottom;
+  background-position: right bottom -10px;
   background-repeat: no-repeat;
   background-size: 450px;
 
@@ -20,9 +20,9 @@
   }
 
   @include devices(sm) {
-    background-position: right -30px bottom;
+    background-position: right -30px bottom -10px;
     background-size: 300px;
-    padding-bottom: 130px;
+    padding-bottom: 150px;
   }
 }
 
