@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -86,7 +86,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   };
 
   useEffect(() => {
-    handleGetUser();
+    // handleGetUser();
   }, []);
 
   return (
@@ -94,47 +94,59 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
       <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {/* Basic details */}
         <div className={`mx-4 mx-md-5 mx-lg-0 ${styles.formInnerContainer}`}>
-          <h3 className="text-center">Get started with FoodMonkey</h3>
+          <h3 className="text-center">My Account</h3>
 
-          <Form.Group className="position-relative">
-            <Form.Label>First name</Form.Label>
-            <Form.Control
-              type="text"
-              onKeyUp={() => resetMessages()}
-              required
-              {...register("first_name")}
-            />
-          </Form.Group>
+          <Row md={2} xs={1} className="mb-lg-3 mb-md-2">
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>First name</Form.Label>
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => resetMessages()}
+                  required
+                  {...register("first_name")}
+                />
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
-              type="text"
-              onKeyUp={() => resetMessages()}
-              required
-              {...register("last_name")}
-            />
-          </Form.Group>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Last name</Form.Label>
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => resetMessages()}
+                  required
+                  {...register("last_name")}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              required
-              {...register("email")}
-              disabled
-            />
-          </Form.Group>
+          <Row md={2} xs={1} className="mb-lg-3 mb-md-2">
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  required
+                  {...register("email")}
+                  disabled
+                />
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Mobile number</Form.Label>
-            <Form.Control
-              type="text"
-              required
-              {...register("mobile")}
-              disabled
-            />
-          </Form.Group>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Mobile number</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  {...register("mobile")}
+                  disabled
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
           {/* Error messages */}
           <div className={styles.errors}>
@@ -163,17 +175,15 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         {/* Success messages */}
-        <div className={styles.success}>
-          <p className="text-success">{message}</p>
-        </div>
+        <p className="text-success">{message}</p>
 
-        <div className="d-flex justify-content-center gap-5 mt-5">
+        <div className="d-flex justify-content-center gap-5 mt-sm-5 mt-4">
           <Button
             variant="primary"
             size="lg"
             onClick={() => navigate("/account/orders")}
           >
-            Order
+            Orders
           </Button>
 
           <Button variant="primary" size="lg" type="submit" disabled={!isValid}>
