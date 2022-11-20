@@ -8,11 +8,13 @@ interface ContainerProps {}
 
 const OrdersContainer: React.FC<ContainerProps> = ({}) => {
   return (
-    <Container fluid="xxl" className="">
-      <section className={styles.container}>
-        <OrdersContent />
-      </section>
-    </Container>
+    <div className={styles.background}>
+      <Container fluid="xxl" className="">
+        <section className={styles.container}>
+          <OrdersContent />
+        </section>
+      </Container>
+    </div>
   );
 };
 
