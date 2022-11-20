@@ -86,7 +86,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   };
 
   useEffect(() => {
-    // handleGetUser();
+    handleGetUser();
   }, []);
 
   return (
