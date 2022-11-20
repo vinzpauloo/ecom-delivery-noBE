@@ -5,14 +5,14 @@
   background-image: url(../../../assets/images/bg-profile.png);
   background-position: right bottom;
   background-repeat: no-repeat;
-  background-size: 500px;
+  background-size: 600px;
 
   @include devices(xl) {
-    background-size: 450px;
+    background-size: 550px;
   }
 
-  @include devices(lg) {
-    background-size: 400px;
+  @include devices(md) {
+    background-size: 500px;
   }
 
   @include devices(sm) {
