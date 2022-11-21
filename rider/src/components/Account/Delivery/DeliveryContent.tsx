@@ -26,6 +26,7 @@ import RiderIcon from "../../../assets/images/riderotw-icon.png";
 import KitchenIcon from "../../../assets/images/kitchen-icon.png";
 import OrderReceivedIcon from "../../../assets/images/order-received-icon.png";
 import RewardsIcon from "../../../assets/images/rewards-icon.png";
+import RewardsBtn from "../../../assets/images/rewardsBtn.png";
 import RestoIcon from "../../../assets/images/resto.png";
 import Delivery from "../../../pages/Account/Delivery";
 
@@ -922,8 +923,9 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
       </div> */}
       <div className={styles.rewardsContainer}>
         <div className={styles.rewardsButton}>
-          {/* <a>Rewards</a>
-          <img src={RewardsIcon} alt="" /> */}
+          <a href="/account/rewards">
+            <img src={RewardsBtn} alt="" />
+          </a>
         </div>
       </div>
     </div>
