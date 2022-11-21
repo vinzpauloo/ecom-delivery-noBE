@@ -12,6 +12,7 @@ import OtpOrder from "./pages/OtpOrder";
 import Delivery from "./pages/Account/Delivery";
 import History from "./pages/Account/History";
 import Profile from "./pages/Account/Profile";
+import Rewards from "./pages/Account/Rewards";
 import ResetPassword from "./pages/Account/ResetPassword";
 // import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
@@ -37,6 +38,7 @@ root.render(
               <Route path="for-delivery" element={<Delivery />} />
               <Route path="order-history" element={<History />} />
               <Route path="reset-password" element={<ResetPassword />} />
+              <Route path="rewards" element={<Rewards />} />
             </Route>
           </Route>
         </Routes>

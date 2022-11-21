@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -104,50 +104,76 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         <div className={`mx-4 mx-md-5 mx-lg-0 ${styles.formInnerContainer}`}>
           <h3 className="text-center">Get started with FoodMonkey</h3>
 
-          <Form.Group className="position-relative">
-            <Form.Label>First name</Form.Label>
-            <Form.Control type="text" required {...register("first_name")} />
-          </Form.Group>
+          <Row md={2} xs={1} className="mb-lg-3 mb-md-2">
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>First name</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  {...register("first_name")}
+                />
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control type="text" required {...register("last_name")} />
-          </Form.Group>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Last name</Form.Label>
+                <Form.Control type="text" required {...register("last_name")} />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" required {...register("email")} />
-          </Form.Group>
+          <Row md={2} xs={1} className="mb-lg-3 mb-md-2">
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Mobile number</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="+639xxxxxxxxx"
+                  required
+                  {...register("mobile")}
+                  defaultValue="+63"
+                />
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Mobile number</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="+639xxxxxxxxx"
-              required
-              {...register("mobile")}
-              defaultValue="+63"
-            />
-          </Form.Group>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" required {...register("email")} />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" required {...register("password")} />
-          </Form.Group>
+          <Row md={2} xs={1} className="mb-lg-3 mb-md-2">
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  required
+                  {...register("password")}
+                />
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="position-relative">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              required
-              {...register("password_confirmation")}
-            />
-          </Form.Group>
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  required
+                  {...register("password_confirmation")}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
           {/* Error messages */}
           <div className={styles.errors}>
-            <p>{errorEmail}</p>
             <p>{errorMobile}</p>
+            <p>{errorEmail}</p>
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
             <p>{errors.address?.message}</p>

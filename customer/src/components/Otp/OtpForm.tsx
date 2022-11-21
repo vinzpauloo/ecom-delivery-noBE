@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
 import { useOTP } from "../../hooks/useOTP";
 import { useSignIn } from "react-auth-kit";
-import { useCalculateHash } from "../../hooks/useCalculateHash";
-import { useHelper } from "../../hooks/useHelper";
+import { useUser } from "../../hooks/useUser";
+import { getCountdown } from "../../utils/formatCountdown";
 
 import Lottie from "lottie-react";
 import otpSuccess from "../../assets/otp-success.json";
@@ -20,62 +19,21 @@ interface ContainerProps {}
 
 const IS_TESTING = process.env.NODE_ENV !== "production";
 
-const OtpSuccessModal = (props: any) => {
-  return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Body>
-        <div className={`text-center p-4 ${styles.lottie}`}>
-          <Lottie animationData={otpSuccess} loop={true} />
-          <p className="mt-4">OTP Verified Successfully</p>
-
-          <Link to="/" className={`d-inline-block mt-2 ${styles.button}`}>
-            Back to Home Page
-          </Link>
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
-};
-
-const OtpErrorModal = (props: any) => {
-  return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Body>
-        <div className={`text-center p-4 ${styles.lottie}`}>
-          {/* <Lottie animationData={otpSuccess} loop={true} /> */}
-          <h4 className="mt-4 text-danger">Oops!</h4>
-          <p className="mt-4">{props?.modalerror}</p>
-
-          <Link
-            to="#"
-            className={`d-inline-block mt-2 ${styles.button}`}
-            onClick={() => props?.setmodalerrorshow(false)}
-          >
-            Close
-          </Link>
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
-};
-
 const OtpForm: React.FC<ContainerProps> = () => {
-  const [error, setError] = useState("");
   const [modalError, setModalError] = useState("");
   const [otpCode, setOtpCode] = useState();
-  const [multipleErrors, setMultipleErrors] = useState([""]);
-  const [counter, setCounter] = useState(constants.otpCountdown);
+  const [otpErrorCount, setOtpErrorCount] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [modalShow, setModalShow] = useState(false);
   const [modalErrorShow, setModalErrorShow] = useState(false);
   const { requestOTP, verifyOTP } = useOTP();
   const navigate = useNavigate();
   const signIn = useSignIn();
-  const { calculateHash } = useCalculateHash();
-  const { getCountdown } = useHelper();
+  const { createUser } = useUser();
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
-    console.log(otp);
     setOtp(value);
   };
 
@@ -88,22 +46,27 @@ const OtpForm: React.FC<ContainerProps> = () => {
     return JSON.parse(registerUser)?.mobile;
   };
 
+  // New countdown timer logic
+  let timer: any;
+  useEffect(() => {
+    timer = setInterval(() => {
+      if (counter > 0) setCounter(counter - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  });
+
   useEffect(() => {
     console.log("OtpForm");
 
-    if (!registerUser || !getMobile()) {
-      console.log("Missing required details!");
-      navigate("/register");
-      return;
-    }
+    // if (!registerUser || !getMobile()) {
+    //   console.log("Missing required details!");
+    //   navigate("/register");
+    //   return;
+    // }
 
-    handleSendOTP();
+    // handleSendOTP();
   }, []);
-
-  // Countdown timer
-  useEffect(() => {
-    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
-  }, [counter]);
 
   // Send OTP request
   const handleSendOTP = async () => {
@@ -114,13 +77,20 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
     // Reset counter & errors
     setCounter(constants.otpCountdown);
-    setError("");
-
-    console.log("Requesting otp ...", otpRequestData);
+    setModalError("");
+    setOtpErrorCount(0);
 
     const response = await requestOTP(otpRequestData);
     console.log("handleSendOTP response", response);
-    setOtpCode(response.code);
+
+    // OTP request limit error
+    if (response.status === 429) {
+      setIsBlocked(true);
+      setModalError(response.message);
+      setModalErrorShow(true);
+    } else {
+      setOtpCode(response.code);
+    }
   };
 
   // Verify OTP request
@@ -149,144 +119,158 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
     if (response.error) {
       // OTP Verification error
-      // setError(response.error);
       setModalError(response.error);
       setModalErrorShow(true);
+      setOtpErrorCount(otpErrorCount + 1);
+
+      console.log(otpErrorCount);
+
+      // Check if error count is 3, reset counter to request new OTP
+      if (otpErrorCount >= 3) {
+        console.log("Error count = ", otpErrorCount);
+        setCounter(0);
+      }
     } else {
       // OTP Verification success
       console.log("OTP Verification success");
       console.log("Registering new user ...", JSON.parse(registerUser));
 
-      /* Register user */
-      try {
-        // START: Access register API
-        const registerData = JSON.parse(registerUser);
-        const endpoint = "api/customer/register";
-        const options = {
-          headers: {
-            "X-Authorization": calculateHash(endpoint, registerData),
-          },
-          withCredentials: true,
-        };
+      const response = await createUser(JSON.parse(registerUser));
+      console.log("createUser response", response);
 
-        const response = await axios.post(endpoint, registerData, options);
-        // END: Access register API
+      if (!response.error) {
+        console.log("Register success!", response);
 
-        console.log("/customer/register", response);
+        // Reset localStorage values
+        localStorage.removeItem("registerUser");
 
-        if (response.status === 201) {
-          const { data } = response.data;
+        // Show modal after register
+        setModalShow(true);
 
-          console.log("Register success!", response);
-
-          // Reset localStorage values
-          localStorage.removeItem("registerUser");
-
-          // Show modal after register
-          setModalShow(true);
-
-          signIn({
-            token: data.token,
-            expiresIn: 3600,
-            tokenType: "Bearer",
-            authState: data.user,
-          });
-        }
-      } catch (err) {
-        if (err && err instanceof AxiosError) {
-          if (err.response && err.response.data.errors) {
-            // Multiple errors from the backend
-            let tempErrors: any[] = [];
-            for (const [value] of Object.entries(err.response.data.errors)) {
-              tempErrors.push(value);
-            }
-            setMultipleErrors(tempErrors);
-          } else {
-            // Single error
-            setError("*" + err.response?.data.message);
-          }
-        } else if (err && err instanceof Error) setError(err.message);
-
-        console.log("Error", err);
+        // Login with react-auth-kit
+        signIn({
+          token: response.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: response.user,
+        });
+      } else {
+        setModalError(response.error);
+        setModalErrorShow(true);
       }
     }
   };
 
   return (
     <>
-      <OtpSuccessModal show={modalShow} onHide={() => setModalShow(false)} />
-      <OtpErrorModal
+      <Modal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        onExiting={() => navigate("/")}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4 ${styles.lottie}`}>
+            <Lottie animationData={otpSuccess} loop={true} />
+            <p className="mt-4">OTP Verified Successfully</p>
+
+            <Link to="/" className={`d-inline-block mt-2 ${styles.button}`}>
+              Back to Home Page
+            </Link>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
         show={modalErrorShow}
         onHide={() => setModalErrorShow(false)}
-        modalerror={modalError}
-        setmodalerrorshow={setModalErrorShow}
-      />
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4 ${styles.lottie}`}>
+            <h4 className="mt-4 text-danger">Oops!</h4>
+            <p className="mt-4">{modalError}</p>
 
-      <div className="text-center">
-        <div className={styles.title}>
-          <h3>Enter OTP</h3>
-          <p>We have sent an OTP to your mobile number</p>
+            <Link
+              to="#"
+              className={`d-inline-block mt-2 ${styles.button}`}
+              onClick={() => setModalErrorShow(false)}
+            >
+              Close
+            </Link>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      {isBlocked ? (
+        <div className="text-center">
+          <div className={styles.title}>
+            <h3>You have reached the OTP limit.</h3>
+            <p>Please try again later.</p>
+          </div>
         </div>
+      ) : (
+        <>
+          <div className="text-center">
+            <div className={styles.title}>
+              <h3>Enter OTP</h3>
+              <p>We have sent an OTP to your mobile number</p>
+            </div>
 
-        <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <Row>
-            <Col>
-              <OtpInput value={otp} valueLength={6} onChange={onChange} />
-            </Col>
-          </Row>
+            <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+              <Row>
+                <Col>
+                  <OtpInput value={otp} valueLength={6} onChange={onChange} />
+                </Col>
+              </Row>
 
-          <Row>
-            <Col lg={{ span: 8, offset: 2 }}>
-              <div className={styles.countdown}>
-                <div className="position-relative text-center text-lg-start my-5">
-                  {/* Error messages */}
-                  <div className={styles.errors}>
-                    <p>{error}</p>
-
-                    {/* Errors from backend */}
-                    {multipleErrors.map((item, index) => {
-                      return <p key={index}>{item}</p>;
-                    })}
+              <Row>
+                <Col lg={{ span: 8, offset: 2 }}>
+                  <div className={styles.countdown}>
+                    <div className="position-relative text-center text-lg-start my-5">
+                      <p className="mb-0 text-lg-end">
+                        {counter ? (
+                          <>
+                            Resend OTP in <span>{getCountdown(counter)}</span>
+                          </>
+                        ) : (
+                          <Link to="#" onClick={handleSendOTP}>
+                            Click to Resend OTP
+                          </Link>
+                        )}
+                      </p>
+                    </div>
                   </div>
+                </Col>
+              </Row>
 
-                  <p className="mb-0 text-lg-end">
-                    {counter ? (
-                      <>
-                        Resend OTP in <span>{getCountdown(counter)}</span>
-                      </>
-                    ) : (
-                      <Link to="#" onClick={handleSendOTP}>
-                        Click to Resend OTP
-                      </Link>
-                    )}
-                  </p>
-                </div>
-              </div>
-            </Col>
-          </Row>
+              <Row>
+                <Col>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    type="submit"
+                    className={styles.button}
+                    disabled={counter == 0}
+                  >
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </div>
 
-          <Row>
-            <Col>
-              <Button
-                variant="primary"
-                size="lg"
-                type="submit"
-                className={styles.button}
-              >
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-
-      {IS_TESTING ? (
-        <h6 className="mt-4 text-center text-success">
-          For testing only.
-          <br />
-          OTP Code: {otpCode}
-        </h6>
-      ) : null}
+          {IS_TESTING && counter ? (
+            <h6 className="mt-4 text-center text-success">
+              For testing only.
+              <br />
+              OTP Code: {otpCode}
+            </h6>
+          ) : null}
+        </>
+      )}
     </>
   );
 };

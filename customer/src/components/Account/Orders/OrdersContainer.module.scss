@@ -1,6 +1,31 @@
 @import "../../../theme/_variables.scss";
 @import "../../../theme/_mixins.scss";
 
+.background {
+  background-image: url(../../../assets/images/bg-order-history.png);
+  background-position: right -350px top 120px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 80vh;
+
+  @include devices(xl) {
+    background-size: 75vh;
+  }
+
+  @include devices(md) {
+    background-position: center bottom -400px;
+    background-attachment: initial;
+    background-size: 750px;
+    padding-bottom: 100px;
+  }
+
+  @include devices(sm) {
+    background-position: center bottom -300px;
+    background-size: 600px;
+    padding-bottom: 70px;
+  }
+}
+
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
   padding: 40px 0;

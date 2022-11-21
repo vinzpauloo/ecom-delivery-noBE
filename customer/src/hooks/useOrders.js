@@ -100,8 +100,6 @@ export const useOrders = () => {
   };
 
   const getOrdersById = async (id) => {
-    console.log("getOrdersById hook ...");
-
     try {
       // START: Access orders by id API
       const endpoint = `api/orders/${id}`;
@@ -133,8 +131,6 @@ export const useOrders = () => {
   };
 
   const getOrdersByIdGuest = async (id, guestSession) => {
-    console.log("getOrdersByIdGuest hook ...");
-
     try {
       // START: Access guests orders by id API
       const endpoint = `api/guests/orders/${id}`;

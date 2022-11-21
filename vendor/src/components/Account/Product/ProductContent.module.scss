@@ -88,6 +88,11 @@
     background: #fde9b1;
   }
 
+  table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+  }
+
   @include devices(md) {
     text-align: center;
 

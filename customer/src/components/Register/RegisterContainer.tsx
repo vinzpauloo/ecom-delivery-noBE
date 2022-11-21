@@ -8,13 +8,15 @@ interface ContainerProps {}
 
 const RegisterContainer: React.FC<ContainerProps> = ({}) => {
   return (
-    <Container fluid="md">
-      <Row className={styles.container}>
-        <Col lg={{ span: 10, offset: 1 }} xs={12}>
-          <RegisterForm />
-        </Col>
-      </Row>
-    </Container>
+    <div className={styles.background}>
+      <Container fluid="md">
+        <Row className={styles.container}>
+          <Col lg={{ span: 10, offset: 1 }} xs={12}>
+            <RegisterForm />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

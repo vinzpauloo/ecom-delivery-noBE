@@ -1,0 +1,44 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.background {
+  background-image: url(../../../assets/images/bg-order-details.jpg);
+  background-position: right -45vh center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 110vh;
+
+  @include devices(xl) {
+    background-position: right -55vh center;
+    background-size: 110vh;
+  }
+
+  @include devices(md) {
+    background-position: center bottom -500px;
+    background-attachment: initial;
+    background-size: 1100px;
+    padding-bottom: 110px;
+  }
+
+  @include devices(sm) {
+    background-position: center bottom -300px;
+    background-size: 700px;
+    padding-bottom: 70px;
+  }
+}
+
+.container {
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 40px 0;
+  margin: 0 20px;
+
+  @include devices(md) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  @include devices(xs) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+  }
+}

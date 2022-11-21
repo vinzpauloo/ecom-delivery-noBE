@@ -10,7 +10,6 @@ import {
   Container,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { number } from "yup";
 import { useForDelivery } from "../../../hooks/useForDelivery";
 import { useOrder } from "../../../hooks/useOrder";
 
@@ -42,25 +41,30 @@ type ForDeliveryItem = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const {
-    getForDelivery,
+    getCurrentOrder,
     getForDeliveryOTW,
     getOrderCompleted,
     getOrderCanceled,
   } = useForDelivery();
 
-  const { updateOrder } = useOrder();
+  const { updateOrder, cancelOrder } = useOrder();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
   const loadOrderForDelivery = async (status: string) => {
     const params = { paginate: 49, status: status };
-    const response = await getForDeliveryOTW(params);
+    const response = await getCurrentOrder(params);
     console.log("getForDelivery", response);
     setForDelivery(response.data);
     console.log(response.data);
   };
 
   const navigate = useNavigate();
+
+  const handleCancel = async (id: any) => {
+    const response = await cancelOrder(id, "cancel");
+    navigate("/account/for-delivery");
+  };
 
   const handleAccept = async (id: any) => {
     console.log(id);
@@ -202,12 +206,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             Order Placed Time: <span> {item.created_at}</span>
                           </li>
                         </Col>
-                        <Col>
+                        {/* <Col>
                           <li className="d-flex flex-column justify-content-center align-items-center">
                             Order Status: <span> {item.order_status}</span>
-                            {/* <img src={OrderReceivedIcon} /> */}
+                            <img src={OrderReceivedIcon} />
                           </li>
-                        </Col>
+                        </Col> */}
                       </Row>
                       <Row>
                         <Col md={3}>
@@ -230,7 +234,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               <span> ₱{item.rider_id}.00</span>
                             </p>
                             <div className={styles.declineAccept}>
-                              <a type="submit">Decline</a>
+                              <a
+                                type="submit"
+                                onClick={() => handleCancel(item.id)}
+                              >
+                                Decline
+                              </a>
                             </div>
                           </div>
                         </Col>

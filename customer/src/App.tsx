@@ -26,12 +26,10 @@ const App: React.FC = (props: Props) => {
   const customFooterPages = ["/login"];
 
   // Pages with custom background
-  const customBgPages = ["/account/orders"];
+  const customBgPages = [""];
 
   // Pages with no footer on mobile
   const noFooterOnMobile = [/^\/restaurants\/\d+$/];
-
-  console.log(location.pathname);
 
   if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "custom-header ";

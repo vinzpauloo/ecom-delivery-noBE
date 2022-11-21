@@ -23,10 +23,12 @@ export const useOTP = () => {
         return data;
       }
     } catch (err) {
-      let error;
+      let error = {};
       if (err && err instanceof AxiosError)
-        error = "*" + err.response?.data.message;
-      else if (err && err instanceof Error) error = err.message;
+        error.message = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error.message = err.message;
+
+      error.status = err.response.status;
 
       console.log("Error", err);
       return error;

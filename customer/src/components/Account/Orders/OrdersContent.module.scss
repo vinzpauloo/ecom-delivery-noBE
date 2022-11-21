@@ -6,10 +6,30 @@
     color: $FM_TEXT_BROWN;
     font-size: 30px;
     line-height: 1;
-    text-shadow: $FM_TITLE_SHADOW;
+
+    @include devices(md) {
+      font-size: 28px;
+    }
+
+    @include devices(sm) {
+      font-size: 24px;
+    }
   }
 
-  a {
+  p {
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+}
+
+.innerContainer {
+  margin: 30px 0 0;
+
+  .item:not(:last-child) {
+    margin-bottom: 60px;
+  }
+
+  .btnBack {
     background-color: $FM_BG_GRAY;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     border-radius: 5px;
@@ -24,19 +44,42 @@
     padding: 8px;
   }
 
-  p {
-    margin-bottom: 0;
-    line-height: 1.2;
+  .btnView {
+    text-align: center;
+
+    a {
+      background-color: $FM_BG_YELLOW;
+      border: 0.5px solid $FM_TEXT_BROWN;
+      border-radius: 3px;
+      color: #ffffff;
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      height: 30px;
+      line-height: 30px;
+      padding: 0;
+      text-decoration: none;
+      text-shadow: $FM_TEXT_SHADOW;
+      text-transform: uppercase;
+      width: 100px;
+      transition: $FM_TRANSITION;
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
   }
-}
 
-.innerContainer {
-  background-color: $FM_BG_BROWN;
-  margin: 20px 0;
-  padding: 20px;
+  @include devices(md) {
+    .item:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
 
-  .item:not(:last-child) {
-    margin-bottom: 30px;
+  @include devices(sm) {
+    .item:not(:last-child) {
+      margin-bottom: 25px;
+    }
   }
 }
 
@@ -53,54 +96,59 @@
     padding: 10px 5px;
     text-shadow: $FM_TEXT_SHADOW;
   }
+
+  @include devices(sm) {
+    h6 {
+      padding: 8px;
+    }
+  }
 }
 
 .orderDetails {
-  background-color: #fde9b1;
+  background-color: $FM_BG_GRAY3;
   border: 1px solid $FM_TEXT_BROWN;
   border-radius: 0px 5px 5px 5px;
   font-size: 14px;
-  padding: 10px 15px;
+  padding: 25px 30px 10px;
 
   .value,
   .label {
     font-weight: 500;
   }
 
+  @include devices(sm) {
+    padding: 10px 10px 15px;
+  }
+
   @include devices(xs) {
-    .value {
-      font-weight: 400;
-    }
   }
 }
 
-.boxGray {
-  background-color: $FM_BG_GRAY;
-  border: 0.5px solid #525252;
-  border-radius: 5px;
-  line-height: 1.2;
-  padding: 6px;
-
-  .price {
-    font-size: 18px;
-    font-weight: 600;
-    margin-top: 5px;
+.flexOnMobile {
+  .btnView {
+    display: none;
   }
 
-  .orders {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    max-height: 80px;
-    overflow-y: scroll;
+  @include devices(sm) {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    &::-webkit-scrollbar {
-      display: none;
+    .orderId {
+      border-radius: 3px;
+      width: 180px;
     }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    .btnView {
+      display: block;
+
+      a {
+        border-radius: 3px;
+        font-size: 11px;
+        height: 34px;
+        line-height: 34px;
+        width: 110px;
+      }
+    }
   }
 }

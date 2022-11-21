@@ -1,24 +1,20 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-// Import Swiper React components
+// Swiper components & styles
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-
-// Import required modules
 import { Autoplay, Navigation } from "swiper";
+import "swiper/scss";
+import "swiper/scss/effect-fade";
+import "swiper/scss/navigation";
 
 import styles from "./RestaurantRow.module.scss";
 
 interface ContainerProps {
-  slides: Slide[];
+  slides: TSlide[];
 }
 
-type Slide = {
+type TSlide = {
   id: string;
   name: string;
   address: string;
