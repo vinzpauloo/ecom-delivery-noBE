@@ -125,7 +125,7 @@
   }
 }
 //New Design-mobile
-.forDelivery {
+.forDeliveryMobile {
   .orderIdBtn {
     background: #a47e3b;
     border: 0.5px solid #61481c;
@@ -180,7 +180,7 @@
     // margin-left: 12px;
     margin-top: 5px;
     width: 348px;
-    height: 510px;
+    height: 440px;
 
     p {
       font-weight: 250;
@@ -232,6 +232,118 @@
     }
   }
 }
+//New Design-desktop
+.forDeliveryDesktop {
+  .orderIdBtn {
+    background: #a47e3b;
+    border: 0.5px solid #61481c;
+    border-radius: 2px;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+  }
+  .active,
+  .orderIdBtn:hover {
+    background-color: #555;
+  }
+
+  .detailsBtn {
+    background: #e6b325;
+    border: 0.5px solid #61481c;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 8px;
+    line-height: 16px;
+    text-transform: uppercase;
+  }
+
+  .deliveryDetails {
+    background: #e4e4e4;
+    border: 1px solid #61481c;
+    border-radius: 0px 5px 5px 5px;
+    // margin-left: 12px;
+    margin-top: 5px;
+    width: 468px;
+    height: 196px;
+
+    p {
+      font-weight: 250;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    span {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .deliveryDetails2 {
+    background: white;
+    border: 1px solid #61481c;
+    border-radius: 0px 5px 5px 5px;
+    // margin-left: 12px;
+    margin-top: 5px;
+    width: 468px;
+    height: 550px;
+
+    p {
+      font-weight: 250;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    span {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    button {
+      width: 0.25px;
+    }
+    li {
+      margin-left: 10px;
+      list-style: none;
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 13px;
+    }
+    .resto {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 70px;
+      }
+    }
+    .status {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 50px;
+      }
+    }
+    .declineAccept {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+
+      button {
+        background: #000000;
+        width: 100px;
+        border-radius: 5px;
+        color: #e6b325;
+      }
+    }
+  }
+}
+//
 //
 .orderDeliveryContainer {
   .orderId {
