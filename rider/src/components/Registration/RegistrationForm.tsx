@@ -297,7 +297,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 </Col>
                 <Col>
                   <a className={`${styles.test2}`} onClick={onImageUpload}>
-                    Browse File
+                    Browse
                   </a>
                 </Col>
               </Row>
@@ -310,7 +310,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   />
                 </Col>
                 <Col>
-                  <a className={`${styles.test2}`}>Browse File</a>
+                  <a className={`${styles.test2}`}>Browse</a>
                 </Col>
               </Row>
               <div className="nextBtn">
