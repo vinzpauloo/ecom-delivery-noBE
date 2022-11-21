@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./RiderContainer.module.scss";
 import NavigationContainer from "../Navigation/NavigationContainer";
-import OrderInformation from "./OrderInformation";
+import OrderInformation from "../Order/OrderInformation";
 
 interface ContainerProps {}
 
@@ -18,7 +18,7 @@ const RiderContainer: React.FC<ContainerProps> = ({}) => {
         </Col>
         <Col lg={8}>
           <div className={styles.contentContainer}>
-            <OrderInformation />
+            {/* <OrderInformation /> */}
           </div>
         </Col>
       </Row>

@@ -7,21 +7,33 @@
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 15px 0;
+
+    .mobileNav {
+      position: absolute;
+    }
+
     .navigationContainer {
-      background: none;
-      border: none;
-      height: none;
-      padding: 0px;
+      background: 0;
+      border: 0;
+      height: 0;
+      padding: 0;
     }
   }
 
   @include devices(xs) {
     min-height: calc(109vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    padding: 15px 0;
+
+    .mobileNav {
+      position: absolute;
+    }
+
     .navigationContainer {
-      background: none;
-      border: none;
-      height: none;
-      padding: 0px;
+      background: 0;
+      border: 0;
+      height: 0;
+      padding: 0;
     }
   }
 }
@@ -34,6 +46,11 @@
 }
 
 .contentContainer {
+  height: 100%;
+  padding: 30px 20px;
+}
+
+.content {
   height: 100%;
   padding: 30px 20px;
 }

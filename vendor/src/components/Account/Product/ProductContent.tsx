@@ -341,7 +341,7 @@ function MenuModal(props: any) {
                 className={styles.btnUpload}
                 type="text"
                 // accept=".png, .jpg, .jpeg"
-                value="https://placeholder.com/"
+                value="https://via.placeholder.com/150"
                 // onChange={changeHandler}
                 {...register("photo")}
               />
