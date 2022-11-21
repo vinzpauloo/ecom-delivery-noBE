@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useOrders } from "../../../hooks/useOrders";
+import { getDate, getTime } from "../../../utils/formatDate";
 
 import styles from "./OrdersContent.module.scss";
 
@@ -13,66 +14,11 @@ type TOrder = {
   customer_id: number;
   customer_name: string;
   customer_mobile: string;
+  delivered_at: string;
   order_address: string;
   order_status: string;
   restaurant_address: string;
 };
-
-const sampleOrder: TOrder[] = [
-  {
-    id: 1,
-    created_at: "01:30 PM",
-    customer_id: 10,
-    customer_name: "Jestoni Salonga",
-    customer_mobile: "+639558079168",
-    order_address: "S4 B9 L7 Sunny Brooke 1, General Trias, Cavite",
-    order_status: "Pending",
-    restaurant_address:
-      "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
-  },
-  {
-    id: 2,
-    created_at: "02:30 PM",
-    customer_id: 11,
-    customer_name: "Jestoni Salonga",
-    customer_mobile: "+639558079168",
-    order_address: "S4 B9 L7 Sunny Brooke 1, General Trias, Cavite",
-    order_status: "Pending",
-    restaurant_address:
-      "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
-  },
-  {
-    id: 3,
-    created_at: "03:30 PM",
-    customer_id: 12,
-    customer_name: "Jestoni Salonga",
-    customer_mobile: "+639558079168",
-    order_address: "S4 B9 L7 Sunny Brooke 1, General Trias, Cavite",
-    order_status: "Pending",
-    restaurant_address:
-      "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
-  },
-  {
-    id: 4,
-    created_at: "04:30 PM",
-    customer_id: 14,
-    customer_name: "Guest Salonga",
-    customer_mobile: "+639558079168",
-    order_address: "S4 B9 L7 Sunny Brooke 1, General Trias",
-    order_status: "Pending",
-    restaurant_address: "4117 41st Floor, GT Tower Intl., De La Costa",
-  },
-  {
-    id: 5,
-    created_at: "05:30 PM",
-    customer_id: 15,
-    customer_name: "Jestoni Guest",
-    customer_mobile: "+639558079168",
-    order_address: "S4 B9 L7, General Trias, Cavite",
-    order_status: "Pending",
-    restaurant_address: "4117 41st Floor, GT Tower Intl.",
-  },
-];
 
 const OrderItem = (item: TOrder, index: number) => {
   return (
@@ -91,9 +37,7 @@ const OrderItem = (item: TOrder, index: number) => {
                 </div>
 
                 <div className={styles.btnView}>
-                  <Button onClick={() => console.log("View details ...")}>
-                    View details
-                  </Button>
+                  <Link to={`/account/orders/${item.id}`}>View Details</Link>
                 </div>
               </div>
             </Col>
@@ -108,7 +52,7 @@ const OrderItem = (item: TOrder, index: number) => {
                       <Col>
                         <Row className="mb-2 mb-sm-0">
                           <Col xs={5} sm={6}>
-                            <p>Customer Name:</p>
+                            <p>Customer Name :</p>
                           </Col>
                           <Col xs={7} sm={6}>
                             <p className={styles.value}>{item.customer_name}</p>
@@ -159,7 +103,9 @@ const OrderItem = (item: TOrder, index: number) => {
                             <p>Order Placed Time :</p>
                           </Col>
                           <Col xs={7} sm={6}>
-                            <p className={styles.value}>{item.created_at}</p>
+                            <p className={styles.value}>
+                              {getTime(item.created_at)}
+                            </p>
                           </Col>
                         </Row>
                       </Col>
@@ -169,7 +115,11 @@ const OrderItem = (item: TOrder, index: number) => {
                             <p>Order Delivered Time :</p>
                           </Col>
                           <Col xs={7} sm={6}>
-                            <p className={styles.value}>{item.created_at}</p>
+                            <p className={styles.value}>
+                              {item.delivered_at
+                                ? getTime(item.delivered_at)
+                                : "In Process"}
+                            </p>
                           </Col>
                         </Row>
                       </Col>
@@ -183,7 +133,9 @@ const OrderItem = (item: TOrder, index: number) => {
                             <p>Date Ordered :</p>
                           </Col>
                           <Col xs={7} sm={6}>
-                            <p className={styles.value}>{item.created_at}</p>
+                            <p className={styles.value}>
+                              {getDate(item.created_at)}
+                            </p>
                           </Col>
                         </Row>
                       </Col>
@@ -193,11 +145,9 @@ const OrderItem = (item: TOrder, index: number) => {
                         <Row>
                           <Col>
                             <div className={styles.btnView}>
-                              <Button
-                                onClick={() => console.log("View details ...")}
-                              >
-                                View details
-                              </Button>
+                              <Link to={`/account/orders/${item.id}`}>
+                                View Details
+                              </Link>
                             </div>
                           </Col>
                         </Row>
@@ -221,8 +171,7 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
   const loadOrders = async () => {
     const response = await getOrders();
     console.log("getOrders response", response.data);
-    // setOrders(response.data);
-    setOrders(sampleOrder);
+    setOrders(response.data);
   };
 
   useEffect(() => {
