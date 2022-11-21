@@ -31,8 +31,6 @@ const App: React.FC = (props: Props) => {
   // Pages with no footer on mobile
   const noFooterOnMobile = [/^\/restaurants\/\d+$/];
 
-  console.log(location.pathname);
-
   if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "custom-header ";
     RenderHeader = <HeaderBasic />;

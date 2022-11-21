@@ -12,15 +12,17 @@
     background-size: 75vh;
   }
 
-  @include devices(lg) {
-    background-size: 70vh;
+  @include devices(md) {
+    background-position: center bottom -400px;
+    background-attachment: initial;
+    background-size: 750px;
+    padding-bottom: 100px;
   }
 
-  @include devices(md) {
-    background-position: center bottom -40vw;
-    background-attachment: fixed;
-    background-size: 110vw;
-    padding-bottom: 20vw;
+  @include devices(sm) {
+    background-position: center bottom -300px;
+    background-size: 600px;
+    padding-bottom: 70px;
   }
 }
 
