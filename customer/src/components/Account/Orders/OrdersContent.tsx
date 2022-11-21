@@ -86,7 +86,7 @@ const OrderItem = (item: TOrder, index: number) => {
               <div className={styles.flexOnMobile}>
                 <div className={styles.orderId}>
                   <h6 className="text-center text-uppercase">
-                    Order ID: {item.id}
+                    Order ID : {item.id}
                   </h6>
                 </div>
 
@@ -118,7 +118,7 @@ const OrderItem = (item: TOrder, index: number) => {
                       <Col>
                         <Row className="mb-2 mb-sm-0">
                           <Col xs={5} sm={6}>
-                            <p>Contact Number:</p>
+                            <p>Contact Number :</p>
                           </Col>
                           <Col xs={7} sm={6}>
                             <p className={styles.value}>
@@ -132,7 +132,7 @@ const OrderItem = (item: TOrder, index: number) => {
                     {/* Pick up address */}
                     <Row className="mb-2 mb-sm-3">
                       <Col sm={3} xs={5}>
-                        <p>Pick up Address:</p>
+                        <p>Pick up Address :</p>
                       </Col>
                       <Col sm={9} xs={7}>
                         <p className={styles.value}>
@@ -144,7 +144,7 @@ const OrderItem = (item: TOrder, index: number) => {
                     {/* Delivery address */}
                     <Row className="mb-2 mb-sm-3">
                       <Col sm={3} xs={5}>
-                        <p>Delivery Address:</p>
+                        <p>Delivery Address :</p>
                       </Col>
                       <Col sm={9} xs={7}>
                         <p className={styles.value}>{item.order_address}</p>
@@ -156,7 +156,7 @@ const OrderItem = (item: TOrder, index: number) => {
                       <Col>
                         <Row className="mb-2 mb-sm-0">
                           <Col xs={5} sm={6}>
-                            <p>Order Placed Time:</p>
+                            <p>Order Placed Time :</p>
                           </Col>
                           <Col xs={7} sm={6}>
                             <p className={styles.value}>{item.created_at}</p>
@@ -166,7 +166,7 @@ const OrderItem = (item: TOrder, index: number) => {
                       <Col>
                         <Row className="mb-2 mb-sm-0">
                           <Col xs={5} sm={6}>
-                            <p>Order Delivered Time:</p>
+                            <p>Order Delivered Time :</p>
                           </Col>
                           <Col xs={7} sm={6}>
                             <p className={styles.value}>{item.created_at}</p>
@@ -180,7 +180,7 @@ const OrderItem = (item: TOrder, index: number) => {
                       <Col>
                         <Row>
                           <Col xs={5} sm={6}>
-                            <p>Date ordered:</p>
+                            <p>Date Ordered :</p>
                           </Col>
                           <Col xs={7} sm={6}>
                             <p className={styles.value}>{item.created_at}</p>
@@ -219,8 +219,8 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
   const { getOrders } = useOrders();
 
   const loadOrders = async () => {
-    // const response = await getOrders();
-    // console.log("getOrders response", response.data);
+    const response = await getOrders();
+    console.log("getOrders response", response.data);
     // setOrders(response.data);
     setOrders(sampleOrder);
   };
