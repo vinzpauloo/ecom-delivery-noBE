@@ -1,0 +1,50 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.container {
+  overflow-x: hidden;
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 40px 0;
+  @include devices(md) {
+    min-height: auto;
+    margin-bottom: -220px + $FM_FOOTER_HEIGHT_MD;
+    padding: 0;
+  }
+  // @include devices(xs) {
+  //   min-height: auto;
+  //   margin-bottom: -205px + $FM_FOOTER_HEIGHT_MD;
+  //   padding: 0;
+  // }
+}
+
+.navigationContainer {
+  background: #f2f2f2;
+  border: 1px solid #000000;
+  height: 100%;
+  padding: 30px 20px;
+}
+
+.contentContainer {
+  @media (min-width: 768px) {
+    // border: 1px solid #000000;
+    height: 100%;
+    padding: 30px 20px;
+    // padding: 0;
+  }
+}
+
+.contentContainer {
+  // background-color: #fdf5e7;
+
+  @media (max-width: 768px) {
+    height: 800px;
+    background: none;
+    padding: 50px 0;
+  }
+}
+
+.bg {
+  @media (max-width: 425px) {
+    // background-color: #fdf5e7;
+  }
+}
