@@ -6,13 +6,22 @@ import { getDate, getTime } from "../../../utils/formatDate";
 
 import placeholder from "../../../assets/images/placeholder.png";
 import statusIsReceived from "../../../assets/images/order-received.png";
-import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
-import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
-import statusIsDelivered from "../../../assets/images/delivered.png";
+import statusIsPreparing from "../../../assets/images/order-preparing.png";
+import statusIsOtw from "../../../assets/images/order-otw.png";
+import statusIsDelivered from "../../../assets/images/order-delivered.png";
+import statusIsCancel from "../../../assets/images/order-cancel.png";
 
 import styles from "./OrderDetailsContent.module.scss";
 
 interface ContainerProps {}
+
+const statusImages = {
+  received: statusIsReceived,
+  preparing: statusIsPreparing,
+  otw: statusIsOtw,
+  delivered: statusIsDelivered,
+  cancel: statusIsCancel,
+};
 
 type TOrder = {
   id: number;
@@ -23,10 +32,16 @@ type TOrder = {
   delivered_at: string;
   order_address: string;
   order_status: string;
+  products: [{ name: string; quantity: number }];
   restaurant_address: string;
   restaurant_name: string;
   restaurant_photo: string;
   total_amount: number;
+};
+
+const StatusImg = ({ status }: { status: string }) => {
+  const currentImage = statusImages[status as keyof typeof statusImages];
+  return <img className="img-fluid mt-1 mb-2" src={currentImage} />;
 };
 
 const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
@@ -138,7 +153,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                               <p className={styles.value}>
                                 {order && order.delivered_at
                                   ? getTime(order.delivered_at)
-                                  : "In Process"}
+                                  : "Waiting ..."}
                               </p>
                             </Col>
                           </Row>
@@ -175,14 +190,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col xs={7} sm={8}>
                           <ul className={styles.orderList}>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
+                            {order?.products?.map((item, index) => {
+                              return (
+                                <li
+                                  key={index}
+                                >{`${item.name} (${item.quantity}x)`}</li>
+                              );
+                            })}
                           </ul>
                         </Col>
                       </Row>
@@ -243,13 +257,16 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.orderStatus}>
                         <p>Order Status</p>
-                        <img
-                          className="img-fluid mt-1 mb-2"
-                          src={statusIsReceived}
-                        />
-                        <p className={styles.value}>
-                          Order {order?.order_status}
-                        </p>
+                        {order ? (
+                          <>
+                            <StatusImg status={order.order_status} />
+                            <p className={styles.value}>
+                              Order {order.order_status}
+                            </p>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </Col>
                   </Row>

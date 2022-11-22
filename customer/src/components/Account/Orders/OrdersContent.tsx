@@ -118,7 +118,7 @@ const OrderItem = (item: TOrder, index: number) => {
                             <p className={styles.value}>
                               {item.delivered_at
                                 ? getTime(item.delivered_at)
-                                : "In Process"}
+                                : "Waiting ..."}
                             </p>
                           </Col>
                         </Row>
