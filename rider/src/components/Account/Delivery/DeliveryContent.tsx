@@ -11,6 +11,7 @@ import {
   Form,
   Collapse,
 } from "react-bootstrap";
+
 import CloseButton from "react-bootstrap/CloseButton";
 import { CSSTransition } from "react-transition-group";
 import { useForm } from "react-hook-form";
@@ -19,7 +20,8 @@ import * as yup from "yup";
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
 import constants from "../../../utils/constants.json";
 
-import styles from "./DeliveryContent.module.scss";
+import "./DeliveryContent.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import SearchIcon from "../../../assets/images/search.png";
 import RiderIcon from "../../../assets/images/riderotw-icon.png";
@@ -49,7 +51,7 @@ type ForDeliveryItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
-  id: number;
+  id: string;
 };
 
 type ForCompletedItem = {
@@ -348,12 +350,12 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   }
 
   return (
-    <div className={styles.deliveryContainer}>
-      <div className={styles.tableContainerHistory}>
-        <div className={styles.tableHeader}>
-          <div className={styles.tableHeader1}>
+    <div className="deliveryContainer">
+      <div className="tableContainerHistory">
+        <div className="tableHeader">
+          <div className="tableHeader1">
             <h3>For Delivery</h3>
-            <div className={styles.search}>
+            <div className="search">
               <input type="text" placeholder="Search order ID" />
               <img src={SearchIcon} alt="" />
             </div>
@@ -430,63 +432,212 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
       })} */}
       {forDelivery.map((item, index) => {
         return (
-          <Container
-            className={`${styles.forDeliveryMobile} d-md-none fluid`}
-            key={item.id}
-          >
-            <Row>
-              <Col xs={5}>
-                <Button
-                  className={styles.orderIdBtn}
-                  key={item.id}
-                  onClick={(event) => {
-                    handleClick(event);
-                    setOpen(!open);
-                  }}
-                >
-                  Order ID: {item.id}
-                </Button>
-              </Col>
-              <Col xs={{ span: 4, offset: 3 }}>
-                {show ? (
-                  <Button
-                    className={styles.detailsBtn}
-                    onClick={(event) => {
-                      handleClick(event);
-                      setOpen(!open);
-                      changeState();
-                    }}
-                    // style={{ display: isShown ? "block" : "none" }}
-                  >
-                    View Details
-                  </Button>
-                ) : (
-                  <CloseButton
-                    onClick={(event) => {
-                      handleClick(event);
-                      setOpen(!open);
-                      changeState();
-                    }}
-                    className="px-5"
-                  />
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={1}>
-                <div
-                  className={styles.deliveryDetails}
-                  style={{ display: isShown ? "block" : "none" }}
-                >
+          // <Container
+          //   className={`${styles.forDeliveryMobile} d-md-none fluid`}
+          //   key={item.id}
+          // >
+          //   <Row>
+          //     <Col xs={5}>
+          //       <Button
+          //         className={styles.orderIdBtn}
+          //         key={item.id}
+          //         onClick={(event) => {
+          //           handleClick(event);
+          //           setOpen(!open);
+          //         }}
+          //       >
+          //         Order ID: {item.id}
+          //       </Button>
+          //     </Col>
+          //     <Col xs={{ span: 4, offset: 3 }}>
+          //       {show ? (
+          //         <Button
+          //           className={styles.detailsBtn}
+          //           onClick={(event) => {
+          //             handleClick(event);
+          //             setOpen(!open);
+          //             changeState();
+          //           }}
+          //           // style={{ display: isShown ? "block" : "none" }}
+          //         >
+          //           View Details
+          //         </Button>
+          //       ) : (
+          //         <CloseButton
+          //           onClick={(event) => {
+          //             handleClick(event);
+          //             setOpen(!open);
+          //             changeState();
+          //           }}
+          //           className="px-5"
+          //         />
+          //       )}
+          //     </Col>
+          //   </Row>
+          //   <Row>
+          //     <Col xs={1}>
+          //       <div
+          //         className={styles.deliveryDetails}
+          //         style={{ display: isShown ? "block" : "none" }}
+          //       >
+          //         <Row>
+          //           <Col>
+          //             <p>
+          //               Customer Name: <span> {item.customer_name} </span>
+          //             </p>
+          //           </Col>
+          //           <Col>
+          //             <p>
+          //               Contact Number: <span>0917 123 4567</span>
+          //             </p>
+          //           </Col>
+          //         </Row>
+          //         <Row>
+          //           <p>
+          //             Pick-up address:
+          //             <span>
+          //               Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+          //             </span>
+          //           </p>
+          //         </Row>
+          //         <Row>
+          //           <p>
+          //             Delivery Address:
+          //             <span>
+          //               4117 41st Floor., GT Tower Intl., De La Costa, Makati
+          //               City
+          //             </span>
+          //           </p>
+          //         </Row>
+          //         <Row>
+          //           <Col>
+          //             <p>
+          //               Order Placed Time: <span>01:30 pm</span>
+          //             </p>
+          //           </Col>
+          //           <Col>
+          //             <p>
+          //               Order Delivered Time: <span>01:30 pm</span>
+          //             </p>
+          //           </Col>
+          //         </Row>
+          //       </div>
+          //       {/* Collapse More Details */}
+          //       <Accordion>
+          //         <Accordion.Item eventKey={item.id}>
+          //           <Accordion.Header>Test</Accordion.Header>
+          //           <Accordion.Body>
+          //             <div className={styles.deliveryDetails2}>
+          //               <Row>
+          //                 <Col>
+          //                   <p>
+          //                     Customer Name: <span>{item.customer_name}</span>
+          //                   </p>
+          //                 </Col>
+          //                 <Col>
+          //                   <p>
+          //                     Contact Number:{" "}
+          //                     <span>0917 123 4567 {item.id} </span>
+          //                   </p>
+          //                 </Col>
+          //               </Row>
+          //               <Row>
+          //                 <p>
+          //                   Pick-up address:
+          //                   <span>
+          //                     Chan’s Chinese Restaurant, Panglao, Bohol,
+          //                     Philippines
+          //                   </span>
+          //                 </p>
+          //               </Row>
+          //               <Row>
+          //                 <p>
+          //                   Delivery Address:
+          //                   <span>
+          //                     4117 41st Floor., GT Tower Intl., De La Costa,
+          //                     Makati City
+          //                   </span>
+          //                 </p>
+          //               </Row>
+          //               <Row>
+          //                 <Col>
+          //                   <p>
+          //                     Order Placed Time: <span>01:30 pm</span>
+          //                   </p>
+          //                 </Col>
+          //                 <Col>
+          //                   <p>
+          //                     Order Delivered Time: <span>01:30 pm</span>
+          //                   </p>
+          //                 </Col>
+          //               </Row>
+          //               <hr />
+          //               <Row>
+          //                 <Col>
+          //                   <p>
+          //                     Order Details:
+          //                     <li>Ramen Noodles</li>
+          //                     <li>Milk Tea(2x)</li>
+          //                     <li>1 Watermelon</li>
+          //                     <li>1 Boba Soya</li>
+          //                     <li>Peking Duck (1x)</li>
+          //                   </p>
+          //                 </Col>
+          //                 <Col>
+          //                   <div className={styles.resto}>
+          //                     <p>Chan's Restaurant</p>
+          //                     <img src={RestoIcon} alt="resto" />
+          //                   </div>
+          //                 </Col>
+          //               </Row>
+          //               <hr />
+          //               <Row>
+          //                 <Col>
+          //                   <p>
+          //                     Sub Total: <span>1,350 php</span>
+          //                   </p>
+          //                   <p>
+          //                     Delivery Fee: <span>85 php</span>
+          //                   </p>
+          //                   <p>
+          //                     Total: <span>1,435 php</span>
+          //                   </p>
+          //                 </Col>
+          //                 <Col>
+          //                   <div className={styles.status}>
+          //                     <p>Order Status</p>
+          //                     <img src={OrderReceivedIcon} />
+          //                     <span>Order Received</span>
+          //                   </div>
+          //                 </Col>
+          //               </Row>
+          //               <div className={styles.declineAccept}>
+          //                 <button>Decline</button>
+          //                 <button>Accept</button>
+          //               </div>
+          //             </div>
+          //           </Accordion.Body>
+          //         </Accordion.Item>
+          //       </Accordion>
+          //     </Col>
+          //   </Row>
+          // </Container>
+          <Accordion className="accordion">
+            <Accordion.Item eventKey={item.id}>
+              <Accordion.Header>
+                <Button className="orderIdBtn">Order ID: {item.id}</Button>
+              </Accordion.Header>
+              <Accordion.Body>
+                <div className="deliveryDetails2">
                   <Row>
                     <Col>
                       <p>
-                        Customer Name: <span> {item.customer_name} </span>
+                        Customer Name: <span>{item.customer_name}</span>
                       </p>
                     </Col>
                     <Col>
                       <p>
-                        Contact Number: <span>0917 123 4567</span>
+                        Contact Number: <span>0917 123 4567 {item.id} </span>
                       </p>
                     </Col>
                   </Row>
@@ -519,110 +670,62 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       </p>
                     </Col>
                   </Row>
-                </div>
-                {/* Collapse More Details */}
-                <Collapse in={open}>
-                  <div className={styles.deliveryDetails2}>
-                    <Row>
-                      <Col>
-                        <p>
-                          Customer Name: <span>Brandon Boyd</span>
-                        </p>
-                      </Col>
-                      <Col>
-                        <p>
-                          Contact Number: <span>0917 123 4567</span>
-                        </p>
-                      </Col>
-                    </Row>
-                    <Row>
+                  <hr />
+                  <Row>
+                    <Col>
                       <p>
-                        Pick-up address:
-                        <span>
-                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                        </span>
+                        Order Details:
+                        <li>Ramen Noodles</li>
+                        <li>Milk Tea(2x)</li>
+                        <li>1 Watermelon</li>
+                        <li>1 Boba Soya</li>
+                        <li>Peking Duck (1x)</li>
                       </p>
-                    </Row>
-                    <Row>
+                    </Col>
+                    <Col>
+                      <div className="resto">
+                        <p>Chan's Restaurant</p>
+                        <img src={RestoIcon} alt="resto" />
+                      </div>
+                    </Col>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <Col>
                       <p>
-                        Delivery Address:
-                        <span>
-                          4117 41st Floor., GT Tower Intl., De La Costa, Makati
-                          City
-                        </span>
+                        Sub Total: <span>1,350 php</span>
                       </p>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <p>
-                          Order Placed Time: <span>01:30 pm</span>
-                        </p>
-                      </Col>
-                      <Col>
-                        <p>
-                          Order Delivered Time: <span>01:30 pm</span>
-                        </p>
-                      </Col>
-                    </Row>
-                    <hr />
-                    <Row>
-                      <Col>
-                        <p>
-                          Order Details:
-                          <li>Ramen Noodles</li>
-                          <li>Milk Tea(2x)</li>
-                          <li>1 Watermelon</li>
-                          <li>1 Boba Soya</li>
-                          <li>Peking Duck (1x)</li>
-                        </p>
-                      </Col>
-                      <Col>
-                        <div className={styles.resto}>
-                          <p>Chan's Restaurant</p>
-                          <img src={RestoIcon} alt="resto" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <hr />
-                    <Row>
-                      <Col>
-                        <p>
-                          Sub Total: <span>1,350 php</span>
-                        </p>
-                        <p>
-                          Delivery Fee: <span>85 php</span>
-                        </p>
-                        <p>
-                          Total: <span>1,435 php</span>
-                        </p>
-                      </Col>
-                      <Col>
-                        <div className={styles.status}>
-                          <p>Order Status</p>
-                          <img src={OrderReceivedIcon} />
-                          <span>Order Received</span>
-                        </div>
-                      </Col>
-                    </Row>
-                    <div className={styles.declineAccept}>
-                      <button>Decline</button>
-                      <button>Accept</button>
-                    </div>
+                      <p>
+                        Delivery Fee: <span>85 php</span>
+                      </p>
+                      <p>
+                        Total: <span>1,435 php</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <div className="status">
+                        <p>Order Status</p>
+                        <img src={OrderReceivedIcon} />
+                        <span>Order Received</span>
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="declineAccept">
+                    <button>Decline</button>
+                    <button>Accept</button>
                   </div>
-                </Collapse>
-              </Col>
-            </Row>
-          </Container>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         );
       })}
       {/* Desktop */}
-      <Container
-        className={`${styles.forDeliveryDesktop} d-none d-md-block px-5`}
-      >
+      <Container className="forDeliveryDesktop d-none d-md-block px-5">
         <Row>
           <Col md={3}>
             <Button
-              className={styles.orderIdBtn}
+              className="orderIdBtn"
               onClick={(event) => {
                 handleClick(event);
                 setOpen(!open);
@@ -633,7 +736,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           </Col>
           <Col md={9}>
             <div
-              className={styles.deliveryDetails}
+              className="deliveryDetails"
               style={{ display: isShown ? "block" : "none" }}
             >
               <Row className="p-1">
@@ -680,7 +783,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Col md={{ span: 4, offset: 5 }}>
                     {/* {show ? ( */}
                     <Button
-                      className={styles.detailsBtn}
+                      className="detailsBtn"
                       onClick={(event) => {
                         handleClick(event);
                         setOpen(!open);
@@ -707,7 +810,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
             </div>
             {/* Collapse More Details */}
             <Collapse in={open}>
-              <div className={styles.deliveryDetails2}>
+              <div className="deliveryDetails2">
                 <Row className="p-2">
                   <Col md={5}>
                     <p>
@@ -770,7 +873,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     </p>
                   </Col>
                   <Col>
-                    <div className={styles.resto}>
+                    <div className="resto">
                       <p>Chan's Restaurant</p>
                       <img src={RestoIcon} alt="resto" />
                     </div>
@@ -790,14 +893,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     </p>
                   </Col>
                   <Col>
-                    <div className={styles.status}>
+                    <div className="status">
                       <p>Order Status</p>
                       <img src={OrderReceivedIcon} />
                       <span>Order Received</span>
                     </div>
                   </Col>
                 </Row>
-                <div className={styles.declineAccept}>
+                <div className="declineAccept">
                   <button>Decline</button>
                   <button>Accept</button>
                 </div>
@@ -815,8 +918,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
         <button onClick={() => setModalShow2(true)}>Cancelled</button>
         <CancelledModal show={modalShow2} onHide={() => setModalShow2(false)} />
       </div> */}
-      <div className={styles.rewardsContainer}>
-        <div className={styles.rewardsButton}>
+      <div className="rewardsContainer">
+        <div className="rewardsButton">
           <a href="/account/rewards">
             <img src={RewardsBtn} alt="" />
           </a>
