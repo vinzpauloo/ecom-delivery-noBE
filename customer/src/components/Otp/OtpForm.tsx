@@ -59,13 +59,13 @@ const OtpForm: React.FC<ContainerProps> = () => {
   useEffect(() => {
     console.log("OtpForm");
 
-    // if (!registerUser || !getMobile()) {
-    //   console.log("Missing required details!");
-    //   navigate("/register");
-    //   return;
-    // }
+    if (!registerUser || !getMobile()) {
+      console.log("Missing required details!");
+      navigate("/register");
+      return;
+    }
 
-    // handleSendOTP();
+    handleSendOTP();
   }, []);
 
   // Send OTP request
@@ -95,16 +95,11 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
   // Verify OTP request
   const onSubmit = async () => {
-    console.log("inside onSubmit");
-
     if (!otp) {
       setModalError(constants.form.error.missingOtp);
       setModalErrorShow(true);
       return;
     }
-
-    console.log("onSubmit", otp);
-    console.log("mobile", getMobile());
 
     const otpVerifyData = {
       mobile: getMobile(),
@@ -112,7 +107,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
       guest: false,
     };
 
-    console.log("otpVerifyData", otpVerifyData);
+    console.log("onSubmit", otpVerifyData);
 
     const response = await verifyOTP(otpVerifyData);
     console.log("response", response);
@@ -123,12 +118,11 @@ const OtpForm: React.FC<ContainerProps> = () => {
       setModalErrorShow(true);
       setOtpErrorCount(otpErrorCount + 1);
 
-      console.log(otpErrorCount);
-
       // Check if error count is 3, reset counter to request new OTP
       if (otpErrorCount >= 3) {
         console.log("Error count = ", otpErrorCount);
         setCounter(0);
+        setOtp("");
       }
     } else {
       // OTP Verification success

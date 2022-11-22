@@ -11,14 +11,14 @@ import statusIsDelivered from "../../assets/images/delivered.png";
 import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../hooks/useOrders";
 
-import Pusher from "pusher-js";
-import * as PusherTypes from "pusher-js";
+// import Pusher from "pusher-js";
+// import * as PusherTypes from "pusher-js";
 
-var presenceChannel: PusherTypes.PresenceChannel;
+// var presenceChannel: PusherTypes.PresenceChannel;
 
-const pusher = new Pusher("dda7bca342e12a644ba2", {
-  cluster: "ap1",
-});
+// const pusher = new Pusher("dda7bca342e12a644ba2", {
+//   cluster: "ap1",
+// });
 
 interface ContainerProps {}
 

@@ -1,20 +1,28 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./OrderDetailsContainer.module.scss";
+import NavigationContainer from "../Navigation/NavigationContainer";
 import OrderDetailsContent from "./OrderDetailsContent";
 
 interface ContainerProps {}
 
 const OrderDetailsContainer: React.FC<ContainerProps> = ({}) => {
   return (
-    <div className={styles.background}>
-      <Container fluid="xl" className="">
-        <section className={styles.container}>
-          <OrderDetailsContent />
-        </section>
-      </Container>
-    </div>
+    <Container fluid="xxl">
+      <Row className={styles.container}>
+        <Col lg={4} className={styles.mobileNav}>
+          <div className={styles.navigationContainer}>
+            <NavigationContainer />
+          </div>
+        </Col>
+        <Col lg={8}>
+          <div className={styles.contentContainer}>
+            <OrderDetailsContent />
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../../hooks/useUser";
+import { useSignIn } from "react-auth-kit";
 
 import styles from "./ProfileForm.module.scss";
 import constants from "../../../utils/constants.json";
@@ -41,6 +42,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { getUser, updateUser } = useUser();
+  const signIn = useSignIn();
   const {
     reset,
     register,
@@ -63,6 +65,13 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
+
+      signIn({
+        token: localStorage.getItem("_auth") || "",
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: response,
+      });
     } else {
       setError(response.error);
     }
@@ -147,6 +156,15 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
+
+          <Button
+            variant="primary"
+            type="submit"
+            className={styles.btnChangePass}
+            onClick={() => navigate("change-password")}
+          >
+            Change Password
+          </Button>
 
           {/* Error messages */}
           <div className={styles.errors}>

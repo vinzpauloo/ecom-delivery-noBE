@@ -8,6 +8,7 @@
 }
 
 .slideImageContainer {
+  background-color: #ffffff;
   border: 0.5px solid $FM_TEXT_BROWN;
   border-radius: 5px;
   border-bottom-right-radius: 0;
@@ -44,7 +45,7 @@
 }
 
 .slideOptions {
-  .qty {
+  .quantity {
     margin-top: 3px;
 
     button {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { useOrder } from "../../../hooks/useOrder";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
@@ -11,12 +12,50 @@ import styles from "./StatusContent.module.scss";
 
 interface ContainerProps {}
 
-const StatusContent: React.FC<ContainerProps> = ({}) => {
-  //   const { id } = useParams();
+type ForPreparingItem = {
+  created_at: string;
+  customer_id: string;
+  customer_mobile: string;
+  customer_name: string;
+  order_address: string;
+  order_email: string;
+  order_mobile: string;
+  order_status: string;
+  otw_at: string;
+  payment_type: string;
+  plate_number: string;
+  restaurant_name: string;
+  restaurant_id: string;
+  updated_at: string;
+  rider_id: string;
+  rider_vehicle_model: string;
+  id: number;
+  restaurant_address: string;
+  total_amount: number;
+};
 
-  //   useEffect(() => {
-  //     loadOrderForDelivery("preparing");
-  //   }, []);
+const StatusContent: React.FC<ContainerProps> = ({}) => {
+  const [status, setStatus] = useState<ForPreparingItem>();
+  const { updateOrder, getOrdersById } = useOrder();
+
+  // Get the params from the url
+  const { id } = useParams();
+
+  const loadReceivedOrder = async () => {
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", response);
+    setStatus(response);
+  };
+
+  const handleAccept = async (id: any) => {
+    console.log(id);
+    const response = await updateOrder(id, "preparing");
+    console.log(response);
+  };
+
+  useEffect(() => {
+    loadReceivedOrder();
+  }, []);
   return (
     <div className={styles.container}>
       <div className="text-center">
@@ -37,7 +76,9 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
               <img src={statusIsPreparing} alt="" />
               <p>Kitchen Preparing ...</p>
             </div>
-            <Button>Activate</Button>
+            <Button type="submit" onClick={() => handleAccept(status?.id)}>
+              Activate
+            </Button>
           </Col>
           <Col>
             <div className={styles.status}>

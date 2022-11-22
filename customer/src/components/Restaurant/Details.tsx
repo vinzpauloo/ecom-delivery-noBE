@@ -40,7 +40,7 @@ type TCart = {
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 type TCategory = {
@@ -63,12 +63,15 @@ const Details: React.FC<ContainerProps> = ({
 
   const getItemCount = () => {
     const initialValue = 0;
-    return cart.reduce((prev, cur) => prev + cur.qty, initialValue);
+    return cart.reduce((prev, cur) => prev + cur.quantity, initialValue);
   };
 
   const getSubtotal = () => {
     const initialValue = 0;
-    return cart.reduce((prev, cur) => prev + cur.qty * cur.price, initialValue);
+    return cart.reduce(
+      (prev, cur) => prev + cur.quantity * cur.price,
+      initialValue
+    );
   };
 
   const updateSummary = () => {

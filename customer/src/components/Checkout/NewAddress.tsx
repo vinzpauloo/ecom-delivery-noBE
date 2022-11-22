@@ -4,11 +4,15 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import styles from "./NewAddress.module.scss";
 
 interface ContainerProps {
+  newAddress: string;
+  setNewAddress: React.Dispatch<React.SetStateAction<string>>;
   isNewAddress: boolean;
   setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NewAddress: React.FC<ContainerProps> = ({
+  newAddress,
+  setNewAddress,
   isNewAddress,
   setIsNewAddress,
 }) => {
@@ -29,7 +33,12 @@ const NewAddress: React.FC<ContainerProps> = ({
           <Col>
             <Form.Group className="position-relative">
               <Form.Label>Enter Address</Form.Label>
-              <Form.Control type="text" required />
+              <Form.Control
+                type="text"
+                value={newAddress}
+                onChange={(e) => setNewAddress(e.target.value)}
+                required
+              />
             </Form.Group>
           </Col>
         </Row>

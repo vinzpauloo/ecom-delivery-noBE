@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +10,14 @@ import { useIsAuthenticated } from "react-auth-kit";
 import styles from "./DeliveryDetails.module.scss";
 import constants from "../../utils/constants.json";
 
+type TCart = {
+  id: number;
+  name: string;
+  price: number;
+  photo: string;
+  quantity: number;
+};
+
 // Setup form schema & validation
 interface IFormInputs {
   first_name: string;
@@ -17,6 +25,15 @@ interface IFormInputs {
   address: string;
   mobile: string;
   email: string;
+}
+
+interface ContainerProps {
+  cart?: TCart[];
+  restaurantId?: number;
+  note?: string;
+  newAddress?: string;
+  isNewAddress?: boolean;
+  setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const schema = yup
@@ -35,12 +52,11 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps {
-  isNewAddress: boolean;
-  setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 const DeliveryDetails: React.FC<ContainerProps> = ({
+  cart,
+  restaurantId,
+  note,
+  newAddress,
   isNewAddress,
   setIsNewAddress,
 }) => {
@@ -68,36 +84,24 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    let checkoutDetails = localStorage.getItem("checkout") || "";
-    let checkoutDetailsObj = JSON.parse(checkoutDetails);
-    let productsObj = checkoutDetailsObj.products;
-
-    // Temporary get products from local storage
-    let tempProducts: any[] = [];
-    productsObj.forEach((element: any) => {
-      tempProducts.push({
-        id: element.id,
-        quantity: element.qty,
-      });
-    });
-
     const order = {
-      products: tempProducts,
+      products: cart,
       first_name: data.first_name,
       last_name: data.last_name,
-      address: data.address,
+      address: isNewAddress ? newAddress : data.address,
       email: data.email,
       mobile: data.mobile,
-      restaurant_id: checkoutDetailsObj.restaurant_id,
+      restaurant_id: restaurantId,
+      note: note,
     };
 
     console.log("onSubmit", order);
 
-    // Set order data on local storage
-    localStorage.setItem("order", JSON.stringify(order));
+    // // Set order data on local storage
+    // localStorage.setItem("order", JSON.stringify(order));
 
-    // Navigate to OTP page
-    navigate("/otp-order");
+    // // Navigate to OTP page
+    // navigate("/otp-order");
   };
 
   // Get user request
@@ -141,6 +145,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
                 onKeyUp={() => resetMessages()}
                 required
                 {...register("first_name")}
+                disabled={isAuthenticated()}
               />
             </Form.Group>
           </Col>
@@ -152,6 +157,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
                 onKeyUp={() => resetMessages()}
                 required
                 {...register("last_name")}
+                disabled={isAuthenticated()}
               />
             </Form.Group>
           </Col>
@@ -192,6 +198,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
                 onKeyUp={() => resetMessages()}
                 required
                 {...register("address")}
+                disabled={isAuthenticated()}
               />
             </Form.Group>
           </Col>
@@ -200,11 +207,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               <div
                 className={`d-flex justify-content-center gap-4 ${styles.checkbox}`}
               >
-                <Form.Check
-                  type="checkbox"
-                  id="address_this"
-                  label="Use this Address"
-                />
                 <Form.Check
                   type="checkbox"
                   id="address_new"

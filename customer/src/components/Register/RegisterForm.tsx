@@ -49,10 +49,9 @@ interface ContainerProps {}
 
 const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorMobile, setErrorMobile] = useState("");
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { validateEmail, validateMobile } = useValidate();
+  const { validateFields } = useValidate();
 
   const {
     register,
@@ -63,38 +62,23 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    // Validate fields
+    const response = await validateFields(data);
 
-    // Validate email
-    console.log("validating email ...");
-    const responseEmail = await validateEmail({ email: data.email });
-
-    // Validate email
-    console.log("validating mobile ...");
-    const responseMobile = await validateMobile({ mobile: data.mobile });
-
-    console.log("responseEmail", responseEmail);
-    console.log("responseMobile", responseMobile);
-
-    if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.error);
-      return;
+    if (response.errors) {
+      // Prepare errors
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.errors)) {
+        arrErrors.push("*" + value);
+      }
+      setApiErrors(arrErrors);
     } else {
-      setErrorEmail("");
+      // Set register data on local storage
+      localStorage.setItem("registerUser", JSON.stringify(data));
+
+      // Navigate to OTP page
+      navigate("/otp");
     }
-
-    if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.error);
-      return;
-    } else {
-      setErrorMobile("");
-    }
-
-    // Set register data on local storage
-    localStorage.setItem("registerUser", JSON.stringify(data));
-
-    // Navigate to OTP page
-    navigate("/otp");
   };
 
   return (
@@ -172,8 +156,10 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
           {/* Error messages */}
           <div className={styles.errors}>
-            <p>{errorMobile}</p>
-            <p>{errorEmail}</p>
+            {apiErrors.map((item, index) => {
+              return <p key={index}>{item}</p>;
+            })}
+
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
             <p>{errors.address?.message}</p>

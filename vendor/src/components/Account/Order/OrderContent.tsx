@@ -9,8 +9,8 @@ import {
   Dropdown,
   Container,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useForDelivery } from "../../../hooks/useForDelivery";
+import { useNavigate, Link } from "react-router-dom";
+import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
 
 import styles from "./OrderContent.module.scss";
@@ -45,14 +45,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     getForDeliveryOTW,
     getOrderCompleted,
     getOrderCanceled,
-  } = useForDelivery();
+  } = useGetOrderStatus();
 
   const { updateOrder, cancelOrder } = useOrder();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
-  const loadOrderForDelivery = async (status: string) => {
-    const params = { paginate: 49, status: status };
+  const loadPendingOrder = async (status: string) => {
+    const params = { status: status };
     const response = await getCurrentOrder(params);
     console.log("getForDelivery", response);
     setForDelivery(response.data);
@@ -70,11 +70,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     const response = await updateOrder(id, "received");
     console.log(response);
-    navigate("/account/order/status");
   };
 
   useEffect(() => {
-    loadOrderForDelivery("pending");
+    loadPendingOrder("pending");
   }, []);
   return (
     <div className={styles.tableContainer}>
@@ -206,12 +205,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             Order Placed Time: <span> {item.created_at}</span>
                           </li>
                         </Col>
-                        {/* <Col>
+                        <Col>
                           <li className="d-flex flex-column justify-content-center align-items-center">
                             Order Status: <span> {item.order_status}</span>
-                            <img src={OrderReceivedIcon} />
+                            {/* <img src={OrderReceivedIcon} /> */}
                           </li>
-                        </Col> */}
+                        </Col>
                       </Row>
                       <Row>
                         <Col md={3}>
@@ -254,7 +253,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                                 type="submit"
                                 onClick={() => handleAccept(item.id)}
                               >
-                                Accept
+                                <Link to={`/account/order/status/${item.id}`}>
+                                  Accept
+                                </Link>
                               </a>
                             </div>
                           </div>
