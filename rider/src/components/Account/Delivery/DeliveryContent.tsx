@@ -622,13 +622,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           //     </Col>
           //   </Row>
           // </Container>
-          <Accordion className="accordion">
+          <Accordion className="test" flush>
             <Accordion.Item eventKey={item.id}>
-              <Accordion.Header>
-                <Button className="orderIdBtn">Order ID: {item.id}</Button>
+              <Accordion.Header className="orderDiv">
+                <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                <Button className="viewDetailsBtn">View Details</Button>
               </Accordion.Header>
-              <Accordion.Body>
-                <div className="deliveryDetails2">
+              <Accordion.Body className="deliveryDetails2">
+                <div>
                   <Row>
                     <Col>
                       <p>

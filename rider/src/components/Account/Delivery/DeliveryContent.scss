@@ -344,21 +344,75 @@
   }
 }
 //Accordion Start
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.125);
+}
+.accordion-body {
+  border: none;
+}
 .accordion-header {
+  width: 100%;
+}
+.accordion-button {
+  // background-color: gray !important;
+  border: none;
+  background: none;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
   border: none;
 }
 
-.accordion {
+.accordion-button:not(.collapsed) {
+  color: #212529;
+  border: none;
+  box-shadow: none;
+}
+
+.test {
   border: none;
   margin-top: 20px;
 
+  .orderDiv {
+    display: flex;
+    align-items: center;
+    gap: 500px;
+
+    @media (max-width: 425px) {
+      gap: 138px;
+    }
+  }
+
   .orderIdBtn {
     background: #a47e3b;
+
+    @media (max-width: 425px) {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 8px;
+      width: 108px;
+      height: 26px;
+    }
+  }
+  .viewDetailsBtn {
+    background: #e6b325;
+
+    @media (max-width: 425px) {
+      font-weight: 700;
+      font-size: 8px;
+      line-height: 8px;
+      width: 82px;
+      height: 26px;
+    }
   }
   .deliveryDetails2 {
     // background: white;
-    // border: 1px solid #61481c;
-    // border-radius: 0px 5px 5px 5px;
+    border: 2px solid #61481c;
+    border-radius: 0px 5px 5px 5px;
+
     // margin-left: 12px;
     margin-top: 5px;
     // width: 378px;
