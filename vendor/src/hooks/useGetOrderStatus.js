@@ -2,18 +2,19 @@ import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
 import { useAuthHeader } from "react-auth-kit";
 
-export const useForDelivery = () => {
+export const useGetOrderStatus = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 
-  const getReceived = async (data) => {
+  const getAllOrders = async (data) => {
     try {
       // START: Access For Delivery API
       const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint),
+          "X-Authorization": calculateHash(endpoint, data),
         },
       };
 
@@ -41,9 +42,10 @@ export const useForDelivery = () => {
       // START: Access For Delivery API
       const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint),
+          "X-Authorization": calculateHash(endpoint, data),
         },
       };
 
@@ -172,7 +174,7 @@ export const useForDelivery = () => {
   };
 
   return {
-    getReceived,
+    getAllOrders,
     getCurrentOrder,
     getForDeliveryOTW,
     getOrderCompleted,
