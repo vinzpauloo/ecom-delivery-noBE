@@ -12,6 +12,7 @@ import Order from "./pages/Account/Order";
 import Status from "./pages/Account/Status";
 import OrderInformation from "./pages/Account/OrderInformation";
 import History from "./pages/Account/History";
+import OrderDetails from "./pages/Account/OrderDetails";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
@@ -35,7 +36,7 @@ root.render(
               <Route path="for-delivery" element={<Order />} />
               <Route path="order">
                 <Route index element={<Order />} />
-                <Route path="status" element={<Status />} />
+                <Route path="status/:id" element={<Status />} />
                 <Route
                   path="order-information"
                   element={<OrderInformation />}
@@ -43,6 +44,7 @@ root.render(
               </Route>
               <Route path="my-restaurant-menu" element={<Product />} />
               <Route path="order-history" element={<History />} />
+              <Route path="order-history/:id" element={<OrderDetails />} />
               <Route path="reset-password" element={<ResetPassword />} />
             </Route>
           </Route>

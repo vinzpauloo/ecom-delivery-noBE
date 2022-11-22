@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-// import { useOrders } from "../../../hooks/useOrders";
+import { Link, useParams } from "react-router-dom";
+import { useOrder } from "../../../hooks/useOrder";
 
 import placeholder from "../../../assets/images/placeholder.png";
 import statusIsReceived from "../../../assets/images/order-received.png";
@@ -24,20 +24,36 @@ type TOrder = {
   restaurant_address: string;
 };
 
-const sampleOrder: TOrder = {
-  id: 2,
-  created_at: "01:30 PM",
-  customer_id: 12,
-  customer_name: "Jaime Flores",
-  customer_mobile: "+639294606693",
-  order_address: "13 R Road 8 Brgy. 1st West Crame San Juan City",
-  order_status: "Pending",
-  restaurant_address:
-    "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
-};
+// const sampleOrder: TOrder = {
+//   id: 2,
+//   created_at: "01:30 PM",
+//   customer_id: 12,
+//   customer_name: "Jaime Flores",
+//   customer_mobile: "+639294606693",
+//   order_address: "13 R Road 8 Brgy. 1st West Crame San Juan City",
+//   order_status: "Pending",
+//   restaurant_address:
+//     "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
+// };
 
 const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
-  const order = sampleOrder;
+  //   const order = sampleOrder;
+
+  const [order, setOrder] = useState<TOrder>();
+  const { getOrdersById } = useOrder();
+
+  // Get the params from the url
+  const { id } = useParams();
+
+  const loadOrder = async () => {
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", response);
+    setOrder(response);
+  };
+
+  useEffect(() => {
+    loadOrder();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -48,7 +64,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
             <h1 className="mb-0 text-center">Order Details</h1>
             <div className={styles.orderId}>
               <h6 className="text-center text-uppercase">
-                Order ID : {order.id}
+                Order ID : {order?.id}
               </h6>
             </div>
 
@@ -67,7 +83,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order.customer_name}
+                                {order?.customer_name}
                               </p>
                             </Col>
                           </Row>
@@ -79,7 +95,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order.customer_mobile}
+                                {order?.customer_mobile}
                               </p>
                             </Col>
                           </Row>
@@ -93,7 +109,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col sm={9} xs={7}>
                           <p className={styles.value}>
-                            {order.restaurant_address}
+                            {order?.restaurant_address}
                           </p>
                         </Col>
                       </Row>
@@ -104,7 +120,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Delivery Address :</p>
                         </Col>
                         <Col sm={9} xs={7}>
-                          <p className={styles.value}>{order.order_address}</p>
+                          <p className={styles.value}>{order?.order_address}</p>
                         </Col>
                       </Row>
 
@@ -116,7 +132,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                               <p>Order Placed Time :</p>
                             </Col>
                             <Col xs={7} sm={6}>
-                              <p className={styles.value}>{order.created_at}</p>
+                              <p className={styles.value}>
+                                {order?.created_at}
+                              </p>
                             </Col>
                           </Row>
                         </Col>
@@ -126,7 +144,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                               <p>Order Delivered Time :</p>
                             </Col>
                             <Col xs={7} sm={6}>
-                              <p className={styles.value}>{order.created_at}</p>
+                              <p className={styles.value}>
+                                {order?.created_at}
+                              </p>
                             </Col>
                           </Row>
                         </Col>
@@ -140,7 +160,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                               <p>Date Ordered :</p>
                             </Col>
                             <Col xs={7} sm={6}>
-                              <p className={styles.value}>{order.created_at}</p>
+                              <p className={styles.value}>
+                                {order?.created_at}
+                              </p>
                             </Col>
                           </Row>
                         </Col>
@@ -222,13 +244,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           className="img-fluid mt-1 mb-2"
                           src={statusIsReceived}
                         />
-                        <p className={styles.value}>Order Cancelled</p>
+                        <p className={styles.value}>{order?.order_status}</p>
                       </div>
                     </Col>
                   </Row>
 
                   <div className={styles.btnBack}>
-                    <Link to="/account/orders">Back</Link>
+                    <Link to="/account/order-history">Back</Link>
                   </div>
                 </div>
               </Col>

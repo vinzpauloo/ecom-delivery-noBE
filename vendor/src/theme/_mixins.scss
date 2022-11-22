@@ -23,6 +23,18 @@
   ##################################################
 */
 @mixin devices($breakpoint) {
+  @if $breakpoint == xl {
+    @media only screen and (max-width: 1399px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == lg {
+    @media only screen and (max-width: 1199px) {
+      @content;
+    }
+  }
+
   @if $breakpoint == md {
     @media only screen and (max-width: 991px) {
       @content;
@@ -71,7 +83,6 @@
     font-weight: bold;
     margin-top: 0;
     margin-bottom: 20px;
-    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 
     @include devices(md) {
       text-align: center;
