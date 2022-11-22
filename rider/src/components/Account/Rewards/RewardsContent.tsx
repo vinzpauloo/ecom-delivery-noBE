@@ -89,13 +89,6 @@ const RewardsContent: React.FC<ContainerProps> = ({}) => {
 
   const percentage = 75;
 
-  const variants = {
-    rotate: { rotate: [0, -30, 0], transition: { duration: 0.5 } },
-    stop: { y: [0, -10, 0], transition: { repeat: Infinity, repeatDelay: 3 } },
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <Container className={styles.container}>
       <Row>
@@ -103,7 +96,7 @@ const RewardsContent: React.FC<ContainerProps> = ({}) => {
           <p>My Rewards</p>
         </Col>
         <Col xs={3} md={3}>
-          <motion.div animate={isOpen ? "rotate" : "stop"} variants={variants}>
+          <motion.div whileTap={{ x: -1000 }} transition={{ duration: 2 }}>
             <Button className={styles.statsBtn}>My Stats</Button>
           </motion.div>
         </Col>
