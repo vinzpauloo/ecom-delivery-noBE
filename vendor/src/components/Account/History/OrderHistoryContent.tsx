@@ -17,7 +17,7 @@ import styles from "./OrderHistoryContent.module.scss";
 
 interface ContainerProps {}
 
-type GetReceivedItem = {
+type GetAllOrderItem = {
   created_at: string;
   customer_id: string;
   customer_mobile: string;
@@ -31,6 +31,7 @@ type GetReceivedItem = {
   plate_number: string;
   restaurant_name: string;
   restaurant_id: string;
+  restaurant_address: string;
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
@@ -123,17 +124,17 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   const { getReceived, getAllOrders, getOrderCompleted, getOrderCanceled } =
     useGetOrderStatus();
 
-  const [receivedItem, setReceivedItem] = useState<GetReceivedItem[]>([]);
+  const [allOrderItem, setAllOrderItem] = useState<GetAllOrderItem[]>([]);
   const [canceledItem, setCanceledItem] = useState<GetCanceledItem[]>([]);
   // const [preparingItem, setPreparingItem] = useState<GetPreparingItem[]>([]);
   // const [otwItem, setOtwItem] = useState<GetOTWItem[]>([]);
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
 
   const loadAllOrderItem = async (except_status: string) => {
-    const params = { paginate: 3, except_status: except_status };
+    const params = { except_status: except_status };
     const response = await getAllOrders(params);
     console.log("getAllOrders", response);
-    setReceivedItem(response.data);
+    setAllOrderItem(response.data);
   };
 
   const loadCanceledItem = async (status: string) => {
@@ -345,14 +346,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     );
   }
   return (
-    <div className={styles.tableContainer}>
-      <div className="">
+    <div className={styles.container}>
+      <h3>History</h3>
+      <div className={styles.innerContainer}>
         <Form>
-          <Row>
-            <Col>
-              <h3>History</h3>
-            </Col>
-          </Row>
           <Row className="">
             <Col>
               <Form.Control
@@ -361,9 +358,9 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 placeholder="Search food and description"
               />
             </Col>
-            <Col>
+            {/* <Col>
               <Button
-                className={styles.btnCancelled}
+                className={`d-none d-md-block ${styles.btnCancelled}`}
                 onClick={() => setModalShow1(true)}
               >
                 Cancelled
@@ -373,7 +370,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 onHide={() => setModalShow1(false)}
               />
               <Button
-                className={styles.btnCompleted}
+                className={`d-none d-md-block ${styles.btnCompleted}`}
                 onClick={() => setModalShow(true)}
               >
                 Completed
@@ -382,15 +379,15 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
               />
-            </Col>
+            </Col> */}
           </Row>
         </Form>
         {/* Mobile */}
-        {receivedItem?.map((item, index) => {
+        {/* {allOrderItem?.map((item, index) => {
           return (
             <Container
               className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3 d-md-none`}
-              // className="order-delivery-container d-flex flex-column gap-3 d-md-none"
+              className="order-delivery-container d-flex flex-column gap-3 d-md-none"
               fluid
               key={index}
             >
@@ -441,7 +438,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                     </li>
                     <li>
                       Order Status: <span> {item.order_status}</span>
-                      {/* <img src={OrderReceivedIcon} /> */}
+                      <img src={OrderReceivedIcon} />
                     </li>
 
                     <div className={styles.declineAccept}>
@@ -453,90 +450,157 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               </Row>
             </Container>
           );
-        })}
+        })} */}
         {/* Desktop */}
-        {receivedItem?.map((item, index) => {
+        {allOrderItem?.map((item, index) => {
           return (
-            <Container
-              className={styles.orderDeliveryContainerDesktop}
-              fluid
-              key={index}
-            >
-              <Row className="mx-md-3">
-                <Col md={2} className="d-flex flex-column gap-1">
-                  <div className={styles.orderId}>
-                    <p>ORDER ID: {item.id}</p>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className={styles.customerInfo}>
-                    <Row>
-                      <Col md={8}>
-                        <div className="d-flex gap-5">
-                          <li>
-                            Customer Name: <span> {item.customer_name}</span>
-                          </li>
-                          <li>
-                            Contact Number: <span> {item.customer_mobile}</span>
-                          </li>
+            <div className={styles.item} key={index}>
+              <Row>
+                {/* Main content */}
+                <Col lg={{ span: 12 }}>
+                  <Row>
+                    {/* Order ID */}
+                    <Col md={3}>
+                      <div className={styles.flexOnMobile}>
+                        <div className={styles.orderId}>
+                          <h6 className="text-center text-uppercase">
+                            Order ID : {item.id}
+                          </h6>
                         </div>
-                        <li>
-                          Pick up Address :<span> {item.restaurant_name}</span>
-                        </li>
-                        <li>
-                          Delivery Address:
-                          <span> {item.order_address}</span>
-                        </li>
-                        <li>
-                          Order Placed Time: <span> {item.created_at}</span>
-                        </li>
-                      </Col>
-                      <Col>
-                        <li className="d-flex flex-column justify-content-center align-items-center">
-                          Order Status: <span> {item.order_status}</span>
-                          {/* <img src={OrderReceivedIcon} /> */}
-                        </li>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md={3}>
-                        <div className={`${styles.orderItems} overflow-auto`}>
-                          <ul aria-label="Order Items">
-                            <li>Ramen Noodles(3x)</li>
-                            <li>Milk Tea(2x)</li>
-                            <li>1 Water Melon</li>
-                            <li>1 Boba Soya</li>
-                            <li>Pecking Duck (1x)</li>
-                          </ul>
+
+                        <div className={styles.btnView}>
+                          <Link to={`/account/order-history/${item.id}`}>
+                            View Details
+                          </Link>
                         </div>
-                      </Col>
-                      <Col md={3}>
-                        <div className={styles.deliveryFee}>
-                          <p>
-                            Delivery Fee <br />
-                            <span> ₱{item.rider_id}.00</span>
-                          </p>
-                          <div className={styles.declineAccept}>
-                            <a>Decline</a>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col md={3}>
-                        <div className={styles.grandTotal}>
-                          <p>
-                            Grand Total <br />
-                            <span> ₱{item.restaurant_id}.00</span>
-                          </p>
-                          <div className={styles.declineAccept}>
-                            <a>Accept</a>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
+                      </div>
+                    </Col>
+
+                    {/* Order information */}
+                    <Col md={9}>
+                      <div className={styles.orderDetails}>
+                        <Row>
+                          <Col>
+                            {/* Customer name & contact number */}
+                            <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                              <Col>
+                                <Row className="mb-2 mb-sm-0">
+                                  <Col xs={5} sm={6}>
+                                    <p>Customer Name :</p>
+                                  </Col>
+                                  <Col xs={7} sm={6}>
+                                    <p className={styles.value}>
+                                      {item.customer_name}
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                              <Col>
+                                <Row className="mb-2 mb-sm-0">
+                                  <Col xs={5} sm={6}>
+                                    <p>Contact Number :</p>
+                                  </Col>
+                                  <Col xs={7} sm={6}>
+                                    <p className={styles.value}>
+                                      {item.customer_mobile}
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+
+                            {/* Pick up address */}
+                            <Row className="mb-2 mb-sm-3">
+                              <Col sm={3} xs={5}>
+                                <p>Pick up Address :</p>
+                              </Col>
+                              <Col sm={9} xs={7}>
+                                <p className={styles.value}>
+                                  {item.restaurant_address}
+                                </p>
+                              </Col>
+                            </Row>
+
+                            {/* Delivery address */}
+                            <Row className="mb-2 mb-sm-3">
+                              <Col sm={3} xs={5}>
+                                <p>Delivery Address :</p>
+                              </Col>
+                              <Col sm={9} xs={7}>
+                                <p className={styles.value}>
+                                  {item.order_address}
+                                </p>
+                              </Col>
+                            </Row>
+
+                            {/* Order placed & delivered time */}
+                            <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                              <Col>
+                                <Row className="mb-2 mb-sm-0">
+                                  <Col xs={5} sm={6}>
+                                    <p>Order Placed Time :</p>
+                                  </Col>
+                                  <Col xs={7} sm={6}>
+                                    <p className={styles.value}>
+                                      {/* {getTime(item.created_at)} */}
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                              <Col>
+                                <Row className="mb-2 mb-sm-0">
+                                  <Col xs={5} sm={6}>
+                                    <p>Order Delivered Time :</p>
+                                  </Col>
+                                  <Col xs={7} sm={6}>
+                                    <p className={styles.value}>
+                                      {/* {item.delivered_at
+                                        ? getTime(item.delivered_at)
+                                        : "Waiting ..."} */}
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+
+                            {/* Date ordered & View details */}
+                            <Row sm={2} xs={1}>
+                              <Col>
+                                <Row>
+                                  <Col xs={5} sm={6}>
+                                    <p>Date Ordered :</p>
+                                  </Col>
+                                  <Col xs={7} sm={6}>
+                                    <p className={styles.value}>
+                                      {/* {getDate(item.created_at)} */}
+                                    </p>
+                                  </Col>
+                                </Row>
+                              </Col>
+
+                              {/* View details - medium screens up */}
+                              <Col className="d-none d-md-block">
+                                <Row>
+                                  <Col>
+                                    <div className={styles.btnView}>
+                                      <Link
+                                        to={`/account/order-history/${item.id}`}
+                                      >
+                                        View Details
+                                      </Link>
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-            </Container>
+            </div>
           );
         })}
       </div>

@@ -9,7 +9,7 @@ import {
   Dropdown,
   Container,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
 
@@ -70,7 +70,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     const response = await updateOrder(id, "received");
     console.log(response);
-    navigate("/account/order/status");
   };
 
   useEffect(() => {
@@ -254,7 +253,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                                 type="submit"
                                 onClick={() => handleAccept(item.id)}
                               >
-                                Accept
+                                <Link to={`/account/order/status/${item.id}`}>
+                                  Accept
+                                </Link>
                               </a>
                             </div>
                           </div>
