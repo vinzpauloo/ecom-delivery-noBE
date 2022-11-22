@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
@@ -49,6 +49,7 @@ type ForDeliveryItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  id: number;
 };
 
 type ForCompletedItem = {
@@ -89,124 +90,6 @@ type ForCanceledItem = {
   rider_vehicle_model: string;
 };
 
-// function DeliveryModal(props: any) {
-//   return (
-//     <Modal
-//       {...props}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton>
-//         <Modal.Title id="contained-modal-title-vcenter">
-//           FOR DELIVERY
-//         </Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <Table size="sm">
-//           <thead className="table-head">
-//             <tr>
-//               <th>Order ID</th>
-//               <th>Date</th>
-//               <th>Order Placed Time</th>
-//               <th>Ordered Delivered</th>
-//               <th>Rider Name</th>
-//               <th>Food Items</th>
-//               <th>Grand Total</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             <tr>
-//               <td>BLH-0001</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0002</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0003</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0004</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0005</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0006</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0007</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0008</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//             <tr>
-//               <td>BLH-0009</td>
-//               <td>10/13/2022</td>
-//               <td>12:30PM</td>
-//               <td>1:30PM</td>
-//               <td>Aerox-Alexan</td>
-//               <td>Food Items</td>
-//               <td>456 php</td>
-//             </tr>
-//           </tbody>
-//         </Table>
-//       </Modal.Body>
-//       <Modal.Footer>
-//         <button onClick={props.onHide}>Close</button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// }
-
 const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -224,6 +107,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const [isShown, setIsShown] = useState(true);
   const [show, setShow] = useState(true);
 
+  //View Details = Close Button
   const changeState = () => {
     setShow(!show);
   };
@@ -544,183 +428,193 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           </Container>
         );
       })} */}
-      <Container className={`${styles.forDeliveryMobile} d-md-none`}>
-        <Row>
-          <Col xs={5}>
-            <Button
-              className={styles.orderIdBtn}
-              onClick={(event) => {
-                handleClick(event);
-                setOpen(!open);
-              }}
-            >
-              Order ID: XRF 123
-            </Button>
-          </Col>
-          <Col xs={{ span: 4, offset: 3 }}>
-            {show ? (
-              <Button
-                className={styles.detailsBtn}
-                onClick={(event) => {
-                  handleClick(event);
-                  setOpen(!open);
-                  changeState();
-                }}
-                // style={{ display: isShown ? "block" : "none" }}
-              >
-                View Details
-              </Button>
-            ) : (
-              <CloseButton
-                onClick={(event) => {
-                  handleClick(event);
-                  setOpen(!open);
-                  changeState();
-                }}
-                className="px-5"
-              />
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={1}>
-            <div
-              className={styles.deliveryDetails}
-              style={{ display: isShown ? "block" : "none" }}
-            >
-              <Row>
-                <Col>
-                  <p>
-                    Customer Name: <span>Brandon Boyd</span>
-                  </p>
-                </Col>
-                <Col>
-                  <p>
-                    Contact Number: <span>0917 123 4567</span>
-                  </p>
-                </Col>
-              </Row>
-              <Row>
-                <p>
-                  Pick-up address:
-                  <span>
-                    Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                  </span>
-                </p>
-              </Row>
-              <Row>
-                <p>
-                  Delivery Address:
-                  <span>
-                    4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                  </span>
-                </p>
-              </Row>
-              <Row>
-                <Col>
-                  <p>
-                    Order Placed Time: <span>01:30 pm</span>
-                  </p>
-                </Col>
-                <Col>
-                  <p>
-                    Order Delivered Time: <span>01:30 pm</span>
-                  </p>
-                </Col>
-              </Row>
-            </div>
-            {/* Collapse More Details */}
-            <Collapse in={open}>
-              <div className={styles.deliveryDetails2}>
-                <Row>
-                  <Col>
+      {forDelivery.map((item, index) => {
+        return (
+          <Container
+            className={`${styles.forDeliveryMobile} d-md-none fluid`}
+            key={item.id}
+          >
+            <Row>
+              <Col xs={5}>
+                <Button
+                  className={styles.orderIdBtn}
+                  key={item.id}
+                  onClick={(event) => {
+                    handleClick(event);
+                    setOpen(!open);
+                  }}
+                >
+                  Order ID: {item.id}
+                </Button>
+              </Col>
+              <Col xs={{ span: 4, offset: 3 }}>
+                {show ? (
+                  <Button
+                    className={styles.detailsBtn}
+                    onClick={(event) => {
+                      handleClick(event);
+                      setOpen(!open);
+                      changeState();
+                    }}
+                    // style={{ display: isShown ? "block" : "none" }}
+                  >
+                    View Details
+                  </Button>
+                ) : (
+                  <CloseButton
+                    onClick={(event) => {
+                      handleClick(event);
+                      setOpen(!open);
+                      changeState();
+                    }}
+                    className="px-5"
+                  />
+                )}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={1}>
+                <div
+                  className={styles.deliveryDetails}
+                  style={{ display: isShown ? "block" : "none" }}
+                >
+                  <Row>
+                    <Col>
+                      <p>
+                        Customer Name: <span> {item.customer_name} </span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Contact Number: <span>0917 123 4567</span>
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
                     <p>
-                      Customer Name: <span>Brandon Boyd</span>
+                      Pick-up address:
+                      <span>
+                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                      </span>
                     </p>
-                  </Col>
-                  <Col>
+                  </Row>
+                  <Row>
                     <p>
-                      Contact Number: <span>0917 123 4567</span>
+                      Delivery Address:
+                      <span>
+                        4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                        City
+                      </span>
                     </p>
-                  </Col>
-                </Row>
-                <Row>
-                  <p>
-                    Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <p>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <Col>
-                    <p>
-                      Order Placed Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Order Delivered Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                </Row>
-                <hr />
-                <Row>
-                  <Col>
-                    <p>
-                      Order Details:
-                      <li>Ramen Noodles</li>
-                      <li>Milk Tea(2x)</li>
-                      <li>1 Watermelon</li>
-                      <li>1 Boba Soya</li>
-                      <li>Peking Duck (1x)</li>
-                    </p>
-                  </Col>
-                  <Col>
-                    <div className={styles.resto}>
-                      <p>Chan's Restaurant</p>
-                      <img src={RestoIcon} alt="resto" />
-                    </div>
-                  </Col>
-                </Row>
-                <hr />
-                <Row>
-                  <Col>
-                    <p>
-                      Sub Total: <span>1,350 php</span>
-                    </p>
-                    <p>
-                      Delivery Fee: <span>85 php</span>
-                    </p>
-                    <p>
-                      Total: <span>1,435 php</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <div className={styles.status}>
-                      <p>Order Status</p>
-                      <img src={OrderReceivedIcon} />
-                      <span>Order Received</span>
-                    </div>
-                  </Col>
-                </Row>
-                <div className={styles.declineAccept}>
-                  <button>Decline</button>
-                  <button>Accept</button>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p>
+                        Order Placed Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Order Delivered Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                  </Row>
                 </div>
-              </div>
-            </Collapse>
-          </Col>
-        </Row>
-      </Container>
+                {/* Collapse More Details */}
+                <Collapse in={open}>
+                  <div className={styles.deliveryDetails2}>
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span>Brandon Boyd</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                          City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Details:
+                          <li>Ramen Noodles</li>
+                          <li>Milk Tea(2x)</li>
+                          <li>1 Watermelon</li>
+                          <li>1 Boba Soya</li>
+                          <li>Peking Duck (1x)</li>
+                        </p>
+                      </Col>
+                      <Col>
+                        <div className={styles.resto}>
+                          <p>Chan's Restaurant</p>
+                          <img src={RestoIcon} alt="resto" />
+                        </div>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col>
+                        <p>
+                          Sub Total: <span>1,350 php</span>
+                        </p>
+                        <p>
+                          Delivery Fee: <span>85 php</span>
+                        </p>
+                        <p>
+                          Total: <span>1,435 php</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <div className={styles.status}>
+                          <p>Order Status</p>
+                          <img src={OrderReceivedIcon} />
+                          <span>Order Received</span>
+                        </div>
+                      </Col>
+                    </Row>
+                    <div className={styles.declineAccept}>
+                      <button>Decline</button>
+                      <button>Accept</button>
+                    </div>
+                  </div>
+                </Collapse>
+              </Col>
+            </Row>
+          </Container>
+        );
+      })}
       {/* Desktop */}
       <Container
         className={`${styles.forDeliveryDesktop} d-none d-md-block px-5`}
