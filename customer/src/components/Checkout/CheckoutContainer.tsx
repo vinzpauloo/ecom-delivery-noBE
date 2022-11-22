@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import OrderSummary from "./OrderSummary";
 import styles from "./CheckoutContainer.module.scss";
@@ -32,21 +33,66 @@ type TCheckout = {
 interface ContainerProps {}
 
 const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
+  const [cart, setCart] = useState<TCart[]>([]);
+  const [itemCount, setItemCount] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(86);
   const [isNewAddress, setIsNewAddress] = useState(false);
-  const [checkout, setCheckout] = useState<TCheckout | null>(null);
+  const [localStorageObj, setLocalStorageObj] = useState<TCheckout>();
+  const navigate = useNavigate();
+
+  const getItemCount = () => {
+    const initialValue = 0;
+    return cart.reduce((prev, cur) => prev + cur.qty, initialValue);
+  };
+
+  const getSubtotal = () => {
+    const initialValue = 0;
+    return cart.reduce((prev, cur) => prev + cur.qty * cur.price, initialValue);
+  };
+
+  const updateSummary = () => {
+    setItemCount(getItemCount());
+    setSubtotal(getSubtotal());
+    setTotal(getSubtotal() + deliveryFee);
+  };
 
   useEffect(() => {
     // Get checkout details from localStorage
-    let checkoutDetails = localStorage.getItem("checkout") || null;
+    let checkoutDetails = localStorage.getItem("checkout") || "";
 
-    // if (checkoutDetails) {
-    //   checkoutDetails =
-    //     checkoutDetails && (JSON.parse(checkoutDetails) as TCheckout);
-    //   setCheckout(checkoutDetails);
-    // }
-
-    // console.log(checkoutDetails);
+    if (!checkoutDetails) navigate("/");
+    else {
+      let checkoutDetailsObj = JSON.parse(checkoutDetails);
+      setLocalStorageObj(checkoutDetailsObj);
+      setCart(checkoutDetailsObj.products);
+    }
   }, []);
+
+  useEffect(() => {
+    if (localStorageObj) {
+      updateSummary();
+
+      // Prepare new checkout object
+      const newCheckoutObj = {
+        ...localStorageObj,
+        products: cart,
+        summaryDetails: {
+          itemCount: getItemCount(),
+          deliveryFee: deliveryFee,
+          subtotal: getSubtotal(),
+          total: getSubtotal() + deliveryFee,
+        },
+      };
+
+      // Update state value
+      setLocalStorageObj(newCheckoutObj);
+
+      // Update local storage value
+      localStorage.setItem("checkout", JSON.stringify(newCheckoutObj));
+    }
+  }, [cart]);
 
   return (
     <Container fluid="md" className={styles.container}>
@@ -54,6 +100,8 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
         <Row className="mb-4">
           <Col>
             <DeliveryDetails
+              cart={cart}
+              restaurantId={localStorageObj?.restaurant_id}
               isNewAddress={isNewAddress}
               setIsNewAddress={setIsNewAddress}
             />
@@ -72,10 +120,15 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
 
       <Row className={styles.equalHeightColumns}>
         <Col lg={7} className="mb-4">
-          <OrderSummary />
+          <OrderSummary cart={cart} setCart={setCart} />
         </Col>
         <Col lg={5}>
-          <BillDetails />
+          <BillDetails
+            deliveryFee={deliveryFee}
+            itemCount={itemCount}
+            subtotal={subtotal}
+            total={total}
+          />
         </Col>
       </Row>
 

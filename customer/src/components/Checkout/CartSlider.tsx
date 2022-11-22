@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
 
@@ -11,15 +11,16 @@ import "swiper/scss/grid";
 import "swiper/scss/navigation";
 
 // Import required modules
-import { Grid, Navigation } from "swiper";
+import { Grid } from "swiper";
 
 import styles from "./CartSlider.module.scss";
 
 interface ContainerProps {
-  slides: Slide[];
+  cart: TCart[];
+  setCart: React.Dispatch<React.SetStateAction<TCart[]>>;
 }
 
-type Slide = {
+type TCart = {
   id: number;
   name: string;
   price: number;
@@ -27,7 +28,50 @@ type Slide = {
   qty: number;
 };
 
-const SwiperSlideItem = (item: Slide, index: number) => {
+const SwiperSlideItem = (
+  item: TCart,
+  index: number,
+  setCart: ContainerProps["setCart"]
+) => {
+  const updateCart = (item: TCart) => {
+    setCart((current) =>
+      current.map((obj) => {
+        if (obj.id === item.id) {
+          return item;
+        }
+
+        return obj;
+      })
+    );
+  };
+
+  const handleIncrement = (item: TCart) => {
+    // Prepare new cart item
+    const newItem = { ...item, qty: item.qty + 1 };
+
+    // Update cart state
+    updateCart(newItem);
+  };
+
+  const handleDecrement = (item: TCart) => {
+    if (item.qty > 1) {
+      // Prepare new cart item
+      const newItem = { ...item, qty: item.qty - 1 };
+
+      // Update cart state
+      updateCart(newItem);
+    } else {
+      // Remove item from the cart
+      setCart((current) =>
+        current.filter((obj) => {
+          return obj.id !== item.id;
+        })
+      );
+
+      console.log("removing item from the cart ...", item.id);
+    }
+  };
+
   return (
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
@@ -50,11 +94,19 @@ const SwiperSlideItem = (item: Slide, index: number) => {
             className={`d-flex justify-content-center align-items-center ${styles.qty}`}
           >
             <Button>
-              <Dash color="#000000" size={14} />
+              <Dash
+                color="#000000"
+                size={14}
+                onClick={() => handleDecrement(item)}
+              />
             </Button>
             <span className={styles.num}>{item.qty}</span>
             <Button>
-              <Plus color="#000000" size={14} />
+              <Plus
+                color="#000000"
+                size={14}
+                onClick={() => handleIncrement(item)}
+              />
             </Button>
           </div>
         </div>
@@ -63,8 +115,8 @@ const SwiperSlideItem = (item: Slide, index: number) => {
   );
 };
 
-const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
-  return slides.length ? (
+const CartSlider: React.FC<ContainerProps> = ({ cart, setCart }) => {
+  return cart.length ? (
     <>
       <Swiper
         slidesPerView={4}
@@ -72,8 +124,8 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
         {/* Desktop version */}
-        {slides.map((item, index) => {
-          return SwiperSlideItem(item, index);
+        {cart.map((item, index) => {
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
 
@@ -95,8 +147,8 @@ const CartSlider: React.FC<ContainerProps> = ({ slides }) => {
         className={`d-lg-none ${styles.sliderContainer}`}
       >
         {/* Mobile version */}
-        {slides.map((item, index) => {
-          return SwiperSlideItem(item, index);
+        {cart.map((item, index) => {
+          return SwiperSlideItem(item, index, setCart);
         })}
       </Swiper>
     </>

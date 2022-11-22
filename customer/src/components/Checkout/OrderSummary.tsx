@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import CartSlider from "./CartSlider";
 import styles from "./OrderSummary.module.scss";
@@ -12,22 +12,15 @@ type TCart = {
 };
 
 interface ContainerProps {
-  // slides: any;
+  cart: TCart[];
+  setCart: React.Dispatch<React.SetStateAction<TCart[]>>;
 }
 
-const OrderSummary: React.FC<ContainerProps> = () => {
-  const [cart, setCart] = useState<TCart[]>([]);
-
-  useEffect(() => {
-    let checkoutDetails = localStorage.getItem("checkout") || "";
-    let checkoutDetailsObj = JSON.parse(checkoutDetails);
-    setCart(checkoutDetailsObj.products);
-  }, []);
-
+const OrderSummary: React.FC<ContainerProps> = ({ cart, setCart }) => {
   return (
     <div className={styles.container}>
       <h4>Order Summary</h4>
-      <CartSlider slides={cart} />
+      <CartSlider cart={cart} setCart={setCart} />
     </div>
   );
 };
