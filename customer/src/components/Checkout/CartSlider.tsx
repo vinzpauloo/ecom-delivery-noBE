@@ -25,7 +25,7 @@ type TCart = {
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 const SwiperSlideItem = (
@@ -47,16 +47,16 @@ const SwiperSlideItem = (
 
   const handleIncrement = (item: TCart) => {
     // Prepare new cart item
-    const newItem = { ...item, qty: item.qty + 1 };
+    const newItem = { ...item, quantity: item.quantity + 1 };
 
     // Update cart state
     updateCart(newItem);
   };
 
   const handleDecrement = (item: TCart) => {
-    if (item.qty > 1) {
+    if (item.quantity > 1) {
       // Prepare new cart item
-      const newItem = { ...item, qty: item.qty - 1 };
+      const newItem = { ...item, quantity: item.quantity - 1 };
 
       // Update cart state
       updateCart(newItem);
@@ -91,7 +91,7 @@ const SwiperSlideItem = (
 
         <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
           <div
-            className={`d-flex justify-content-center align-items-center ${styles.qty}`}
+            className={`d-flex justify-content-center align-items-center ${styles.quantity}`}
           >
             <Button>
               <Dash
@@ -100,7 +100,7 @@ const SwiperSlideItem = (
                 onClick={() => handleDecrement(item)}
               />
             </Button>
-            <span className={styles.num}>{item.qty}</span>
+            <span className={styles.num}>{item.quantity}</span>
             <Button>
               <Plus
                 color="#000000"

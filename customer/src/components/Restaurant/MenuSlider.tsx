@@ -35,7 +35,7 @@ type TCart = {
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 const SwiperSlideItem = (
@@ -51,7 +51,7 @@ const SwiperSlideItem = (
       name: item.name,
       photo: item.photo,
       price: item.price,
-      qty: quantity,
+      quantity: quantity,
     };
 
     setCart((cart) => {
@@ -62,7 +62,7 @@ const SwiperSlideItem = (
         cartCopy.push({ ...newItem });
       } else {
         const pr = cartCopy[index];
-        cartCopy[index] = { ...pr, qty: pr.qty + newItem.qty };
+        cartCopy[index] = { ...pr, quantity: pr.quantity + newItem.quantity };
       }
 
       return cartCopy;
@@ -92,7 +92,7 @@ const SwiperSlideItem = (
             className={`d-flex justify-content-between ${styles.slideOptions}`}
           >
             <div
-              className={`d-flex justify-content-center align-items-center ${styles.qty}`}
+              className={`d-flex justify-content-center align-items-center ${styles.quantity}`}
             >
               <Button>
                 <Dash

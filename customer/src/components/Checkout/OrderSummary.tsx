@@ -8,7 +8,7 @@ type TCart = {
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 interface ContainerProps {

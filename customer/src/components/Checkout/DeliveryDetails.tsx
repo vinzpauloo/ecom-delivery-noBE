@@ -15,7 +15,7 @@ type TCart = {
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 // Setup form schema & validation
@@ -30,6 +30,7 @@ interface IFormInputs {
 interface ContainerProps {
   cart?: TCart[];
   restaurantId?: number;
+  note?: string;
   isNewAddress?: boolean;
   setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -53,6 +54,7 @@ const schema = yup
 const DeliveryDetails: React.FC<ContainerProps> = ({
   cart,
   restaurantId,
+  note,
   isNewAddress,
   setIsNewAddress,
 }) => {
@@ -88,15 +90,16 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       email: data.email,
       mobile: data.mobile,
       restaurant_id: restaurantId,
+      note: note,
     };
 
     console.log("onSubmit", order);
 
-    // // Set order data on local storage
-    // localStorage.setItem("order", JSON.stringify(order));
+    // Set order data on local storage
+    localStorage.setItem("order", JSON.stringify(order));
 
-    // // Navigate to OTP page
-    // navigate("/otp-order");
+    // Navigate to OTP page
+    navigate("/otp-order");
   };
 
   // Get user request

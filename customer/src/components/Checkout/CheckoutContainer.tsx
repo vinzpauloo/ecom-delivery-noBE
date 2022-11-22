@@ -8,13 +8,14 @@ import DeliveryDetails from "./DeliveryDetails";
 import BillDetails from "./BillDetails";
 import ConfirmOrder from "./ConfirmOrder";
 import NewAddress from "./NewAddress";
+import Notes from "./Notes";
 
 type TCart = {
   id: number;
   name: string;
   price: number;
   photo: string;
-  qty: number;
+  quantity: number;
 };
 
 type TSummaryDetails = {
@@ -39,17 +40,21 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [total, setTotal] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(86);
   const [isNewAddress, setIsNewAddress] = useState(false);
+  const [note, setNote] = useState("");
   const [localStorageObj, setLocalStorageObj] = useState<TCheckout>();
   const navigate = useNavigate();
 
   const getItemCount = () => {
     const initialValue = 0;
-    return cart.reduce((prev, cur) => prev + cur.qty, initialValue);
+    return cart.reduce((prev, cur) => prev + cur.quantity, initialValue);
   };
 
   const getSubtotal = () => {
     const initialValue = 0;
-    return cart.reduce((prev, cur) => prev + cur.qty * cur.price, initialValue);
+    return cart.reduce(
+      (prev, cur) => prev + cur.quantity * cur.price,
+      initialValue
+    );
   };
 
   const updateSummary = () => {
@@ -102,6 +107,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
             <DeliveryDetails
               cart={cart}
               restaurantId={localStorageObj?.restaurant_id}
+              note={note}
               isNewAddress={isNewAddress}
               setIsNewAddress={setIsNewAddress}
             />
@@ -117,6 +123,12 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
           </Col>
         </Row>
       )}
+
+      <Row className="mb-4">
+        <Col>
+          <Notes note={note} setNote={setNote} />
+        </Col>
+      </Row>
 
       <Row className={styles.equalHeightColumns}>
         <Col lg={7} className="mb-4">
