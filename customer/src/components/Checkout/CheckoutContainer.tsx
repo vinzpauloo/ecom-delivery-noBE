@@ -39,6 +39,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(86);
+  const [newAddress, setNewAddress] = useState("");
   const [isNewAddress, setIsNewAddress] = useState(false);
   const [note, setNote] = useState("");
   const [localStorageObj, setLocalStorageObj] = useState<TCheckout>();
@@ -99,30 +100,35 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
     }
   }, [cart]);
 
+  useEffect(() => {
+    setNewAddress("");
+  }, [isNewAddress]);
+
   return (
     <Container fluid="md" className={styles.container}>
-      {!isNewAddress ? (
-        <Row className="mb-4">
-          <Col>
-            <DeliveryDetails
-              cart={cart}
-              restaurantId={localStorageObj?.restaurant_id}
-              note={note}
-              isNewAddress={isNewAddress}
-              setIsNewAddress={setIsNewAddress}
-            />
-          </Col>
-        </Row>
-      ) : (
-        <Row className="mb-4">
-          <Col>
-            <NewAddress
-              isNewAddress={isNewAddress}
-              setIsNewAddress={setIsNewAddress}
-            />
-          </Col>
-        </Row>
-      )}
+      <Row className={`mb-4 ${isNewAddress && "d-none"}`}>
+        <Col>
+          <DeliveryDetails
+            cart={cart}
+            restaurantId={localStorageObj?.restaurant_id}
+            note={note}
+            newAddress={newAddress}
+            isNewAddress={isNewAddress}
+            setIsNewAddress={setIsNewAddress}
+          />
+        </Col>
+      </Row>
+
+      <Row className={`mb-4 ${!isNewAddress && "d-none"}`}>
+        <Col>
+          <NewAddress
+            newAddress={newAddress}
+            setNewAddress={setNewAddress}
+            isNewAddress={isNewAddress}
+            setIsNewAddress={setIsNewAddress}
+          />
+        </Col>
+      </Row>
 
       <Row className="mb-4">
         <Col>

@@ -31,6 +31,7 @@ interface ContainerProps {
   cart?: TCart[];
   restaurantId?: number;
   note?: string;
+  newAddress?: string;
   isNewAddress?: boolean;
   setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -55,6 +56,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   cart,
   restaurantId,
   note,
+  newAddress,
   isNewAddress,
   setIsNewAddress,
 }) => {
@@ -86,7 +88,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       products: cart,
       first_name: data.first_name,
       last_name: data.last_name,
-      address: data.address,
+      address: isNewAddress ? newAddress : data.address,
       email: data.email,
       mobile: data.mobile,
       restaurant_id: restaurantId,
@@ -95,11 +97,11 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
     console.log("onSubmit", order);
 
-    // Set order data on local storage
-    localStorage.setItem("order", JSON.stringify(order));
+    // // Set order data on local storage
+    // localStorage.setItem("order", JSON.stringify(order));
 
-    // Navigate to OTP page
-    navigate("/otp-order");
+    // // Navigate to OTP page
+    // navigate("/otp-order");
   };
 
   // Get user request
