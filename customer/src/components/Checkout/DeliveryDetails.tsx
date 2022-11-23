@@ -84,7 +84,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    const order = {
+    let order = {
       products: cart,
       first_name: data.first_name,
       last_name: data.last_name,
@@ -95,13 +95,17 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       note: note,
     };
 
+    if (!note || !note.replace(/ /g, "")) {
+      delete order.note;
+    }
+
     console.log("onSubmit", order);
 
-    // // Set order data on local storage
-    // localStorage.setItem("order", JSON.stringify(order));
+    // Set order data on local storage
+    localStorage.setItem("order", JSON.stringify(order));
 
-    // // Navigate to OTP page
-    // navigate("/otp-order");
+    // Navigate to OTP page
+    navigate("/otp-order");
   };
 
   // Get user request
