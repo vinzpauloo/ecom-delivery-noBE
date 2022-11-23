@@ -11,6 +11,7 @@ import Otp from "./pages/Otp";
 import OtpOrder from "./pages/OtpOrder";
 import Delivery from "./pages/Account/Delivery";
 import History from "./pages/Account/History";
+import OrderDetails from "./pages/Account/OrderDetails";
 import Profile from "./pages/Account/Profile";
 import Rewards from "./pages/Account/Rewards";
 import ResetPassword from "./pages/Account/ResetPassword";
@@ -37,6 +38,7 @@ root.render(
               <Route index element={<Profile />} />
               <Route path="for-delivery" element={<Delivery />} />
               <Route path="order-history" element={<History />} />
+              <Route path="order-history/:id" element={<OrderDetails />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="rewards" element={<Rewards />} />
             </Route>
