@@ -1,7 +1,11 @@
 .deliveryContainer {
+  padding: 20px;
+  @media (width: 320px) {
+    padding: 0px;
+  }
   .tableContainerHistory {
     .tableHeader {
-      padding: 20px;
+      padding: 0px;
       display: flex;
       justify-content: space-between;
 
@@ -63,7 +67,7 @@
       }
 
       h3 {
-        margin-left: 20px;
+        margin-left: 0px;
         font-style: normal;
         font-weight: 400;
         font-size: 25px;
@@ -72,7 +76,7 @@
 
       .search {
         position: relative;
-        margin-left: 20px;
+        margin-left: 0px;
       }
 
       .search input {
@@ -234,6 +238,7 @@
 }
 //New Design-desktop
 .forDeliveryDesktop {
+  margin-left: 0px;
   .orderIdBtn {
     background: #a47e3b;
     border: 0.5px solid #61481c;
@@ -267,7 +272,7 @@
     border-radius: 0px 5px 5px 5px;
     // margin-left: 12px;
     margin-top: 5px;
-    width: 468px;
+    width: 898px;
     height: 196px;
 
     p {
