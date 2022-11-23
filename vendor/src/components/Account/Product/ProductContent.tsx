@@ -77,10 +77,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const { postProduct } = useProduct();
   const { getCategories } = useCategories();
   const { getCuisines } = useCuisines();
-  const { getProduct } = useProduct();
+  const { postProduct, getProduct, deleteProduct } = useProduct();
 
   const loadCategories = async () => {
     const response = await getCategories();
@@ -97,6 +96,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const handleEdit = (id: any) => {
     setEditModal(true);
     console.log(id);
+  };
+
+  const handleDelete = async (id: any) => {
+    const params = {
+      restaurant_id: auth()?.restaurant[0].id,
+    };
+    const response = await deleteProduct(params);
+    console.log(response);
   };
 
   const auth = useAuthUser();
@@ -358,7 +365,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         /> */}
                         <Button
                           className={styles.btnDelete}
-                          onClick={() => setDeleteModal(true)}
+                          onClick={() => handleDelete(item.id)}
                         >
                           Delete
                         </Button>

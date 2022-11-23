@@ -52,6 +52,9 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const [value, setValue] = useState(null);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [status, setStatus] = useState("");
 
   const navigate = useNavigate();
   const { validateFields } = useValidate();
@@ -81,6 +84,38 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
       // Navigate to OTP page
       navigate("/otp");
+    }
+  };
+
+  const handlePinLocation = () => {
+    console.log("handlePinLocation ...");
+
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+
+      navigator.permissions
+        .query({
+          name: "geolocation",
+        })
+        .then(function (result) {
+          console.log(result.state);
+          result.onchange = function () {
+            console.log("Rresult changed!", result);
+          };
+        });
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus("");
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
     }
   };
 
@@ -182,9 +217,16 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             <Form.Control type="text" required {...register("address")} />
           </Form.Group>
 
-          <Button variant="primary" className={styles.pin}>
+          <Button
+            variant="primary"
+            className={styles.pin}
+            onClick={handlePinLocation}
+          >
             Pin my location
           </Button>
+          <p className="mb-0">{status}</p>
+          <p className="mb-0">Latitude: {lat}</p>
+          <p className="mb-0">Longitude: {lng}</p>
 
           {/* <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_PLACES_API_KEY}

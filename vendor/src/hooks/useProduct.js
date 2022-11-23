@@ -100,5 +100,39 @@ export const useProduct = () => {
     }
   };
 
-  return { postProduct, getProduct };
+  const deleteProduct = async (id, data) => {
+    console.log("getRestaurantProduct hook ...");
+
+    try {
+      // START: Delete restaurant product API
+      const endpoint = `api/products/api/products/${id}`;
+      const options = {
+        params: data,
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.delete(endpoint, options);
+      // END: Delete restaurant product API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+        console.log(response);
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
+  };
+
+  return { postProduct, getProduct, deleteProduct };
 };
