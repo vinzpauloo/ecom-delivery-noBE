@@ -101,8 +101,8 @@ type GetAllOrderItem = {
 };
 
 const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
-  const [modalShow, setModalShow] = React.useState(false);
   const [modalShow1, setModalShow1] = React.useState(false);
+  const [modalShow2, setModalShow2] = React.useState(false);
   const {
     getForDelivery,
     getForDeliveryOTW,
@@ -499,8 +499,16 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           );
         })}
         <div className={styles.bottomBtn}>
-          <Button>Completed</Button>
-          <Button>Cancelled</Button>
+          <Button onClick={() => setModalShow1(true)}>Completed</Button>
+          <CompletedModal
+            show={modalShow1}
+            onHide={() => setModalShow1(false)}
+          />
+          <Button onClick={() => setModalShow2(true)}>Cancelled</Button>
+          <CancelledModal
+            show={modalShow2}
+            onHide={() => setModalShow2(false)}
+          />
         </div>
       </div>
     </div>
