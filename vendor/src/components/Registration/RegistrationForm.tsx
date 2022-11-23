@@ -61,16 +61,10 @@ const schema = yup
 interface ContainerProps {}
 
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorMobile, setErrorMobile] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { validateEmail, validateMobile } = useValidate();
-
-  const [disabled, setDisabled] = useState(true);
-
-  const handleInput = () => {
-    setDisabled(!disabled);
-  };
+  const { validateFields } = useValidate();
 
   const {
     register,
@@ -81,38 +75,23 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    // Validate fields
+    const response = await validateFields(data);
 
-    // Validate email
-    console.log("validating email ...");
-    const responseEmail = await validateEmail({ email: data.email });
-
-    // Validate email
-    console.log("validating mobile ...");
-    const responseMobile = await validateMobile({ mobile: data.mobile });
-
-    console.log("responseEmail", responseEmail);
-    console.log("responseMobile", responseMobile);
-
-    if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.error);
-      return;
+    if (response.errors) {
+      // Prepare errors
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.errors)) {
+        arrErrors.push("*" + value);
+      }
+      setApiErrors(arrErrors);
     } else {
-      setErrorEmail("");
+      // Set Register data on local storage
+      localStorage.setItem("registerUser", JSON.stringify(data));
+
+      // Navigate to OTP page
+      navigate("/otp");
     }
-
-    if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.error);
-      return;
-    } else {
-      setErrorMobile("");
-    }
-
-    // Set Register data on local storage
-    localStorage.setItem("registerUser", JSON.stringify(data));
-
-    // Navigate to OTP page
-    navigate("/otp");
   };
 
   return (
@@ -239,6 +218,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           </Row>
           {/* Error messages */}
           <div className={styles.errors}>
+            {apiErrors.map((item, index) => {
+              return <p key={index}>{item}</p>;
+            })}
+
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
             <p>{errors.mobile?.message}</p>
@@ -259,7 +242,8 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             id="terms"
             label="By continuing, you indicate that you read and agreed to terms of use"
             required
-            onChange={handleInput}
+            onChange={() => setIsChecked(!isChecked)}
+            checked={isChecked}
           />
         </div>
 
@@ -268,8 +252,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="mt-4"
-          // disabled={!isDirty || !isValid}
-          disabled={disabled}
+          disabled={!isDirty || !isChecked}
         >
           Create Account
         </Button>
