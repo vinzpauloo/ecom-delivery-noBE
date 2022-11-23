@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import styles from "./RegisterForm.module.scss";
 import constants from "../../utils/constants.json";
