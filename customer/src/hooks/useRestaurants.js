@@ -101,6 +101,38 @@ export const useRestaurants = () => {
     }
   };
 
+  const getRestaurantsByKeyword = async (keyword) => {
+    console.log("getRestaurantsByKeyword hook ...");
+
+    try {
+      // START: Access search by keyword API
+      const endpoint = `api/search/${keyword}`;
+      const options = {
+        headers: {
+          "X-Authorization": calculateHash(endpoint),
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios.get(endpoint, options);
+      // END: Access search by keyword API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
+  };
+
   const getRestaurantMenu = async (data) => {
     console.log("getRestaurantMenu hook ...");
 
@@ -171,6 +203,7 @@ export const useRestaurants = () => {
     getRestaurants,
     getRestaurantsByType,
     getRestaurantsById,
+    getRestaurantsByKeyword,
     getRestaurantMenu,
     getRestaurantCategories,
   };

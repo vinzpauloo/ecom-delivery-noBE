@@ -17,6 +17,7 @@ import Orders from "./pages/Account/Orders";
 import GetHash from "./pages/GetHash";
 import Order from "./pages/Order";
 import OrderDetails from "./pages/OrderDetails";
+import Search from "./pages/Search";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -38,6 +39,7 @@ root.render(
             <Route path="otp" element={<Otp />} />
             <Route path="otp-order" element={<OtpOrder />} />
             <Route path="restaurant" element={<Restaurant />} />
+            <Route path="search/:keyword" element={<Search />} />
 
             {/* Restaurants routes */}
             <Route path="restaurants">
