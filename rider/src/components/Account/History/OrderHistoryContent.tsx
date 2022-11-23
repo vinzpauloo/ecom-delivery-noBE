@@ -167,7 +167,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-          {forDelivery?.map((item, index) => {
+          {forOrderCompleted?.map((item, index) => {
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
@@ -175,63 +175,26 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 fluid
                 key={index}
               >
-                <Row className="mx-md-3">
-                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>ORDER ID: {item.id}</p>
-                    </div>
-                    <div className={styles.orderItems}>
-                      <ul aria-label="Order Items">
-                        <li>Ramen Noodles(3x)</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Water Melon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Pecking Duck (1x)</li>
-                      </ul>
-                    </div>
-                    <div className={styles.deliveryFee}>
-                      <p>
-                        Delivery Fee <br />
-                        <span>₱{item.rider_id}.00</span>
-                      </p>
-                    </div>
-                    <div className={styles.grandTotal}>
-                      <p>
-                        Grand Total <br />
-                        <span>₱{item.rider_vehicle_model}.00</span>
-                      </p>
-                    </div>
-                  </Col>
-                  <Col xs={8} md={4}>
-                    <div className={styles.customerInfo}>
-                      <li>
-                        Customer Name: <span> {item.customer_name}</span>
-                      </li>
-                      <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
-                      </li>
-                      <li>
-                        Pick up Address :<span> {item.restaurant_name}</span>
-                      </li>
-                      <li>
-                        Delivery Address:
-                        <span> {item.order_address}</span>
-                      </li>
-                      <li>
-                        Order Placed Time: <span> {item.created_at}</span>
-                      </li>
-                      <li>
-                        Order Status: <span> {item.order_status}</span>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                      </li>
-
-                      <div className={styles.declineAccept}>
-                        <a>Decline</a>
-                        <a>Accept</a>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
+                <Table size="sm">
+                  <thead className={styles.tableHead}>
+                    <tr className={styles.tableHeader}>
+                      <th>Order ID</th>
+                      <th>Date</th>
+                      <th>Order Placed Time</th>
+                      <th>Ordered Delivered</th>
+                      <th>Rider Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className={styles.orderId}>{item.id}</td>
+                      <td>{item.created_at}</td>
+                      <td>12:30PM</td>
+                      <td>1:30PM</td>
+                      <td>Aerox-Alexan</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </Container>
             );
           })}
@@ -260,68 +223,31 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           {forOrderCanceled?.map((item, index) => {
             return (
               <Container
-                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3`}
-                // className="order-delivery-container d-flex flex-column gap-3"
+                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                // className="order-delivery-container d-flex flex-column gap-2"
                 fluid
                 key={index}
               >
-                <Row className="mx-md-3">
-                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>ORDER ID: {item.id}</p>
-                    </div>
-                    <div className={styles.orderItems}>
-                      <ul aria-label="Order Items">
-                        <li>Ramen Noodles(3x)</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Water Melon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Pecking Duck (1x)</li>
-                      </ul>
-                    </div>
-                    <div className={styles.deliveryFee}>
-                      <p>
-                        Delivery Fee <br />
-                        <span>85 php</span>
-                      </p>
-                    </div>
-                    <div className={styles.grandTotal}>
-                      <p>
-                        Grand Total <br />
-                        <span>1,350 php</span>
-                      </p>
-                    </div>
-                  </Col>
-                  <Col xs={8} md={4}>
-                    <div className={styles.customerInfo}>
-                      <li>
-                        Customer Name: <span> {item.customer_name}</span>
-                      </li>
-                      <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
-                      </li>
-                      <li>
-                        Pick up Address :<span> {item.restaurant_name}</span>
-                      </li>
-                      <li>
-                        Delivery Address:
-                        <span> {item.order_address}</span>
-                      </li>
-                      <li>
-                        Order Placed Time: <span> {item.created_at}</span>
-                      </li>
-                      <li>
-                        Order Status: <span> {item.order_status}</span>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                      </li>
-
-                      <div className={styles.declineAccept}>
-                        <a>Decline</a>
-                        <a>Accept</a>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
+                <Table size="sm">
+                  <thead className={styles.tableHead}>
+                    <tr className={styles.tableHeader}>
+                      <th>Order ID</th>
+                      <th>Date</th>
+                      <th>Order Placed Time</th>
+                      <th>Ordered Delivered</th>
+                      <th>Rider Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className={styles.orderId}>{item.id}</td>
+                      <td>{item.created_at}</td>
+                      <td>12:30PM</td>
+                      <td>1:30PM</td>
+                      <td>Aerox-Alexan</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </Container>
             );
           })}
