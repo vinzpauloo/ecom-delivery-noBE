@@ -153,6 +153,13 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     loadOrderCanceled("canceled");
   }, []);
 
+  const [inputText, setInputText] = useState("");
+  let inputHandler = (e: any) => {
+    //convert input text to lower case
+    var lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
+
   function CompletedModal(props: any) {
     return (
       <Modal
