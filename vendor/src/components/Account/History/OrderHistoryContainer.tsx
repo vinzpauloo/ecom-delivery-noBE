@@ -11,7 +11,7 @@ const OrderHistoryContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4}>
+        <Col lg={4} className={styles.mobileNav}>
           <div className={styles.navigationContainer}>
             <NavigationContainer />
           </div>
