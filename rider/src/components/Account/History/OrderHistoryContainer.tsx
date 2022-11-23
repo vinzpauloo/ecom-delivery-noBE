@@ -1,10 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./OrderHistoryContainer.module.scss";
 import Navigation from "../Navigation";
-
 import OrderHistoryContent from "./OrderHistoryContent";
 
 interface ContainerProps {}
@@ -19,7 +17,7 @@ const OrderHistoryContainer: React.FC<ContainerProps> = ({}) => {
           </div>
         </Col>
         <Col lg={8}>
-          <div className={styles.contentContainer}>
+          <div className={`${styles.contentContainer}`}>
             <OrderHistoryContent />
           </div>
         </Col>

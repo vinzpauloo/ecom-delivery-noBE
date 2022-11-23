@@ -1,24 +1,25 @@
 import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
+import { useAuthHeader } from "react-auth-kit";
 
-export const useRestaurants = () => {
+export const useGetOrderStatus = () => {
   const { calculateHash } = useCalculateHash();
+  const authHeader = useAuthHeader();
 
-  const getRestaurants = async () => {
-    console.log("getRestaurants hook ...");
-
+  const getAllOrders = async (data) => {
     try {
-      // START: Access restaurants API
-      const endpoint = "api/restaurants";
+      // START: Access For Delivery API
+      const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
-          "X-Authorization": calculateHash(endpoint),
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
         },
-        withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access restaurants API
+      // END: Access user API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -36,22 +37,86 @@ export const useRestaurants = () => {
     }
   };
 
-  const getRestaurantsByType = async (data) => {
-    console.log("getRestaurantsByType hook ...");
-
+  const getCurrentOrder = async (data) => {
     try {
-      // START: Access restaurants by type (category/cuisine) API
-      const endpoint = "api/restaurants";
+      // START: Access For Delivery API
+      const endpoint = "api/orders";
       const options = {
         params: data,
         headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.get(endpoint, options);
+      // END: Access user API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
+  };
+
+  const getReceivedOrder = async (data) => {
+    try {
+      // START: Access For Delivery API
+      const endpoint = "api/orders";
+      const options = {
+        params: data,
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.get(endpoint, options);
+      // END: Access user API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
+  };
+
+  const getForDeliveryOTW = async (data) => {
+    console.log("getForDeliveryOTW hook ...");
+    console.log(data);
+
+    try {
+      // START: Access order for delivery API
+      const endpoint = "api/orders";
+      const options = {
+        params: data,
+        headers: {
+          Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access restaurants by type (category/cuisine) API
+      // END: Access order for delivery API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -69,86 +134,24 @@ export const useRestaurants = () => {
     }
   };
 
-  const getRestaurantsById = async (id) => {
-    console.log("getRestaurantsById hook ...");
+  const getOrderCompleted = async (data) => {
+    console.log("getOrderCompleted hook ...");
+    console.log(data);
 
     try {
-      // START: Access restaurants by id API
-      const endpoint = `api/restaurants/${id}`;
-      const options = {
-        headers: {
-          "X-Authorization": calculateHash(endpoint),
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios.get(endpoint, options);
-      // END: Access restaurants by id API
-
-      if (response.status === 200) {
-        const { data } = response.data;
-
-        return data;
-      }
-    } catch (err) {
-      let error;
-      if (err && err instanceof AxiosError)
-        error = "*" + err.response?.data.message;
-      else if (err && err instanceof Error) error = err.message;
-
-      console.log("Error", err);
-      return error;
-    }
-  };
-
-  const getRestaurantsByKeyword = async (keyword) => {
-    console.log("getRestaurantsByKeyword hook ...");
-
-    try {
-      // START: Access search by keyword API
-      const endpoint = `api/search/${keyword}`;
-      const options = {
-        headers: {
-          "X-Authorization": calculateHash(endpoint),
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios.get(endpoint, options);
-      // END: Access search by keyword API
-
-      if (response.status === 200) {
-        const { data } = response.data;
-
-        return data;
-      }
-    } catch (err) {
-      let error;
-      if (err && err instanceof AxiosError)
-        error = "*" + err.response?.data.message;
-      else if (err && err instanceof Error) error = err.message;
-
-      console.log("Error", err);
-      return error;
-    }
-  };
-
-  const getRestaurantMenu = async (data) => {
-    console.log("getRestaurantMenu hook ...");
-
-    try {
-      // START: Access restaurants menu API
-      const endpoint = "api/products";
+      // START: Access completed orders API
+      const endpoint = "api/orders";
       const options = {
         params: data,
         headers: {
+          Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access restaurants menu API
+      // END: Access completed orders API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -166,22 +169,24 @@ export const useRestaurants = () => {
     }
   };
 
-  const getRestaurantCategories = async (data) => {
-    console.log("getRestaurantCategories hook ...");
+  const getOrderCanceled = async (data) => {
+    console.log("getOrderCanceled hook ...");
+    console.log(data);
 
     try {
-      // START: Access restaurants categories API
-      const endpoint = "api/categories";
+      // START: Access completed orders API
+      const endpoint = "api/orders";
       const options = {
         params: data,
         headers: {
+          Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access restaurants categories API
+      // END: Access completed orders API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -200,11 +205,11 @@ export const useRestaurants = () => {
   };
 
   return {
-    getRestaurants,
-    getRestaurantsByType,
-    getRestaurantsById,
-    getRestaurantsByKeyword,
-    getRestaurantMenu,
-    getRestaurantCategories,
+    getAllOrders,
+    getCurrentOrder,
+    getReceivedOrder,
+    getForDeliveryOTW,
+    getOrderCompleted,
+    getOrderCanceled,
   };
 };
