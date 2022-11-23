@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
+// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import styles from "./RegisterForm.module.scss";
 import constants from "../../utils/constants.json";
@@ -50,6 +51,8 @@ interface ContainerProps {}
 const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [value, setValue] = useState(null);
+
   const navigate = useNavigate();
   const { validateFields } = useValidate();
 
@@ -178,6 +181,18 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
             <Form.Label>Full Address</Form.Label>
             <Form.Control type="text" required {...register("address")} />
           </Form.Group>
+
+          <Button variant="primary" className={styles.pin}>
+            Pin my location
+          </Button>
+
+          {/* <GooglePlacesAutocomplete
+            apiKey={process.env.REACT_APP_GOOGLE_PLACES_API_KEY}
+            selectProps={{
+              value,
+              onChange: setValue,
+            }}
+          /> */}
         </div>
 
         <div

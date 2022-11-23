@@ -24,18 +24,18 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   const loadRestaurants = async () => {
     const response = await getRestaurantsByKeyword(keyword);
     console.log("getRestaurantsByKeyword response", response);
-    setRestaurants(response.data);
+    setRestaurants(response);
   };
 
   useEffect(() => {
     loadRestaurants();
-  }, []);
+  }, [keyword]);
 
   return (
     <div
       className={`d-flex flex-wrap justify-content-start ${styles.restaurantGrid}`}
     >
-      {restaurants.map((item, index) => {
+      {restaurants?.map((item, index) => {
         return (
           <div key={index} className={`flex-grow-1 ${styles.sliderContainer}`}>
             <div className={styles.slideItem}>
