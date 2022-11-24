@@ -157,14 +157,14 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          <Button
+          {/* <Button
             variant="primary"
             type="submit"
             className={styles.btnChangePass}
             onClick={() => navigate("change-password")}
           >
             Change Password
-          </Button>
+          </Button> */}
 
           {/* Error messages */}
           <div className={styles.errors}>
