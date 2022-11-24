@@ -57,6 +57,11 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
     setOrder(response);
   };
 
+  const imgPhoto = order?.restaurant_photo
+    ? process.env.REACT_APP_BASE_URL +
+      order.restaurant_photo.replace("public", "storage")
+    : placeholder;
+
   useEffect(() => {
     loadOrder();
   }, []);
@@ -207,15 +212,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         <p className={`mb-3 ${styles.value}`}>
                           {order?.restaurant_name}
                         </p>
-                        <img
-                          className="img-fluid"
-                          src={
-                            order?.restaurant_photo
-                              ? process.env.REACT_APP_BASE_URL +
-                                order.restaurant_photo
-                              : placeholder
-                          }
-                        />
+                        <img className="img-fluid" src={imgPhoto} />
                       </div>
                     </Col>
                   </Row>

@@ -63,6 +63,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleCancel = async (id: any) => {
     const response = await cancelOrder(id, "cancel");
+    alert("declined order");
+    window.location.reload();
     navigate("/account/for-delivery");
   };
 

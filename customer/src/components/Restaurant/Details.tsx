@@ -122,7 +122,8 @@ const Details: React.FC<ContainerProps> = ({
               className="img-fluid"
               src={
                 restaurant
-                  ? process.env.REACT_APP_BASE_URL + restaurant.photo
+                  ? // ? process.env.REACT_APP_BASE_URL + restaurant.photo
+                    restaurant.photo
                   : placeholder
               }
             />

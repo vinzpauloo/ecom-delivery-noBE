@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useOrder } from "../../../hooks/useOrder";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
@@ -37,6 +37,7 @@ type ForPreparingItem = {
 const StatusContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForPreparingItem>();
   const { updateOrder, getOrdersById } = useOrder();
+  const navigate = useNavigate();
 
   // Get the params from the url
   const { id } = useParams();
@@ -50,6 +51,9 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   const handleAccept = async (id: any) => {
     console.log(id);
     const response = await updateOrder(id, "preparing");
+    alert("updated status preparing successfully");
+    navigate("/account/for-delivery");
+
     console.log(response);
   };
 

@@ -8,7 +8,7 @@ import {
   Modal,
   Dropdown,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -16,6 +16,8 @@ import { useHelper } from "../../../hooks/useHelper";
 import { useProduct } from "../../../hooks/useProduct";
 import { useCategories } from "../../../hooks/useCategories";
 import { useCuisines } from "../../../hooks/useCuisines";
+
+import ImageUploading, { ImageListType } from "react-images-uploading";
 
 import { useAuthUser } from "react-auth-kit";
 
@@ -33,7 +35,7 @@ type TMenu = {
   description: string;
   price: number;
   photo: string;
-  is_available: number;
+  is_available: boolean;
 };
 
 // Setup form schema & validation
@@ -75,12 +77,19 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [categories, setCategories] = useState<Categories[]>([]);
   const [cuisines, setCuisines] = useState<Cuisines[]>([]);
   const [product, setProduct] = useState<TMenu[] | null>(null);
+  const [defaultImg, setDefaultImg] = useState(true);
+
+  const [images, setImages] = React.useState<any>();
 
   const [file, setFile] = useState();
   const [fileDataURL, setFileDataURL] = useState("");
 
+  const maxNumber = 1;
+
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const { getCategories } = useCategories();
   const { getCuisines } = useCuisines();
@@ -103,12 +112,31 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
   };
 
+  const discardMenu = async () => {
+    window.location.reload();
+    navigate("/account/my-restaurant-menu");
+  };
+
+  const handleClick = (onImageUpload: any) => {
+    console.log("aaaa");
+    setDefaultImg((prev) => !prev);
+    onImageUpload();
+  };
+
+  const handleRemove = (onImageRemove: any, index: any) => {
+    onImageRemove(index);
+    setDefaultImg((prev) => !prev);
+  };
+
   const handleDelete = async (id: any) => {
     const params = {
       restaurant_id: auth()?.restaurant[0].id,
     };
     const response = await deleteProduct(id, params);
     console.log(response);
+    alert("Product Deleted");
+    window.location.reload();
+    navigate("/account/my-restaurant-menu");
   };
 
   const auth = useAuthUser();
@@ -151,6 +179,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       is_available: true,
       categories: [parseInt(data.categories)],
       cuisines: [parseInt(data.cuisines)],
+      photo2: images[0].photo,
     };
 
     console.log("onSubmit", menu);
@@ -182,6 +211,15 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     }
     console.log(e.target.files);
     setFile(file);
+  };
+
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
   };
 
   // const uploadImage = async (e: any) => {
@@ -234,18 +272,21 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     <div className={styles.tableContainer}>
       <div className="">
         <Form>
-          <Row>
+          {/* <Row>
             <Col>
               <h3 className="d-none d-lg-block">Restaurant Menu</h3>
             </Col>
-          </Row>
+          </Row> */}
           <Row>
-            <Col className="d-none d-lg-block">
+            {/* <Col className="d-none d-lg-block">
               <Form.Control
                 className={styles.searchBar}
                 type="text"
                 placeholder="Search food and description"
               />
+            </Col> */}
+            <Col>
+              <h3 className="d-none d-lg-block">Restaurant Menu</h3>
             </Col>
             {/* Button trigger modal */}
             <Col>
@@ -311,8 +352,64 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           />
                         </Form.Group>
                       </Col>
-                      <Col>
+                      {/* <Col>
                         <img src={fileDataURL} className={styles.thumbNail} />
+                      </Col> */}
+                      <Col>
+                        <ImageUploading
+                          multiple
+                          value={images}
+                          onChange={onChange}
+                          maxNumber={maxNumber}
+                          dataURLKey="photo"
+                        >
+                          {({
+                            imageList,
+                            onImageUpload,
+                            onImageRemoveAll,
+                            onImageUpdate,
+                            onImageRemove,
+                            isDragging,
+                            dragProps,
+                          }) => (
+                            <div className="">
+                              {defaultImg ? (
+                                <img
+                                  src={DefaultThumbnail}
+                                  style={{ width: "100px" }}
+                                />
+                              ) : (
+                                imageList.map((image, index) => (
+                                  <div key={index} className="image-item">
+                                    <img
+                                      src={image.photo}
+                                      className={styles.thumbNail}
+                                      alt="ad-img"
+                                    />
+                                    <div className="image-item__btn-wrapper">
+                                      <a
+                                        onClick={() =>
+                                          handleRemove(onImageRemove, index)
+                                        }
+                                      >
+                                        Remove
+                                      </a>
+                                    </div>
+                                  </div>
+                                ))
+                              )}
+                              <Row className="">
+                                <Col>
+                                  <Form.Control
+                                    placeholder="Upload"
+                                    className={styles.btnUpload}
+                                    onClick={() => handleClick(onImageUpload)}
+                                  />
+                                </Col>
+                              </Row>
+                            </div>
+                          )}
+                        </ImageUploading>
                       </Col>
                     </Row>
                     <Row>
@@ -330,7 +427,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           ))}
                         </Form.Select>
                       </Col>
-                      <Col>
+                      {/* <Col>
                         <Form.Control
                           className={styles.btnUpload}
                           type="file"
@@ -339,8 +436,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           onChange={changeHandler}
                           // {...register("photo")}
                         />
-                      </Col>
+                      </Col> */}
                     </Row>
+
                     <Row>
                       <Col lg={4} xs={8}>
                         <Form.Label>Cuisine</Form.Label>
@@ -355,14 +453,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                       <Col>
                         <Form.Label>Availability</Form.Label>
-                        <Form.Check type="switch" />
+                        <Form.Check type="switch" checked={true} disabled />
                       </Col>
                     </Row>
                     <Row>
                       <Col className="d-flex justify-content-center gap-2">
                         <Button
                           className={styles.btnDiscard}
-                          // onClick={props.onHide}
+                          onClick={discardMenu}
                         >
                           Discard
                         </Button>
@@ -404,16 +502,16 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       <p className={styles.textParagrap2}>Php {item.price}</p>
                     </td>
                     <td>
-                      <Form.Check type="switch" />
+                      <Form.Check type="switch" checked={item.is_available} />
                     </td>
                     <td>
                       <div>
-                        <Button
+                        {/* <Button
                           className={styles.btnEdit}
                           onClick={() => handleEdit(item.id)}
                         >
                           Edit
-                        </Button>
+                        </Button> */}
                         {/* <EditModal
                           show={editModal}
                           onHide={() => setEditModal(false)}
