@@ -10,6 +10,7 @@ import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
 
 import styles from "./OrderDetailsContent.module.scss";
+import { isTemplateExpression } from "typescript";
 
 interface ContainerProps {}
 
@@ -22,6 +23,7 @@ type TOrder = {
   order_address: string;
   order_status: string;
   restaurant_address: string;
+  products: [{ name: string; quantity: number }];
 };
 
 // const sampleOrder: TOrder = {
@@ -182,14 +184,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col xs={7} sm={8}>
                           <ul className={styles.orderList}>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
+                            {order?.products?.map((item, index) => {
+                              return (
+                                <li
+                                  key={index}
+                                >{`${item.name} (${item.quantity}x)`}</li>
+                              );
+                            })}
                           </ul>
                         </Col>
                       </Row>
