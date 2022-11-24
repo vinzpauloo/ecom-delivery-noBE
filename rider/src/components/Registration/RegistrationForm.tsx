@@ -69,12 +69,12 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [errorMobile, setErrorMobile] = useState("");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const { validateEmail, validateMobile } = useValidate();
-
+  const { validateFields } = useValidate();
   const [currentFile, setCurrentFile] = useState(undefined);
   const [previewImage, setPreviewImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
 
   const [images, setImages] = React.useState([]);
   const maxNumber = 1;
@@ -99,31 +99,23 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log("onSubmit", data);
 
-    // Validate email
-    const responseEmail = await validateEmail({ email: data.email });
+    // Validate fields
+    const response = await validateFields(data);
 
-    // Validate mobile
-    const responseMobile = await validateMobile({ mobile: data.mobile });
-
-    if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.error);
-      return;
+    if (response.errors) {
+      // Prepare errors
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.errors)) {
+        arrErrors.push("*" + value);
+      }
+      setApiErrors(arrErrors);
     } else {
-      setErrorEmail("");
+      // Set register data on local storage
+      localStorage.setItem("oldRegisterUser", JSON.stringify(data));
+
+      // Navigate to OTP page
+      navigate("/registration2");
     }
-
-    if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.error);
-      return;
-    } else {
-      setErrorMobile("");
-    }
-
-    // Set register data on local storage
-    localStorage.setItem("oldRegisterUser", JSON.stringify(data));
-
-    // Navigate to OTP page
-    navigate("/registration2");
   };
 
   return (
@@ -301,7 +293,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   </a>
                 </Col>
               </Row>
-              <Row className="">
+              {/* <Row className="">
                 <Col sm={2} md={8}>
                   <input
                     placeholder="Driver’s License Image (PDF*JPG*PNG)"
@@ -310,9 +302,11 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   />
                 </Col>
                 <Col>
-                  <a className={`${styles.test2}`}>Browse</a>
+                  <a className={`${styles.test2}`} onClick={onImageUpload}>
+                    Browse
+                  </a>
                 </Col>
-              </Row>
+              </Row> */}
               <div className="nextBtn">
                 {/* <Link to="/registration2">
             

@@ -73,7 +73,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const [errorMobile, setErrorMobile] = useState("");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const { validateEmail, validateMobile } = useValidate();
+  const { validateFields } = useValidate();
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
 
   const [disabled, setDisabled] = useState(true);
 
