@@ -66,6 +66,8 @@ const schema = yup
   })
   .required();
 
+const imageMimeType = /image\/(png|jpg|jpeg)/i;
+
 const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -73,6 +75,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [categories, setCategories] = useState<Categories[]>([]);
   const [cuisines, setCuisines] = useState<Cuisines[]>([]);
   const [product, setProduct] = useState<TMenu[] | null>(null);
+
+  const [file, setFile] = useState();
+  const [fileDataURL, setFileDataURL] = useState("");
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -102,7 +107,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     const params = {
       restaurant_id: auth()?.restaurant[0].id,
     };
-    const response = await deleteProduct(params);
+    const response = await deleteProduct(id, params);
     console.log(response);
   };
 
@@ -169,11 +174,61 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     // console.log(response);
   };
 
+  const changeHandler = (e: any) => {
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      alert("Image mime type is not valid");
+      return;
+    }
+    console.log(e.target.files);
+    setFile(file);
+  };
+
+  // const uploadImage = async (e: any) => {
+  //   const file = e.target.files[0];
+  //   const base64 = await convertBase64(file)
+  //   console.log(e.target.files);
+  // };
+
+  // const convertBase64=(file)=> {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload(() => {
+  //       resolve(fileReader.result);
+  //     });
+
+  //     fileReader.onerror((error) => {
+  //       reject(error);
+  //     })
+  //   });
+  // };
+
   useEffect(() => {
     loadCategories();
     loadCuisines();
     loadRestaurantProduct();
-  }, []);
+
+    let fileReader,
+      isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e: any) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setFileDataURL(result);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
 
   return (
     <div className={styles.tableContainer}>
@@ -257,7 +312,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Form.Group>
                       </Col>
                       <Col>
-                        {/* <img src={fileDataURL} className={styles.thumbNail} /> */}
+                        <img src={fileDataURL} className={styles.thumbNail} />
                       </Col>
                     </Row>
                     <Row>
@@ -278,11 +333,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       <Col>
                         <Form.Control
                           className={styles.btnUpload}
-                          type="text"
-                          // accept=".png, .jpg, .jpeg"
-                          value="https://via.placeholder.com/150"
-                          // onChange={changeHandler}
-                          {...register("photo")}
+                          type="file"
+                          accept=".png, .jpg, .jpeg"
+                          // value="https://via.placeholder.com/150"
+                          onChange={changeHandler}
+                          // {...register("photo")}
                         />
                       </Col>
                     </Row>
@@ -386,8 +441,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   );
 };
 
-// const imageMimeType = /image\/(png|jpg|jpeg)/i;
-
 // // Setup form schema & validation
 // interface IFormInputs {
 //   name: string;
@@ -449,39 +502,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 //     console.log(response);
 //   };
 
-// const [file, setFile] = useState();
-// const [fileDataURL, setFileDataURL] = useState("");
 // const { uploadToFirebase } = useHelper();
-
-// const changeHandler = (e: any) => {
-//   const file = e.target.files[0];
-//   if (!file.type.match(imageMimeType)) {
-//     alert("Image mime type is not valid");
-//     return;
-//   }
-//   setFile(file);
-// };
-
-// useEffect(() => {
-//   let fileReader,
-//     isCancel = false;
-//   if (file) {
-//     fileReader = new FileReader();
-//     fileReader.onload = (e: any) => {
-//       const { result } = e.target;
-//       if (result && !isCancel) {
-//         setFileDataURL(result);
-//       }
-//     };
-//     fileReader.readAsDataURL(file);
-//   }
-//   return () => {
-//     isCancel = true;
-//     if (fileReader && fileReader.readyState === 1) {
-//       fileReader.abort();
-//     }
-//   };
-// }, [file]);
 
 // return (
 //   <Modal {...props} size="xl">

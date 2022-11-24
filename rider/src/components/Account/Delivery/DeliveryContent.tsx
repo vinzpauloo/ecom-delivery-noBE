@@ -512,8 +512,10 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                   </Row>
                   <div className="declineAccept">
-                    <button>Decline</button>
-                    <button>Accept</button>
+                    {/* <button>Decline</button> */}
+                    <Link to={`/account/for-delivery/order/${item.id}`}>
+                      <button>Accept</button>
+                    </Link>
                   </div>
                 </div>
               </Accordion.Body>

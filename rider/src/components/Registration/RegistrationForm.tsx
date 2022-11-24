@@ -30,6 +30,7 @@ interface IFormInputs {
   password_confirmation: string;
   license_number: string;
   license_expiration: string;
+  photo: string;
 }
 
 const schema = yup
@@ -69,14 +70,14 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [errorMobile, setErrorMobile] = useState("");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const { validateEmail, validateMobile } = useValidate();
-
+  const { validateFields } = useValidate();
   const [currentFile, setCurrentFile] = useState(undefined);
   const [previewImage, setPreviewImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
 
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = React.useState<any>();
   const maxNumber = 1;
 
   const onChange = (
@@ -97,33 +98,26 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("onSubmit", data);
+    const data2 = { ...data, photo2: images[0].photo };
+    console.log("onSubmit", data2);
+    console.log(images[0].photo);
+    // Validate fields
+    const response = await validateFields(data2);
 
-    // Validate email
-    const responseEmail = await validateEmail({ email: data.email });
-
-    // Validate mobile
-    const responseMobile = await validateMobile({ mobile: data.mobile });
-
-    if (!responseEmail.isValid) {
-      setErrorEmail(responseEmail.error);
-      return;
+    if (response.errors) {
+      // Prepare errors
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.errors)) {
+        arrErrors.push("*" + value);
+      }
+      setApiErrors(arrErrors);
     } else {
-      setErrorEmail("");
+      // Set register data on local storage
+      localStorage.setItem("oldRegisterUser", JSON.stringify(data2));
+
+      // Navigate to OTP page
+      navigate("/registration2");
     }
-
-    if (!responseMobile.isValid) {
-      setErrorMobile(responseMobile.error);
-      return;
-    } else {
-      setErrorMobile("");
-    }
-
-    // Set register data on local storage
-    localStorage.setItem("oldRegisterUser", JSON.stringify(data));
-
-    // Navigate to OTP page
-    navigate("/registration2");
   };
 
   return (
@@ -268,6 +262,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           value={images}
           onChange={onChange}
           maxNumber={maxNumber}
+          dataURLKey="photo"
         >
           {({
             imageList,
@@ -281,7 +276,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             <div className="d-flex flex-column justify-content-center align-items-center gap-2">
               {imageList.map((image, index) => (
                 <div key={index} className="image-item">
-                  <img src={image.dataURL} className="w-25 img-fluid mb-3" />
+                  <img src={image.photo} className="w-25 img-fluid mb-3" />
                   <div className="image-item__btn-wrapper">
                     <a onClick={() => onImageRemove(index)}>Remove</a>
                   </div>
@@ -293,6 +288,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                     placeholder="Profile Picture (PDF*JPG*PNG)"
                     className={`bg-white ${styles.test}`}
                     disabled
+                    // {...register("photo")}
                   />
                 </Col>
                 <Col>
@@ -301,7 +297,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   </a>
                 </Col>
               </Row>
-              <Row className="">
+              {/* <Row className="">
                 <Col sm={2} md={8}>
                   <input
                     placeholder="Driver’s License Image (PDF*JPG*PNG)"
@@ -310,13 +306,16 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   />
                 </Col>
                 <Col>
-                  <a className={`${styles.test2}`}>Browse</a>
+                  <a className={`${styles.test2}`} onClick={onImageUpload}>
+                    Browse
+                  </a>
                 </Col>
-              </Row>
+              </Row> */}
               <div className="nextBtn">
                 {/* <Link to="/registration2">
             
           </Link> */}
+
                 <Button
                   variant="warning"
                   size="lg"

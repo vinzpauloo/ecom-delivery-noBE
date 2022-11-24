@@ -87,6 +87,10 @@
   position: relative;
   width: 65%;
 
+  .searchIcon {
+    cursor: pointer;
+  }
+
   input {
     background: #f3f3f3;
     border: 1px solid #dbdbdb;

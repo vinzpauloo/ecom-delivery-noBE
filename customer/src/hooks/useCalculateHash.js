@@ -6,6 +6,10 @@ const thisKey = process.env.REACT_APP_API_SECRET_KEY;
 
 export const useCalculateHash = () => {
   const calculateHash = (endpoint, body = {}) => {
+    // Remove "photo" key if it exists
+    if (body && body.photo) delete body.photo;
+    if (body && body.photos) delete body.photos;
+
     let code = "==";
     code += endpoint;
     code += "?";

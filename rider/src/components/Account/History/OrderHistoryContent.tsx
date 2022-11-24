@@ -53,10 +53,13 @@ type ForCompletedItem = {
   plate_number: string;
   restaurant_name: string;
   restaurant_id: string;
+  restaurant_address: string;
   updated_at: string;
   rider_id: string;
+  rider_name: string;
   rider_vehicle_model: string;
   id: string;
+  delivered_at: string;
 };
 
 type ForCanceledItem = {
@@ -77,6 +80,8 @@ type ForCanceledItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: string;
+  delivered_at: string;
+  rider_name: string;
 };
 
 type GetAllOrderItem = {
@@ -195,10 +200,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   <tbody>
                     <tr>
                       <td className={styles.orderId}>{item.id}</td>
-                      <td>{item.created_at}</td>
-                      <td>12:30PM</td>
-                      <td>1:30PM</td>
-                      <td>Aerox-Alexan</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.delivered_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.rider_name}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -248,10 +253,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   <tbody>
                     <tr>
                       <td className={styles.orderId}>{item.id}</td>
-                      <td>{item.created_at}</td>
-                      <td>12:30PM</td>
-                      <td>1:30PM</td>
-                      <td>Aerox-Alexan</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.delivered_at}</td>
+                      <td>{item.rider_name}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -280,7 +285,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
         </Form>
-        {forDelivery.map((item, index) => {
+        {forOrderCompleted.map((item, index) => {
           return (
             <div className={styles.item} key={index}>
               <Row>
@@ -366,11 +371,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                               <Col>
                                 <Row className="mb-2 mb-sm-0">
                                   <Col xs={5} sm={6}>
-                                    <p>Order Placed Time :</p>
+                                    <p>Order Placed Time: </p>
                                   </Col>
                                   <Col xs={7} sm={6}>
                                     <p className={styles.value}>
                                       {/* {getTime(item.created_at)} */}
+                                      {item.created_at
+                                        .split(".")[0]
+                                        .slice(0, -3)}
                                     </p>
                                   </Col>
                                 </Row>
@@ -385,6 +393,9 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                       {/* {item.delivered_at
                                         ? getTime(item.delivered_at)
                                         : "Waiting ..."} */}
+                                      {item.delivered_at
+                                        .split(".")[0]
+                                        .slice(0, -3)}
                                     </p>
                                   </Col>
                                 </Row>
@@ -401,6 +412,9 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                   <Col xs={7} sm={6}>
                                     <p className={styles.value}>
                                       {/* {getDate(item.created_at)} */}
+                                      {item.created_at
+                                        .split(".")[0]
+                                        .slice(0, -3)}
                                     </p>
                                   </Col>
                                 </Row>

@@ -7,6 +7,10 @@ console.log('reading .env "thisKey" =', thisKey);
 
 export const useCalculateHash = () => {
   const calculateHash = (endpoint, body) => {
+    // Remove "photo" key if it exists
+    if (body && body.photo) delete body.photo;
+    if (body && body.photos) delete body.photos;
+
     let code = "==";
     code += endpoint;
     code += "?";

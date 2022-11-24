@@ -2,14 +2,14 @@ import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
 import { useAuthHeader } from "react-auth-kit";
 
-export const useProduct = () => {
+export const useOrders = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 
-  const postProduct = async (data) => {
+  const createOrder = async (data) => {
     try {
-      // START: Add product API
-      const endpoint = "api/products";
+      // START: Access create order API
+      const endpoint = "api/orders";
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -18,9 +18,9 @@ export const useProduct = () => {
       };
 
       const response = await axios.post(endpoint, data, options);
-      // END: Add product API
+      // END: Access create order API
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         const { data } = response.data;
 
         return data;
@@ -32,23 +32,56 @@ export const useProduct = () => {
       else if (err && err instanceof Error) error = err.message;
 
       console.log("Error", err);
-      return error;
+      return { error: error };
     }
   };
 
-  const getProductById = async (id) => {
+  const createOrderGuest = async (data, guestSession) => {
     try {
-      // START: Access user API
-      const endpoint = `api/products/${id}`;
+      // START: Access create order as guest API
+      const endpoint = "api/guests/orders";
+      const options = {
+        headers: {
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.post(endpoint, data, options);
+      // END: Access create order as guest API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
+  const getOrders = async () => {
+    console.log("getOrders hook ...");
+
+    try {
+      // START: Access get orders API
+      const endpoint = "api/orders";
       const options = {
         headers: {
           Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint),
         },
+        withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Access user API
+      // END: Access get orders API
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -66,26 +99,23 @@ export const useProduct = () => {
     }
   };
 
-  const getProduct = async (data) => {
-    console.log("getRestaurantProduct hook ...");
-
+  const getOrdersById = async (id) => {
     try {
-      // START: Get restaurant product API
-      const endpoint = "api/products/merchant/all";
+      // START: Access orders by id API
+      const endpoint = `api/orders/${id}`;
       const options = {
-        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Authorization": calculateHash(endpoint),
         },
+        withCredentials: true,
       };
 
       const response = await axios.get(endpoint, options);
-      // END: Get restaurant product API
+      // END: Access orders by id API
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
 
         return data;
       }
@@ -100,26 +130,23 @@ export const useProduct = () => {
     }
   };
 
-  const deleteProduct = async (id, data) => {
-    console.log("getRestaurantProduct hook ...");
-
+  const getOrdersByIdGuest = async (id, guestSession) => {
     try {
-      // START: Delete restaurant product API
-      const endpoint = `api/products/${id}`;
+      // START: Access guests orders by id API
+      const endpoint = `api/guests/orders/${id}`;
       const options = {
-        params: data,
         headers: {
-          Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint),
         },
+        withCredentials: true,
       };
 
-      const response = await axios.delete(endpoint, options);
-      // END: Delete restaurant product API
+      const response = await axios.get(endpoint, options);
+      // END: Access guests orders by id API
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
 
         return data;
       }
@@ -134,5 +161,11 @@ export const useProduct = () => {
     }
   };
 
-  return { postProduct, getProduct, deleteProduct };
+  return {
+    createOrder,
+    createOrderGuest,
+    getOrders,
+    getOrdersById,
+    getOrdersByIdGuest,
+  };
 };
