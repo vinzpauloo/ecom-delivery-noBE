@@ -9,13 +9,8 @@ export const useCalculateHash = () => {
   const calculateHash = (endpoint, body = {}) => {
     const body2 = { ...body };
     // Remove "photo" key if it exists
-<<<<<<< HEAD
-    if (body && body.photo2) delete body.photo2;
-    if (body && body.photos) delete body.photos;
-=======
     if (body2 && body2.photo2) delete body2.photo2;
     // if (body && body.photos) delete body.photos;
->>>>>>> master
 
     let code = "==";
     code += endpoint;
