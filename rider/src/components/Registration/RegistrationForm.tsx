@@ -80,6 +80,8 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [images, setImages] = React.useState<any>();
   const maxNumber = 1;
 
+  const [defaultImg, setDefaultImg] = useState(true);
+
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
@@ -118,6 +120,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
       // Navigate to OTP page
       navigate("/registration2");
     }
+  };
+
+  const handleClick = (onImageUpload: any) => {
+    console.log("aaaa");
+    setDefaultImg((prev) => !prev);
+    onImageUpload();
+  };
+
+  const handleRemove = (onImageRemove: any, index: any) => {
+    onImageRemove(index);
+    setDefaultImg((prev) => !prev);
   };
 
   return (
@@ -273,14 +286,20 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             dragProps,
           }) => (
             <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-              {imageList.map((image, index) => (
-                <div key={index} className="image-item">
-                  <img src={image.photo} className="w-25 img-fluid mb-3" />
-                  <div className="image-item__btn-wrapper">
-                    <a onClick={() => onImageRemove(index)}>Remove</a>
+              {defaultImg ? (
+                <img src={RiderProfile} style={{ width: "100px" }} />
+              ) : (
+                imageList.map((image, index) => (
+                  <div key={index} className="image-item">
+                    <img src={image.photo} className="w-25 img-fluid mb-3" />
+                    <div className="image-item__btn-wrapper">
+                      <a onClick={() => handleRemove(onImageRemove, index)}>
+                        Remove
+                      </a>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
               <Row className="">
                 <Col sm={2} md={8}>
                   <input
@@ -291,7 +310,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   />
                 </Col>
                 <Col>
-                  <a className={`${styles.test2}`} onClick={onImageUpload}>
+                  <a
+                    className={`${styles.test2}`}
+                    onClick={() => handleClick(onImageUpload)}
+                  >
                     Browse
                   </a>
                 </Col>
