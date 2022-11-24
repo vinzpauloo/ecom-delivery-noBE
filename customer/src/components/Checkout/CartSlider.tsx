@@ -80,7 +80,8 @@ const SwiperSlideItem = (
             src={
               item.photo == "no-images.jpg"
                 ? "https://via.placeholder.com/500"
-                : process.env.REACT_APP_BASE_URL + item.photo
+                : // : process.env.REACT_APP_BASE_URL + item.photo
+                  item.photo
             }
             alt=""
           />
