@@ -81,7 +81,8 @@ const SwiperSlideItem = (
           {item.photo == "no-images.jpg" ? (
             <img className={styles.placeholder} src={placeholder} alt="" />
           ) : (
-            <img src={process.env.REACT_APP_BASE_URL + item.photo} alt="" />
+            // <img src={process.env.REACT_APP_BASE_URL + item.photo} alt="" />
+            <img src={item.photo} alt="" />
           )}
         </div>
         <div className={styles.slideContentContainer}>

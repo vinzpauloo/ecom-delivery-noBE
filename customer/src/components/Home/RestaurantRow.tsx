@@ -51,7 +51,8 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
               <div className={styles.slideItem}>
                 <div className={styles.slideImageContainer}>
                   <img
-                    src={process.env.REACT_APP_BASE_URL + item.photo}
+                    // src={process.env.REACT_APP_BASE_URL + item.photo}
+                    src={item.photo}
                     alt=""
                   />
                 </div>
@@ -84,7 +85,8 @@ const RestaurantRow: React.FC<ContainerProps> = ({ slides }) => {
               <div className={styles.slideItem}>
                 <div className={styles.slideImageContainer}>
                   <img
-                    src={process.env.REACT_APP_BASE_URL + item.photo}
+                    // src={process.env.REACT_APP_BASE_URL + item.photo}
+                    src={item.photo}
                     alt=""
                   />
                 </div>
