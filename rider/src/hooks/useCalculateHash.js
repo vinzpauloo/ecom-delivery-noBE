@@ -6,15 +6,16 @@ const thisKey = process.env.REACT_APP_API_SECRET_KEY;
 console.log('reading .env "thisKey" =', thisKey);
 
 export const useCalculateHash = () => {
-  const calculateHash = (endpoint, body) => {
+  const calculateHash = (endpoint, body = {}) => {
+    const body2 = { ...body };
     // Remove "photo" key if it exists
-    if (body && body.photo) delete body.photo;
-    if (body && body.photos) delete body.photos;
+    if (body2 && body2.photo2) delete body2.photo2;
+    // if (body && body.photos) delete body.photos;
 
     let code = "==";
     code += endpoint;
     code += "?";
-    code += httpBuildQuery(body);
+    code += httpBuildQuery(body2);
     code += "&";
     code += thisKey;
 
