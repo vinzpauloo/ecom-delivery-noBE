@@ -6,11 +6,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
 
+import ImageUploading, { ImageListType } from "react-images-uploading";
+
 import styles from "./RegistrationForm.module.scss";
 import constants from "../../utils/constants.json";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
+import DefaultThumbnail from "../../assets/images/default-thumbnail.jpg";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -29,7 +32,7 @@ const schema = yup
   .object({
     mobile: yup
       .string()
-      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .matches(/^(09|\+639)\d{9}$/, constants.form.error.mobile)
       .required(),
     password: yup
       .string()
@@ -63,6 +66,10 @@ interface ContainerProps {}
 const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [images, setImages] = React.useState<any>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [defaultImg, setDefaultImg] = useState(true);
+  const maxNumber = 1;
   const navigate = useNavigate();
   const { validateFields } = useValidate();
 
@@ -74,9 +81,30 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     resolver: yupResolver(schema),
   });
 
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
+
+  const handleClick = (onImageUpload: any) => {
+    console.log("aaaa");
+    setDefaultImg((prev) => !prev);
+    onImageUpload();
+  };
+
+  const handleRemove = (onImageRemove: any, index: any) => {
+    onImageRemove(index);
+    setDefaultImg((prev) => !prev);
+  };
+
   const onSubmit = async (data: IFormInputs) => {
     // Validate fields
-    const response = await validateFields(data);
+    const data2 = { ...data, photo2: images[0].photo };
+    const response = await validateFields(data2);
 
     if (response.errors) {
       // Prepare errors
@@ -87,7 +115,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
       setApiErrors(arrErrors);
     } else {
       // Set Register data on local storage
-      localStorage.setItem("registerUser", JSON.stringify(data));
+      localStorage.setItem("registerUser", JSON.stringify(data2));
 
       // Navigate to OTP page
       navigate("/otp");
@@ -214,6 +242,57 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   defaultValue="+63"
                 />
               </Form.Group>
+            </Col>
+            <Col>
+              <ImageUploading
+                multiple
+                value={images}
+                onChange={onChange}
+                maxNumber={maxNumber}
+                dataURLKey="photo"
+              >
+                {({
+                  imageList,
+                  onImageUpload,
+                  onImageRemoveAll,
+                  onImageUpdate,
+                  onImageRemove,
+                  isDragging,
+                  dragProps,
+                }) => (
+                  <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+                    {defaultImg ? (
+                      <img
+                        src={DefaultThumbnail}
+                        className={styles.thumbNail}
+                        style={{ width: "100px" }}
+                      />
+                    ) : (
+                      imageList.map((image, index) => (
+                        <div key={index} className="image-item">
+                          <img src={image.photo} className={styles.thumbNail} />
+                          <div className="image-item__btn-wrapper">
+                            <a
+                              onClick={() => handleRemove(onImageRemove, index)}
+                            >
+                              Remove
+                            </a>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                    <Row className="">
+                      <Col>
+                        <Form.Control
+                          placeholder="Upload Logo"
+                          className={styles.btnUpload}
+                          onClick={() => handleClick(onImageUpload)}
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                )}
+              </ImageUploading>
             </Col>
           </Row>
           {/* Error messages */}

@@ -352,11 +352,11 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         <Form>
           <Row className="">
             <Col>
-              <Form.Control
+              {/* <Form.Control
                 className={styles.searchBar}
                 type="text"
                 placeholder="Search food and description"
-              />
+              /> */}
             </Col>
             {/* <Col>
               <Button
