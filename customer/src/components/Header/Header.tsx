@@ -24,12 +24,16 @@ const Header: React.FC<ContainerProps> = () => {
 
   const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      // Check if there are minimum of 3 characters
-      if (searchTxt.length >= 3) {
-        navigate(`search/${searchTxt}`);
-      } else {
-        alert(constants.form.error.searchMin);
-      }
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    // Check if there are minimum of 3 characters
+    if (searchTxt.length >= 3) {
+      navigate(`search/${searchTxt}`);
+    } else {
+      alert(constants.form.error.searchMin);
     }
   };
 
@@ -90,7 +94,12 @@ const Header: React.FC<ContainerProps> = () => {
                   onChange={(e) => setSearchTxt(e.target.value)}
                   onKeyUp={handleOnKeyUp}
                 />
-                <img src={SearchIcon} alt="" />
+                <img
+                  src={SearchIcon}
+                  alt=""
+                  className={styles.searchIcon}
+                  onClick={handleSearch}
+                />
               </div>
 
               <div className={`lh-1 text-end ${styles.links}`}>
@@ -119,8 +128,19 @@ const Header: React.FC<ContainerProps> = () => {
           >
             <div className="d-flex justify-content-end align-items-center">
               <div className={`flex-fill me-3 ${styles.search}`}>
-                <input className="me-10" type="text" placeholder="Search..." />
-                <img src={SearchIcon} alt="" />
+                <Form.Control
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTxt}
+                  onChange={(e) => setSearchTxt(e.target.value)}
+                  onKeyUp={handleOnKeyUp}
+                />
+                <img
+                  src={SearchIcon}
+                  alt=""
+                  className={styles.searchIcon}
+                  onClick={handleSearch}
+                />
               </div>
 
               <OffcanvasMenu />
