@@ -53,6 +53,18 @@
     }
   }
 
+  .addressInput {
+    width: 100%;
+
+    &:focus {
+      color: #212529;
+      background-color: #fff;
+      border-color: #86b7fe;
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+    }
+  }
+
   button {
     background: #e6b325;
     box-shadow: $FM_BUTTON_SHADOW;
@@ -129,4 +141,9 @@
     line-height: 1.2;
     margin-bottom: 0;
   }
+}
+
+.map {
+  width: 100%;
+  height: 70vh;
 }

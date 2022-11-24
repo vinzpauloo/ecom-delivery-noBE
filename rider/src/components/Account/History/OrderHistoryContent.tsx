@@ -274,7 +274,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     <div className={styles.container}>
       <h3>History</h3>
       <div className={styles.innerContainer}>
-        <Form>
+        {/* <Form>
           <Row className="">
             <Col>
               <Form.Control
@@ -284,7 +284,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               />
             </Col>
           </Row>
-        </Form>
+        </Form> */}
         {forOrderCompleted.map((item, index) => {
           return (
             <div className={styles.item} key={index}>

@@ -7,7 +7,7 @@ export const useValidate = () => {
   const validateFields = async (data) => {
     try {
       // START: Access customer validate API
-      const endpoint = "api/customer/validate";
+      const endpoint = "api/rider/validate";
       const options = {
         headers: {
           "X-Authorization": calculateHash(endpoint, data),

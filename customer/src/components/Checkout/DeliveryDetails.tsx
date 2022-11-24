@@ -6,6 +6,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../hooks/useUser";
 import { useIsAuthenticated } from "react-auth-kit";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 import styles from "./DeliveryDetails.module.scss";
 import constants from "../../utils/constants.json";
@@ -22,7 +35,7 @@ type TCart = {
 interface IFormInputs {
   first_name: string;
   last_name: string;
-  address: string;
+  address?: string;
   mobile: string;
   email: string;
 }
@@ -36,6 +49,14 @@ interface ContainerProps {
   setIsNewAddress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const libraries: (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[] = ["places"];
+
 const schema = yup
   .object({
     first_name: yup
@@ -43,14 +64,55 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-    address: yup.string().required(),
+    // address: yup.string().required(),
     mobile: yup
       .string()
-      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .matches(/^(09|\+639)\d{9}$/, constants.form.error.mobile)
       .required(),
     email: yup.string().email(constants.form.error.email).required(),
   })
   .required();
+
+const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
+
+const PlacesAutocomplete = ({ setAddress }: { setAddress: any }) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  const handleSelect = async (address: any) => {
+    setValue(address, false);
+    setAddress(address);
+    clearSuggestions();
+    console.log(address);
+  };
+
+  return (
+    <Form.Group className="position-relative">
+      <Form.Label>Full Address</Form.Label>
+      <Combobox onSelect={handleSelect}>
+        <ComboboxInput
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={!ready}
+          className={styles.addressInput}
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </Form.Group>
+  );
+};
 
 const DeliveryDetails: React.FC<ContainerProps> = ({
   cart,
@@ -62,6 +124,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 }) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const { getUser } = useUser();
   const {
@@ -73,6 +136,11 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     resolver: yupResolver(schema),
   });
   const isAuthenticated = useIsAuthenticated();
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: API_KEY,
+    libraries: libraries,
+  });
 
   const resetMessages = () => {
     setMessage("");
@@ -88,16 +156,19 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       products: cart,
       first_name: data.first_name,
       last_name: data.last_name,
-      address: isNewAddress ? newAddress : data.address,
+      // address: isNewAddress ? newAddress : data.address,
+      address: isAuthenticated() ? data.address : address,
       email: data.email,
       mobile: data.mobile,
       restaurant_id: restaurantId,
-      note: note,
+      // note: note,
     };
 
-    if (!note || !note.replace(/ /g, "")) {
-      delete order.note;
-    }
+    console.log("onsubmit", order);
+
+    // if (!note || !note.replace(/ /g, "")) {
+    //   delete order.note;
+    // }
 
     console.log("onSubmit", order);
 
@@ -130,6 +201,8 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       handleGetUser();
     }
   }, []);
+
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <div className={styles.container}>
@@ -197,17 +270,22 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
           <Col>
             <Form.Group className="position-relative">
               <Form.Label>Enter Address</Form.Label>
-              <Form.Control
-                type="text"
-                onKeyUp={() => resetMessages()}
-                required
-                {...register("address")}
-                disabled={isAuthenticated()}
-              />
+
+              {isAuthenticated() ? (
+                <Form.Control
+                  type="text"
+                  onKeyUp={() => resetMessages()}
+                  required
+                  {...register("address")}
+                  disabled={isAuthenticated()}
+                />
+              ) : (
+                <PlacesAutocomplete setAddress={setAddress} />
+              )}
             </Form.Group>
           </Col>
           <Col>
-            {isAuthenticated() ? (
+            {/* {isAuthenticated() ? (
               <div
                 className={`d-flex justify-content-center gap-4 ${styles.checkbox}`}
               >
@@ -221,7 +299,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               </div>
             ) : (
               <></>
-            )}
+            )} */}
           </Col>
         </Row>
 
@@ -231,7 +309,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             <div className={styles.errors}>
               <p>{errors.first_name?.message}</p>
               <p>{errors.last_name?.message}</p>
-              <p>{errors.address?.message}</p>
+              {/* <p>{errors.address?.message}</p> */}
               <p>{errors.mobile?.message}</p>
               <p>{errors.email?.message}</p>
             </div>

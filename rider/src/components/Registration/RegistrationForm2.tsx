@@ -20,13 +20,6 @@ import Bike4 from "../../assets/images/bike4.png";
 
 // Setup form schema & validation
 interface IFormInputs {
-  // first_name: string;
-  // last_name: string;
-  // address: string;
-  // mobile: string;
-  // email: string;
-  // password: string;
-  // password_confirmation: string;
   brand: string;
   model: string;
   year: string;
@@ -36,26 +29,6 @@ interface IFormInputs {
 
 const schema = yup
   .object({
-    // first_name: yup
-    //   .string()
-    //   .min(2, constants.form.error.firstNameMin)
-    //   .required(),
-    // last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-    // address: yup.string().required(),
-    // mobile: yup
-    //   .string()
-    //   .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
-    //   .required(),
-    // email: yup.string().email(constants.form.error.email).required(),
-    // password: yup
-    //   .string()
-    //   .min(6, constants.form.error.passwordMin)
-    //   .max(16, constants.form.error.passwordMax)
-    //   .required(),
-    // password_confirmation: yup
-    //   .string()
-    //   .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
-    //   .required(),
     brand: yup.string().required(),
     model: yup.string().required(),
     year: yup.string().required(),
@@ -198,12 +171,12 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             })}
           </div>
 
-          <div className="d-flex justify-content-center align-items-center gap-3 mt-3">
+          {/* <div className="d-flex justify-content-center align-items-center gap-3 mt-3">
             <img src={Bike1} alt="" />
             <img src={Bike2} alt="" />
             <img src={Bike3} alt="" />
             <img src={Bike4} alt="" />
-          </div>
+          </div> */}
         </div>
 
         <div
