@@ -55,8 +55,10 @@ type ForCompletedItem = {
   restaurant_id: string;
   updated_at: string;
   rider_id: string;
+  rider_name: string;
   rider_vehicle_model: string;
   id: string;
+  delivered_at: string;
 };
 
 type ForCanceledItem = {
@@ -77,6 +79,8 @@ type ForCanceledItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: string;
+  delivered_at: string;
+  rider_name: string;
 };
 
 type GetAllOrderItem = {
@@ -195,10 +199,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   <tbody>
                     <tr>
                       <td className={styles.orderId}>{item.id}</td>
-                      <td>{item.created_at}</td>
-                      <td>12:30PM</td>
-                      <td>1:30PM</td>
-                      <td>Aerox-Alexan</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.delivered_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.rider_name}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -248,10 +252,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   <tbody>
                     <tr>
                       <td className={styles.orderId}>{item.id}</td>
-                      <td>{item.created_at}</td>
-                      <td>12:30PM</td>
-                      <td>1:30PM</td>
-                      <td>Aerox-Alexan</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.delivered_at}</td>
+                      <td>{item.rider_name}</td>
                     </tr>
                   </tbody>
                 </Table>
