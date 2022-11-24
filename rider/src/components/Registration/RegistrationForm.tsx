@@ -44,7 +44,7 @@ const schema = yup
     address: yup.string().required(),
     mobile: yup
       .string()
-      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .matches(/^(09|\+639)\d{9}$/, constants.form.error.mobile)
       .required(),
     email: yup.string().email(constants.form.error.email).required(),
     password: yup
@@ -246,8 +246,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <p>{errorEmail}</p>
           <p>{errorMobile}</p>
           <p>{errors.address?.message}</p>
-          {/* <p>{errors.last_name?.message}</p> */}
-          <p>{errors.address?.message}</p>
+          <p>{errors.last_name?.message}</p>
           <p>{errors.mobile?.message}</p>
           <p>{errors.email?.message}</p>
           <p>{errors.password?.message}</p>

@@ -267,7 +267,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
 
-            <Col className="bike-images">
+            {/* <Col className="bike-images">
               <img src={bike1} alt="" />
               <img src={bike2} alt="" />
               <img src={bike3} alt="" />
@@ -276,13 +276,18 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               <div className="px-4 d-none d-lg-block">
                 <Button>Upload</Button>
               </div>
-            </Col>
+            </Col> */}
           </Row>
           <div className="buttons">
-            <Button id="editBtn" onClick={handleInput} className="d-lg-none">
+            {/* <Button id="editBtn" onClick={handleInput} className="d-lg-none">
               Upload
-            </Button>
-            <Button id="saveBtn" type="submit" onClick={saveAlert}>
+            </Button> */}
+            <Button
+              id="saveBtn"
+              type="submit"
+              onClick={saveAlert}
+              className="mt-5"
+            >
               Save
             </Button>
           </div>

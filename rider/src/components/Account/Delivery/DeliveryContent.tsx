@@ -407,10 +407,10 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
         <div className="tableHeader">
           <div className="tableHeader1">
             <h3>For Delivery</h3>
-            <div className="search">
+            {/* <div className="search">
               <input type="text" placeholder="Search order ID" />
               <img src={SearchIcon} alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

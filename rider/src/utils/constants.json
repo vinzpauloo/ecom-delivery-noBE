@@ -11,7 +11,7 @@
       "email": "*Please enter a valid email.",
       "mobile": "*Invalid mobile number.",
       "notNumber": "*Invalid number.",
-      "firstNameMin": "*First name must be at least 6 characters.",
+      "firstNameMin": "*First name must be at least 2 characters.",
       "lastNameMin": "*Last name must be at least 6 characters.",
       "fullNameMin": "*Full name must be at least 6 characters",
       "passwordMin": "*Password must be at least 6 characters.",
