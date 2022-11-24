@@ -8,7 +8,9 @@ export const useCalculateHash = () => {
   const calculateHash = (endpoint, body = {}) => {
     const body2 = { ...body };
     // Remove "photo" key if it exists
-    if (body2 && body2.photo2) delete body.photo2;
+    if (body2 && body2.photo2) delete body2.photo2;
+
+    console.log(body2);
 
     let code = "==";
     code += endpoint;
@@ -16,6 +18,8 @@ export const useCalculateHash = () => {
     code += httpBuildQuery(body2);
     code += "&";
     code += thisKey;
+
+    console.log(code);
 
     return md5(md5(code));
   };
