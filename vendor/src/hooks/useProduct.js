@@ -105,7 +105,7 @@ export const useProduct = () => {
 
     try {
       // START: Delete restaurant product API
-      const endpoint = `api/products/api/products/${id}`;
+      const endpoint = `api/products/${id}`;
       const options = {
         params: data,
         headers: {
