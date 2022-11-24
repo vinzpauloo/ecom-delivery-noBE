@@ -112,7 +112,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         </Row>
       </div>
 
-      <div className={styles.testing}>
+      {/* <div className={styles.testing}>
         <h6 className="mt-4 text-success">
           For testing only.
           <br />
@@ -132,7 +132,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <></>
           )}
         </h6>
-      </div>
+      </div> */}
     </div>
   );
 };

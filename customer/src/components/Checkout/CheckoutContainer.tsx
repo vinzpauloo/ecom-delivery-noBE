@@ -131,9 +131,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row className="mb-4">
-        <Col>
-          <Notes note={note} setNote={setNote} />
-        </Col>
+        <Col>{/* <Notes note={note} setNote={setNote} /> */}</Col>
       </Row>
 
       <Row className={styles.equalHeightColumns}>

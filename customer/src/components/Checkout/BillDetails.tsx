@@ -20,16 +20,16 @@ const BillDetails: React.FC<ContainerProps> = ({
     <div className={styles.container}>
       <div className={styles.innerContainer}>
         <div className={styles.promo}>
-          <Form.Group className="position-relative">
+          {/* <Form.Group className="position-relative">
             <Form.Control
               type="text"
               placeholder="Enter promo code or voucher"
               required
             />
-          </Form.Group>
+          </Form.Group> */}
         </div>
 
-        <h4 className="text-center">Bill Details</h4>
+        <h4 className="text-center mt-3">Bill Details</h4>
 
         <div className={styles.billDetails}>
           <Row className={styles.orderedAmountRow}>
