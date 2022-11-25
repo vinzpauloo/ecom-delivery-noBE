@@ -107,9 +107,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   useEffect(() => {
-    // loadOrder();
-
-    console.log("useEffect");
+    loadOrder();
 
     // console.log(pusher);
     // pusher.connection.bind("error", function (err: any) {
