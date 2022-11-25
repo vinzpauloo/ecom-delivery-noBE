@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
@@ -10,6 +10,7 @@ import statusIsDelivered from "../../../assets/images/delivered.png";
 
 import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../../hooks/useOrders";
+import { useOrder } from "../../../hooks/useOrder";
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
 
 // import Pusher from "pusher-js";
@@ -37,11 +38,22 @@ type TOrder = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder | null>(null);
-  const { getOrdersById, getOrdersByIdGuest } = useOrders();
+  const { getOrdersByIdGuest } = useOrders();
   const isAuthenticated = useIsAuthenticated();
+  const { updateOrder, getOrdersById } = useOrder();
 
+  const navigate = useNavigate();
   // Get the params from the URL
   const { id } = useParams();
+
+  const handleAccept = async (id: any) => {
+    console.log(id);
+    const response = await updateOrder(id, "otw");
+    alert("updated status otw successfully");
+    navigate("/account/orders/:id/otw");
+
+    console.log(response);
+  };
 
   const loadOrder = async () => {
     if (isAuthenticated()) {
@@ -104,7 +116,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <p>Rider on its way</p>
             </div>
             {/* <Link to={`/account/orders/${item.id}/otw`}> */}
-            <Button className={styles.button}>Activate</Button>
+            <Button className={styles.button} onClick={handleAccept}>
+              Activate
+            </Button>
             {/* </Link> */}
           </Col>
           <Col className={styles.delivered}>

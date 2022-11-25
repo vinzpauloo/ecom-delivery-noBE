@@ -219,6 +219,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   }
 
   function CancelledModal(props: any) {
+    const { show, handleClose, handleShow } = props;
     return (
       <Modal
         {...props}

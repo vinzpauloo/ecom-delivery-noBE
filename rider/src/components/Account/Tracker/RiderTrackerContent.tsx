@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row, Button, Container } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 
@@ -76,11 +76,15 @@ const RiderTrackerContent: React.FC<ContainerProps> = ({}) => {
               <Row className={styles.canceledDelivered} xs={2} md={5}>
                 <Col className={styles.orderBtn}>
                   <img src={OrderCancel} />
-                  <Button>Canceled</Button>
+                  <Link to={"/account/order-history"}>
+                    <Button>Canceled</Button>
+                  </Link>
                 </Col>
                 <Col className={styles.orderBtn}>
                   <img src={OrderDelivered} />
-                  <Button>Delivered</Button>
+                  <Link to={`/account/order-history`}>
+                    <Button>Delivered</Button>
+                  </Link>
                 </Col>
               </Row>
             </Col>
@@ -123,8 +127,12 @@ const RiderTrackerContent: React.FC<ContainerProps> = ({}) => {
       </Container>
       <Row>
         <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
-          <a href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes">
-            <img src={WazeIcon} alt="" />
+          <a
+            href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src={WazeIcon} alt="" className={styles.wazeImg} />
           </a>
         </Col>
       </Row>
