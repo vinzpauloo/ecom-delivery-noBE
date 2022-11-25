@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
+import { useOrders } from "../../hooks/useOrders";
 
 import statusIsReceived from "../../assets/images/order-received.png";
 import statusIsPreparing from "../../assets/images/kitchen-prep.png";
@@ -9,7 +10,7 @@ import statusIsOtw from "../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../assets/images/delivered.png";
 
 import styles from "./OrderContent.module.scss";
-import { useOrders } from "../../hooks/useOrders";
+import constants from "../../utils/constants.json";
 
 // import Pusher from "pusher-js";
 // import * as PusherTypes from "pusher-js";
@@ -36,7 +37,7 @@ type TOrder = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder | null>(null);
-  const { getOrdersById, getOrdersByIdGuest } = useOrders();
+  const { getOrdersById, getOrdersByIdGuest, cancelOrderById } = useOrders();
   const isAuthenticated = useIsAuthenticated();
 
   // Get the params from the URL
@@ -56,6 +57,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const response = await getOrdersByIdGuest(id, guestSession);
       console.log("getOrdersByIdGuest response", response);
       setOrder(response);
+    }
+  };
+
+  const handleCancelOrder = async () => {
+    console.log("Cancel order ...", id);
+
+    const response = await cancelOrderById(id);
+    console.log("cancelOrderById response", response);
+
+    if (!response.error) {
+      alert(constants.form.success.cancelOrder);
+    } else {
+      alert(response.error);
     }
   };
 
@@ -89,12 +103,22 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <div className={styles.status}>
               <img src={statusIsReceived} alt="" />
               <p>Order Received</p>
+
+              {order?.order_status === "pending" && (
+                <Button
+                  variant="primary"
+                  className={styles.cancel}
+                  onClick={handleCancelOrder}
+                >
+                  Cancel Order
+                </Button>
+              )}
             </div>
           </Col>
           <Col>
             <div className={styles.status}>
               <img src={statusIsPreparing} alt="" />
-              <p>Kitchen Preparing ...</p>
+              <p>Preparing Order</p>
             </div>
           </Col>
           <Col>

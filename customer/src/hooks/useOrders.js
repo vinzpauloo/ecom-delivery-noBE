@@ -161,11 +161,43 @@ export const useOrders = () => {
     }
   };
 
+  const cancelOrderById = async (id) => {
+    try {
+      // START: Access cancel order by id API
+      const endpoint = `api/orders/${id}/cancel/customer`;
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint),
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios.put(endpoint, {}, options);
+      // END: Access cancel order by id API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
   return {
     createOrder,
     createOrderGuest,
     getOrders,
     getOrdersById,
     getOrdersByIdGuest,
+    cancelOrderById,
   };
 };

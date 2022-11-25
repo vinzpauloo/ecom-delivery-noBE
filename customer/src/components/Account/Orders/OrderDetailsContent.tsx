@@ -20,7 +20,7 @@ const statusImages = {
   preparing: statusIsPreparing,
   otw: statusIsOtw,
   delivered: statusIsDelivered,
-  cancel: statusIsCancel,
+  canceled: statusIsCancel,
 };
 
 type TOrder = {
