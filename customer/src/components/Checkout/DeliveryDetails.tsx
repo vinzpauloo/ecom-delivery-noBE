@@ -122,8 +122,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   isNewAddress,
   setIsNewAddress,
 }) => {
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const { getUser } = useUser();
@@ -142,35 +140,44 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     libraries: libraries,
   });
 
-  const resetMessages = () => {
-    setMessage("");
-    setError("");
-  };
-
   const handleUseNewAddress = () => {
     setIsNewAddress(!isNewAddress);
   };
 
   const onSubmit = async (data: IFormInputs) => {
+    // New address validation for logged in user
+    if (isNewAddress && !newAddress) {
+      alert("Please enter a new address!");
+      return;
+    }
+
+    // Address validation for Guest
+    if (!isAuthenticated() && !address) {
+      alert("Please enter an address!");
+      return;
+    }
+
     let order = {
       products: cart,
       first_name: data.first_name,
       last_name: data.last_name,
-      // address: isNewAddress ? newAddress : data.address,
-      address: isAuthenticated() ? data.address : address,
+      address: isNewAddress
+        ? newAddress
+        : isAuthenticated()
+        ? data.address
+        : address,
       email: data.email,
       mobile: data.mobile,
       restaurant_id: restaurantId,
-      // note: note,
+      note: note,
     };
 
+    // Remove note key if empty/null
+    if (!note || !note.replace(/ /g, "")) {
+      delete order.note;
+    }
+
     console.log("onsubmit", order);
-
-    // if (!note || !note.replace(/ /g, "")) {
-    //   delete order.note;
-    // }
-
-    console.log("onSubmit", order);
 
     // Set order data on local storage
     localStorage.setItem("order", JSON.stringify(order));
@@ -219,7 +226,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               <Form.Label>First name</Form.Label>
               <Form.Control
                 type="text"
-                onKeyUp={() => resetMessages()}
                 required
                 {...register("first_name")}
                 disabled={isAuthenticated()}
@@ -231,7 +237,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               <Form.Label>Last name</Form.Label>
               <Form.Control
                 type="text"
-                onKeyUp={() => resetMessages()}
                 required
                 {...register("last_name")}
                 disabled={isAuthenticated()}
@@ -274,7 +279,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               {isAuthenticated() ? (
                 <Form.Control
                   type="text"
-                  onKeyUp={() => resetMessages()}
                   required
                   {...register("address")}
                   disabled={isAuthenticated()}
@@ -285,7 +289,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             </Form.Group>
           </Col>
           <Col>
-            {/* {isAuthenticated() ? (
+            {isAuthenticated() ? (
               <div
                 className={`d-flex justify-content-center gap-4 ${styles.checkbox}`}
               >
@@ -299,7 +303,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               </div>
             ) : (
               <></>
-            )} */}
+            )}
           </Col>
         </Row>
 
@@ -309,7 +313,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             <div className={styles.errors}>
               <p>{errors.first_name?.message}</p>
               <p>{errors.last_name?.message}</p>
-              {/* <p>{errors.address?.message}</p> */}
               <p>{errors.mobile?.message}</p>
               <p>{errors.email?.message}</p>
             </div>

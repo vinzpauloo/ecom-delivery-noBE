@@ -20,7 +20,7 @@ const statusImages = {
   preparing: statusIsPreparing,
   otw: statusIsOtw,
   delivered: statusIsDelivered,
-  cancel: statusIsCancel,
+  canceled: statusIsCancel,
 };
 
 type TOrder = {
@@ -65,6 +65,12 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     loadOrder();
   }, []);
+
+  const getTotal = (subtotal?: number) => {
+    const deliveryFee = 86;
+    const total = subtotal ? deliveryFee + subtotal : 0;
+    return total.toLocaleString();
+  };
 
   return (
     <div className={styles.container}>
@@ -228,7 +234,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Sub Total :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>1,350 php</p>
+                          <p className={styles.value}>
+                            {order?.total_amount.toLocaleString()} php
+                          </p>
                         </Col>
                       </Row>
                       <Row className="mb-2 mb-sm-3">
@@ -245,7 +253,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col xs={7} sm={8}>
                           <p className={styles.value}>
-                            {order?.total_amount.toLocaleString()} php
+                            {order && getTotal(order.total_amount)} php
                           </p>
                         </Col>
                       </Row>

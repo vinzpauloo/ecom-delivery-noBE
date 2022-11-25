@@ -21,6 +21,7 @@ type TRestaurant = {
 
 type TMenu = {
   id: number;
+  categories: TCategory[];
   name: string;
   description: string;
   price: number;
@@ -36,8 +37,9 @@ type TCategory = {
 
 const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const [restaurant, setRestaurant] = useState<TRestaurant | null>(null);
-  const [menu, setMenu] = useState<TMenu[] | null>(null);
-  const [categories, setCategories] = useState<TCategory[] | null>(null);
+  const [menu, setMenu] = useState<TMenu[]>([]);
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [filter, setFilter] = useState(0);
   const { getRestaurantsById, getRestaurantMenu, getRestaurantCategories } =
     useRestaurants();
 
@@ -64,17 +66,39 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
     setCategories(response);
   };
 
+  const handleFilter = (menu: TMenu[], category: number) => {
+    console.log("handleFilter", category);
+    console.log(menu);
+
+    const filteredMenu = menu.filter((singleMenu) => {
+      return singleMenu.categories[0].id === category;
+    });
+
+    console.log(filteredMenu);
+
+    setMenu(filteredMenu);
+  };
+
   useEffect(() => {
     loadRestaurant();
     loadRestaurantMenu();
     loadRestaurantCategories();
   }, []);
 
+  useEffect(() => {
+    // Filter menu items by category ID
+    // filter && handleFilter(menu, filter);
+  }, [filter]);
+
   return (
     <Container fluid="xxl" className={`${styles.container}`}>
       <Row className={styles.innerContainer}>
         <Col lg={3} className="d-none d-lg-block">
-          <Filters />
+          <Filters
+            categories={categories}
+            filter={filter}
+            setFilter={setFilter}
+          />
         </Col>
         <Col lg={9} className={`p-0 ${styles.bgBrown}`}>
           <Details

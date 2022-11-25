@@ -1,0 +1,187 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+// .title {
+//   color: $FM_TEXT_BROWN;
+//   margin-bottom: 50px;
+
+//   h3 {
+//     font-size: 30px;
+//     line-height: 1;
+//     text-shadow: $FM_TITLE_SHADOW;
+//     text-transform: uppercase;
+//     margin-bottom: 20px;
+//   }
+
+//   p {
+//     font-size: 25px;
+//     line-height: 1;
+//     margin: 0;
+//   }
+
+//   @include devices(md) {
+//     margin-bottom: 40px;
+
+//     h3 {
+//       font-size: 25px;
+//     }
+//     p {
+//       font-size: 18px;
+//     }
+//   }
+// }
+
+// .status {
+//   img {
+//     max-width: 100%;
+//     padding: 0 15px;
+//   }
+
+//   p {
+//     color: #000000;
+//     font-size: 18px;
+//     font-weight: 400;
+//     margin: 30px 0 0;
+//   }
+
+//   @include devices(md) {
+//     p {
+//       font-size: 16px;
+//       margin-top: 20px;
+//     }
+//   }
+
+//   @include devices(sm) {
+//     margin-bottom: 30px;
+
+//     img {
+//       max-width: 50%;
+//     }
+
+//     p {
+//       margin-top: 10px;
+//     }
+//   }
+// }
+
+// .button {
+//   background: #d9d9d9;
+//   border: 0.5px solid rgba(97, 72, 28, 0.5);
+//   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+//   border-radius: 5px;
+//   color: black;
+//   text-transform: uppercase;
+//   margin-top: 10px;
+//   font-weight: 400;
+//   font-size: 15px;
+//   line-height: 15px;
+
+//   &:hover {
+//     background: #61481c !important;
+//   }
+// }
+
+// .delivered {
+//   @include devices(sm) {
+//     margin-top: 30px;
+//   }
+// }
+
+.container {
+  background: #fde9b1;
+  padding: 20px;
+  border: 1px solid black;
+  .title {
+    h3 {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 27px;
+      color: #525252;
+    }
+
+    p {
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 20px;
+
+      span {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .customerDetails {
+    border: 1px solid black;
+    padding: 12px;
+    background: #fff2cf;
+
+    p {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+
+      span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    .canceledDelivered {
+      .orderBtn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 50px;
+        }
+      }
+      button {
+        background: #000000;
+        border: 0.5px solid #61481c;
+        border-radius: 3px;
+        font-weight: 400;
+        font-size: 8px;
+        line-height: 8px;
+        color: #f0bb62;
+        // width: 50%;
+      }
+    }
+  }
+  .orderDetails {
+    padding: 12px;
+    p {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+      span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    ul[title]::before {
+      content: attr(title);
+      /* then add some nice styling as needed, eg: */
+      //   display: block;
+      //   font-weight: bold;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    li {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      list-style-type: none;
+    }
+  }
+  .wazeImg {
+    width: 80px;
+    border-radius: 50%;
+  }
+}

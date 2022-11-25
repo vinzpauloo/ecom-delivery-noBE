@@ -44,10 +44,62 @@
     margin: 30px 0 0;
   }
 
+  .cancel {
+    background-color: #ffffff;
+    border-color: #000000;
+    border-radius: 5px;
+    box-shadow: $FM_BUTTON_SHADOW;
+    color: #000000;
+    font-weight: 500;
+    margin-top: 10px;
+    min-width: 150px;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: #000000;
+      border-color: #000000;
+      color: #ffffff;
+    }
+
+    @include devices(md) {
+      font-size: 14px;
+      min-width: 120px;
+    }
+
+    @include devices(sm) {
+      width: 40%;
+    }
+  }
+
+  .imgContainer {
+    position: relative;
+
+    .altImg {
+      animation: fadeIn 1.5s infinite alternate;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  }
+
   @include devices(md) {
     p {
       font-size: 16px;
       margin-top: 20px;
+    }
+
+    .imgContainer {
+      .altImg {
+        left: 50%;
+        transform: translate(-50%);
+      }
     }
   }
 
@@ -55,7 +107,8 @@
     margin-bottom: 30px;
 
     img {
-      max-width: 50%;
+      // max-width: 50%;
+      max-width: 200px;
     }
 
     p {

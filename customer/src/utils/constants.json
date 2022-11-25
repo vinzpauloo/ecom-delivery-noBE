@@ -20,7 +20,8 @@
       "searchMin": "Search keyword must be at least 3 characters."
     },
     "success": {
-      "updateProfile": "Customer profile updated successfully!"
+      "updateProfile": "Customer profile updated successfully!",
+      "cancelOrder": "Your order has been canceled!"
     }
   },
   "otpCountdown": 300

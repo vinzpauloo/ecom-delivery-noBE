@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
-// import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -342,10 +341,6 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           </Form.Group> */}
 
           <PlacesAutocomplete setAddress={setAddress} />
-          {/* <div> */}
-          {/* <h1>Places autocomplete</h1> */}
-          {/* </div> */}
-
           {/* <Button
             variant="primary"
             className={styles.pin}
@@ -353,14 +348,6 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           >
             Pin my location
           </Button> */}
-
-          {/* <GooglePlacesAutocomplete
-            apiKey={process.env.REACT_APP_GOOGLE_PLACES_API_KEY}
-            selectProps={{
-              value,
-              onChange: setValue,
-            }}
-          /> */}
         </div>
 
         <div

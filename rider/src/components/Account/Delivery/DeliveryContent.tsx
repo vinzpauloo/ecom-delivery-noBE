@@ -54,6 +54,7 @@ type ForDeliveryItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: string;
+  restaurant_photo: string;
 };
 
 type ForCompletedItem = {
@@ -92,6 +93,7 @@ type ForCanceledItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  restaurant_photo: string;
 };
 
 const DeliveryContent: React.FC<ContainerProps> = ({}) => {

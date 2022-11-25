@@ -3,9 +3,23 @@ import { Button, Form } from "react-bootstrap";
 
 import styles from "./Filters.module.scss";
 
-interface ContainerProps {}
+interface ContainerProps {
+  categories: TCategory[];
+  filter: number;
+  setFilter: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const Filters: React.FC<ContainerProps> = ({}) => {
+type TCategory = {
+  id: number;
+  name: string;
+  photo: string;
+};
+
+const Filters: React.FC<ContainerProps> = ({
+  categories,
+  filter,
+  setFilter,
+}) => {
   return (
     <div className={styles.container}>
       <div
@@ -18,9 +32,18 @@ const Filters: React.FC<ContainerProps> = ({}) => {
       <div className={styles.filters}>
         <h3 className="mb-0">Category</h3>
         <div className={styles.filterContent}>
-          <Form.Check type="checkbox" id="veggies" label="Veggies" />
-          <Form.Check type="checkbox" id="non-veggies" label="Non Veggies" />
-          <Form.Check type="checkbox" id="all-meat" label="All Meat" />
+          {categories.map((item, index) => {
+            return (
+              <Form.Check
+                type="checkbox"
+                key={item.id}
+                id={`${item.id}`}
+                label={item.name}
+                onChange={() => setFilter(item.id)}
+                checked={filter === item.id}
+              />
+            );
+          })}
         </div>
       </div>
 
