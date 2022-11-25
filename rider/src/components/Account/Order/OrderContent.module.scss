@@ -1,5 +1,5 @@
-@import "../../theme/_variables.scss";
-@import "../../theme/_mixins.scss";
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
 
 .title {
   color: $FM_TEXT_BROWN;
@@ -61,5 +61,28 @@
     p {
       margin-top: 10px;
     }
+  }
+}
+
+.button {
+  background: #d9d9d9;
+  border: 0.5px solid rgba(97, 72, 28, 0.5);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  color: black;
+  text-transform: uppercase;
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 15px;
+
+  &:hover {
+    background: #61481c !important;
+  }
+}
+
+.delivered {
+  @include devices(sm) {
+    margin-top: 30px;
   }
 }
