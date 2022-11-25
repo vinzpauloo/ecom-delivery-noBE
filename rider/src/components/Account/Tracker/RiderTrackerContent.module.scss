@@ -151,4 +151,37 @@
       }
     }
   }
+  .orderDetails {
+    padding: 12px;
+    p {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+      span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    ul[title]::before {
+      content: attr(title);
+      /* then add some nice styling as needed, eg: */
+      //   display: block;
+      //   font-weight: bold;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    li {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      list-style-type: none;
+    }
+  }
+  img {
+    width: 80px;
+    border-radius: 50%;
+  }
 }

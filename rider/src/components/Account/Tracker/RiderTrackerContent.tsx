@@ -1,11 +1,12 @@
 import React from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Container } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 
 import styles from "./RiderTrackerContent.module.scss";
 
 import OrderCancel from "../../../assets/images/order-cancel.png";
 import OrderDelivered from "../../../assets/images/order-delivered.png";
+import WazeIcon from "../../../assets/images/waze.png";
 
 interface ContainerProps {}
 
@@ -86,16 +87,45 @@ const RiderTrackerContent: React.FC<ContainerProps> = ({}) => {
           </Row>
         </Row>
       </div>
+      <Container className={styles.orderDetails}>
+        <Row>
+          <Col>
+            <p>
+              Order Placed Date: <span>10/14/2022</span>
+            </p>
+          </Col>
+          <Col>
+            <p>
+              Order Placed Time: <span>12:00 PM</span>
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <ul title="Items:">
+            <Row>
+              <Col>
+                <li>3x Ramen noodles</li>
+                <li>
+                  {" "}
+                  2x Milk tea <span>(1 watermelon)</span>
+                  <span>(1 Soya bean)</span>
+                </li>
+                <li> 1x Peking Duck</li>
+              </Col>
+              <Col>
+                <li>145php x3 - 435php</li>
+                <li> 120php x2 - 240php</li>
+                <li> 500php 1x - 500php</li>
+              </Col>
+            </Row>
+          </ul>
+        </Row>
+      </Container>
       <Row>
-        <Col>
-          <p>
-            Order Placed Date: <span>10/14/2022</span>
-          </p>
-        </Col>
-        <Col>
-          <p>
-            Order Placed Time: <span>12:00 PM</span>
-          </p>
+        <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
+          <a href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes">
+            <img src={WazeIcon} alt="" />
+          </a>
         </Col>
       </Row>
     </div>
