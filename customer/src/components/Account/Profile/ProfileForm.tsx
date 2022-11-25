@@ -6,6 +6,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../../hooks/useUser";
 import { useSignIn } from "react-auth-kit";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+import "@reach/combobox/styles.css";
 
 import styles from "./ProfileForm.module.scss";
 import constants from "../../../utils/constants.json";
@@ -14,10 +27,18 @@ import constants from "../../../utils/constants.json";
 interface IFormInputs {
   first_name: string;
   last_name: string;
-  address: string;
+  // address: string;
   mobile: string;
   email: string;
 }
+
+const libraries: (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[] = ["places"];
 
 const schema = yup
   .object({
@@ -26,10 +47,10 @@ const schema = yup
       .min(2, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
-    address: yup.string().required(),
+    // address: yup.string().required(),
     mobile: yup
       .string()
-      .matches(/^\+(?:[0-9] ?){11,12}[0-9]$/, constants.form.error.mobile)
+      .matches(/^(09|\+639)\d{9}$/, constants.form.error.mobile)
       .required(),
     email: yup.string().email(constants.form.error.email).required(),
   })
@@ -37,9 +58,60 @@ const schema = yup
 
 interface ContainerProps {}
 
+const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
+
+const PlacesAutocomplete = ({
+  address,
+  setAddress,
+}: {
+  address: string;
+  setAddress: any;
+}) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  const handleSelect = async (address: any) => {
+    setValue(address, false);
+    setAddress(address);
+    clearSuggestions();
+    console.log(address);
+  };
+
+  return (
+    <Form.Group className="position-relative">
+      <Form.Label>Full Address</Form.Label>
+      <Combobox onSelect={handleSelect}>
+        <ComboboxInput
+          value={address}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setAddress(e.target.value);
+          }}
+          disabled={!ready}
+          className={styles.addressInput}
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </Form.Group>
+  );
+};
+
 const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const { getUser, updateUser } = useUser();
   const signIn = useSignIn();
@@ -57,10 +129,17 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
     setError("");
   };
 
-  const onSubmit = async (data: IFormInputs) => {
-    console.log("Requesting updateUser ...");
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: API_KEY,
+    libraries: libraries,
+  });
 
-    const response = await updateUser(data);
+  const onSubmit = async (data: IFormInputs) => {
+    // Add address to form data
+    const newFormData = { ...data, address: address };
+    console.log("onsubmit", newFormData);
+
+    const response = await updateUser(newFormData);
     console.log("updateUser response", response);
 
     if (!response.error) {
@@ -88,15 +167,18 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
       last_name: response.last_name,
       email: response.email,
       mobile: response.mobile,
-      address: response.address[0]?.address,
+      // address: response.address[0]?.address,
     };
 
     reset(defaultValues);
+    setAddress(response.address[0]?.address);
   };
 
   useEffect(() => {
     handleGetUser();
   }, []);
+
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <>
@@ -171,7 +253,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             <p>{error}</p>
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
-            <p>{errors.address?.message}</p>
+            {/* <p>{errors.address?.message}</p> */}
             <p>{errors.mobile?.message}</p>
             <p>{errors.email?.message}</p>
           </div>
@@ -181,7 +263,9 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Enter Address</h3>
 
-          <Form.Group className="position-relative">
+          <PlacesAutocomplete address={address} setAddress={setAddress} />
+
+          {/* <Form.Group className="position-relative">
             <Form.Label>Full Address</Form.Label>
             <Form.Control
               type="text"
@@ -189,7 +273,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
               required
               {...register("address")}
             />
-          </Form.Group>
+          </Form.Group> */}
         </div>
 
         {/* Success messages */}
@@ -204,7 +288,12 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             Orders
           </Button>
 
-          <Button variant="primary" size="lg" type="submit" disabled={!isValid}>
+          <Button
+            variant="primary"
+            size="lg"
+            type="submit"
+            disabled={!isValid || !address}
+          >
             Save Info
           </Button>
         </div>
