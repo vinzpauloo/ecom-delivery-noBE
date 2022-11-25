@@ -100,9 +100,9 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
     }
   }, [cart]);
 
-  useEffect(() => {
-    setNewAddress("");
-  }, [isNewAddress]);
+  // useEffect(() => {
+  //   setNewAddress("");
+  // }, [isNewAddress]);
 
   return (
     <Container fluid="md" className={styles.container}>
@@ -131,7 +131,9 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row className="mb-4">
-        <Col>{/* <Notes note={note} setNote={setNote} /> */}</Col>
+        <Col>
+          <Notes note={note} setNote={setNote} />
+        </Col>
       </Row>
 
       <Row className={styles.equalHeightColumns}>
