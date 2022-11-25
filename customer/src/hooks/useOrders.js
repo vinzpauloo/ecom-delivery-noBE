@@ -192,6 +192,38 @@ export const useOrders = () => {
     }
   };
 
+  const cancelOrderByIdGuest = async (id, guestSession) => {
+    try {
+      // START: Access cancel order by id (guest) API
+      // Need to update the endpoint for guest cancel order
+      const endpoint = `api/orders/${id}/cancel/customer`;
+      const options = {
+        headers: {
+          "X-Guest-Session": guestSession,
+          "X-Authorization": calculateHash(endpoint),
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios.put(endpoint, {}, options);
+      // END: Access cancel order by id (guest) API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
   return {
     createOrder,
     createOrderGuest,
@@ -199,5 +231,6 @@ export const useOrders = () => {
     getOrdersById,
     getOrdersByIdGuest,
     cancelOrderById,
+    cancelOrderByIdGuest,
   };
 };
