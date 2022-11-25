@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Col, Row, Button } from "react-bootstrap";
+import { useParams, Link } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 
-import statusIsReceived from "../../assets/images/order-received.png";
-import statusIsPreparing from "../../assets/images/kitchen-prep.png";
-import statusIsOtw from "../../assets/images/rider-on-the-way.png";
-import statusIsDelivered from "../../assets/images/delivered.png";
+import statusIsReceived from "../../../assets/images/order-received.png";
+import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
+import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
+import statusIsDelivered from "../../../assets/images/delivered.png";
 
 import styles from "./OrderContent.module.scss";
-import { useOrders } from "../../hooks/useOrders";
+import { useOrders } from "../../../hooks/useOrders";
+import { useRiderOTW } from "../../../hooks/useRiderOTW";
 
 // import Pusher from "pusher-js";
 // import * as PusherTypes from "pusher-js";
@@ -102,17 +103,21 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <img src={statusIsOtw} alt="" />
               <p>Rider on its way</p>
             </div>
+            {/* <Link to={`/account/orders/${item.id}/otw`}> */}
+            <Button className={styles.button}>Activate</Button>
+            {/* </Link> */}
           </Col>
-          <Col>
+          <Col className={styles.delivered}>
             <div className={styles.status}>
               <img src={statusIsDelivered} alt="" />
               <p>Delivered</p>
             </div>
+            <Button className={styles.button}>Activate</Button>
           </Col>
         </Row>
       </div>
 
-      <div className={styles.testing}>
+      {/* <div className={styles.testing}>
         <h6 className="mt-4 text-success">
           For testing only.
           <br />
@@ -132,7 +137,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <></>
           )}
         </h6>
-      </div>
+      </div> */}
     </div>
   );
 };

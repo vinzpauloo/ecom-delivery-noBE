@@ -1,5 +1,5 @@
-@import "../../theme/_variables.scss";
-@import "../../theme/_mixins.scss";
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
 
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);

@@ -1,5 +1,5 @@
 import React from "react";
-import OrderContainer from "../components/Order/OrderContainer";
+import OrderContainer from "../../components/Account/Order/OrderContainer";
 
 type Props = {};
 
