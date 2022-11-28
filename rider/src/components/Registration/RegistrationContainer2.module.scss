@@ -3,22 +3,29 @@
 
 html {
   @media (max-width: 490px) {
-    background-color: #e3d7c2;
+    // background-color: #e3d7c2;
   }
 }
 
-.container {
+.container2 {
   overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
-  padding: 50px 0 !important;
+  padding: 40px 0 !important;
 
   @media (max-width: 768px) {
     background: #e3d7c2;
   }
 
   @include devices(md) {
-    min-height: auto;
+    // min-height: auto;
+    height: 120vh;
     padding: 60px 0;
-    margin-bottom: $FM_FOOTER_HEIGHT;
+    margin-bottom: 0px - $FM_FOOTER_HEIGHT_MD;
+  }
+
+  @include devices(xs) {
+    height: 105vh;
+    padding: 60px 0;
+    margin-bottom: 0px - $FM_FOOTER_HEIGHT_XS;
   }
 }

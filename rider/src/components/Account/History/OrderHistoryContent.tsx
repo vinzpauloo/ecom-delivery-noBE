@@ -202,7 +202,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                       <td className={styles.orderId}>{item.id}</td>
                       <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
                       <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
-                      <td>{item.delivered_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.delivered_at}</td>
                       <td>{item.rider_name}</td>
                     </tr>
                   </tbody>
@@ -394,9 +394,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                       {/* {item.delivered_at
                                         ? getTime(item.delivered_at)
                                         : "Waiting ..."} */}
-                                      {item.delivered_at
-                                        .split(".")[0]
-                                        .slice(0, -3)}
+                                      {item.delivered_at}
                                     </p>
                                   </Col>
                                 </Row>
