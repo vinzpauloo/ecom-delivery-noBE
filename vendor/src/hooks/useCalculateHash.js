@@ -3,21 +3,26 @@ const md5 = require("md5");
 
 /* Get from ENV on production */
 const thisKey = process.env.REACT_APP_API_SECRET_KEY;
+console.log('reading .env "thisKey" =', thisKey);
 
 export const useCalculateHash = () => {
   const calculateHash = (endpoint, body = {}) => {
-    const body2 = { ...body };
+    // Duplicate current body
+    const newBody = { ...body };
+
     // Remove "photo" key if it exists
-    if (body2 && body2.photo2) delete body2.photo2;
+    if (newBody && newBody.photo) delete newBody.photo;
+    if (newBody && newBody.photo2) delete newBody.photo2;
 
     let code = "==";
     code += endpoint;
     code += "?";
-    code += httpBuildQuery(body2);
+    code += httpBuildQuery(newBody);
     code += "&";
     code += thisKey;
 
-    console.log(code);
+    console.log("newBody", newBody);
+    console.log("md5", code);
 
     return md5(md5(code));
   };
