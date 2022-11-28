@@ -71,11 +71,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const { validateFields } = useValidate();
+  const [address, setAddress] = useState("");
   const [currentFile, setCurrentFile] = useState(undefined);
   const [previewImage, setPreviewImage] = useState(undefined);
   const [progress, setProgress] = useState(0);
   const [message, setMessage] = useState("");
   const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [isChecked, setIsChecked] = useState(false);
 
   const [images, setImages] = React.useState<any>();
   const maxNumber = 1;
@@ -103,8 +105,14 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     const data2 = { ...data, photo: images[0].photo };
     console.log("onSubmit", data2);
     console.log(images[0].photo);
+
+    // Add address to form data
+    // const newFormData = { ...data, address: address };
+    // console.log("onsubmit", newFormData);
+
     // Validate fields
     const response = await validateFields(data2);
+    // const response2 = await validateFields(data2);
 
     if (response.errors) {
       // Prepare errors
@@ -256,10 +264,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
         {/* Error messages */}
         <div className={styles.errors}>
-          <p>{errorEmail}</p>
-          <p>{errorMobile}</p>
-          <p>{errors.address?.message}</p>
+          {apiErrors.map((item, index) => {
+            return <p key={index}>{item}</p>;
+          })}
+
+          <p>{errors.first_name?.message}</p>
           <p>{errors.last_name?.message}</p>
+          <p>{errors.address?.message}</p>
           <p>{errors.mobile?.message}</p>
           <p>{errors.email?.message}</p>
           <p>{errors.password?.message}</p>
@@ -268,7 +279,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <p>{errors.license_expiration?.message}</p>
         </div>
 
-        <hr className="d-none d-lg-block" />
+        <hr className="" />
         <ImageUploading
           multiple
           value={images}
@@ -332,11 +343,19 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   </a>
                 </Col>
               </Row> */}
+              {/* <div
+                className={`d-flex align-items-center justify-content-center ${styles.checkbox}`}
+              >
+                <Form.Check
+                  type="checkbox"
+                  id="terms"
+                  label="By continuing, you indicate that you read and agreed to terms of use"
+                  required
+                  onChange={() => setIsChecked(!isChecked)}
+                  checked={isChecked}
+                />
+              </div> */}
               <div className="nextBtn">
-                {/* <Link to="/registration2">
-            
-          </Link> */}
-
                 <Button
                   variant="warning"
                   size="lg"
@@ -345,6 +364,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   id="nextBtn-2"
                   // href="/registration2"
                   // onClick={Continue}
+                  // disabled={!isValid || !address}
                 >
                   Next
                 </Button>

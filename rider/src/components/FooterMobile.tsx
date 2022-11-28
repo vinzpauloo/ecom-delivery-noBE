@@ -9,7 +9,7 @@ import LockIcon from "../assets/images/lock.png";
 
 const FooterMobile = () => {
   return (
-    <footer>
+    <footer className="fixed-bottom">
       <a href="/account">
         <img src={HelmetIcon} alt="" />
       </a>

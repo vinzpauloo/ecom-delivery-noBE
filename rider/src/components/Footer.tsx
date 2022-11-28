@@ -67,7 +67,7 @@ interface ContainerProps {}
 const Footer: React.FC<ContainerProps> = () => {
   return (
     // <footer className={`fixed-bottom ${styles.footer}`}>
-    <footer className={`${styles.footer}`}>
+    <footer className={`${styles.footer} fixed-bottom`}>
       <Container fluid="xxl">
         <Row
           // lg={5}

@@ -10,8 +10,8 @@ const RegistrationContainer2: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <Container fluid="md">
-        <Row className={`${styles.container}`}>
-          <Col lg={{ span: 10, offset: 1 }} xs={12}>
+        <Row className={`${styles.container2}`}>
+          <Col>
             <RegistrationForm />
           </Col>
         </Row>

@@ -179,7 +179,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       is_available: true,
       categories: [parseInt(data.categories)],
       cuisines: [parseInt(data.cuisines)],
-      photo2: images[0].photo,
+      photo: images[0].photo,
     };
 
     console.log("onSubmit", menu);
