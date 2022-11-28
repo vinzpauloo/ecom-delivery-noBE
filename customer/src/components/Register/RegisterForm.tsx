@@ -72,6 +72,8 @@ const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 
 const Map = ({ lat, lng }: { lat: number; lng: number }) => {
   const center = useMemo(() => ({ lat: lat, lng: lng }), []);
+  console.log("Map");
+  console.log(lat, lng);
 
   return (
     <GoogleMap zoom={18} center={center} mapContainerClassName={styles.map}>
@@ -126,7 +128,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   // const [value, setValue] = useState(null);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
-  // const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("");
   const [address, setAddress] = useState("");
 
   const navigate = useNavigate();
@@ -170,59 +172,63 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
     }
   };
 
-  // const handlePinLocation = () => {
-  //   console.log("handlePinLocation ...");
+  const handlePinLocation = () => {
+    console.log("handlePinLocation ...");
 
-  //   if (!navigator.geolocation) {
-  //     setStatus("Geolocation is not supported by your browser");
-  //   } else {
-  //     setStatus("Locating...");
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
 
-  //     navigator.permissions
-  //       .query({
-  //         name: "geolocation",
-  //       })
-  //       .then(function (result) {
-  //         console.log(result.state);
+      navigator.permissions
+        .query({
+          name: "geolocation",
+        })
+        .then(function (result) {
+          console.log(result.state);
 
-  //         if (result.state === "denied") {
-  //           alert(
-  //             "Location access is denied by your browser. Please grant location permission."
-  //           );
-  //         }
+          if (result.state === "denied") {
+            alert(
+              "Location access is denied by your browser. Please grant location permission."
+            );
+          }
 
-  //         if (result.state === "granted") setModalShow(true);
+          // if (result.state === "granted") setModalShow(true);
 
-  //         result.onchange = function () {
-  //           console.log("Result changed!", result);
+          result.onchange = function () {
+            console.log("Result changed!", result);
 
-  //           if (result.state === "denied") {
-  //             alert(
-  //               "Location access is denied by your browser. Please grant location permission."
-  //             );
-  //           }
+            if (result.state === "denied") {
+              alert(
+                "Location access is denied by your browser. Please grant location permission."
+              );
+            }
 
-  //           if (result.state === "granted") setModalShow(true);
-  //         };
-  //       });
+            // if (result.state === "granted") {
+            //   console.log("result.state = granted", "setmodal = true");
+            //   setModalShow(true);
+            // }
+          };
+        });
 
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         console.log("Granted permission to get coordinates");
-  //         console.log("Mapping ...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Granted permission to get coordinates");
+          console.log("Mapping ...");
 
-  //         setStatus("");
-  //         setLat(position.coords.latitude);
-  //         setLng(position.coords.longitude);
+          setStatus("");
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+          setModalShow(true);
 
-  //         // Reverse Geocode
-  //       },
-  //       () => {
-  //         setStatus("Unable to retrieve your location");
-  //       }
-  //     );
-  //   }
-  // };
+          // Reverse Geocode
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
+    }
+  };
 
   if (!isLoaded) return <div>Loading...</div>;
 
@@ -341,13 +347,13 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           </Form.Group> */}
 
           <PlacesAutocomplete setAddress={setAddress} />
-          {/* <Button
+          <Button
             variant="primary"
             className={styles.pin}
             onClick={handlePinLocation}
           >
             Pin my location
-          </Button> */}
+          </Button>
         </div>
 
         <div
