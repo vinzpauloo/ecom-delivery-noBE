@@ -15,7 +15,7 @@ export const useValidate = () => {
       };
 
       const response = await axios.post(endpoint, data, options);
-      // END: Access customer validate API
+      // END: Access rider validate API
 
       if (response.status === 200) {
         console.log(response);

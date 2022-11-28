@@ -24,6 +24,7 @@ type TOrder = {
   order_status: string;
   restaurant_address: string;
   products: [{ name: string; quantity: number }];
+  restaurant_photo: string;
 };
 
 // const sampleOrder: TOrder = {
@@ -201,7 +202,10 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         <p className={`mb-3 ${styles.value}`}>
                           Chan's Restaurant
                         </p>
-                        <img className="img-fluid" src={placeholder} />
+                        <img
+                          className="img-fluid"
+                          src={order?.restaurant_photo}
+                        />
                       </div>
                     </Col>
                   </Row>

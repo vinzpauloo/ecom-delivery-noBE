@@ -3,7 +3,7 @@
 
 html {
   @media (max-width: 490px) {
-    background-color: #e3d7c2;
+    // background-color: #e3d7c2;
   }
 }
 
@@ -17,7 +17,8 @@ html {
   }
 
   @include devices(md) {
-    min-height: auto;
+    // min-height: auto;
+    height: 125vh;
     padding: 60px 0;
     margin-bottom: 0px - $FM_FOOTER_HEIGHT_MD;
   }

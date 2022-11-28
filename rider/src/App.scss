@@ -46,7 +46,7 @@ body {
   }
 
   @include devices(xs) {
-    margin-top: 65px - $FM_HEADER_HEIGHT_XS;
+    margin-top: 50px - $FM_HEADER_HEIGHT_XS;
   }
 }
 
