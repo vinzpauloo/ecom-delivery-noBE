@@ -53,10 +53,7 @@ const schema = yup
     address: yup.string().required(),
     contact_number: yup
       .string()
-      .matches(
-        /^\+(?:[0-9] ?){11,12}[0-9]$/,
-        constants.form.error.contact_number
-      )
+      .matches(/^(09|\+639)\d{9}$/, constants.form.error.mobile)
       .required(),
   })
   .required();
@@ -204,7 +201,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Restaurant Infromations</h3>
+          <h3 className="text-center">Restaurant Informations</h3>
 
           <Row>
             <Col>
