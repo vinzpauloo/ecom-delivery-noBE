@@ -10,6 +10,7 @@ export const useOrder = () => {
     try {
       // START: Access update user API
       const endpoint = `api/orders/${id}/${status}`;
+      console.log(endpoint);
       const options = {
         headers: {
           Authorization: authHeader(),

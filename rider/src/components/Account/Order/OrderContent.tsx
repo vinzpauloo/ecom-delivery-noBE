@@ -24,6 +24,28 @@ import { useRiderOTW } from "../../../hooks/useRiderOTW";
 
 interface ContainerProps {}
 
+type ForDeliveryItem = {
+  created_at: string;
+  customer_id: string;
+  customer_mobile: string;
+  customer_name: string;
+  order_address: string;
+  order_email: string;
+  order_mobile: string;
+  order_status: string;
+  otw_at: string;
+  payment_type: string;
+  plate_number: string;
+  restaurant_name: string;
+  restaurant_id: string;
+  updated_at: string;
+  rider_id: string;
+  rider_vehicle_model: string;
+  id: number;
+  restaurant_address: string;
+  total_amount: number;
+};
+
 type TOrder = {
   id: number;
   created_at: string;
@@ -41,16 +63,31 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const { getOrdersByIdGuest } = useOrders();
   const isAuthenticated = useIsAuthenticated();
   const { updateOrder, getOrdersById } = useOrder();
+  const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
   const navigate = useNavigate();
   // Get the params from the URL
   const { id } = useParams();
 
+  const {
+    getForDelivery,
+    getForDeliveryOTW,
+    getOrderCompleted,
+    getOrderCanceled,
+  } = useRiderOTW();
+
+  const loadOrderForDelivery = async (status: string) => {
+    const params = { status: status };
+    const response = await getForDeliveryOTW(params);
+    console.log("getForDelivery", response);
+    setForDelivery(response.data);
+  };
+
   const handleAccept = async (id: any) => {
     console.log(id);
     const response = await updateOrder(id, "otw");
     alert("updated status otw successfully");
-    navigate("/account/orders/:id/otw");
+    navigate(`/account/orders/${id}/otw`);
 
     console.log(response);
   };
@@ -74,6 +111,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadOrder();
+    loadOrderForDelivery("preparing");
     // console.log(pusher);
 
     // pusher.connection.bind("error", function (err: any) {
@@ -96,41 +134,47 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <h3>Order Tracker</h3>
           <p>Please don't close the page.</p>
         </div>
+        {forDelivery?.map((item, index) => {
+          return (
+            <Row md={4} xs={1} key={index}>
+              <Col>
+                <div className={styles.status}>
+                  <img src={statusIsReceived} alt="" />
+                  <p>Order Received</p>
+                </div>
+              </Col>
+              <Col>
+                <div className={styles.status}>
+                  <img src={statusIsPreparing} alt="" />
+                  <p>Kitchen Preparing ...</p>
+                </div>
+              </Col>
+              <Col>
+                <div className={styles.status}>
+                  <img src={statusIsOtw} alt="" />
+                  <p>Rider on its way</p>
+                </div>
 
-        <Row md={4} xs={1}>
-          <Col>
-            <div className={styles.status}>
-              <img src={statusIsReceived} alt="" />
-              <p>Order Received</p>
-            </div>
-          </Col>
-          <Col>
-            <div className={styles.status}>
-              <img src={statusIsPreparing} alt="" />
-              <p>Kitchen Preparing ...</p>
-            </div>
-          </Col>
-          <Col>
-            <div className={styles.status}>
-              <img src={statusIsOtw} alt="" />
-              <p>Rider on its way</p>
-            </div>
-            {/* <Link to={`/account/orders/${item.id}/otw`}> */}
-            <Button className={styles.button} onClick={handleAccept}>
-              Activate
-            </Button>
-            {/* </Link> */}
-          </Col>
-          <Col className={styles.delivered}>
-            <div className={styles.status}>
-              <img src={statusIsDelivered} alt="" />
-              <p>Delivered</p>
-            </div>
-            <Link to="/account/order-history">
-              <Button className={styles.button}>Activate</Button>
-            </Link>
-          </Col>
-        </Row>
+                <a
+                  type="submit"
+                  onClick={() => handleAccept(item.id)}
+                  className={styles.activateBtn}
+                >
+                  <Link to={`/account/orders/${item.id}/otw`}>Activate</Link>
+                </a>
+              </Col>
+              <Col className={styles.delivered}>
+                <div className={styles.status}>
+                  <img src={statusIsDelivered} alt="" />
+                  <p>Delivered</p>
+                </div>
+                <Link to="/account/order-history">
+                  <Button className={styles.button}>Activate</Button>
+                </Link>
+              </Col>
+            </Row>
+          );
+        })}
       </div>
 
       {/* <div className={styles.testing}>
