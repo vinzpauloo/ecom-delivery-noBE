@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import LogoFooter from "../assets/images/logo-footer.png";
@@ -65,6 +65,7 @@ const socialMedias = [
 interface ContainerProps {}
 
 const Footer: React.FC<ContainerProps> = () => {
+  const location = useLocation();
   return (
     // <footer className={`fixed-bottom ${styles.footer}`}>
     <footer className={`${styles.footer}`}>
@@ -75,53 +76,57 @@ const Footer: React.FC<ContainerProps> = () => {
           xs={1}
           className={`justify-content-center align-items-center ${styles.container}`}
         >
-          <Col className={`d-none d-md-block`}>
-            <div className={styles.logo}>
-              <Link to="/">
-                <img src={LogoFooter} alt="Food Monkey Logo" />
-              </Link>
-            </div>
-          </Col>
+          { location.pathname !== "/" && (
+            <>
+              <Col className={`d-none d-md-block`}>
+                <div className={styles.logo}>
+                  <Link to="/">
+                    <img src={LogoFooter} alt="Food Monkey Logo" />
+                  </Link>
+                </div>
+              </Col>
 
-          <Col className={`d-none d-md-block`}>
-            <div className={styles.location}>
-              <Link
-                to="#"
-                className="d-flex align-items-center justify-content-center text-decoration-none"
-              >
-                <img src={PinDark} alt="Pin" />
-                <p>Panglao, Bohol, Philippines</p>
-              </Link>
-            </div>
-          </Col>
+              <Col className={`d-none d-md-block`}>
+                <div className={styles.location}>
+                  <Link
+                    to="#"
+                    className="d-flex align-items-center justify-content-center text-decoration-none"
+                  >
+                    <img src={PinDark} alt="Pin" />
+                    <p>Panglao, Bohol, Philippines</p>
+                  </Link>
+                </div>
+              </Col>
 
-          {/* <Col>
-            <div className={`d-none d-lg-flex justify-content-center`}>
-              <ul className={styles.navigation}>
-                {links.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <Link to={item.link}>{item.label}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </Col> */}
+              {/* <Col>
+                <div className={`d-none d-lg-flex justify-content-center`}>
+                  <ul className={styles.navigation}>
+                    {links.map((item, index) => {
+                      return (
+                        <li key={index}>
+                          <Link to={item.link}>{item.label}</Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </Col> */}
 
-          <Col className={`d-none d-md-block`}>
-            <Row lg={6} xs="auto" className={styles.socials}>
-              {socialMedias.map((item, index) => {
-                return (
-                  <Col key={index}>
-                    <Link to={item.link}>
-                      <img src={item.image} alt="" />
-                    </Link>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Col>
+              <Col className={`d-none d-md-block`}>
+                <Row lg={6} xs="auto" className={styles.socials}>
+                  {socialMedias.map((item, index) => {
+                    return (
+                      <Col key={index}>
+                        <Link to={item.link}>
+                          <img src={item.image} alt="" />
+                        </Link>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Col>
+            </>
+        )}
 
           <Col>
             <div className="text-center">

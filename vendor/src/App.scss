@@ -42,11 +42,13 @@ body {
   margin-top: $FM_HEADER_HEIGHT;
 
   @include devices(md) {
-    margin-top: $FM_HEADER_HEIGHT_MD;
+    // margin-top: $FM_HEADER_HEIGHT_MD;
+    margin-top: 0;
   }
 
   @include devices(xs) {
-    margin-top: $FM_HEADER_HEIGHT_XS;
+    // margin-top: $FM_HEADER_HEIGHT_XS;
+    margin-top: 0;
   }
 }
 

@@ -2,13 +2,19 @@
 
 .image {
   margin: 0 auto;
-  height: 400px;
+  height: 811px;
+  width: 474px;
 
   @include devices(md) {
-    height: 200px;
+    height: 335px;
+    width: 195px;
+    object-fit: contain;
   }
 
   @include devices(xs) {
-    max-width: 200px;
+    // max-width: 200px;
+    height: 335px;
+    width: 195px;
+    object-fit: contain;
   }
 }
