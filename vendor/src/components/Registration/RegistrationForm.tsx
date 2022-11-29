@@ -99,9 +99,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
+    const data1 = {...data};
     // Validate fields
     const data2 = { ...data, photo: images[0].photo };
-    const response = await validateFields(data2);
+    const response = await validateFields(data1);
 
     if (response.errors) {
       // Prepare errors
