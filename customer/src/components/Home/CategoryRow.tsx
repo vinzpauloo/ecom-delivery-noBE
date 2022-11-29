@@ -66,10 +66,7 @@ const CategoryRow: React.FC<ContainerProps> = ({ title, type, slides }) => {
                 >
                   <div className={styles.slideItem}>
                     <div className={styles.slideImageContainer}>
-                      <img
-                        src={process.env.REACT_APP_BASE_URL + item.photo}
-                        alt=""
-                      />
+                      <img src={item.photo} alt="" />
                     </div>
                     <div className={styles.slideContentContainer}>
                       <p className="mb-0 lh-1">{item.name}</p>
