@@ -102,12 +102,12 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
       ...data,
     };
     console.log(merged);
-    console.log(
-      images[0].photo,
-      images[1].photo,
-      images[2].photo,
-      images[3].photo
-    );
+    // console.log(
+    //   images[0].photo,
+    //   images[1].photo,
+    //   images[2].photo,
+    //   images[3].photo
+    // );
 
     // Add address to form data
     const newFormData = { ...data, address: address };
