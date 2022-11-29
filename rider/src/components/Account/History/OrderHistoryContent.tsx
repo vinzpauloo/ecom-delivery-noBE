@@ -152,7 +152,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     // handleGetForDelivery();
-    loadOrderForDelivery("preparing");
+    loadOrderForDelivery("delivered, canceled");
     // loadOrderForDelivery("pending");
     loadOrderCompleted("delivered");
     loadOrderCanceled("canceled");
@@ -286,7 +286,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
         </Form> */}
-        {forOrderCompleted.map((item, index) => {
+        {forDelivery.map((item, index) => {
           return (
             <div className={styles.item} key={index}>
               <Row>
@@ -394,7 +394,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                       {/* {item.delivered_at
                                         ? getTime(item.delivered_at)
                                         : "Waiting ..."} */}
-                                      {item.delivered_at}
+                                      {item.order_address}
                                     </p>
                                   </Col>
                                 </Row>

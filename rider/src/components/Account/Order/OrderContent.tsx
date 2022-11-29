@@ -47,15 +47,15 @@ type ForDeliveryItem = {
 };
 
 type TOrder = {
-  id: number;
-  created_at: string;
-  customer_id: number;
-  customer_name: string;
-  customer_mobile: string;
-  order_address: string;
-  order_status: string;
-  restaurant_address: string;
-  total_amount: number;
+  id?: number;
+  created_at?: string;
+  customer_id?: number;
+  customer_name?: string;
+  customer_mobile?: string;
+  order_address?: string;
+  order_status?: string;
+  restaurant_address?: string;
+  total_amount?: number;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
