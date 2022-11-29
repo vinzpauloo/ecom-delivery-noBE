@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../hooks/useUser";
+import { useOrders } from "../../hooks/useOrders";
 import { useGoogleAPI } from "../../hooks/useGoogleAPI";
 import { useIsAuthenticated } from "react-auth-kit";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
@@ -20,6 +21,9 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+
+import Lottie from "lottie-react";
+import otpSuccess from "../../assets/otp-success.json";
 
 import styles from "./DeliveryDetails.module.scss";
 import constants from "../../utils/constants.json";
@@ -176,6 +180,10 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   setLng,
 }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [modalSuccessShow, setModalSuccessShow] = useState(false);
+  const [modalErrorShow, setModalErrorShow] = useState(false);
+  const [modalError, setModalError] = useState("");
+  const [orderId, setOrderId] = useState(0);
   // const [lat, setLat] = useState(0);
   // const [lng, setLng] = useState(0);
   const [status, setStatus] = useState("");
@@ -183,6 +191,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   const navigate = useNavigate();
   const { reverseGeocode } = useGoogleAPI();
   const { getUser } = useUser();
+  const { createOrder } = useOrders();
   const {
     reset,
     register,
@@ -244,11 +253,38 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
     console.log("onsubmit", order);
 
-    // Set order data on local storage
-    localStorage.setItem("order", JSON.stringify(order));
+    if (!isAuthenticated()) {
+      // Guest checkout will go to OTP first
 
-    // Navigate to OTP page
-    navigate("/otp-order");
+      // Set order data on local storage
+      localStorage.setItem("order", JSON.stringify(order));
+
+      // Navigate to OTP page
+      navigate("/otp-order");
+    } else {
+      console.log("Checkout authenticated user ...");
+
+      /* Create order as logged in user */
+      const responseOrder = await createOrder(order);
+      console.log("/api/orders", responseOrder);
+
+      if (responseOrder.error) {
+        setModalError(responseOrder.error);
+        setModalErrorShow(true);
+      } else {
+        console.log("Create order success!", responseOrder);
+
+        // Reset localStorage values
+        localStorage.removeItem("checkout");
+        localStorage.removeItem("order");
+
+        // Set new order id
+        setOrderId(responseOrder.id);
+
+        // Show modal after create order
+        setModalSuccessShow(true);
+      }
+    }
   };
 
   // Get user request
@@ -373,6 +409,51 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
           </p>
 
           <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={modalSuccessShow}
+        onHide={() => setModalSuccessShow(false)}
+        onExiting={() => navigate(`/order/${orderId}`)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4 ${styles.lottie}`}>
+            <Lottie animationData={otpSuccess} loop={true} />
+            <p className="mt-4">OTP Verified Successfully</p>
+
+            <Link
+              to={`/order/${orderId}`}
+              className={`d-inline-block mt-2 ${styles.button}`}
+            >
+              Go to Delivery Status
+            </Link>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        show={modalErrorShow}
+        onHide={() => setModalErrorShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4 ${styles.lottie}`}>
+            {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+            <h4 className="mt-4 text-danger">Oops!</h4>
+            <p className="mt-4">{modalError}</p>
+
+            <Link
+              to="#"
+              className={`d-inline-block mt-2 ${styles.button}`}
+              onClick={() => setModalErrorShow(false)}
+            >
+              Close
+            </Link>
+          </div>
         </Modal.Body>
       </Modal>
 
