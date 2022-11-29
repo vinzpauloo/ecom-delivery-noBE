@@ -183,7 +183,12 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     // Add address to form data
-    const newFormData = { ...data, address: address, lat: lat, lng: lng };
+    const newFormData = {
+      ...data,
+      address: address,
+      lat: lat.toString(),
+      lng: lng.toString(),
+    };
     console.log("onsubmit", newFormData);
 
     // Validate fields
