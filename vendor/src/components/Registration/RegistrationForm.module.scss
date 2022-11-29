@@ -34,24 +34,68 @@
 }
 
 .formInnerContainer {
-  background: rgba(198, 174, 133, 0.5);
   border-radius: 15px;
   margin-bottom: 20px;
   padding: 40px;
 
-  .btnUpload {
-    justify-content: center;
-    width: 120px;
-    margin-bottom: 10px;
-    background: #d9d9d9;
-    border-color: #61481c;
-    color: black;
+  .pinBtn{
+    background: #000000;
+    border: 1px solid #E6B325;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 12px;
+    white-space: nowrap;
+    color: #FFFFFF;
     text-align: center;
-    padding-top: 1px;
+    width: 100%;
+  }
+
+  .btnUpload {
+    width: 151px;
+    background: #F0BB62;
+    border: 1px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    height: 32px;
+    &::placeholder{
+      position: relative;
+      top: -2px;
+      font-size: 12px;
+      text-align: center;
+      color: #000000;
+      font-weight: 400;
+      opacity: 1;
+      
+    }
 
     &:hover {
       background-color: #61481c;
-      color: #d9d9d9;
+      cursor: pointer;
+      &::placeholder{
+        color: #FFFFFF;
+      }
+    }
+
+  }
+  @include devices(sm){
+    .restaurantContent{
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      .btnUpload{
+        width: 93px;
+        height: 21px;
+        padding: 2px 0 0;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 10px;
+      }
+    }
+    &:first-child{
+      margin: 0;
     }
   }
 
@@ -59,10 +103,15 @@
     border: 1px solid black;
     border-radius: 4px;
     padding: 1px;
-    width: 125px;
-    height: 80px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+    width: 151px;
+    height: 151px;
+  }
+  .thumbNail2 {
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 1px;
+    width: 151px;
+    height: 127px;
   }
 
   @include devices(md) {
@@ -71,6 +120,12 @@
 
     &:first-child {
       margin-bottom: 40px;
+    }
+  }
+  @include devices(sm){
+    .thumbNail{
+      width: 93px;
+      height: 97px;
     }
   }
 }
@@ -83,6 +138,11 @@
     font-size: 20px;
     line-height: 20px;
     margin-bottom: 30px;
+    @include devices(sm){
+      font-size: 15px;
+      line-height: 15px;
+      margin-bottom: 14px;
+    }
   }
 
   label {
@@ -101,7 +161,21 @@
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     margin-bottom: 20px;
-    padding: 15px 10px 5px;
+    padding: 15px 10px 15px;
+    height: 33px;
+    &::placeholder{
+      position: relative;
+      top: -12px;
+      font-weight: 250;
+      font-size: 10px;
+      line-height: 10px;
+      /* identical to box height */
+
+
+      color: #61481C;
+
+      opacity: 0.5;
+    }
   }
 
   button {
@@ -111,10 +185,22 @@
     border-radius: 5px;
     color: #61481c;
     font-size: 20px;
-    padding: 10px 70px;
+    width: 228px;
+    height: 32px;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: center;
+    color: #61481C;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    padding: 0 0 4px;
+    &::placeholder{
+      color: #000000;
+    }
 
     &:hover {
-      background: #a47e3b;
+      color: #000000;
+      background: #e6b325;
       text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
 
@@ -127,7 +213,14 @@
   .checkbox {
     margin-top: 30px;
     padding: 0 20px;
-
+    input{
+      height: 20px;
+      width: 20px;
+      padding: 0;
+      &:checked{
+        background-color: #2f2f2f;
+      }
+    }
     > div {
       height: 28px;
       line-height: 28px;
@@ -141,6 +234,7 @@
       line-height: 1;
       position: initial;
       margin-left: 10px;
+      font-weight: 300;
     }
   }
 }
