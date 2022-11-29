@@ -12,7 +12,7 @@ export const useCalculateHash = () => {
 
     // Remove "photo" key if it exists
     if (newBody && newBody.photo) delete newBody.photo;
-    if (newBody && newBody.photo2) delete newBody.photo2;
+    if (newBody && newBody.photos) delete newBody.photos;
 
     let code = "==";
     code += endpoint;
