@@ -300,7 +300,9 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         centered
       >
         <Modal.Body className="p-0">
-          <p className="mx-2 my-2 text-center">{address}</p>
+          <p className={`px-2 py-2 mb-0 text-center ${styles.modalAddress}`}>
+            <strong>LOCATION:</strong> {address}
+          </p>
 
           <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
         </Modal.Body>
