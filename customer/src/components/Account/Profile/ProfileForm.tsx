@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect, useMemo } from "react";
+import { Button, Form, Row, Col, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useUser } from "../../../hooks/useUser";
+import { useGoogleAPI } from "../../../hooks/useGoogleAPI";
 import { useSignIn } from "react-auth-kit";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
@@ -60,6 +61,29 @@ interface ContainerProps {}
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 
+const Map = ({
+  lat,
+  lng,
+  mapOnClick,
+}: {
+  lat: number;
+  lng: number;
+  mapOnClick: any;
+}) => {
+  const center = useMemo(() => ({ lat: lat, lng: lng }), [lat, lng]);
+
+  return (
+    <GoogleMap
+      zoom={18}
+      center={center}
+      mapContainerClassName={styles.map}
+      onClick={(e) => mapOnClick(e)}
+    >
+      <Marker position={center} />
+    </GoogleMap>
+  );
+};
+
 const PlacesAutocomplete = ({
   address,
   setAddress,
@@ -111,10 +135,15 @@ const PlacesAutocomplete = ({
 const ProfileForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  const [status, setStatus] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
   const { getUser, updateUser } = useUser();
   const signIn = useSignIn();
+  const { reverseGeocode } = useGoogleAPI();
   const {
     reset,
     register,
@@ -136,7 +165,12 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     // Add address to form data
-    const newFormData = { ...data, address: address };
+    const newFormData = {
+      ...data,
+      address: address,
+      lat: lat.toString(),
+      lng: lng.toString(),
+    };
     console.log("onsubmit", newFormData);
 
     const response = await updateUser(newFormData);
@@ -178,10 +212,108 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
     handleGetUser();
   }, []);
 
+  const handleReverseGeocode = async (lat: number, lng: number) => {
+    console.log("handleReverseGeocode ...");
+
+    const response = await reverseGeocode(lat, lng);
+    console.log(response);
+
+    setAddress(response);
+  };
+
+  const handlePinLocation = () => {
+    console.log("handlePinLocation ...");
+
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+
+      navigator.permissions
+        .query({
+          name: "geolocation",
+        })
+        .then(function (result) {
+          console.log(result.state);
+
+          if (result.state === "denied") {
+            alert(
+              "Location access is denied by your browser. Please grant location permission."
+            );
+          }
+
+          // if (result.state === "granted") setModalShow(true);
+
+          result.onchange = function () {
+            console.log("Result changed!", result);
+
+            if (result.state === "denied") {
+              alert(
+                "Location access is denied by your browser. Please grant location permission."
+              );
+            }
+
+            // if (result.state === "granted") {
+            //   console.log("result.state = granted", "setmodal = true");
+            //   setModalShow(true);
+            // }
+          };
+        });
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Granted permission to get coordinates");
+          console.log("Mapping ...");
+
+          setStatus("");
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+          setModalShow(true);
+
+          // Reverse Geocode
+          handleReverseGeocode(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
+    }
+  };
+
+  const mapOnClick = async (e: any) => {
+    console.log("mapOnClick clicked!");
+    console.log(e);
+
+    setLat(e.latLng.lat());
+    setLng(e.latLng.lng());
+
+    // Reverse Geocode
+    handleReverseGeocode(e.latLng.lat(), e.latLng.lng());
+  };
+
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <>
+      <Modal
+        size="xl"
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body className="p-0">
+          <p className={`px-2 py-2 mb-0 text-center ${styles.modalAddress}`}>
+            <strong>LOCATION:</strong> {address}
+          </p>
+
+          <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+        </Modal.Body>
+      </Modal>
+
       <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {/* Basic details */}
         <div className={`mx-4 mx-md-5 mx-lg-0 ${styles.formInnerContainer}`}>
@@ -265,15 +397,13 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
           <PlacesAutocomplete address={address} setAddress={setAddress} />
 
-          {/* <Form.Group className="position-relative">
-            <Form.Label>Full Address</Form.Label>
-            <Form.Control
-              type="text"
-              onKeyUp={() => resetMessages()}
-              required
-              {...register("address")}
-            />
-          </Form.Group> */}
+          <Button
+            variant="primary"
+            className={styles.pin}
+            onClick={handlePinLocation}
+          >
+            Pin my location
+          </Button>
         </div>
 
         {/* Success messages */}
