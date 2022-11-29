@@ -169,7 +169,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
       ...data,
       address: address,
       lat: lat.toString(),
-      lng: lng.toString(),
+      long: lng.toString(),
     };
     console.log("onsubmit", newFormData);
 
