@@ -17,6 +17,7 @@ import statusIsCancelAlt from "../../assets/images/order-cancel-alt.png";
 
 import styles from "./OrderContent.module.scss";
 import constants from "../../utils/constants.json";
+import RiderFeedback from "./RiderFeedback";
 
 // import Pusher from "pusher-js";
 // import * as PusherTypes from "pusher-js";
@@ -42,6 +43,7 @@ type TOrder = {
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
+  const [modalShow, setModalShow] = useState(false);
   const [order, setOrder] = useState<TOrder>();
   const {
     getOrdersById,
@@ -217,7 +219,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             </div>
           </Col>
         </Row>
+
+        <div className="mt-lg-5 mt-4">
+          <Button
+            variant="primary"
+            className={styles.feedback}
+            onClick={() => setModalShow(true)}
+          >
+            Restaurant Feedback
+          </Button>
+        </div>
       </div>
+
+      <RiderFeedback modalShow={modalShow} setModalShow={setModalShow} />
 
       {/* <div className={styles.testing}>
         <h6 className="mt-4 text-success">

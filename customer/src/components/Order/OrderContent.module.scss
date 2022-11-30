@@ -116,3 +116,23 @@
     }
   }
 }
+
+.feedback {
+  background-color: $FM_BG_GRAY;
+  border: 0.5px solid $FM_TEXT_BROWN;
+  border-radius: 3px;
+  box-shadow: $FM_BUTTON_SHADOW;
+  color: $FM_TEXT_BROWN;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 10px 20px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $FM_TEXT_BROWN !important;
+    border-color: $FM_TEXT_BROWN !important;
+    color: #ffffff !important;
+  }
+}
