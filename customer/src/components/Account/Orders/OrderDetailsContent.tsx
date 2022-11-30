@@ -276,8 +276,14 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                   </Row>
 
-                  <div className={styles.btnBack}>
-                    <Link to="/account/orders">Back</Link>
+                  <div className="d-flex justify-content-between mx-lg-5 mx-md-4">
+                    <div className={styles.btnBlack}>
+                      <Link to={`/order/${order?.id}`}>Check order status</Link>
+                    </div>
+
+                    <div className={styles.btnBlack}>
+                      <Link to="/account/orders">Back</Link>
+                    </div>
                   </div>
                 </div>
               </Col>

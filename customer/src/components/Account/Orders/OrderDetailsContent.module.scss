@@ -25,7 +25,7 @@
 .innerContainer {
   // margin: 30px 0 0;
 
-  .btnBack {
+  .btnBlack {
     text-align: center;
 
     a {
@@ -38,7 +38,7 @@
       line-height: 1;
       text-decoration: none;
       text-transform: uppercase;
-      min-width: 180px;
+      min-width: 190px;
       margin-top: 40px;
       padding: 15px 10px;
       transition: $FM_TRANSITION;
@@ -50,9 +50,10 @@
   }
 
   @include devices(md) {
-    .btnBack {
+    .btnBlack {
       a {
-        min-width: 150px;
+        font-size: 13px;
+        min-width: 170px;
         padding: 10px 5px;
       }
     }
