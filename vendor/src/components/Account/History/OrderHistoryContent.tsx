@@ -9,7 +9,7 @@ import {
   Dropdown,
   Container,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
 
@@ -114,12 +114,14 @@ type GetCanceledItem = {
   restaurant_name: string;
   restaurant_id: string;
   updated_at: string;
+  rider_name: string;
   rider_id: string;
   rider_vehicle_model: string;
   id: number;
 };
 
 const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
+  const navigate = useNavigate();
   const [modalShow1, setModalShow1] = React.useState(false);
   const [modalShow2, setModalShow2] = React.useState(false);
   const { getReceived, getAllOrders, getOrderCompleted, getOrderCanceled } =
@@ -159,12 +161,16 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     setDeliveredItem(response.data);
   };
 
+  const handleClick = (id) => {
+    navigate("completed/"+ id)
+  }
+
   useEffect(() => {
     loadAllOrderItem("pending");
     // loadOrderForDelivery("otw");
     // loadPreparingItem("preparing");
     loadCanceledItem("canceled");
-    loadDeliveredItem("delivered, canceled");
+    loadDeliveredItem("delivered");
   }, []);
 
   function CompletedModal(props: any) {
@@ -175,9 +181,9 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Body className={`${styles.modalBody} p-0`}>
           <Container>
-            <Row>
+            <Row className={styles.modalHeaderContent}>
               <Col className={styles.modalHeader}>Order ID</Col>
               <Col className={styles.modalHeader}>Date</Col>
               <Col className={styles.modalHeader}>Order Placed Time</Col>
@@ -185,10 +191,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               <Col className={styles.modalHeader}>Rider Name</Col>
             </Row>
           </Container>
-        </Modal.Title>
-        <Modal.Body className="p-0">
           {deliveredItem?.map((item, index) => {
-            console.log("modal",item)
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
@@ -196,7 +199,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 fluid
                 key={index}
               >
-                <Row>
+                <Row className={styles.modalRow} onClick={() => handleClick(item.id)}>
                   <Col className={styles.modalHeader}>{item.id}</Col>
                   <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
                   <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
@@ -219,84 +222,35 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton className="px-4">
-          <Modal.Title id="contained-modal-title-vcenter" className="ms-auto">
-            CANCELLED
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="p-0">
+        <Modal.Body className={`${styles.modalBody} p-0`}>
+          <Container>
+              <Row className={styles.modalHeaderContent}>
+                <Col className={styles.modalHeader}>Order ID</Col>
+                <Col className={styles.modalHeader}>Date</Col>
+                <Col className={styles.modalHeader}>Order Placed Time</Col>
+                <Col className={styles.modalHeader}>Time Cancelled</Col>
+                <Col className={styles.modalHeader}>Rider Name</Col>
+              </Row>
+            </Container>
           {canceledItem?.map((item, index) => {
             return (
               <Container
-                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3`}
-                // className="order-delivery-container d-flex flex-column gap-3"
+                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                // className="order-delivery-container d-flex flex-column gap-2"
                 fluid
                 key={index}
               >
-                <Row className="mx-md-3">
-                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>ORDER ID: {item.id}</p>
-                    </div>
-                    <div className={styles.orderItems}>
-                      <ul aria-label="Order Items">
-                        <li>Ramen Noodles(3x)</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Water Melon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Pecking Duck (1x)</li>
-                      </ul>
-                    </div>
-                    <div className={styles.deliveryFee}>
-                      <p>
-                        Delivery Fee <br />
-                        <span>85 php</span>
-                      </p>
-                    </div>
-                    <div className={styles.grandTotal}>
-                      <p>
-                        Grand Total <br />
-                        <span>1,350 php</span>
-                      </p>
-                    </div>
-                  </Col>
-                  <Col xs={8} md={4}>
-                    <div className={styles.customerInfo}>
-                      <li>
-                        Customer Name: <span> {item.customer_name}</span>
-                      </li>
-                      <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
-                      </li>
-                      <li>
-                        Pick up Address :<span> {item.restaurant_name}</span>
-                      </li>
-                      <li>
-                        Delivery Address:
-                        <span> {item.order_address}</span>
-                      </li>
-                      <li>
-                        Order Placed Time: <span> {item.created_at}</span>
-                      </li>
-                      <li>
-                        Order Status: <span> {item.order_status}</span>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                      </li>
-
-                      <div className={styles.declineAccept}>
-                        <a>Decline</a>
-                        <a>Accept</a>
-                      </div>
-                    </div>
-                  </Col>
+                <Row className={styles.modalRow}>
+                  <Col className={styles.modalHeader}>{item.id}</Col>
+                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
+                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>{item.rider_name}</Col>
                 </Row>
               </Container>
             );
           })}
         </Modal.Body>
-        <Modal.Footer>
-          {/* <button onClick={props.onHide}>Close</button> */}
-        </Modal.Footer>
       </Modal>
     );
   }
