@@ -328,9 +328,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <img src={statusIsDelivered} alt="" />
               <p>Delivered</p>
             </div>
-            <Link to="/account/order-history">
+            {/* <Link to="/account/order-history">
               <Button className={styles.button}>Activate</Button>
-            </Link>
+            </Link> */}
           </Col>
         </Row>
         {/* );
