@@ -2,13 +2,20 @@
 @import "../../theme/_mixins.scss";
 
 .form {
+  width: 467px;
+  .header{
+    margin: 0 0 35px 0;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 17px;
+  }
   input {
     background: rgba(198, 174, 133, 0.44);
     border: none;
     border-radius: 15px;
     color: #4f555a;
     font-size: 18px;
-    height: 60px;
+    height: 85px;
     line-height: 1;
     padding-left: 30px;
     padding-right: 60px;
@@ -33,7 +40,7 @@
 
   .icons {
     position: absolute;
-    top: 15px;
+    top: 28px;
     right: 20px;
   }
 
@@ -52,23 +59,31 @@
   }
 
   @include devices(md) {
-    input {
-      border-radius: 5px;
-      font-size: 16px;
-      height: 55px;
-      padding-left: 20px;
-      padding-right: 50px;
+    &{
+      width: 375px;
+      input {
+        border-radius: 5px;
+        font-size: 16px;
+        height: 55px;
+        padding-left: 20px;
+        padding-right: 50px;
+      }
+  
+      button {
+        font-size: 18px;
+        padding: 6px;
+      }
+  
+      .icons {
+        width: 25px;
+        height: 25px;
+        top: 15px;
+      }
     }
-
-    button {
-      font-size: 18px;
-      padding: 6px;
-    }
-
-    .icons {
-      width: 25px;
-      height: 25px;
-      top: 15px;
+  }
+  @include devices(xs){
+    &{
+      width: 305px;
     }
   }
 }

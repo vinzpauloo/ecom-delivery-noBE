@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,9 +17,29 @@ import chef1 from "../../assets/images/chef-1.png";
 import chef2 from "../../assets/images/chef-2.png";
 import chef3 from "../../assets/images/chef-3.png";
 
+import mobileChef1 from "../../assets/images/mobile-chef-1.png"
+import mobileChef2 from "../../assets/images/mobile-chef-2.png"
+import mobileChef3 from "../../assets/images/mobile-chef-3.png"
+
 interface ContainerProps {}
 
 const LoginImage: React.FC<ContainerProps> = ({}) => {
+  const [imgSource, setImgSource] = useState<any>({
+    img1: chef1,
+    img2: chef2,
+    img3: chef3
+  });
+  const mobileSize = window.innerWidth <= 991;
+
+  useEffect(() => {
+    if(mobileSize){
+      setImgSource({
+        img1: mobileChef1,
+        img2: mobileChef2,
+        img3: mobileChef3,
+      })
+    }
+  },[mobileSize])
   return (
     <Swiper
       slidesPerView={1}
@@ -32,13 +52,13 @@ const LoginImage: React.FC<ContainerProps> = ({}) => {
       modules={[Autoplay, EffectFade]}
     >
       <SwiperSlide className="bg-white text-center">
-        <img src={chef1} alt="" className={`img-fluid ${styles.image}`} />
+        <img src={imgSource.img1} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
       <SwiperSlide className="bg-white text-center">
-        <img src={chef2} alt="" className={`img-fluid ${styles.image}`} />
+        <img src={imgSource.img2} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
       <SwiperSlide className="bg-white text-center">
-        <img src={chef3} alt="" className={`img-fluid ${styles.image}`} />
+        <img src={imgSource.img3} alt="" className={`img-fluid ${styles.image}`} />
       </SwiperSlide>
     </Swiper>
     // <img

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
+import { useGoogleAPI } from "../../hooks/useGoogleAPI";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -70,19 +71,40 @@ interface ContainerProps {}
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 
-const Map = ({ lat, lng }: { lat: number; lng: number }) => {
-  const center = useMemo(() => ({ lat: lat, lng: lng }), []);
-  console.log("Map");
-  console.log(lat, lng);
+const Map = ({
+  lat,
+  lng,
+  mapOnClick,
+}: {
+  lat: number;
+  lng: number;
+  mapOnClick: any;
+}) => {
+  const center = useMemo(() => ({ lat: lat, lng: lng }), [lat, lng]);
 
   return (
-    <GoogleMap zoom={18} center={center} mapContainerClassName={styles.map}>
+    <GoogleMap
+      zoom={18}
+      center={center}
+      mapContainerClassName={styles.map}
+      onClick={(e) => mapOnClick(e)}
+    >
       <Marker position={center} />
     </GoogleMap>
   );
 };
 
-const PlacesAutocomplete = ({ setAddress }: { setAddress: any }) => {
+const PlacesAutocomplete = ({
+  address,
+  setAddress,
+  setLat,
+  setLng,
+}: {
+  address: string;
+  setAddress: any;
+  setLat: any;
+  setLng: any;
+}) => {
   const {
     ready,
     value,
@@ -96,7 +118,18 @@ const PlacesAutocomplete = ({ setAddress }: { setAddress: any }) => {
     setAddress(address);
     clearSuggestions();
     console.log(address);
+
+    // Address to Geocode conversion
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setLat(lat);
+    setLng(lng);
   };
+
+  useEffect(() => {
+    setValue(address, false);
+    clearSuggestions();
+  }, [address]);
 
   return (
     <Form.Group className="position-relative">
@@ -133,6 +166,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
   const navigate = useNavigate();
   const { validateFields } = useValidate();
+  const { reverseGeocode } = useGoogleAPI();
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: API_KEY,
@@ -149,7 +183,12 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     // Add address to form data
-    const newFormData = { ...data, address: address };
+    const newFormData = {
+      ...data,
+      address: address,
+      lat: lat.toString(),
+      long: lng.toString(),
+    };
     console.log("onsubmit", newFormData);
 
     // Validate fields
@@ -170,6 +209,15 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
       // Navigate to OTP page
       navigate("/otp");
     }
+  };
+
+  const handleReverseGeocode = async (lat: number, lng: number) => {
+    console.log("handleReverseGeocode ...");
+
+    const response = await reverseGeocode(lat, lng);
+    console.log(response);
+
+    setAddress(response);
   };
 
   const handlePinLocation = () => {
@@ -222,12 +270,27 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           setModalShow(true);
 
           // Reverse Geocode
+          handleReverseGeocode(
+            position.coords.latitude,
+            position.coords.longitude
+          );
         },
         () => {
           setStatus("Unable to retrieve your location");
         }
       );
     }
+  };
+
+  const mapOnClick = async (e: any) => {
+    console.log("mapOnClick clicked!");
+    console.log(e);
+
+    setLat(e.latLng.lat());
+    setLng(e.latLng.lng());
+
+    // Reverse Geocode
+    handleReverseGeocode(e.latLng.lat(), e.latLng.lng());
   };
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -242,10 +305,11 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         centered
       >
         <Modal.Body className="p-0">
-          <p className="mb-0">Latitude: {lat}</p>
-          <p className="mb-0">Longitude: {lng}</p>
+          <p className={`px-2 py-2 mb-0 text-center ${styles.modalAddress}`}>
+            <strong>LOCATION:</strong> {address}
+          </p>
 
-          <Map lat={lat} lng={lng} />
+          <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
         </Modal.Body>
       </Modal>
 
@@ -341,12 +405,12 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         <div className={styles.formInnerContainer}>
           <h3 className="text-center">Enter Address</h3>
 
-          {/* <Form.Group className="position-relative">
-            <Form.Label>Full Address</Form.Label>
-            <Form.Control type="text" required {...register("address")} />
-          </Form.Group> */}
-
-          <PlacesAutocomplete setAddress={setAddress} />
+          <PlacesAutocomplete
+            address={address}
+            setAddress={setAddress}
+            setLat={setLat}
+            setLng={setLng}
+          />
           <Button
             variant="primary"
             className={styles.pin}

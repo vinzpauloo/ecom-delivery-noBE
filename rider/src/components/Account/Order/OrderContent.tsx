@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Container } from "react-bootstrap";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
+
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
+import OrderCancel from "../../../assets/images/order-cancel.png";
+import OrderDelivered from "../../../assets/images/order-delivered.png";
+import WazeIcon from "../../../assets/images/waze.png";
 
 import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../../hooks/useOrders";
@@ -47,23 +53,26 @@ type ForDeliveryItem = {
 };
 
 type TOrder = {
-  id: number;
-  created_at: string;
-  customer_id: number;
-  customer_name: string;
-  customer_mobile: string;
-  order_address: string;
-  order_status: string;
-  restaurant_address: string;
-  total_amount: number;
+  id?: number;
+  created_at?: string;
+  customer_id?: number;
+  customer_name?: string;
+  customer_mobile?: string;
+  order_address?: string;
+  order_status?: string;
+  restaurant_address?: string;
+  total_amount?: number;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder | null>(null);
   const { getOrdersByIdGuest } = useOrders();
   const isAuthenticated = useIsAuthenticated();
-  const { updateOrder, getOrdersById } = useOrder();
+  const { updateOrder, getOrdersById, acceptOrder } = useOrder();
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
+  const [status, setStatus] = useState<ForDeliveryItem>();
+  const [orderData, setOrderData] = useState<any>([]);
+  const [modalShow, setModalShow] = React.useState(false);
 
   const navigate = useNavigate();
   // Get the params from the URL
@@ -83,13 +92,27 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setForDelivery(response.data);
   };
 
-  const handleAccept = async (id: any) => {
+  const handleAccept = async () => {
     console.log(id);
+    setModalShow(true);
     const response = await updateOrder(id, "otw");
     alert("updated status otw successfully");
-    navigate(`/account/orders/${id}/otw`);
+    // navigate(`/account/orders/${id}/otw`);
 
     console.log(response);
+    setOrderData(response);
+  };
+
+  const handleDelivered = async () => {
+    console.log(id);
+    setModalShow(true);
+    const response = await updateOrder(id, "delivered");
+    alert("updated status delivered successfully");
+
+    navigate(`/account/order-history`);
+
+    // console.log(response);
+    // setOrderData(response);
   };
 
   const loadOrder = async () => {
@@ -112,20 +135,151 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     loadOrder();
     loadOrderForDelivery("preparing");
-    // console.log(pusher);
-
-    // pusher.connection.bind("error", function (err: any) {
-    //   if (err.error.data.code === 4004) {
-    //     alert("Over limit!");
-    //     pusher.disconnect();
-    //   }
-    // });
-
-    // const channel = pusher.subscribe("foodmonkey-channel");
-    // channel.bind("ordercheckout-event", function (data: any) {
-    //   console.log(data); //check data
-    // });
   }, []);
+
+  console.log("test", orderData);
+  function OtwModal(props: any) {
+    return (
+      <Modal {...props} size="lg" aria-labelledby="">
+        {/* <Modal.Header closeButton className="px-4">
+          <Modal.Title id="" className="ms-auto">
+            Rider On Its Way
+          </Modal.Title>
+        </Modal.Header> */}
+        <Modal.Body className="p-0">
+          <div className={styles.modal}>
+            <div className={styles.title}>
+              <Row>
+                <Col>
+                  <h3>Order ID: {id}</h3>
+                </Col>
+              </Row>
+              <Row xs={1} md={2}>
+                <Col>
+                  <p>
+                    Restaurant Name <span>{orderData.restaurant_id}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Restaurant Contact <span>{orderData.mobile}</span>
+                  </p>
+                </Col>
+              </Row>
+            </div>
+            <div className={styles.customerDetails}>
+              <Row>
+                <Col>
+                  <p>
+                    Customer Name:{" "}
+                    <span>
+                      {orderData.first_name} {orderData.last_name}
+                    </span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Customer Contact: <span>{orderData.mobile}</span>
+                  </p>
+                </Col>
+                <hr />
+              </Row>
+              <Row>
+                <Col>
+                  <p>
+                    Pick up Address: <span>{orderData.address}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Delivery Address: <span>{orderData.address}</span>
+                  </p>
+                </Col>
+                <hr />
+              </Row>
+              <Row>
+                <Row>
+                  <Col>
+                    <p>
+                      Delivery Fee: <span>80 php</span>
+                    </p>
+                    <p>
+                      Type of Payment: <span>COD (Cash)</span>
+                    </p>
+                  </Col>
+
+                  <Col>
+                    <Row className={styles.canceledDelivered} xs={2} md={5}>
+                      <Col className={styles.orderBtn}>
+                        <img src={OrderCancel} />
+                        <Link to={"/account/order-history"}>
+                          <Button>Canceled</Button>
+                        </Link>
+                      </Col>
+                      <Col className={styles.orderBtn}>
+                        <img src={OrderDelivered} />
+                        <Link to={`/account/order-history`}>
+                          <Button onClick={handleDelivered}>Delivered</Button>
+                        </Link>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Row>
+            </div>
+            <Container className={styles.orderDetails}>
+              <Row>
+                <Col>
+                  <p>
+                    Order Placed Date: <span>{orderData.created_at}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Order Placed Time: <span>{orderData.created_at}</span>
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <ul title="Items:">
+                  <Row>
+                    <Col>
+                      <li>3x Ramen noodles</li>
+                      <li>
+                        {" "}
+                        2x Milk tea <span>(1 watermelon)</span>
+                        <span>(1 Soya bean)</span>
+                      </li>
+                      <li> 1x Peking Duck</li>
+                    </Col>
+                    <Col>
+                      <li>145php x3 - 435php</li>
+                      <li> 120php x2 - 240php</li>
+                      <li> 500php 1x - 500php</li>
+                    </Col>
+                  </Row>
+                </ul>
+              </Row>
+            </Container>
+            <Row>
+              <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
+                <a
+                  href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={WazeIcon} alt="" className={styles.wazeImg} />
+                </a>
+              </Col>
+            </Row>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button onClick={props.onHide}>Close</button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -133,48 +287,54 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         <div className={styles.title}>
           <h3>Order Tracker</h3>
           <p>Please don't close the page.</p>
+          <h4 className="mt-2">Order ID:{id} </h4>
         </div>
-        {forDelivery?.map((item, index) => {
-          return (
-            <Row md={4} xs={1} key={index}>
-              <Col>
-                <div className={styles.status}>
-                  <img src={statusIsReceived} alt="" />
-                  <p>Order Received</p>
-                </div>
-              </Col>
-              <Col>
-                <div className={styles.status}>
-                  <img src={statusIsPreparing} alt="" />
-                  <p>Kitchen Preparing ...</p>
-                </div>
-              </Col>
-              <Col>
-                <div className={styles.status}>
-                  <img src={statusIsOtw} alt="" />
-                  <p>Rider on its way</p>
-                </div>
+        {/* {forDelivery?.map((item, index) => {
+          return ( */}
+        <Row md={4} xs={1}>
+          <Col>
+            <div className={styles.status}>
+              <img src={statusIsReceived} alt="" />
+              <p>Order Received</p>
+            </div>
+            <Button disabled>Activated</Button>
+          </Col>
+          <Col>
+            <div className={styles.status}>
+              <img src={statusIsPreparing} alt="" />
+              <p>Kitchen Preparing ...</p>
+            </div>
+            <Button disabled>Activated</Button>
+          </Col>
+          <Col>
+            <div className={styles.status}>
+              <img src={statusIsOtw} alt="" />
+              <p>Rider on its way</p>
+            </div>
 
-                <a
-                  type="submit"
-                  onClick={() => handleAccept(item.id)}
-                  className={styles.activateBtn}
-                >
-                  <Link to={`/account/orders/${item.id}/otw`}>Activate</Link>
-                </a>
-              </Col>
-              <Col className={styles.delivered}>
-                <div className={styles.status}>
-                  <img src={statusIsDelivered} alt="" />
-                  <p>Delivered</p>
-                </div>
-                <Link to="/account/order-history">
-                  <Button className={styles.button}>Activate</Button>
-                </Link>
-              </Col>
-            </Row>
-          );
-        })}
+            <Button
+              type="submit"
+              onClick={() => handleAccept()}
+              className={styles.activateBtn}
+              // onClick={() => setModalShow(true)}
+            >
+              Activate
+              {/* <Link to={`/account/orders/${item.id}/otw`}>Activate</Link> */}
+            </Button>
+            <OtwModal show={modalShow} onHide={() => setModalShow(false)} />
+          </Col>
+          <Col className={styles.delivered}>
+            <div className={styles.status}>
+              <img src={statusIsDelivered} alt="" />
+              <p>Delivered</p>
+            </div>
+            {/* <Link to="/account/order-history">
+              <Button className={styles.button}>Activate</Button>
+            </Link> */}
+          </Col>
+        </Row>
+        {/* );
+        })} */}
       </div>
 
       {/* <div className={styles.testing}>

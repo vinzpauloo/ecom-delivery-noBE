@@ -99,9 +99,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
+    const data1 = {...data};
     // Validate fields
     const data2 = { ...data, photo: images[0].photo };
-    const response = await validateFields(data2);
+    const response = await validateFields(data1);
 
     if (response.errors) {
       // Prepare errors
@@ -123,7 +124,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     <div>
       <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Get started with FoodMonkey</h3>
+          <h3 className="text-center">Owner Info</h3>
 
           <Row>
             <Col>
@@ -136,8 +137,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-          <Row>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
@@ -161,8 +160,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-          <Row>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
@@ -185,8 +182,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-          <Row>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Control
@@ -201,97 +196,115 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <div className={styles.formInnerContainer}>
-          <h3 className="text-center">Restaurant Informations</h3>
+          <h3 className="text-center">Restaurant Info</h3>
 
-          <Row>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Control
-                  type="text"
-                  placeholder="Restaurant Name"
-                  required
-                  {...register("name")}
-                />
-              </Form.Group>
+          <Row className={styles.restaurantContent}>
+            <Col className="col-md-9">
+              <Row>
+                <Col className="col-lg-9 col-md-8 pe-1">
+                  <Form.Group className="position-relative">
+                    <Form.Control
+                      type="text"
+                      placeholder="Restaurant Name"
+                      required
+                      {...register("name")}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col className="col-lg-3 col-md-4 ps-1">
+                  <Button className={styles.pinBtn}>PIN MY RESTAURANT</Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="position-relative">
+                    <Form.Control
+                      type="text"
+                      placeholder="Address"
+                      required
+                      {...register("address")}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="position-relative">
+                    <Form.Control
+                      type="text"
+                      placeholder="Contact Number (+639xxxxxxxxx)"
+                      required
+                      {...register("contact_number")}
+                      defaultValue="+63"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group className="position-relative">
+                    <Form.Control
+                      type="text"
+                      placeholder="Email Address"
+                      required
+                      // {...register("contact_number")}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
             </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Control
-                  type="text"
-                  placeholder="Full Address"
-                  required
-                  {...register("address")}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Control
-                  type="text"
-                  placeholder="Contact Number (+639xxxxxxxxx)"
-                  required
-                  {...register("contact_number")}
-                  defaultValue="+63"
-                />
-              </Form.Group>
-            </Col>
-            <Col>
-              <ImageUploading
-                multiple
-                value={images}
-                onChange={onChange}
-                maxNumber={maxNumber}
-                dataURLKey="photo"
-              >
-                {({
-                  imageList,
-                  onImageUpload,
-                  onImageRemoveAll,
-                  onImageUpdate,
-                  onImageRemove,
-                  isDragging,
-                  dragProps,
-                }) => (
-                  <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-                    {defaultImg ? (
-                      <img
-                        src={DefaultThumbnail}
-                        className={styles.thumbNail}
-                        style={{ width: "100px" }}
-                      />
-                    ) : (
-                      imageList.map((image, index) => (
-                        <div key={index} className="image-item">
-                          <img src={image.photo} className={styles.thumbNail} />
-                          <div className="image-item__btn-wrapper">
-                            <a
-                              onClick={() => handleRemove(onImageRemove, index)}
-                            >
-                              Remove
-                            </a>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                    <Row className="">
-                      <Col>
-                        <Form.Control
-                          placeholder="Upload Logo"
-                          className={styles.btnUpload}
-                          onClick={() => handleClick(onImageUpload)}
+            <Col className="col-md-3">
+                <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="photo"
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                  }) => (
+                    <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+                      {defaultImg ? (
+                        <img
+                          src={DefaultThumbnail}
+                          className={styles.thumbNail}
                         />
-                      </Col>
-                    </Row>
-                  </div>
-                )}
-              </ImageUploading>
+                      ) : (
+                        imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <img src={image.photo} className={styles.thumbNail2} />
+                            <div className="image-item__btn-wrapper">
+                              <a
+                                onClick={() => handleRemove(onImageRemove, index)}
+                              >
+                                Remove
+                              </a>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                      <Row className="">
+                        <Col>
+                          <Form.Control
+                            placeholder="Upload Logo"
+                            className={styles.btnUpload}
+                            onClick={() => handleClick(onImageUpload)}
+                          />
+                        </Col>
+                      </Row>
+                    </div>
+                  )}
+                </ImageUploading>
             </Col>
           </Row>
+          
           {/* Error messages */}
           <div className={styles.errors}>
             {apiErrors.map((item, index) => {
@@ -327,7 +340,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           variant="primary"
           size="lg"
           type="submit"
-          className="mt-4"
+          className={`mt-4 ${styles.createBtn}`}
           disabled={!isDirty || !isChecked}
         >
           Create Account

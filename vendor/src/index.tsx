@@ -12,6 +12,8 @@ import Order from "./pages/Account/Order";
 import Status from "./pages/Account/Status";
 import OrderInformation from "./pages/Account/OrderInformation";
 import History from "./pages/Account/History";
+import HistoryStatusCompleted from "./pages/Account/HistoryStatusCompleted"
+import HistoryStatusCancelled from "./pages/Account/HistoryStatusCancelled";
 import OrderDetails from "./pages/Account/OrderDetails";
 import ResetPassword from "./pages/Account/ResetPassword";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -45,6 +47,8 @@ root.render(
               <Route path="my-restaurant-menu" element={<Product />} />
               <Route path="order-history" element={<History />} />
               <Route path="order-history/:id" element={<OrderDetails />} />
+              <Route path="order-history/completed/:id" element={<HistoryStatusCompleted />} />
+              <Route path="order-history/cancelled/:id" element={<HistoryStatusCancelled />} />
               <Route path="reset-password" element={<ResetPassword />} />
             </Route>
           </Route>

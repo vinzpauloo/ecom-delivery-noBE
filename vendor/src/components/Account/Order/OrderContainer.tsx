@@ -11,12 +11,12 @@ const OrderContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4} className={styles.mobileNav}>
+        <Col lg={4} className="d-none d-lg-block">
           <div className={styles.navigationContainer}>
             <NavigationContainer />
           </div>
         </Col>
-        <Col lg={8}>
+        <Col lg={8} className={styles.bg}>
           <div className={styles.contentContainer}>
             <OrderContent />
           </div>

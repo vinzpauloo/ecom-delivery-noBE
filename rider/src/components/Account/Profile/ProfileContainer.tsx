@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import styles from "./ProfileContainer.module.scss";
@@ -7,7 +7,25 @@ import ProfileContent from "./ProfileContent";
 
 interface ContainerProps {}
 
+type TRider = {
+  user: string;
+  photo: string;
+  photos: string;
+};
+
+type TBike = {
+  photos: string;
+  photo: string;
+};
+
+type TTest = {
+  photo: string;
+};
+
 const ProfileContainer: React.FC<ContainerProps> = ({}) => {
+  const [user, setUser] = useState<TRider | null>(null);
+  const [photos, setPhotos] = useState<TBike[]>([]);
+  const [photo, setPhoto] = useState<TTest | null>(null);
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
@@ -18,7 +36,7 @@ const ProfileContainer: React.FC<ContainerProps> = ({}) => {
         </Col>
         <Col lg={8} className="">
           <div className={styles.contentContainer}>
-            <ProfileContent />
+            <ProfileContent user={user} photos={photos} photo={photo} />
           </div>
         </Col>
       </Row>

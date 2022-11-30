@@ -18,6 +18,7 @@ import GetHash from "./pages/GetHash";
 import Order from "./pages/Order";
 import OrderDetails from "./pages/OrderDetails";
 import Search from "./pages/Search";
+import OrderFeedback from "./pages/OrderFeedback";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -49,7 +50,10 @@ root.render(
             </Route>
 
             <Route path="checkout" element={<Checkout />} />
-            <Route path="order/:id" element={<Order />} />
+            <Route path="order/:id">
+              <Route index element={<Order />} />
+              <Route path="feedback" element={<OrderFeedback />} />
+            </Route>
 
             {/* Account dashboard routes */}
             <Route path="account">

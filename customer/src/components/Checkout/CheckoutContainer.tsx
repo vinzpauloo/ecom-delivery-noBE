@@ -41,6 +41,8 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [deliveryFee, setDeliveryFee] = useState(86);
   const [newAddress, setNewAddress] = useState("");
   const [isNewAddress, setIsNewAddress] = useState(false);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [note, setNote] = useState("");
   const [localStorageObj, setLocalStorageObj] = useState<TCheckout>();
   const navigate = useNavigate();
@@ -115,6 +117,10 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
             newAddress={newAddress}
             isNewAddress={isNewAddress}
             setIsNewAddress={setIsNewAddress}
+            lat={lat}
+            lng={lng}
+            setLat={setLat}
+            setLng={setLng}
           />
         </Col>
       </Row>
@@ -126,6 +132,10 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
             setNewAddress={setNewAddress}
             isNewAddress={isNewAddress}
             setIsNewAddress={setIsNewAddress}
+            lat={lat}
+            lng={lng}
+            setLat={setLat}
+            setLng={setLng}
           />
         </Col>
       </Row>

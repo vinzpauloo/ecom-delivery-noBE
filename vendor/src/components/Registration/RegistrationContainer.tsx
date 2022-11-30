@@ -10,6 +10,11 @@ const RegistrationContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <>
       <Container fluid="md">
+        <Row className={styles.registerHeader}>
+          <h4>
+            Welcome to FOODMONKEY Restaurant Owners
+          </h4>
+          </Row>
         <Row className={`${styles.container}`}>
           <Col lg={{ span: 10, offset: 1 }} xs={12}>
             <RegistrationForm />

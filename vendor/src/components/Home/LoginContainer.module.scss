@@ -7,9 +7,19 @@
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 0;
   }
 
   @include devices(xs) {
     min-height: calc(100vh - $FM_HEADER_BASIC_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    padding: 0;
+  }
+  .loginFormLeftContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include devices(sm){
+      margin: 15px 0 0 0;
+    }
   }
 }

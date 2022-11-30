@@ -58,19 +58,24 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
     setDisabled(!disabled);
   };
 
-  const [images, setImages] = React.useState<any>();
-  const maxNumber = 1;
+  const [images, setImages] = React.useState<any>([]);
+  const maxNumber = 4;
 
   const [defaultImg, setDefaultImg] = useState(true);
 
-  const onChange = (
-    imageList: ImageListType,
-    addUpdateIndex: number[] | undefined
-  ) => {
-    // data for submit
+  const onChange = (imageList: any, addUpdateIndex: any) => {
+    setImages(imageList);
     console.log(imageList, addUpdateIndex);
-    setImages(imageList as never[]);
   };
+
+  // const onChange = (
+  //   imageList: ImageListType,
+  //   addUpdateIndex: number[] | undefined
+  // ) => {
+  //   // data for submit
+  //   console.log(imageList, addUpdateIndex);
+  //   setImages(imageList as never[]);
+  // };
 
   const {
     register,
@@ -82,15 +87,34 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     let items = JSON.parse(localStorage.getItem("oldRegisterUser") || "");
-    const merged = { ...items, ...data };
+    const merged = {
+      ...items,
+      ...data,
+      photos: [
+        images[0].photo,
+        images[1].photo,
+        images[2].photo,
+        images[3].photo,
+      ],
+    };
+    const merged1 = {
+      ...items,
+      ...data,
+    };
     console.log(merged);
+    // console.log(
+    //   images[0].photo,
+    //   images[1].photo,
+    //   images[2].photo,
+    //   images[3].photo
+    // );
 
     // Add address to form data
     const newFormData = { ...data, address: address };
     console.log("onsubmit", newFormData);
 
     // Validate fields
-    const response = await validateFields(merged);
+    const response = await validateFields(merged1);
     console.log(response);
 
     if (response.errors) {
@@ -115,8 +139,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
     onImageUpload();
   };
 
-  const handleRemove = (onImageRemove: any, index: any) => {
-    onImageRemove(index);
+  const handleRemove = (onImageRemove: any) => {
+    onImageRemove();
     setDefaultImg((prev) => !prev);
   };
   return (
@@ -214,17 +238,65 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             <p>{errors.or_number?.message}</p>
             <p>{errors.plate_number?.message}</p>
           </div>
+          <ImageUploading
+            multiple
+            value={images}
+            onChange={onChange}
+            maxNumber={maxNumber}
+            dataURLKey="photo"
+          >
+            {({
+              imageList,
+              onImageUpload,
+              onImageRemoveAll,
+              onImageUpdate,
+              onImageRemove,
+              isDragging,
+              dragProps,
+            }) => (
+              <div>
+                <div className="d-flex justify-content-center align-items-center gap-3 mt-5">
+                  {defaultImg ? (
+                    <div className="d-flex justify-content-center align-items-center gap-3">
+                      <img src={Bike1} />
+                      <img src={Bike2} />
+                      <img src={Bike3} />
+                      <img src={Bike4} />
+                    </div>
+                  ) : (
+                    imageList.map((image, index) => (
+                      <div key={index} className="image-item">
+                        <img
+                          src={image.photo}
+                          className={``}
+                          style={{ width: "80px", height: "80px" }}
+                        />
+                      </div>
+                    ))
+                  )}
+                </div>
 
-          <div className="d-flex justify-content-center align-items-center gap-3 mt-5">
-            <img src={Bike1} alt="" />
-            <img src={Bike2} alt="" />
-            <img src={Bike3} alt="" />
-            <img src={Bike4} alt="" />
-          </div>
+                {images.length > 0 && (
+                  <>
+                    <div className="">
+                      <a onClick={() => handleRemove(onImageRemoveAll)}>
+                        Remove Images
+                      </a>
+                    </div>
+                  </>
+                )}
 
-          <div className={styles.uploadContainer}>
-            <Button className={`mt-5 ${styles.upload}`}>Upload</Button>
-          </div>
+                <div className={styles.uploadContainer}>
+                  <Button
+                    className={`mt-5 ${styles.upload}`}
+                    onClick={() => handleClick(onImageUpload)}
+                  >
+                    Upload
+                  </Button>
+                </div>
+              </div>
+            )}
+          </ImageUploading>
         </div>
 
         <div

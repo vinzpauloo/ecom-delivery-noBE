@@ -19,7 +19,10 @@ import { CSSTransition } from "react-transition-group";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
+import { useOrder } from "../../../hooks/useOrder";
+
 import constants from "../../../utils/constants.json";
 
 import "./DeliveryContent.scss";
@@ -50,11 +53,13 @@ type ForDeliveryItem = {
   plate_number: string;
   restaurant_name: string;
   restaurant_id: string;
+  restaurant_photo: string;
+  restaurant_address: string;
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
   id: string;
-  restaurant_photo: string;
+  total_amount: string;
 };
 
 type ForCompletedItem = {
@@ -89,6 +94,7 @@ type ForCanceledItem = {
   payment_type: string;
   plate_number: string;
   restaurant_name: string;
+  restaurant_address: string;
   restaurant_id: string;
   updated_at: string;
   rider_id: string;
@@ -106,8 +112,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const [modalShow, setModalShow] = React.useState(false);
-  const [modalShow1, setModalShow1] = React.useState(false);
-  const [modalShow2, setModalShow2] = React.useState(false);
+
+  const { updateOrder, getOrdersById, acceptOrder } = useOrder();
 
   const [open, setOpen] = useState(false);
   const [isShown, setIsShown] = useState(true);
@@ -129,7 +135,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     getOrderCanceled,
   } = useRiderOTW();
 
-  const { otw } = useParams();
+  const { id } = useParams();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
 
@@ -142,21 +148,21 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   );
 
   //Original
-  const loadOrderForDelivery = async (status: string) => {
-    const params = { status: status };
-    const response = await getForDeliveryOTW(params);
-    console.log("getForDelivery", response);
-    setForDelivery(response.data);
-  };
-
-  //Temporary
   // const loadOrderForDelivery = async (status: string) => {
-  //   const params = { paginate: 49, status: status };
+  //   const params = { status: status };
   //   const response = await getForDeliveryOTW(params);
   //   console.log("getForDelivery", response);
   //   setForDelivery(response.data);
-  //   console.log(response.data);
   // };
+
+  //with Paginate
+  const loadOrderForDelivery = async (status: string) => {
+    const params = { paginate: 49, status: status };
+    const response = await getForDeliveryOTW(params);
+    console.log("getForDelivery", response);
+    setForDelivery(response.data);
+    console.log(response.data);
+  };
 
   const loadOrderCompleted = async (status: string) => {
     const params = { status: status };
@@ -172,11 +178,21 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     setForOrderCanceled(response.data);
   };
 
+  const handleAccept = async (id: string) => {
+    console.log(id);
+    const response = await acceptOrder(id, "");
+    alert("You are now the rider for this order.");
+    // navigate(`/account/orders/${id}/otw`);
+
+    navigate(`/account/for-delivery/order/${id}`);
+    console.log(response);
+  };
+
   useEffect(() => {
     // handleGetForDelivery();
     loadOrderForDelivery("preparing");
     // loadOrderForDelivery("pending");
-    loadOrderCompleted("delivered");
+    loadOrderCompleted("delivered, canceled");
     loadOrderCanceled("canceled");
   }, []);
 
@@ -409,10 +425,10 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
         <div className="tableHeader">
           <div className="tableHeader1">
             <h3>For Delivery</h3>
-            {/* <div className="search">
+            <div className="search">
               <input type="text" placeholder="Search order ID" />
               <img src={SearchIcon} alt="" />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
@@ -440,36 +456,31 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                     <Col>
                       <p>
-                        Contact Number: <span>0917 123 4567 {item.id} </span>
+                        Contact Number: <span>{item.customer_mobile}</span>
                       </p>
                     </Col>
                   </Row>
                   <Row>
                     <p>
                       Pick-up address:
-                      <span>
-                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                      </span>
+                      <span> {item.restaurant_address}</span>
                     </p>
                   </Row>
                   <Row>
                     <p>
                       Delivery Address:
-                      <span>
-                        4117 41st Floor., GT Tower Intl., De La Costa, Makati
-                        City
-                      </span>
+                      <span> {item.order_address}</span>
                     </p>
                   </Row>
                   <Row>
                     <Col>
                       <p>
-                        Order Placed Time: <span>01:30 pm</span>
+                        Order Placed Time: <span>{item.created_at}</span>
                       </p>
                     </Col>
                     <Col>
                       <p>
-                        Order Delivered Time: <span>01:30 pm</span>
+                        Order Delivered Time: <span></span>
                       </p>
                     </Col>
                   </Row>
@@ -487,7 +498,9 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                     <Col>
                       <div className="resto">
-                        <p>Chan's Restaurant</p>
+                        <p style={{ fontWeight: "600" }}>
+                          {item.restaurant_name}
+                        </p>
                         <img src={RestoIcon} alt="resto" />
                       </div>
                     </Col>
@@ -496,28 +509,30 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Row>
                     <Col>
                       <p>
-                        Sub Total: <span>1,350 php</span>
+                        Sub Total: <span></span>
                       </p>
                       <p>
-                        Delivery Fee: <span>85 php</span>
+                        Delivery Fee: <span></span>
                       </p>
                       <p>
-                        Total: <span>1,435 php</span>
+                        Total: <span> ₱{item.total_amount}.00</span>
                       </p>
                     </Col>
                     <Col>
                       <div className="status">
                         <p>Order Status</p>
                         <img src={OrderReceivedIcon} />
-                        <span>Order Received</span>
+                        <span>{item.order_status} </span>
                       </div>
                     </Col>
                   </Row>
                   <div className="declineAccept">
                     {/* <button>Decline</button> */}
-                    <Link to={`/account/for-delivery/order/${item.id}`}>
-                      <button>Accept</button>
-                    </Link>
+                    {/* <Link to={`/account/for-delivery/order/${item.id}`}>                    
+                    </Link> */}
+                    <button onClick={() => handleAccept(item.id)}>
+                      Accept
+                    </button>
                   </div>
                 </div>
               </Accordion.Body>
@@ -536,35 +551,31 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   </Col>
                   <Col>
                     <p>
-                      Contact Number: <span>0917 123 4567</span>
+                      Contact Number: <span>{item.customer_mobile}</span>
                     </p>
                   </Col>
                 </Row>
                 <Row>
                   <p>
                     Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
+                    <span> {item.restaurant_address}</span>
                   </p>
                 </Row>
                 <Row>
                   <p>
                     Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
+                    <span> {item.order_address}</span>
                   </p>
                 </Row>
                 <Row>
                   <Col>
                     <p>
-                      Order Placed Time: <span>01:30 pm</span>
+                      Order Placed Time: <span>{item.created_at}</span>
                     </p>
                   </Col>
                   <Col>
                     <p>
-                      Order Delivered Time: <span>01:30 pm</span>
+                      Order Delivered Time: <span></span>
                     </p>
                   </Col>
                 </Row>
@@ -578,40 +589,36 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 <Row className="p-1">
                   <Col>
                     <p>
-                      Customer Name: <span>Brandon Boyd</span>
+                      Customer Name: <span>{item.customer_name}</span>
                     </p>
                   </Col>
                   <Col>
                     <p>
-                      Contact Number: <span>0917 123 4567</span>
+                      Contact Number: <span>{item.customer_mobile}</span>
                     </p>
                   </Col>
                 </Row>
                 <Row className="p-1">
                   <p>
                     Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
+                    <span> {item.restaurant_address}</span>
                   </p>
                 </Row>
                 <Row className="p-1">
                   <p>
                     Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
+                    <span> {item.order_address}</span>
                   </p>
                 </Row>
                 <Row className="p-1">
                   <Col>
                     <p>
-                      Order Placed Time: <span>01:30 pm</span>
+                      Order Placed Time: <span>{item.created_at}</span>
                     </p>
                   </Col>
                   <Col>
                     <p>
-                      Order Delivered Time: <span>01:30 pm</span>
+                      Order Delivered Time: <span></span>
                     </p>
                   </Col>
 

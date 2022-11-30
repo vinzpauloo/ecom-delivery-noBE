@@ -147,3 +147,13 @@
   width: 100%;
   height: 70vh;
 }
+
+.modalAddress {
+  background-color: $FM_TEXT_BROWN;
+  color: #ffffff;
+  font-size: 14px;
+
+  strong {
+    font-weight: 500;
+  }
+}

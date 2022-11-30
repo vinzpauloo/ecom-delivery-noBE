@@ -78,6 +78,21 @@
     }
   }
 
+  button.pin {
+    background: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 5px;
+    padding: 6px 30px;
+    text-transform: uppercase;
+
+    &:hover {
+      border-color: $FM_BG_YELLOW;
+    }
+  }
+
   .checkbox {
     margin-top: 10px;
 
@@ -106,6 +121,41 @@
   }
 }
 
+.button {
+  background: #e6b325;
+  box-shadow: $FM_BUTTON_SHADOW;
+  border: none;
+  border-radius: 5px;
+  color: $FM_TEXT_BROWN;
+  font-size: 16px;
+  font-weight: 300;
+  width: 180px;
+  padding: 6px;
+  text-decoration: none;
+  transition: $FM_TRANSITION;
+
+  &:hover {
+    background: #a47e3b;
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &:disabled {
+    background: $FM_BG_GRAY2;
+    opacity: 1;
+  }
+}
+
+.lottie {
+  p {
+    font-weight: 400;
+  }
+
+  svg {
+    width: 300px !important;
+  }
+}
+
 .errors {
   color: $FM_TEXT_RED;
   text-align: left;
@@ -114,5 +164,20 @@
     font-size: 14px;
     line-height: 1.2;
     margin-bottom: 0;
+  }
+}
+
+.map {
+  width: 100%;
+  height: 70vh;
+}
+
+.modalAddress {
+  background-color: $FM_TEXT_BROWN;
+  color: #ffffff;
+  font-size: 14px;
+
+  strong {
+    font-weight: 500;
   }
 }

@@ -20,7 +20,93 @@
     margin-bottom: 0;
     line-height: 1.2;
   }
+
+  .buttons{
+    width: 138px;
+    height: 31px;
+    background: #D9D9D9;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    text-align: center;
+    padding: 0;
+    color: #000;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    &:hover{
+      background-color: #61481c;
+      color: #ffffff;
+    }
+  }
+
+  @include devices(md){
+    margin: 30px 0px 50px;
+  }
+  @include devices(sm){
+    margin: 10px 0px 50px;
+    .buttons{
+      width: 92px;
+      height: 29px;
+    }
+  }
+
 }
+
+
+.modalBody{
+  background: #FDF5E7;
+  .modalHeaderContent{
+    height: 50px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #000;
+    .modalHeader{
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      text-align: center;
+      padding: 0;
+    }
+  }
+  .orderDeliveryContainer{
+    height: 34px;
+    margin:  8px 0 14px;
+    .modalRow{
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+      background: #FFFFFF;
+      height: 34px;
+      .modalHeader{
+        margin: 0;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000000;
+        text-align: center;
+        padding: 0;
+        &:first-child{
+          background-color: #a47e3b;
+          font-size: 17px;
+          line-height: 23px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          color: #FFFFFF;
+          text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+          border-right: 1px solid #000;
+        }
+      }
+    }
+  }
+}
+
 
 .innerContainer {
   margin: 30px 0 0;

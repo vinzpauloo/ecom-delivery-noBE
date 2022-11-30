@@ -22,7 +22,7 @@ const LoginContainer: React.FC<ContainerProps> = ({}) => {
               <LoginImage />
             </div>
           </Col>
-          <Col>
+          <Col className={styles.loginFormLeftContent}>
             <LoginForm />
             <NewAccount />
           </Col>

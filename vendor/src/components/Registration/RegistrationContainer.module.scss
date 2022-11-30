@@ -1,6 +1,35 @@
 @import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
+.registerHeader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  h4{
+    margin: 57px 0 0 0;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+    text-align: center;
+
+    @include devices(md) {
+      &{
+        margin: 35px 0 0 0;
+        font-size: 15px;
+        line-height: 15px;
+      }
+    }
+    @include devices(sm) {
+      &{
+        margin: 19px 0 0 0;
+        font-size: 15px;
+        line-height: 15px;
+      }
+    }
+  }
+}
+
 .container {
   overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
@@ -8,7 +37,12 @@
 
   @include devices(md) {
     min-height: auto;
-    padding: 60px 0;
-    margin-bottom: $FM_FOOTER_HEIGHT_MD;
+    padding: 20px 60px 0;
+    // margin-bottom: $FM_FOOTER_HEIGHT_MD;
+  }
+  @include devices(sm) {
+    min-height: auto;
+    padding: 19px 0 !important;
+    // margin-bottom: $FM_FOOTER_HEIGHT_MD;
   }
 }

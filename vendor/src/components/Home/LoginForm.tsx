@@ -131,14 +131,14 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         className={`text-center ${styles.form}`}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h4 className={`d-none d-md-block`}>
+        <h4 className={`d-none d-md-block ${styles.header}`}>
           Welcome to FOODMONKEY Restaurant Owners
         </h4>
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
             type="text"
-            placeholder="Mobile Number"
+            placeholder="Email or number"
             onKeyUp={() => setError("")}
             required
             {...register("username")}
@@ -150,7 +150,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           <Form.Control
             size="lg"
             type={passwordType}
-            placeholder="Enter Password"
+            placeholder="Password"
             className="mb-2"
             required
             {...register("password")}
