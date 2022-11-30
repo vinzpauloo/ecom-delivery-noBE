@@ -103,3 +103,102 @@
     margin-top: 30px;
   }
 }
+
+.modal {
+  background: #fde9b1;
+  padding: 20px;
+  border: 1px solid black;
+  .title {
+    h3 {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 27px;
+      color: #525252;
+    }
+
+    p {
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 20px;
+
+      span {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .customerDetails {
+    border: 1px solid black;
+    padding: 12px;
+    background: #fff2cf;
+
+    p {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+
+      span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    .canceledDelivered {
+      .orderBtn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 50px;
+        }
+      }
+      button {
+        background: #000000;
+        border: 0.5px solid #61481c;
+        border-radius: 3px;
+        font-weight: 400;
+        font-size: 8px;
+        line-height: 8px;
+        color: #f0bb62;
+        // width: 50%;
+      }
+    }
+  }
+  .orderDetails {
+    padding: 12px;
+    p {
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+      span {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    ul[title]::before {
+      content: attr(title);
+      /* then add some nice styling as needed, eg: */
+      //   display: block;
+      //   font-weight: bold;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    li {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      list-style-type: none;
+    }
+  }
+  .wazeImg {
+    width: 80px;
+    border-radius: 50%;
+  }
+}
