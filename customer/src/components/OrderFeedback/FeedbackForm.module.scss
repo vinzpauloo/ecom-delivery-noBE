@@ -1,0 +1,82 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  text-align: center;
+  margin: 40px auto 0;
+  max-width: 600px;
+
+  @include devices(md) {
+    margin-top: 20px;
+  }
+
+  @include devices(sm) {
+    margin: 20px 10px;
+  }
+}
+
+.formGroup {
+  position: relative;
+
+  label {
+    position: absolute;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    top: 8px;
+    left: 10px;
+  }
+
+  textarea {
+    background: #f3efef;
+    border: 1px solid rgba(97, 72, 28, 0.5);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 10px;
+    padding: 24px 10px 30px;
+    transition: all 0.3s ease-in-out;
+    resize: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include devices(md) {
+      margin-bottom: 10px;
+    }
+  }
+
+  .characters {
+    color: #000000;
+    font-size: 12px;
+    line-height: 1;
+    position: absolute;
+    bottom: 8px;
+    right: 25px;
+  }
+}
+
+.btnGray {
+  background-color: $FM_BG_GRAY;
+  border: 0.5px solid $FM_TEXT_BROWN;
+  border-radius: 3px;
+  box-shadow: $FM_BUTTON_SHADOW;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 10px 20px;
+  min-width: 60%;
+  margin-top: 10px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: $FM_TEXT_BROWN !important;
+    border-color: $FM_TEXT_BROWN !important;
+    color: #ffffff !important;
+  }
+}

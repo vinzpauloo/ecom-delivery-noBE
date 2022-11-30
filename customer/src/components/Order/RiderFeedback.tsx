@@ -107,7 +107,7 @@ const RiderFeedback: React.FC<ContainerProps> = ({
               </Button>
 
               <div className="mt-2">
-                <Link to="/" className={styles.linkSkip}>
+                <Link to="feedback" className={styles.linkSkip}>
                   Skip
                   <ChevronDoubleRight color="#A47E3B" size={16} />
                 </Link>
