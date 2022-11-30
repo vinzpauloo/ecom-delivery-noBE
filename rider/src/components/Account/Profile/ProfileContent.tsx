@@ -302,15 +302,15 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
               <img src={bike3} alt="" />
               <img src={bike4} alt="" /> */}
 
-              <div className="px-4 d-none d-lg-block">
+              {/* <div className="px-4 d-none d-lg-block">
                 <Button>Upload</Button>
-              </div>
+              </div> */}
             </Col>
           </Row>
           <div className="buttons">
-            <Button id="editBtn" onClick={handleInput} className="d-lg-none">
+            {/* <Button id="editBtn" onClick={handleInput} className="d-lg-none">
               Upload
-            </Button>
+            </Button> */}
             <Button
               id="saveBtn"
               type="submit"
