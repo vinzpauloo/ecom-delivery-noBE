@@ -35,8 +35,7 @@
 
 .formInnerContainer {
   border-radius: 15px;
-  margin-bottom: 20px;
-  padding: 40px;
+  padding: 10px 40px 40px;
 
   .pinBtn{
     background: #000000;
@@ -95,7 +94,7 @@
       }
     }
     &:first-child{
-      margin: 0;
+      margin: 0 0 10px 0 !important;
     }
   }
 
@@ -119,11 +118,15 @@
     padding: 0 20px;
 
     &:first-child {
-      margin-bottom: 40px;
+      margin: 0 0 40px 0;
     }
   }
   @include devices(sm){
     .thumbNail{
+      width: 93px;
+      height: 97px;
+    }
+    .thumbNail2{
       width: 93px;
       height: 97px;
     }
@@ -211,7 +214,6 @@
   }
 
   .checkbox {
-    margin-top: 30px;
     padding: 0 20px;
     input{
       height: 20px;
@@ -235,6 +237,19 @@
       position: initial;
       margin-left: 10px;
       font-weight: 300;
+    }
+    @include devices(sm){
+      &{
+        margin: 0 30px;
+      }
+      input{
+        height: 13px;
+        width: 13px;
+      }
+      label{
+        font-size: 12px;
+        margin-left: 0px;
+      }
     }
   }
 }

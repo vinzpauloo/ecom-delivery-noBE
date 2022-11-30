@@ -199,9 +199,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <h3 className="text-center">Restaurant Info</h3>
 
           <Row className={styles.restaurantContent}>
-            <Col className="col-9">
+            <Col className="col-md-9">
               <Row>
-                <Col className="col-9">
+                <Col className="col-lg-9 col-md-8 pe-1">
                   <Form.Group className="position-relative">
                     <Form.Control
                       type="text"
@@ -211,7 +211,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                     />
                   </Form.Group>
                 </Col>
-                <Col className="col-3">
+                <Col className="col-lg-3 col-md-4 ps-1">
                   <Button className={styles.pinBtn}>PIN MY RESTAURANT</Button>
                 </Col>
               </Row>
@@ -253,7 +253,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 </Col>
               </Row>
             </Col>
-            <Col className="col-3">
+            <Col className="col-md-3">
                 <ImageUploading
                   multiple
                   value={images}
