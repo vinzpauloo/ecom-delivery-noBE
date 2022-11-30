@@ -247,7 +247,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   </Row>
                   <div className={styles.declineAccept}>
                     {/* <button>Decline</button> */}
-                    <Link to={`/account/for-delivery/order/${item.id}`}>
+                    <Link to={`/account/order/status/${item.id}`}>
                       <button>Accept</button>
                     </Link>
                   </div>
