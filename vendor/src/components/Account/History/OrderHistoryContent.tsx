@@ -93,6 +93,7 @@ type GetDeliveredItem = {
   restaurant_name: string;
   restaurant_id: string;
   updated_at: string;
+  rider_name: string;
   rider_id: string;
   rider_vehicle_model: string;
   id: number;
@@ -119,8 +120,8 @@ type GetCanceledItem = {
 };
 
 const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
-  const [modalShow, setModalShow] = React.useState(false);
   const [modalShow1, setModalShow1] = React.useState(false);
+  const [modalShow2, setModalShow2] = React.useState(false);
   const { getReceived, getAllOrders, getOrderCompleted, getOrderCanceled } =
     useGetOrderStatus();
 
@@ -163,7 +164,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     // loadOrderForDelivery("otw");
     // loadPreparingItem("preparing");
     loadCanceledItem("canceled");
-    loadDeliveredItem("delivered");
+    loadDeliveredItem("delivered, canceled");
   }, []);
 
   function CompletedModal(props: any) {
@@ -174,13 +175,20 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton className="px-4">
-          <Modal.Title id="contained-modal-title-vcenter" className="ms-auto">
-            COMPLETED
-          </Modal.Title>
-        </Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+          <Container>
+            <Row>
+              <Col className={styles.modalHeader}>Order ID</Col>
+              <Col className={styles.modalHeader}>Date</Col>
+              <Col className={styles.modalHeader}>Order Placed Time</Col>
+              <Col className={styles.modalHeader}>Order Delivered</Col>
+              <Col className={styles.modalHeader}>Rider Name</Col>
+            </Row>
+          </Container>
+        </Modal.Title>
         <Modal.Body className="p-0">
           {deliveredItem?.map((item, index) => {
+            console.log("modal",item)
             return (
               <Container
                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
@@ -188,70 +196,17 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 fluid
                 key={index}
               >
-                <Row className="mx-md-3">
-                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>ORDER ID: {item.id}</p>
-                    </div>
-                    <div className={styles.orderItems}>
-                      <ul aria-label="Order Items">
-                        <li>Ramen Noodles(3x)</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Water Melon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Pecking Duck (1x)</li>
-                      </ul>
-                    </div>
-                    <div className={styles.deliveryFee}>
-                      <p>
-                        Delivery Fee <br />
-                        <span>₱{item.rider_id}.00</span>
-                      </p>
-                    </div>
-                    <div className={styles.grandTotal}>
-                      <p>
-                        Grand Total <br />
-                        <span>₱{item.rider_vehicle_model}.00</span>
-                      </p>
-                    </div>
-                  </Col>
-                  <Col xs={8} md={4}>
-                    <div className={styles.customerInfo}>
-                      <li>
-                        Customer Name: <span> {item.customer_name}</span>
-                      </li>
-                      <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
-                      </li>
-                      <li>
-                        Pick up Address :<span> {item.restaurant_name}</span>
-                      </li>
-                      <li>
-                        Delivery Address:
-                        <span> {item.order_address}</span>
-                      </li>
-                      <li>
-                        Order Placed Time: <span> {item.created_at}</span>
-                      </li>
-                      <li>
-                        Order Status: <span> {item.order_status}</span>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                      </li>
-
-                      <div className={styles.declineAccept}>
-                        <a>Decline</a>
-                        <a>Accept</a>
-                      </div>
-                    </div>
-                  </Col>
+                <Row>
+                  <Col className={styles.modalHeader}>{item.id}</Col>
+                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
+                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>{item.rider_name}</Col>
                 </Row>
               </Container>
             );
           })}
         </Modal.Body>
-        <Modal.Footer>
-          {/* <button onClick={props.onHide}>Close</button> */}
-        </Modal.Footer>
       </Modal>
     );
   }
@@ -347,7 +302,29 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   }
   return (
     <div className={styles.container}>
-      <h3>History</h3>
+      <Row>
+        <Col>
+          <h3>History</h3>
+        </Col>
+        <Col>
+          <Row>
+            <Col className="col-6">
+              <Button onClick={() => setModalShow1(true)} className={styles.buttons}>Completed</Button>
+              <CompletedModal
+                show={modalShow1}
+                onHide={() => setModalShow1(false)}
+              />
+            </Col>
+            <Col className="col-6">
+              <Button onClick={() => setModalShow2(true)} className={styles.buttons}>Cancelled</Button>
+              <CancelledModal
+                show={modalShow2}
+                onHide={() => setModalShow2(false)}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
       <div className={styles.innerContainer}>
         <Form>
           <Row className="">

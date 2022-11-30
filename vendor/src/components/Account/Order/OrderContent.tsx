@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
-  Table,
-  Form,
+  Container,
   Row,
   Col,
+  Accordion,
   Button,
-  Modal,
-  Dropdown,
-  Container,
+  Form,
+  Collapse,
+  Card,
 } from "react-bootstrap";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import { useNavigate, Link } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
@@ -34,7 +35,7 @@ type ForDeliveryItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
-  id: number;
+  id: string;
   restaurant_address: string;
   total_amount: number;
 };
@@ -50,6 +51,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const { updateOrder, cancelOrder } = useOrder();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
+
+  const [isShown, setIsShown] = useState(true);
+  const [show, setShow] = useState(true);
 
   const loadPendingOrder = async (status: string) => {
     const params = { status: status };
@@ -74,202 +78,322 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(response);
   };
 
+  const handleClick = (e: any) => {
+    setIsShown((current) => !current);
+  };
+
+  function CustomToggle({ children, eventKey }: any) {
+    const decoratedOnClick = useAccordionButton(eventKey, () =>
+      handleClick(eventKey)
+    );
+
+    return (
+      <button
+        style={{
+          backgroundColor: "#a47e3b",
+          border: "none",
+          color: "white",
+          fontWeight: "600",
+          fontSize: "12px",
+          lineHeight: "8px",
+          width: "208px",
+          height: "26px",
+          textTransform: "uppercase",
+        }}
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  function CustomToggle2({ children, eventKey }: any) {
+    const decoratedOnClick = useAccordionButton(eventKey, () =>
+      handleClick(eventKey)
+    );
+
+    return (
+      <button
+        style={{
+          backgroundColor: "#e6b325",
+          border: "none",
+          color: "white",
+          fontWeight: "700",
+          fontSize: "8px",
+          lineHeight: "8px",
+          width: "82px",
+          height: "26px",
+          textTransform: "uppercase",
+        }}
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
+
   useEffect(() => {
     loadPendingOrder("pending");
   }, []);
   return (
-    <div className={styles.tableContainer}>
-      <div className="">
-        <Form>
-          <Row>
-            <Col>
-              <h3>For Delivery (Current Orders)</h3>
-            </Col>
-          </Row>
-          <Row className="d-none d-lg-block">
-            <Col>
-              <Form.Control
-                className={styles.searchBar}
-                type="text"
-                placeholder="Search food and description"
-              />
-            </Col>
-          </Row>
-          {/* Mobile */}
-          {forDelivery?.map((item, index) => {
-            console.log(item);
-            return (
-              <Container
-                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-3 d-md-none`}
-                // className="order-delivery-container d-flex flex-column gap-3 d-md-none"
-                fluid
-                key={index}
-              >
-                <Row className="mx-md-3">
-                  <Col xs={3} md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>Order ID: {item.id}</p>
-                    </div>
-                    <div className={styles.orderItems}>
-                      <ul aria-label="Order Items">
-                        <li>Ramen Noodles(3x)</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Water Melon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Pecking Duck (1x)</li>
-                      </ul>
-                    </div>
-                    <div className={styles.deliveryFee}>
+    <div className={styles.deliveryContainer}>
+      <div className={styles.tableContainerHistory}>
+        <div className={styles.tableHeader}>
+          <div className={styles.tableHeader1}>
+            <h3>For Delivery</h3>
+            {/* <div className="search">
+              <input type="text" placeholder="Search order ID" />
+              <img src={SearchIcon} alt="" />
+            </div> */}
+          </div>
+        </div>
+      </div>
+      {forDelivery.map((item, index) => {
+        return (
+          <Accordion className={styles.test} flush key={index}>
+            <Accordion.Item eventKey={item.id}>
+              <div className={styles.orderDiv}>
+                <CustomToggle eventKey={item.id}>
+                  {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                <Button className="viewDetailsBtn">View Details</Button> */}
+                  Order ID: {item.id}
+                </CustomToggle>
+                <div className="d-md-none">
+                  <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+                </div>
+              </div>
+              <Accordion.Body className={styles.deliveryDetails2}>
+                <div>
+                  <Row>
+                    <Col>
                       <p>
-                        Delivery Fee <br />
-                        <span>₱{item.rider_id}.00</span>
-                      </p>
-                    </div>
-                    <div className={styles.grandTotal}>
-                      <p>
-                        Grand Total <br />
-                        <span>₱{item.rider_vehicle_model}.00</span>
-                      </p>
-                    </div>
-                  </Col>
-                  <Col xs={8} md={4}>
-                    <div className={styles.customerInfo}>
-                      <li>
                         Customer Name: <span>{item.customer_name}</span>
-                      </li>
-                      <li>
-                        Contact Number: <span>{item.customer_mobile}</span>
-                      </li>
-                      <li>
-                        Pick up Address :<span> {item.restaurant_address}</span>
-                      </li>
-                      <li>
-                        Delivery Address:
-                        <span> {item.order_address}</span>
-                      </li>
-                      <li>
-                        Order Placed Time: <span> {item.created_at}</span>
-                      </li>
-                      <li>
-                        Order Status: <span>{item.order_status}</span>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                      </li>
-
-                      <div className={styles.declineAccept}>
-                        <a>Decline</a>
-                        <a>Accept</a>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Contact Number: <span>0917 123 4567 {item.id} </span>
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <p>
+                      Pick-up address:
+                      <span>
+                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                      </span>
+                    </p>
+                  </Row>
+                  <Row>
+                    <p>
+                      Delivery Address:
+                      <span>
+                        4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                        City
+                      </span>
+                    </p>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p>
+                        Order Placed Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Order Delivered Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <Col>
+                      <p>
+                        Order Details:
+                        <li>Ramen Noodles</li>
+                        <li>Milk Tea(2x)</li>
+                        <li>1 Watermelon</li>
+                        <li>1 Boba Soya</li>
+                        <li>Peking Duck (1x)</li>
+                      </p>
+                    </Col>
+                    <Col>
+                      <div className={styles.resto}>
+                        <p>Chan's Restaurant</p>
+                        {/* <img src={RestoIcon} alt="resto" /> */}
                       </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Container>
-            );
-          })}
-          {/* Desktop */}
-          {forDelivery?.map((item, index) => {
-            return (
-              <Container
-                className={styles.orderDeliveryContainerDesktop}
-                fluid
-                key={index}
+                    </Col>
+                  </Row>
+                  <hr />
+                  <Row>
+                    <Col>
+                      <p>
+                        Sub Total: <span>1,350 php</span>
+                      </p>
+                      <p>
+                        Delivery Fee: <span>85 php</span>
+                      </p>
+                      <p>
+                        Total: <span>1,435 php</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <div className={styles.status}>
+                        <p>Order Status</p>
+                        {/* <img src={OrderReceivedIcon} /> */}
+                        <span>Order Received</span>
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className={styles.declineAccept}>
+                    {/* <button>Decline</button> */}
+                    <Link to={`/account/order/status/${item.id}`}>
+                      <button>Accept</button>
+                    </Link>
+                  </div>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Row className={styles.forDeliveryMobile}>
+              <Col
+                xs={1}
+                className={`${styles.deliveryDetails} d-md-none`}
+                style={{ display: isShown ? "block" : "none" }}
               >
-                <Row className="mx-md-3">
-                  <Col md={2} className="d-flex flex-column gap-1">
-                    <div className={styles.orderId}>
-                      <p>ORDER ID: {item.id}</p>
-                    </div>
+                <Row>
+                  <Col>
+                    <p>
+                      Customer Name: <span> {item.customer_name} </span>
+                    </p>
                   </Col>
-                  <Col md={4}>
-                    <div className={styles.customerInfo}>
-                      <Row>
-                        <Col md={8}>
-                          <div className="d-flex gap-5">
-                            <li>
-                              Customer Name: <span> {item.customer_name}</span>
-                            </li>
-                            <li>
-                              Contact Number:{" "}
-                              <span>
-                                {" "}
-                                {item.customer_mobile || item.order_mobile}
-                              </span>
-                            </li>
-                          </div>
-                          <li>
-                            Pick up Address :
-                            <span> {item.restaurant_address}</span>
-                          </li>
-                          <li>
-                            Delivery Address:
-                            <span> {item.order_address}</span>
-                          </li>
-                          <li>
-                            Order Placed Time: <span> {item.created_at}</span>
-                          </li>
-                        </Col>
-                        <Col>
-                          <li className="d-flex flex-column justify-content-center align-items-center">
-                            Order Status: <span> {item.order_status}</span>
-                            {/* <img src={OrderReceivedIcon} /> */}
-                          </li>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md={3}>
-                          <div
-                            className={`${styles.orderItems} overflow-hidden`}
-                          >
-                            <ul aria-label="Order Items">
-                              <li>Ramen Noodles(3x)</li>
-                              <li>Milk Tea(2x)</li>
-                              <li>1 Water Melon</li>
-                              <li>1 Boba Soya</li>
-                              <li>Pecking Duck (1x)</li>
-                            </ul>
-                          </div>
-                        </Col>
-                        <Col md={3}>
-                          <div className={styles.deliveryFee}>
-                            <p>
-                              Delivery Fee <br />
-                              <span> ₱{item.rider_id}.00</span>
-                            </p>
-                            <div className={styles.declineAccept}>
-                              <a
-                                type="submit"
-                                onClick={() => handleCancel(item.id)}
-                              >
-                                Decline
-                              </a>
-                            </div>
-                          </div>
-                        </Col>
-                        <Col md={3}>
-                          <div className={styles.grandTotal}>
-                            <p>
-                              Grand Total <br />
-                              <span> ₱{item.total_amount}.00</span>
-                            </p>
-                            <div className={styles.declineAccept}>
-                              <a
-                                type="submit"
-                                onClick={() => handleAccept(item.id)}
-                              >
-                                <Link to={`/account/order/status/${item.id}`}>
-                                  Accept
-                                </Link>
-                              </a>
-                            </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
+                  <Col>
+                    <p>
+                      Contact Number: <span>0917 123 4567</span>
+                    </p>
                   </Col>
                 </Row>
-              </Container>
-            );
-          })}
-        </Form>
+                <Row>
+                  <p>
+                    Pick-up address:
+                    <span>
+                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                    </span>
+                  </p>
+                </Row>
+                <Row>
+                  <p>
+                    Delivery Address:
+                    <span>
+                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                    </span>
+                  </p>
+                </Row>
+                <Row>
+                  <Col>
+                    <p>
+                      Order Placed Time: <span>01:30 pm</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Order Delivered Time: <span>01:30 pm</span>
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
+              <Col
+                className={styles.deliveryDetails}
+                style={{ display: isShown ? "block" : "none" }}
+              >
+                <Row className="p-1">
+                  <Col>
+                    <p>
+                      Customer Name: <span>Brandon Boyd</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Contact Number: <span>0917 123 4567</span>
+                    </p>
+                  </Col>
+                </Row>
+                <Row className="p-1">
+                  <p>
+                    Pick-up address:
+                    <span>
+                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                    </span>
+                  </p>
+                </Row>
+                <Row className="p-1">
+                  <p>
+                    Delivery Address:
+                    <span>
+                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                    </span>
+                  </p>
+                </Row>
+                <Row className="p-1">
+                  <Col>
+                    <p>
+                      Order Placed Time: <span>01:30 pm</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Order Delivered Time: <span>01:30 pm</span>
+                    </p>
+                  </Col>
+
+                  {/* <Row>
+                    <Col md={{ span: 4, offset: 5 }}>
+                      <Button
+                        className="detailsBtn"
+                        onClick={(event) => {
+                          handleClick(event);
+                          setOpen(!open);
+                          changeState();
+                        }}
+                        style={{ display: isShown ? "block" : "none" }}
+                      >
+                        View Details
+                      </Button>
+                    </Col>
+                  </Row> */}
+                </Row>
+
+                <Row>
+                  <Col
+                    className="d-none d-md-block"
+                    md={{ span: 7, offset: 5 }}
+                  >
+                    <CustomToggle2 eventKey={item.id}>
+                      View Details
+                    </CustomToggle2>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Accordion>
+        );
+      })}
+
+      {/* <div className={styles.bottomButtons}>
+        <button onClick={navigateToHistory}>History</button>
+        
+        <button onClick={() => setModalShow1(true)}>Completed</button>
+        <CompletedModal show={modalShow1} onHide={() => setModalShow1(false)} />
+        <button onClick={() => setModalShow2(true)}>Cancelled</button>
+        <CancelledModal show={modalShow2} onHide={() => setModalShow2(false)} />
+      </div> */}
+      <div className={styles.rewardsContainer}>
+        <div className={styles.rewardsButton}>
+          <a href="/account/rewards">
+            {/* <img src={RewardsBtn} alt="" /> */}
+          </a>
+        </div>
       </div>
     </div>
   );
