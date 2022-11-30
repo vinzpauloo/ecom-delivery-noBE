@@ -1,0 +1,25 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  border: 1px solid $FM_TEXT_BROWN;
+  border-radius: 15px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  padding: 3px 6px;
+  transition: $FM_TRANSITION;
+
+  &.active {
+    background-color: $FM_TEXT_BROWN;
+  }
+
+  > * {
+    margin: 2px;
+  }
+
+  @include devices(md) {
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+}

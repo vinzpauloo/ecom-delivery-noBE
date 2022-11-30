@@ -1,0 +1,19 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  color: $FM_TEXT_BROWN;
+  margin-top: 40px;
+  text-align: center;
+
+  @include devices(md) {
+    margin-top: 20px;
+  }
+}
+
+.btnRating {
+  @include devices(md) {
+    display: block !important;
+    text-align: center;
+  }
+}
