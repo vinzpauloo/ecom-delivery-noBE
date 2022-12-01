@@ -390,9 +390,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       </div> */}
       <div className={styles.rewardsContainer}>
         <div className={styles.rewardsButton}>
-          <a href="/account/rewards">
-            {/* <img src={RewardsBtn} alt="" /> */}
-          </a>
+          <a href="/account/rewards">{/* <img src={RewardsBtn} alt="" /> */}</a>
         </div>
       </div>
     </div>
