@@ -21,8 +21,14 @@ type TOrder = {
   customer_mobile: string;
   order_address: string;
   order_status: string;
+  order_mobile: number;
   restaurant_address: string;
+  restaurant_name: string;
+  restaurant_photo: string;
+  products: [{ name: string; quantity: number }];
+  total_amount: number;
 };
+
 
 // const sampleOrder: TOrder = {
 //   id: 2,
@@ -60,7 +66,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
       <div className={styles.innerContainer}>
         <Row>
           {/* Main content */}
-          <Col lg={{ span: 7 }}>
+          <Col>
             <h1 className="mb-0 text-center">Order Details</h1>
             <div className={styles.orderId}>
               <h6 className="text-center text-uppercase">
@@ -95,7 +101,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order?.customer_mobile}
+                                {order?.order_mobile}
                               </p>
                             </Col>
                           </Row>
@@ -182,14 +188,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col xs={7} sm={8}>
                           <ul className={styles.orderList}>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
-                            <li>Ramen Noodles (3x)</li>
-                            <li>Milk Tea - Watermelon (1x)</li>
-                            <li>Milk Tea - Boba Soya (1x)</li>
-                            <li>Pecking Duck (1x)</li>
+                            {order?.products?.map((item, index) => {
+                              return (
+                                <li
+                                  key={index}
+                                >{`${item.name} (${item.quantity}x)`}</li>
+                              );
+                            })}
                           </ul>
                         </Col>
                       </Row>
@@ -198,9 +203,12 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.restaurantLogo}>
                         <p className={`mb-3 ${styles.value}`}>
-                          Chan's Restaurant
+                          {order?.restaurant_name}
                         </p>
-                        <img className="img-fluid" src={placeholder} />
+                        <img
+                          className="img-fluid"
+                          src={order?.restaurant_photo}
+                        />
                       </div>
                     </Col>
                   </Row>
@@ -216,7 +224,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Sub Total :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>1,350 php</p>
+                          <p className={styles.value}>
+                            ₱{order?.total_amount}.00
+                          </p>
                         </Col>
                       </Row>
                       <Row className="mb-2 mb-sm-3">
@@ -224,7 +234,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Delivery Fee :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>85 php</p>
+                          <p className={styles.value}></p>
                         </Col>
                       </Row>
                       <Row>
@@ -232,7 +242,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Total :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>1,435 php</p>
+                          <p className={styles.value}>
+                            ₱{order?.total_amount}.00
+                          </p>
                         </Col>
                       </Row>
                     </Col>
