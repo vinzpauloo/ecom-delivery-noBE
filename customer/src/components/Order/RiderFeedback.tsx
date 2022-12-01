@@ -104,8 +104,6 @@ const RiderFeedback: React.FC<ContainerProps> = ({
     }
   };
 
-  console.log(rider);
-
   return (
     <Modal
       size="xl"

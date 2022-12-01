@@ -19,14 +19,15 @@ import styles from "./OrderContent.module.scss";
 import constants from "../../utils/constants.json";
 import RiderFeedback from "./RiderFeedback";
 
-// import Pusher from "pusher-js";
-// import * as PusherTypes from "pusher-js";
+import Pusher from "pusher-js";
+import * as PusherTypes from "pusher-js";
 
-// var presenceChannel: PusherTypes.PresenceChannel;
+var presenceChannel: PusherTypes.PresenceChannel;
 
-// const pusher = new Pusher("dda7bca342e12a644ba2", {
-//   cluster: "ap1",
-// });
+const pusher = new Pusher("301049041d7830d91c0e", {
+  cluster: "ap1",
+});
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -93,6 +94,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
       setOrder(response);
       setRider(thisRider);
+
+      const channel = pusher.subscribe(
+        "Customer-Channel-" + response.customer_id
+      );
+      channel.bind("Order-Updated-Event", (data: any) => {
+        const parsedData = JSON.parse(data.data);
+        console.log(data);
+        console.log(parsedData);
+
+        const status = parsedData.status;
+
+        setOrder({ ...parsedData, order_status: status });
+      });
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -101,6 +115,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const response = await getOrdersByIdGuest(id, guestSession);
       console.log("getOrdersByIdGuest response", response);
       setOrder(response);
+
+      const channel = pusher.subscribe("Guest-Channel-" + response.guest_id);
+      channel.bind("Order-Updated-Event", (data: any) => {
+        const parsedData = JSON.parse(data.data);
+        const status = parsedData.status;
+
+        console.log("Current order", response);
+        setOrder({ ...response, order_status: status });
+      });
     }
   };
 
@@ -150,10 +173,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     //   }
     // });
 
-    // const channel = pusher.subscribe("foodmonkey-channel");
-    // channel.bind("ordercheckout-event", function (data: any) {
-    //   console.log(data); //check data
-    // });
+    // if (order && order.customer_id) {
+    //   const channel = pusher.subscribe("Customer-Channel-" + order.customer_id);
+    //   channel.bind("Order-Updated-Event", (data: any) => {
+    //     console.log(data);
+    //     alert("New update");
+    //   });
+    // }
   }, []);
 
   return (
