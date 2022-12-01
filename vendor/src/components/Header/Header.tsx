@@ -79,11 +79,6 @@ const Header: React.FC<ContainerProps> = () => {
             </div>
           </Col>
 
-          <Col>
-            <h1>Alert Testing</h1>
-            <p></p>
-          </Col>
-
           {/* Search + Links for desktop */}
           <Col className="d-none d-lg-block">
             <div className={`lh-1 text-end ${styles.links}`}>
