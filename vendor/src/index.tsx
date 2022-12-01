@@ -22,45 +22,42 @@ import { AuthProvider } from "react-auth-kit";
 const container = document.getElementById("root");
 const root = createRoot(container!);
 root.render(
-  <React.StrictMode>
-    <AuthProvider authType="localstorage" authName="_auth">
-      {/* <AuthContextProvider> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Home />} />
-            <Route path="registration" element={<Registration />} />
-            <Route path="otp" element={<Otp />} />
+  // <React.StrictMode>
+  <AuthProvider authType="localstorage" authName="_auth">
+    {/* <AuthContextProvider> */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Home />} />
+          <Route path="registration" element={<Registration />} />
+          <Route path="otp" element={<Otp />} />
 
-            {/* Account dashboard routes */}
-            <Route path="account">
-              <Route index element={<Profile />} />
-              <Route path="for-delivery" element={<Order />} />
-              <Route path="order">
-                <Route index element={<Order />} />
-                <Route path="status/:id" element={<Status />} />
-                <Route
-                  path="order-information"
-                  element={<OrderInformation />}
-                />
-              </Route>
-              <Route path="my-restaurant-menu" element={<Product />} />
-              <Route path="order-history" element={<History />} />
-              <Route path="order-history/:id" element={<OrderDetails />} />
-              <Route
-                path="order-history/completed/:id"
-                element={<HistoryStatusCompleted />}
-              />
-              <Route
-                path="order-history/cancelled/:id"
-                element={<HistoryStatusCancelled />}
-              />
-              <Route path="reset-password" element={<ResetPassword />} />
+          {/* Account dashboard routes */}
+          <Route path="account">
+            <Route index element={<Profile />} />
+            <Route path="for-delivery" element={<Order />} />
+            <Route path="order">
+              <Route index element={<Order />} />
+              <Route path="status/:id" element={<Status />} />
+              <Route path="order-information" element={<OrderInformation />} />
             </Route>
+            <Route path="my-restaurant-menu" element={<Product />} />
+            <Route path="order-history" element={<History />} />
+            <Route path="order-history/:id" element={<OrderDetails />} />
+            <Route
+              path="order-history/completed/:id"
+              element={<HistoryStatusCompleted />}
+            />
+            <Route
+              path="order-history/cancelled/:id"
+              element={<HistoryStatusCancelled />}
+            />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-    {/* </AuthContextProvider> */}
-  </React.StrictMode>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </AuthProvider>
+
+  // </React.StrictMode>
 );

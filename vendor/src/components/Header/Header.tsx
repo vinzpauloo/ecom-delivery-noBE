@@ -26,22 +26,21 @@ const Header: React.FC<ContainerProps> = () => {
     logout();
   };
 
-  //PusherJS
-
+  //PusherJS start
   const pusher = new Pusher("301049041d7830d91c0e", {
     cluster: "ap1",
   });
   console.log("PUSHER", pusher);
-
   Pusher.logToConsole = true;
 
   const restaurant_id = 8;
 
   const channel = pusher.subscribe("restaurant-" + restaurant_id);
 
-  channel.bind("Create-Order-Status", function (data) {
-    alert(`New order has arrived`);
+  channel.bind("Create-Order-Status", function () {
+    alert(`New order has arrived!!!`);
   });
+  //PusherJS end
 
   return (
     <header
