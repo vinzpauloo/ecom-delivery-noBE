@@ -4,14 +4,24 @@ import { List, Person } from "react-bootstrap-icons";
 import { useLogout } from "../../hooks/useLogout";
 import { useIsAuthenticated } from "react-auth-kit";
 
+import React, { useState, useEffect } from "react";
+
+import { useForm } from "react-hook-form";
+
 import OffcanvasMenu from "./OffcanvasMenu";
 import styles from "./Header.module.scss";
+
+import Alert from "react-bootstrap/Alert";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
 import Pusher from "pusher-js";
+import { useUser } from "../../hooks/useUser";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import constants from "../../utils/constants.json";
 
 interface ContainerProps {}
 
@@ -26,21 +36,48 @@ const Header: React.FC<ContainerProps> = () => {
     logout();
   };
 
-  //PusherJS start
-  const pusher = new Pusher("301049041d7830d91c0e", {
-    cluster: "ap1",
-  });
-  console.log("PUSHER", pusher);
-  Pusher.logToConsole = true;
+  //Get user details
+  const { getUser } = useUser();
 
-  const restaurant_id = 8;
+  // Get user request
+  const handleGetUser = async () => {
+    console.log("Requesting getUser ...");
 
-  const channel = pusher.subscribe("restaurant-" + restaurant_id);
+    const response = await getUser();
+    console.log("handleGetUser response", response);
 
-  channel.bind("Create-Order-Status", function () {
-    alert(`New order has arrived!!!`);
-  });
-  //PusherJS end
+    //PusherJS start
+    const pusher = new Pusher("301049041d7830d91c0e", {
+      cluster: "ap1",
+    });
+    console.log("PUSHER", pusher);
+    Pusher.logToConsole = true;
+
+    const restaurantId = response.restaurant[0].id;
+    console.log(restaurantId);
+
+    const channel = pusher.subscribe("Restaurant-Channel-" + restaurantId);
+
+    channel.bind("Order-Created-Event", () => {
+      alert(`You have received a new order.`);
+    });
+
+    channel.bind("Order-Updated-Event", () => {
+      alert(`Order canceled`);
+    });
+    //PusherJS end
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
+
+  // <Alert variant="success">
+  //   <Alert.Heading>Incoming Order!!!</Alert.Heading>
+  //   <p>Please check your "For Delivery" page, and accept the order.</p>
+  //   <hr />
+  //   <p className="mb-0">Thank you for using FoodMonkey.</p>
+  // </Alert>
 
   return (
     <header
