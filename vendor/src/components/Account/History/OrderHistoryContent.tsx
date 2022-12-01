@@ -38,46 +38,6 @@ type GetAllOrderItem = {
   id: number;
 };
 
-// type GetPreparingItem = {
-//   created_at: string;
-//   customer_id: string;
-//   customer_mobile: string;
-//   customer_name: string;
-//   order_address: string;
-//   order_email: string;
-//   order_mobile: string;
-//   order_status: string;
-//   otw_at: string;
-//   payment_type: string;
-//   plate_number: string;
-//   restaurant_name: string;
-//   restaurant_id: string;
-//   updated_at: string;
-//   rider_id: string;
-//   rider_vehicle_model: string;
-//   id: number;
-// };
-
-// type GetOTWItem = {
-//   created_at: string;
-//   customer_id: string;
-//   customer_mobile: string;
-//   customer_name: string;
-//   order_address: string;
-//   order_email: string;
-//   order_mobile: string;
-//   order_status: string;
-//   otw_at: string;
-//   payment_type: string;
-//   plate_number: string;
-//   restaurant_name: string;
-//   restaurant_id: string;
-//   updated_at: string;
-//   rider_id: string;
-//   rider_vehicle_model: string;
-//   id: number;
-// };
-
 type GetDeliveredItem = {
   created_at: string;
   customer_id: string;
@@ -162,8 +122,8 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (id) => {
-    navigate("completed/"+ id)
-  }
+    navigate("completed/" + id);
+  };
 
   useEffect(() => {
     loadAllOrderItem("pending");
@@ -199,11 +159,20 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 fluid
                 key={index}
               >
-                <Row className={styles.modalRow} onClick={() => handleClick(item.id)}>
+                <Row
+                  className={styles.modalRow}
+                  onClick={() => handleClick(item.id)}
+                >
                   <Col className={styles.modalHeader}>{item.id}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
-                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>
+                    {item.created_at.slice(0, 10)}
+                  </Col>
+                  <Col className={styles.modalHeader}>
+                    {item.created_at.slice(12, 19)}
+                  </Col>
+                  <Col className={styles.modalHeader}>
+                    {item.updated_at.slice(0, 10)}
+                  </Col>
                   <Col className={styles.modalHeader}>{item.rider_name}</Col>
                 </Row>
               </Container>
@@ -224,14 +193,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
       >
         <Modal.Body className={`${styles.modalBody} p-0`}>
           <Container>
-              <Row className={styles.modalHeaderContent}>
-                <Col className={styles.modalHeader}>Order ID</Col>
-                <Col className={styles.modalHeader}>Date</Col>
-                <Col className={styles.modalHeader}>Order Placed Time</Col>
-                <Col className={styles.modalHeader}>Time Cancelled</Col>
-                <Col className={styles.modalHeader}>Rider Name</Col>
-              </Row>
-            </Container>
+            <Row className={styles.modalHeaderContent}>
+              <Col className={styles.modalHeader}>Order ID</Col>
+              <Col className={styles.modalHeader}>Date</Col>
+              <Col className={styles.modalHeader}>Order Placed Time</Col>
+              <Col className={styles.modalHeader}>Time Cancelled</Col>
+              <Col className={styles.modalHeader}>Rider Name</Col>
+            </Row>
+          </Container>
           {canceledItem?.map((item, index) => {
             return (
               <Container
@@ -242,9 +211,15 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               >
                 <Row className={styles.modalRow}>
                   <Col className={styles.modalHeader}>{item.id}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
-                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
+                  <Col className={styles.modalHeader}>
+                    {item.created_at.slice(0, 10)}
+                  </Col>
+                  <Col className={styles.modalHeader}>
+                    {item.created_at.slice(12, 19)}
+                  </Col>
+                  <Col className={styles.modalHeader}>
+                    {item.updated_at.slice(0, 10)}
+                  </Col>
                   <Col className={styles.modalHeader}>{item.rider_name}</Col>
                 </Row>
               </Container>
@@ -263,14 +238,24 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         <Col>
           <Row>
             <Col className="col-6">
-              <Button onClick={() => setModalShow1(true)} className={styles.buttons}>Completed</Button>
+              <Button
+                onClick={() => setModalShow1(true)}
+                className={styles.buttons}
+              >
+                Completed
+              </Button>
               <CompletedModal
                 show={modalShow1}
                 onHide={() => setModalShow1(false)}
               />
             </Col>
             <Col className="col-6">
-              <Button onClick={() => setModalShow2(true)} className={styles.buttons}>Cancelled</Button>
+              <Button
+                onClick={() => setModalShow2(true)}
+                className={styles.buttons}
+              >
+                Cancelled
+              </Button>
               <CancelledModal
                 show={modalShow2}
                 onHide={() => setModalShow2(false)}
