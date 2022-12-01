@@ -11,6 +11,8 @@ import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
+import Pusher from "pusher-js";
+
 interface ContainerProps {}
 
 const Header: React.FC<ContainerProps> = () => {
@@ -23,6 +25,22 @@ const Header: React.FC<ContainerProps> = () => {
     event.preventDefault();
     logout();
   };
+
+  //PusherJS start
+  const pusher = new Pusher("301049041d7830d91c0e", {
+    cluster: "ap1",
+  });
+  console.log("PUSHER", pusher);
+  Pusher.logToConsole = true;
+
+  const restaurant_id = 8;
+
+  const channel = pusher.subscribe("restaurant-" + restaurant_id);
+
+  channel.bind("Create-Order-Status", function () {
+    alert(`New order has arrived!!!`);
+  });
+  //PusherJS end
 
   return (
     <header
