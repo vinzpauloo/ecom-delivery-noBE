@@ -20,10 +20,10 @@ const AverageRating = ({ rating }: { rating: number }) => {
         <StarFill key={i} color="#E6B325" size={18} />
       ))}
 
-      {thisRemainder > 0.4 ? (
+      {thisRemainder ? (
         <StarHalf color="#E6B325" size={18} />
       ) : (
-        <StarFill color="#E6B325" size={18} />
+        <Star color="#E6B325" size={18} />
       )}
 
       {[...Array(5 - thisRate)]?.map((e, i) => (
@@ -34,7 +34,6 @@ const AverageRating = ({ rating }: { rating: number }) => {
 };
 
 const RestaurantHeader: React.FC<ContainerProps> = ({ restaurantHeader }) => {
-  console.log(restaurantHeader);
   return (
     <div className={styles.container}>
       <Row>
