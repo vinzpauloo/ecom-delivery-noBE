@@ -51,7 +51,7 @@ const Header: React.FC<ContainerProps> = () => {
       cluster: "ap1",
     });
     console.log("PUSHER", pusher);
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
 
     const restaurantId = response.restaurant[0].id;
     console.log(restaurantId);
