@@ -51,6 +51,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const { updateOrder, cancelOrder } = useOrder();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
+  const [status, setStatus] = useState<ForDeliveryItem>();
 
   const [isShown, setIsShown] = useState(true);
   const [show, setShow] = useState(true);
@@ -72,10 +73,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     navigate("/account/for-delivery");
   };
 
-  const handleAccept = async (id: any) => {
+  const handleAccept = async (id: string) => {
     console.log(id);
     const response = await updateOrder(id, "received");
     console.log(response);
+    alert("You have accepted this order");
+    navigate(`/account/order/status/${id}`);
   };
 
   const handleClick = (e: any) => {
@@ -247,9 +250,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   </Row>
                   <div className={styles.declineAccept}>
                     {/* <button>Decline</button> */}
-                    <Link to={`/account/order/status/${item.id}`}>
+                    {/* <Link to={`/account/order/status/${item.id}`}>
                       <button>Accept</button>
-                    </Link>
+                    </Link> */}
+                    <Button onClick={() => handleAccept(item.id)}>
+                      Accept
+                    </Button>
                   </div>
                 </div>
               </Accordion.Body>
@@ -390,9 +396,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       </div> */}
       <div className={styles.rewardsContainer}>
         <div className={styles.rewardsButton}>
-          <a href="/account/rewards">
-            {/* <img src={RewardsBtn} alt="" /> */}
-          </a>
+          <a href="/account/rewards">{/* <img src={RewardsBtn} alt="" /> */}</a>
         </div>
       </div>
     </div>
