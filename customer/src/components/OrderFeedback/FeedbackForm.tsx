@@ -3,12 +3,19 @@ import { Button, Form } from "react-bootstrap";
 
 import styles from "./FeedbackForm.module.scss";
 
-interface ContainerProps {}
+interface ContainerProps {
+  feedback: string;
+  setFeedback: any;
+  handleOnClick: any;
+}
 
-const FeedbackForm: React.FC<ContainerProps> = ({}) => {
+const FeedbackForm: React.FC<ContainerProps> = ({
+  feedback,
+  setFeedback,
+  handleOnClick,
+}) => {
   const MAX_CHARACTERS = 255;
   const [charactersCount, setCharactersCount] = useState(0);
-  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     setCharactersCount(feedback.length);
@@ -30,7 +37,11 @@ const FeedbackForm: React.FC<ContainerProps> = ({}) => {
         </span>
       </Form.Group>
 
-      <Button variant="primary" className={styles.btnGray}>
+      <Button
+        variant="primary"
+        className={styles.btnGray}
+        onClick={handleOnClick}
+      >
         Submit Feedback
       </Button>
     </div>

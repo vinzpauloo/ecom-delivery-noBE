@@ -46,12 +46,12 @@ const RiderFeedback: React.FC<ContainerProps> = ({
 
   const handleOnClick = async () => {
     if (!rating) {
-      alert(constants.form.error.reviewRiderRating);
+      alert(constants.form.error.reviewRating);
       return;
     }
 
     if (!feedback) {
-      alert(constants.form.error.reviewRiderFeedback);
+      alert(constants.form.error.reviewFeedback);
       return;
     }
 

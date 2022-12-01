@@ -18,13 +18,15 @@
       "passwordConfirm": "*Password don't match.",
       "missingOtp": "Please input your OTP code.",
       "searchMin": "Search keyword must be at least 3 characters.",
-      "reviewRiderRating": "Please select your rating!",
-      "reviewRiderFeedback": "Please submit any feedback!"
+      "reviewOption": "Please select one option for review!",
+      "reviewRating": "Please select your rating!",
+      "reviewFeedback": "Please submit any feedback!"
     },
     "success": {
       "updateProfile": "Customer profile updated successfully!",
       "cancelOrder": "Your order has been canceled!",
-      "reviewRider": "Rider feedback success!"
+      "reviewRider": "Rider feedback success!",
+      "reviewRestaurant": "Restaurant feedback success!"
     }
   },
   "otpCountdown": 300

@@ -1,0 +1,17 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.container {
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 40px 10px 30px;
+
+  @include devices(md) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 0 0 20px;
+  }
+
+  @include devices(xs) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    padding: 0 0 10px;
+  }
+}

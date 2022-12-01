@@ -19,6 +19,7 @@ import Order from "./pages/Order";
 import OrderDetails from "./pages/OrderDetails";
 import Search from "./pages/Search";
 import OrderFeedback from "./pages/OrderFeedback";
+import RestaurantFeedback from "./pages/RestaurantFeedback";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -46,7 +47,10 @@ root.render(
             <Route path="restaurants">
               <Route index element={<Navigate to="/" replace />} />
               <Route path=":type/:id" element={<Restaurants />} />
-              <Route path=":id" element={<Restaurant />} />
+              <Route path=":id">
+                <Route index element={<Restaurant />} />
+                <Route path="feedback" element={<RestaurantFeedback />} />
+              </Route>
             </Route>
 
             <Route path="checkout" element={<Checkout />} />

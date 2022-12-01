@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import styles from "./StarRatings.module.scss";
 import StarButtons from "./StarButtons";
 
-interface ContainerProps {}
+interface ContainerProps {
+  rating: number;
+  setRating: any;
+}
 
-const StarRatings: React.FC<ContainerProps> = ({}) => {
-  const [rating, setRating] = useState(0);
+const StarRatings: React.FC<ContainerProps> = ({ rating, setRating }) => {
   return (
     <div className={styles.container}>
       <p>Please select Star Rating</p>

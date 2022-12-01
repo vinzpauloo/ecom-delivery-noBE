@@ -16,7 +16,6 @@ const StarButtons: React.FC<ContainerProps> = ({
   setRating,
 }) => {
   const handleOnClick = () => {
-    console.log("Clicked!!!");
     setRating(value);
   };
 
