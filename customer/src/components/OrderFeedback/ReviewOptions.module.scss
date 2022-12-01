@@ -20,8 +20,12 @@
     font-weight: 500;
     min-width: 100px;
 
-    &:hover {
-      background-color: $FM_TEXT_BROWN;
+    &:hover,
+    &:active,
+    &:focus,
+    &.active {
+      background-color: $FM_TEXT_BROWN !important;
+      color: #ffffff;
     }
   }
 

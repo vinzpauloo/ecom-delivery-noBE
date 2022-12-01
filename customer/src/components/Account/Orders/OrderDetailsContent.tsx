@@ -58,8 +58,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const imgPhoto = order?.restaurant_photo
-    ? process.env.REACT_APP_BASE_URL +
-      order.restaurant_photo.replace("public", "storage")
+    ? order.restaurant_photo
     : placeholder;
 
   useEffect(() => {

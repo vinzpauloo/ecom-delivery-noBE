@@ -38,46 +38,6 @@ type GetAllOrderItem = {
   id: number;
 };
 
-// type GetPreparingItem = {
-//   created_at: string;
-//   customer_id: string;
-//   customer_mobile: string;
-//   customer_name: string;
-//   order_address: string;
-//   order_email: string;
-//   order_mobile: string;
-//   order_status: string;
-//   otw_at: string;
-//   payment_type: string;
-//   plate_number: string;
-//   restaurant_name: string;
-//   restaurant_id: string;
-//   updated_at: string;
-//   rider_id: string;
-//   rider_vehicle_model: string;
-//   id: number;
-// };
-
-// type GetOTWItem = {
-//   created_at: string;
-//   customer_id: string;
-//   customer_mobile: string;
-//   customer_name: string;
-//   order_address: string;
-//   order_email: string;
-//   order_mobile: string;
-//   order_status: string;
-//   otw_at: string;
-//   payment_type: string;
-//   plate_number: string;
-//   restaurant_name: string;
-//   restaurant_id: string;
-//   updated_at: string;
-//   rider_id: string;
-//   rider_vehicle_model: string;
-//   id: number;
-// };
-
 type GetDeliveredItem = {
   created_at: string;
   customer_id: string;
@@ -162,8 +122,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (id) => {
-    navigate("completed/"+ id)
-  }
+    navigate("completed/" + id);
+  };
+  const handleClickComplete = (id) => {
+    navigate("completed/" + id);
+  };
+  const handleClickCancel = (id) => {
+    navigate("cancelled/" + id);
+  };
 
   useEffect(() => {
     loadAllOrderItem("pending");
@@ -175,55 +141,131 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
 
   function CompletedModal(props: any) {
     return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body className={`${styles.modalBody} p-0`}>
-          <Container>
-            <Row className={styles.modalHeaderContent}>
-              <Col className={styles.modalHeader}>Order ID</Col>
-              <Col className={styles.modalHeader}>Date</Col>
-              <Col className={styles.modalHeader}>Order Placed Time</Col>
-              <Col className={styles.modalHeader}>Order Delivered</Col>
-              <Col className={styles.modalHeader}>Rider Name</Col>
-            </Row>
-          </Container>
-          {deliveredItem?.map((item, index) => {
-            return (
-              <Container
-                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
-                // className="order-delivery-container d-flex flex-column gap-2"
-                fluid
-                key={index}
-              >
-                <Row className={styles.modalRow} onClick={() => handleClick(item.id)}>
-                  <Col className={styles.modalHeader}>{item.id}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
-                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.rider_name}</Col>
-                </Row>
-              </Container>
-            );
-          })}
-        </Modal.Body>
-      </Modal>
+      <>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-none d-lg-block"
+        >
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            <Container>
+              <Row className={styles.modalHeaderContent}>
+                <Col className={styles.modalHeader}>Order ID</Col>
+                <Col className={styles.modalHeader}>Date</Col>
+                <Col className={styles.modalHeader}>Order Placed Time</Col>
+                <Col className={styles.modalHeader}>Order Delivered</Col>
+                <Col className={styles.modalHeader}>Rider Name</Col>
+              </Row>
+            </Container>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                  // className="order-delivery-container d-flex flex-column gap-2"
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.modalRow}
+                    onClick={() => handleClickComplete(item.id)}
+                  >
+                    <Col className={styles.modalHeader}>{item.id}</Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(12, 19)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.updated_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-lg-none"
+        >
+          <h4>Completed</h4>
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={styles.orderDeliveryContainer}
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.contentContainer}
+                    onClick={() => handleClickCancel(item.id)}
+                  >
+                    <Col className={`col-3 ${styles.idContent}`}>
+                      <Row>
+                        <Col className={styles.modalHeader}>Order ID</Col>
+                      </Row>
+                      <Row>
+                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+                      </Row>
+                    </Col>
+                    <Col className="col-9">
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Date</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Placed Time</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(12, 19)}
+                          </Row>
+                        </Col>
+                      </Row>
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Rider Name</Row>
+                          <Row className={styles.lable}>{item.rider_name}</Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Delivered</Row>
+                          <Row className={styles.lable}>
+                            {item.updated_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+      </>
     );
   }
 
   function CancelledModal(props: any) {
     return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body className={`${styles.modalBody} p-0`}>
-          <Container>
+      <>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-none d-lg-block"
+        >
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            <Container>
               <Row className={styles.modalHeaderContent}>
                 <Col className={styles.modalHeader}>Order ID</Col>
                 <Col className={styles.modalHeader}>Date</Col>
@@ -232,26 +274,95 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 <Col className={styles.modalHeader}>Rider Name</Col>
               </Row>
             </Container>
-          {canceledItem?.map((item, index) => {
-            return (
-              <Container
-                className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
-                // className="order-delivery-container d-flex flex-column gap-2"
-                fluid
-                key={index}
-              >
-                <Row className={styles.modalRow}>
-                  <Col className={styles.modalHeader}>{item.id}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.created_at.slice(12,19)}</Col>
-                  <Col className={styles.modalHeader}>{item.updated_at.slice(0,10)}</Col>
-                  <Col className={styles.modalHeader}>{item.rider_name}</Col>
-                </Row>
-              </Container>
-            );
-          })}
-        </Modal.Body>
-      </Modal>
+            {canceledItem?.map((item, index) => {
+              return (
+                <Container
+                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                  // className="order-delivery-container d-flex flex-column gap-2"
+                  fluid
+                  key={index}
+                >
+                  <Row className={styles.modalRow}>
+                    <Col className={styles.modalHeader}>{item.id}</Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(12, 19)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.updated_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-lg-none"
+        >
+          <h4>Cancelled</h4>
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={styles.orderDeliveryContainer}
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.contentContainer}
+                    onClick={() => handleClickCancel(item.id)}
+                  >
+                    <Col className={`col-3 ${styles.idContent}`}>
+                      <Row>
+                        <Col className={styles.modalHeader}>Order ID</Col>
+                      </Row>
+                      <Row>
+                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+                      </Row>
+                    </Col>
+                    <Col className="col-9">
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Date</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Placed Time</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(12, 19)}
+                          </Row>
+                        </Col>
+                      </Row>
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Rider Name</Row>
+                          <Row className={styles.lable}>{item.rider_name}</Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Delivered</Row>
+                          <Row className={styles.lable}>
+                            {item.updated_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+      </>
     );
   }
   return (
@@ -263,14 +374,24 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         <Col>
           <Row>
             <Col className="col-6">
-              <Button onClick={() => setModalShow1(true)} className={styles.buttons}>Completed</Button>
+              <Button
+                onClick={() => setModalShow1(true)}
+                className={styles.buttons}
+              >
+                Completed
+              </Button>
               <CompletedModal
                 show={modalShow1}
                 onHide={() => setModalShow1(false)}
               />
             </Col>
             <Col className="col-6">
-              <Button onClick={() => setModalShow2(true)} className={styles.buttons}>Cancelled</Button>
+              <Button
+                onClick={() => setModalShow2(true)}
+                className={styles.buttons}
+              >
+                Cancelled
+              </Button>
               <CancelledModal
                 show={modalShow2}
                 onHide={() => setModalShow2(false)}

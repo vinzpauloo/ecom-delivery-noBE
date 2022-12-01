@@ -3,10 +3,13 @@ import { Button } from "react-bootstrap";
 
 import styles from "./ReviewOptions.module.scss";
 
-interface ContainerProps {}
+interface ContainerProps {
+  options: string;
+  setOptions: any;
+}
 
-const ReviewOptions: React.FC<ContainerProps> = ({}) => {
-  const options = [
+const ReviewOptions: React.FC<ContainerProps> = ({ options, setOptions }) => {
+  const optionsArr = [
     "Good Service",
     "Fast Moving",
     "Recommended",
@@ -21,8 +24,16 @@ const ReviewOptions: React.FC<ContainerProps> = ({}) => {
     <div className={styles.container}>
       <p>Please select one for review</p>
       <div className={`d-flex gap-2 justify-content-center ${styles.buttons}`}>
-        {options.map((e, i) => {
-          return <Button key={i}>{e}</Button>;
+        {optionsArr.map((e, i) => {
+          return (
+            <Button
+              key={i}
+              onClick={() => setOptions(e)}
+              className={options === e ? styles.active : ""}
+            >
+              {e}
+            </Button>
+          );
         })}
       </div>
     </div>

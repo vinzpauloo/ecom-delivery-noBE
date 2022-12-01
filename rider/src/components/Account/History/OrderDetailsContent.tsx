@@ -22,9 +22,12 @@ type TOrder = {
   customer_mobile: string;
   order_address: string;
   order_status: string;
+  order_mobile: number;
   restaurant_address: string;
-  products: [{ name: string; quantity: number }];
+  restaurant_name: string;
   restaurant_photo: string;
+  products: [{ name: string; quantity: number }];
+  total_amount: number;
 };
 
 // const sampleOrder: TOrder = {
@@ -98,7 +101,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order?.customer_mobile}
+                                {order?.order_mobile}
                               </p>
                             </Col>
                           </Row>
@@ -200,7 +203,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.restaurantLogo}>
                         <p className={`mb-3 ${styles.value}`}>
-                          Chan's Restaurant
+                          {order?.restaurant_name}
                         </p>
                         <img
                           className="img-fluid"
@@ -221,7 +224,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Sub Total :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>1,350 php</p>
+                          <p className={styles.value}>
+                            ₱{order?.total_amount}.00
+                          </p>
                         </Col>
                       </Row>
                       <Row className="mb-2 mb-sm-3">
@@ -229,7 +234,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Delivery Fee :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>85 php</p>
+                          <p className={styles.value}></p>
                         </Col>
                       </Row>
                       <Row>
@@ -237,7 +242,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Total :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>1,435 php</p>
+                          <p className={styles.value}>
+                            ₱{order?.total_amount}.00
+                          </p>
                         </Col>
                       </Row>
                     </Col>

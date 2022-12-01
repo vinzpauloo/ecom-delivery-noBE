@@ -23,6 +23,7 @@
 .riderInfoContainer {
   .riderInfo {
     color: $FM_TEXT_BROWN;
+    text-transform: capitalize;
   }
 
   @include devices(md) {
