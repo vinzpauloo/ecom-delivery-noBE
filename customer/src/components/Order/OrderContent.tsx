@@ -40,11 +40,27 @@ type TOrder = {
   order_status?: string;
   restaurant_address?: string;
   total_amount?: number;
+  rider_name?: string;
+  rider_photo?: string;
+  rider_vehicle_brand?: string;
+  rider_vehicle_model?: string;
+  plate_number?: string;
+};
+
+type TRider = {
+  order_id?: number;
+  rider_id?: number;
+  rider_name?: string;
+  rider_photo?: string;
+  rider_vehicle_brand?: string;
+  rider_vehicle_model?: string;
+  plate_number?: string;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
   const [order, setOrder] = useState<TOrder>();
+  const [rider, setRider] = useState<TRider>();
   const {
     getOrdersById,
     getOrdersByIdGuest,
@@ -61,7 +77,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Get user order
       const response = await getOrdersById(id);
       console.log("getOrdersById response", response);
+
+      const thisRider = {
+        order_id: response.id,
+        rider_id: response.rider_id,
+        rider_name: response.rider_name,
+        rider_photo: response.rider_photo,
+        rider_vehicle_brand: response.rider_vehicle_brand,
+        rider_vehicle_model: response.rider_vehicle_model,
+        plate_number: response.plate_number,
+      };
+
       setOrder(response);
+      setRider(thisRider);
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -220,18 +248,25 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Col>
         </Row>
 
-        <div className="mt-lg-5 mt-4">
-          <Button
-            variant="primary"
-            className={styles.feedback}
-            onClick={() => setModalShow(true)}
-          >
-            Restaurant Feedback
-          </Button>
-        </div>
+        {/* Display feedback button for authenticated users ONLY & when order is DELIVERED */}
+        {order?.order_status === "delivered" && isAuthenticated() && (
+          <div className="mt-lg-5 mt-4">
+            <Button
+              variant="primary"
+              className={styles.feedback}
+              onClick={() => setModalShow(true)}
+            >
+              Restaurant Feedback
+            </Button>
+          </div>
+        )}
       </div>
 
-      <RiderFeedback modalShow={modalShow} setModalShow={setModalShow} />
+      <RiderFeedback
+        modalShow={modalShow}
+        setModalShow={setModalShow}
+        rider={rider}
+      />
 
       {/* <div className={styles.testing}>
         <h6 className="mt-4 text-success">
