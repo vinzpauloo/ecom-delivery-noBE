@@ -3,6 +3,8 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import {
   PersonCircle,
   StarFill,
+  StarHalf,
+  Star,
   ChevronDoubleRight,
 } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +27,33 @@ type TRider = {
   rider_photo?: string;
   rider_vehicle_brand?: string;
   rider_vehicle_model?: string;
+  rider_average_rating?: number;
   plate_number?: string;
+};
+
+const AverageRating = ({ rating = 0 }: { rating: number | undefined }) => {
+  const thisRate = Math.ceil(rating);
+  const thisRemainder = rating % 1;
+
+  if (!rating) return null;
+
+  return (
+    <>
+      {[...Array(thisRate - 1)]?.map((e, i) => (
+        <StarFill key={i} color="#E6B325" size={18} />
+      ))}
+
+      {thisRemainder ? (
+        <StarHalf color="#E6B325" size={18} />
+      ) : (
+        <StarFill color="#E6B325" size={18} />
+      )}
+
+      {[...Array(5 - thisRate)]?.map((e, i) => (
+        <Star key={i} color="#E6B325" size={18} />
+      ))}
+    </>
+  );
 };
 
 const RiderFeedback: React.FC<ContainerProps> = ({
@@ -76,6 +104,8 @@ const RiderFeedback: React.FC<ContainerProps> = ({
     }
   };
 
+  console.log(rider);
+
   return (
     <Modal
       size="xl"
@@ -111,11 +141,7 @@ const RiderFeedback: React.FC<ContainerProps> = ({
                     {rider?.plate_number?.toUpperCase()}
                   </p>
                   <div className={`d-flex gap-1 ${styles.rating}`}>
-                    <StarFill color="#E6B325" size={18} />
-                    <StarFill color="#E6B325" size={18} />
-                    <StarFill color="#E6B325" size={18} />
-                    <StarFill color="#E6B325" size={18} />
-                    <StarFill color="#61481C" size={18} />
+                    <AverageRating rating={rider?.rider_average_rating} />
                   </div>
                 </div>
               </div>

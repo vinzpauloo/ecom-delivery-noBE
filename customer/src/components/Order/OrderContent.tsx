@@ -40,6 +40,7 @@ type TOrder = {
   order_status?: string;
   restaurant_address?: string;
   total_amount?: number;
+  rider_average_rating?: number;
   rider_name?: string;
   rider_photo?: string;
   rider_vehicle_brand?: string;
@@ -54,6 +55,7 @@ type TRider = {
   rider_photo?: string;
   rider_vehicle_brand?: string;
   rider_vehicle_model?: string;
+  rider_average_rating?: number;
   plate_number?: string;
 };
 
@@ -85,6 +87,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         rider_photo: response.rider_photo,
         rider_vehicle_brand: response.rider_vehicle_brand,
         rider_vehicle_model: response.rider_vehicle_model,
+        rider_average_rating: response.rider_average_rating,
         plate_number: response.plate_number,
       };
 
