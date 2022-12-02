@@ -24,10 +24,12 @@ import * as PusherTypes from "pusher-js";
 
 var presenceChannel: PusherTypes.PresenceChannel;
 
-const pusher = new Pusher("301049041d7830d91c0e", {
+const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
