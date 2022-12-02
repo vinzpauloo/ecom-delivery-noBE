@@ -30,6 +30,7 @@ type TOrder = {
   products: [{ name: string; quantity: number }];
   total_amount: number;
   delivered_at: string;
+  received_at: string;
 };
 
 // const sampleOrder: TOrder = {
@@ -169,7 +170,8 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order && getTime(order?.created_at)}
+                                {/* {order && getTime(order?.created_at)} */}
+                                {order?.received_at}
                               </p>
                             </Col>
                           </Row>
