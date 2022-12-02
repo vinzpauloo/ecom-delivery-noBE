@@ -626,6 +626,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
         onHide={() => setEditModal(false)}
         id={editItemId}
         product={product}
+        setEditModal={setEditModal}
       />}
     </div>
   );
@@ -877,6 +878,7 @@ function EditModal(props: any) {
   };
 
   const handleSave = async () => {
+    props.setEditModal(false);
     const data = {
       name: name,
       description: description,
