@@ -204,8 +204,8 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   <tbody>
                     <tr>
                       <td className={styles.orderId}>{item.id}</td>
-                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
-                      <td>{item.created_at.split(".")[0].slice(0, -3)}</td>
+                      <td>{item.created_at}</td>
+                      <td>{item.created_at}</td>
                       <td>{item.delivered_at}</td>
                       <td>{item.rider_name}</td>
                     </tr>
