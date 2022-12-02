@@ -44,6 +44,9 @@ const Map = ({
       center={center}
       mapContainerClassName={styles.map}
       onClick={(e) => mapOnClick(e)}
+      options={{
+        gestureHandling: "greedy",
+      }}
     >
       <Marker position={center} />
     </GoogleMap>
