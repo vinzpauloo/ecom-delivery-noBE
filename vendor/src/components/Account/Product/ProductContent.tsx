@@ -283,7 +283,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       success: (compressedResult) => {
         // compressedResult has the compressed file.
         // Use the compressed file to upload the images to your server.
-        setCompressedFile();
+        // setCompressedFile();
       },
     });
   };
