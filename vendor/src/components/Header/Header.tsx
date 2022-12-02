@@ -47,10 +47,16 @@ const Header: React.FC<ContainerProps> = () => {
     console.log("handleGetUser response", response);
 
     //PusherJS start
-    const pusher = new Pusher("301049041d7830d91c0e", {
+    const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+    const pusher = new Pusher(PUSHER_KEY, {
       cluster: "ap1",
     });
-    console.log("PUSHER", pusher);
+
+    // const pusher = new Pusher("301049041d7830d91c0e", {
+    //   cluster: "ap1",
+    // });
+    // console.log("PUSHER", pusher);
     // Pusher.logToConsole = true;
 
     const restaurantId = response.restaurant[0].id;

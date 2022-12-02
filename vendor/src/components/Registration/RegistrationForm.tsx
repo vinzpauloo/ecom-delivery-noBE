@@ -60,7 +60,7 @@ const schema = yup
       .required(),
     password: yup
       .string()
-      .min(6, constants.form.error.passwordMin)
+      .min(7, constants.form.error.passwordMin)
       .max(16, constants.form.error.passwordMax)
       .required(),
     password_confirmation: yup
