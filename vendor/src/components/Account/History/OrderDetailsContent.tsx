@@ -29,7 +29,6 @@ type TOrder = {
   total_amount: number;
 };
 
-
 // const sampleOrder: TOrder = {
 //   id: 2,
 //   created_at: "01:30 PM",

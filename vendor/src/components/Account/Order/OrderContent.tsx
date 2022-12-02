@@ -10,13 +10,29 @@ import {
   Card,
 } from "react-bootstrap";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
 
 import styles from "./OrderContent.module.scss";
 
 interface ContainerProps {}
+
+type TOrder = {
+  id: number;
+  created_at: string;
+  customer_id: number;
+  customer_name: string;
+  customer_mobile: string;
+  order_address: string;
+  order_status: string;
+  order_mobile: number;
+  restaurant_address: string;
+  restaurant_name: string;
+  restaurant_photo: string;
+  products: [{ name: string; quantity: number }];
+  total_amount: number;
+};
 
 type ForDeliveryItem = {
   created_at: string;
@@ -63,6 +79,9 @@ type ForOtwItem = {
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
+  const [order, setOrder] = useState<TOrder>();
+  const [productItem, setProductItem] = useState<TOrder>();
+
   const {
     getCurrentOrder,
     getForDeliveryOTW,
@@ -70,7 +89,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     getOrderCanceled,
   } = useGetOrderStatus();
 
-  const { updateOrder, cancelOrder } = useOrder();
+  const { updateOrder, cancelOrder, getOrdersById } = useOrder();
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
   const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
@@ -88,6 +107,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const navigate = useNavigate();
+
+  // Get the params from the url
+  const { id } = useParams();
+
+  const loadOrder = async () => {
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", response);
+    setOrder(response);
+  };
 
   const handleCancel = async (id: any) => {
     const response = await cancelOrder(id, "cancel");
@@ -168,7 +196,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     loadPendingOrder("pending");
     loadOrderForDelivery("preparing, otw");
+    loadOrder();
   }, []);
+
+  const handleClickItem = async (props) => {
+    const response = await getOrdersById(props);
+    console.log("getOrdersById response", response);
+    setProductItem(response);
+  };
+
   return (
     <div className={styles.deliveryContainer}>
       <div className={styles.tableContainerHistory}>
@@ -193,7 +229,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <Button className="viewDetailsBtn">View Details</Button> */}
                   Order ID: {item.id}
                 </CustomToggle>
-                <div className="d-md-none">
+                <div
+                  className="d-md-none"
+                  onClick={() => handleClickItem(item.id)}
+                >
                   <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
                 </div>
               </div>
@@ -243,19 +282,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   <hr />
                   <Row>
                     <Col>
-                      <p>
-                        Order Details:
-                        <li>Ramen Noodles</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Watermelon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Peking Duck (1x)</li>
-                      </p>
+                      <p>Order Details:</p>
+                      <ul>
+                        {productItem?.products.map((item) => (
+                          <li key={index}>
+                            {item.quantity}x {item.name}
+                          </li>
+                        ))}
+                      </ul>
                     </Col>
                     <Col>
                       <div className={styles.resto}>
                         <p>Chan's Restaurant</p>
-                        {/* <img src={RestoIcon} alt="resto" /> */}
+                        <img src={productItem?.restaurant_photo} alt="resto" />
                       </div>
                     </Col>
                   </Row>
@@ -429,7 +468,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   Order ID: {item.id}
                 </CustomToggle>
                 <div className="d-md-none">
-                  <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+                  <div
+                    className="d-md-none"
+                    onClick={() => handleClickItem(item.id)}
+                  >
+                    <CustomToggle2 eventKey={item.id}>
+                      View Details
+                    </CustomToggle2>
+                  </div>
                 </div>
               </div>
               <Accordion.Body className={styles.deliveryDetails2}>
@@ -478,19 +524,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   <hr />
                   <Row>
                     <Col>
-                      <p>
-                        Order Details:
-                        <li>Ramen Noodles</li>
-                        <li>Milk Tea(2x)</li>
-                        <li>1 Watermelon</li>
-                        <li>1 Boba Soya</li>
-                        <li>Peking Duck (1x)</li>
-                      </p>
+                      <p>Order Details:</p>
+                      <ul>
+                        {productItem?.products.map((item) => (
+                          <li key={index}>
+                            {item.quantity}x {item.name}
+                          </li>
+                        ))}
+                      </ul>
                     </Col>
                     <Col>
                       <div className={styles.resto}>
                         <p>Chan's Restaurant</p>
-                        {/* <img src={RestoIcon} alt="resto" /> */}
+                        <img src={productItem?.restaurant_photo} alt="resto" />
                       </div>
                     </Col>
                   </Row>
