@@ -79,6 +79,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
 
+  const [checked, setChecked] = React.useState(true);
+
   const [images, setImages] = React.useState<any>();
 
   const [file, setFile] = useState();
@@ -403,7 +405,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                               <Row className="">
                                 <Col>
                                   <Form.Control
-                                    placeholder="Upload"
+                                    value="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
                                   />
@@ -500,7 +502,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                       <Col>
                         <Form.Label>Availability</Form.Label>
-                        <Form.Check type="switch" />
+                        <Form.Check
+                          type="switch"
+                          defaultChecked={checked}
+                          onChange={() => setChecked(!checked)}
+                        />
                       </Col>
                     </Row>
                     <Row>
