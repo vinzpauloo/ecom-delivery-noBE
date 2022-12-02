@@ -113,7 +113,7 @@ const PlacesAutocomplete = ({
   address,
   setAddress,
   setLat,
-  setLng
+  setLng,
 }: {
   address: string;
   setAddress: any;
@@ -219,13 +219,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log(address);
     const data1 = {
-      ...data, 
+      ...data,
       address: address,
       lat: lat.toString(),
-      long: lng.toString()
+      long: lng.toString(),
     };
     // Validate fields
-    const data2 = { 
+    const data2 = {
       ...data,
       photo: images[0].photo,
       address: address,
@@ -234,7 +234,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     };
     const response = await validateFields(data1);
     console.log(data2);
-    
 
     if (response.errors) {
       // Prepare errors
@@ -253,14 +252,12 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleReverseGeocode = async (lat: number, lng: number) => {
-
     const response = await reverseGeocode(lat, lng);
 
     setAddress(response);
   };
 
   const handlePinLocation = () => {
-
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
@@ -271,7 +268,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           name: "geolocation",
         })
         .then(function (result) {
-
           if (result.state === "denied") {
             alert(
               "Location access is denied by your browser. Please grant location permission."
@@ -281,8 +277,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           // if (result.state === "granted") setModalShow(true);
 
           result.onchange = function () {
-
-
             if (result.state === "denied") {
               alert(
                 "Location access is denied by your browser. Please grant location permission."
@@ -293,7 +287,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
-
           setStatus("");
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
@@ -313,7 +306,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const mapOnClick = async (e: any) => {
-
     setLat(e.latLng.lat());
     setLng(e.latLng.lng());
 
@@ -423,10 +415,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                       placeholder="Restaurant Name"
                       required
                       {...register("name")}
-                  />
+                    />
                   </Form.Group>
                 </Col>
-                <Col className="col-lg-3 col-md-4 ps-1">             
+                <Col className="col-lg-3 col-md-4 ps-1">
                   <Button
                     variant="primary"
                     className={styles.pin}
@@ -489,7 +481,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   onImageRemove,
                   isDragging,
                   dragProps,
-                  errors
+                  errors,
                 }) => (
                   <div className="d-flex flex-column justify-content-center align-items-center gap-2">
                     {defaultImg ? (
@@ -500,7 +492,10 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                     ) : (
                       imageList.map((image, index) => (
                         <div key={index} className="image-item">
-                            <img src={image.photo} className={styles.thumbNail2} />
+                          <img
+                            src={image.photo}
+                            className={styles.thumbNail2}
+                          />
                           <div className="image-item__btn-wrapper">
                             <a
                               onClick={() => handleRemove(onImageRemove, index)}
@@ -520,7 +515,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                         />
                       </Col>
                     </Row>
-                    {/* {errors && (
+                    {errors && (
                       <div>
                         {errors.maxNumber && (
                           <span style={{ color: "red", fontWeight: "600" }}>
@@ -543,7 +538,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                           </span>
                         )}
                       </div>
-                    )} */}
+                    )}
                   </div>
                 )}
               </ImageUploading>

@@ -287,6 +287,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="photo"
+          maxFileSize={1572864}
         >
           {({
             imageList,
@@ -296,6 +297,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             onImageRemove,
             isDragging,
             dragProps,
+            errors,
           }) => (
             <div className="d-flex flex-column justify-content-center align-items-center gap-2">
               {defaultImg ? (
@@ -370,6 +372,50 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   Next
                 </Button>
               </div>
+              {errors && (
+                <div>
+                  {errors.maxNumber && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Number of selected images exceed.
+                    </span>
+                  )}
+                  {errors.acceptType && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Your selected file type is not allowed.
+                    </span>
+                  )}
+                  {errors.maxFileSize && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Selected file size exceeded 1.5 MB.
+                    </span>
+                  )}
+                  {errors.resolution && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Selected file does not match the desired resolution
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </ImageUploading>
