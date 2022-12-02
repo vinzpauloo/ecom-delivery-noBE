@@ -473,57 +473,83 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
               </Row>
             </Col>
             <Col className="col-md-3">
-                <ImageUploading
-                  multiple
-                  value={images}
-                  onChange={onChange}
-                  maxNumber={maxNumber}
-                  dataURLKey="photo"
-                >
-                  {({
-                    imageList,
-                    onImageUpload,
-                    onImageRemoveAll,
-                    onImageUpdate,
-                    onImageRemove,
-                    isDragging,
-                    dragProps,
-                  }) => (
-                    <div className="d-flex flex-column justify-content-center align-items-center gap-2">
-                      {defaultImg ? (
-                        <img
-                          src={DefaultThumbnail}
-                          className={styles.thumbNail}
-                        />
-                      ) : (
-                        imageList.map((image, index) => (
-                          <div key={index} className="image-item">
+              <ImageUploading
+                multiple
+                value={images}
+                onChange={onChange}
+                maxNumber={maxNumber}
+                dataURLKey="photo"
+                maxFileSize={1572864}
+              >
+                {({
+                  imageList,
+                  onImageUpload,
+                  onImageRemoveAll,
+                  onImageUpdate,
+                  onImageRemove,
+                  isDragging,
+                  dragProps,
+                  errors
+                }) => (
+                  <div className="d-flex flex-column justify-content-center align-items-center gap-2">
+                    {defaultImg ? (
+                      <img
+                        src={DefaultThumbnail}
+                        className={styles.thumbNail}
+                      />
+                    ) : (
+                      imageList.map((image, index) => (
+                        <div key={index} className="image-item">
                             <img src={image.photo} className={styles.thumbNail2} />
-                            <div className="image-item__btn-wrapper">
-                              <a
-                                onClick={() => handleRemove(onImageRemove, index)}
-                              >
-                                Remove
-                              </a>
-                            </div>
+                          <div className="image-item__btn-wrapper">
+                            <a
+                              onClick={() => handleRemove(onImageRemove, index)}
+                            >
+                              Remove
+                            </a>
                           </div>
-                        ))
-                      )}
-                      <Row className="">
-                        <Col>
-                          <Form.Control
-                            placeholder="Upload Logo"
-                            className={styles.btnUpload}
-                            onClick={() => handleClick(onImageUpload)}
-                          />
-                        </Col>
-                      </Row>
-                    </div>
-                  )}
-                </ImageUploading>
+                        </div>
+                      ))
+                    )}
+                    <Row className="">
+                      <Col>
+                        <Form.Control
+                          placeholder="Upload Logo"
+                          className={styles.btnUpload}
+                          onClick={() => handleClick(onImageUpload)}
+                        />
+                      </Col>
+                    </Row>
+                    {/* {errors && (
+                      <div>
+                        {errors.maxNumber && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Number of selected images exceed.
+                          </span>
+                        )}
+                        {errors.acceptType && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Your selected file type is not allowed.
+                          </span>
+                        )}
+                        {errors.maxFileSize && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Selected file size exceeded 1.5 MB.
+                          </span>
+                        )}
+                        {errors.resolution && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Selected file does not match the desired resolution
+                          </span>
+                        )}
+                      </div>
+                    )} */}
+                  </div>
+                )}
+              </ImageUploading>
             </Col>
           </Row>
-          
+
           {/* Error messages */}
           <div className={styles.errors}>
             {apiErrors.map((item, index) => {

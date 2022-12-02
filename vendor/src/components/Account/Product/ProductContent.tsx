@@ -79,6 +79,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
 
+  const [checked, setChecked] = React.useState(true);
+
   const [images, setImages] = React.useState<any>();
 
   const [file, setFile] = useState();
@@ -362,6 +364,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           onChange={onChange}
                           maxNumber={maxNumber}
                           dataURLKey="photo"
+                          maxFileSize={1572864}
                         >
                           {({
                             imageList,
@@ -371,6 +374,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             onImageRemove,
                             isDragging,
                             dragProps,
+                            errors,
                           }) => (
                             <div className="">
                               {defaultImg ? (
@@ -401,12 +405,57 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                               <Row className="">
                                 <Col>
                                   <Form.Control
-                                    placeholder="Upload"
+                                    value="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
                                   />
                                 </Col>
                               </Row>
+                              {errors && (
+                                <div>
+                                  {errors.maxNumber && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Number of selected images exceed.
+                                    </span>
+                                  )}
+                                  {errors.acceptType && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Your selected file type is not allowed.
+                                    </span>
+                                  )}
+                                  {errors.maxFileSize && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file size exceeded 1.5 MB.
+                                    </span>
+                                  )}
+                                  {errors.resolution && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file does not match the desired
+                                      resolution
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           )}
                         </ImageUploading>
@@ -453,7 +502,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                       <Col>
                         <Form.Label>Availability</Form.Label>
-                        <Form.Check type="switch" checked={true} disabled />
+                        <Form.Check
+                          type="switch"
+                          defaultChecked={checked}
+                          onChange={() => setChecked(!checked)}
+                        />
                       </Col>
                     </Row>
                     <Row>
