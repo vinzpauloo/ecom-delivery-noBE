@@ -28,7 +28,7 @@ import SearchIcon from "../../../assets/images/search.png";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
 
 //Image Compressor
-import Compressor from "compressorjs";
+// import Compressor from "compressorjs";
 
 interface ContainerProps {}
 
@@ -72,6 +72,24 @@ const schema = yup
   .required();
 
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
+
+const ProductAvailability = ({availability, id}) => {
+  const {updateProductAvailability} = useProduct();
+  const [check, setCheck] = useState(!!availability);
+
+  const handleClick = async (bol) => {
+    const response = await updateProductAvailability(id, {
+      "is_available": bol
+    })
+
+    console.log(response)
+  }
+  return(
+    <td>
+      <Form.Check type="switch" checked={check} onChange={() => setCheck(!check)} onClick={() => handleClick(!check)}/>
+  </td>
+  )
+}
 
 const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [menuModal, setMenuModal] = useState(false);
@@ -181,7 +199,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     const menu = {
       ...data,
       restaurant_id: auth()?.restaurant[0].id,
-      is_available: true,
+      is_available: checked,
       categories: [parseInt(data.categories)],
       cuisines: [parseInt(data.cuisines)],
       photo: images[0].photo,
@@ -274,19 +292,19 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   }, [file]);
 
   //Image Compressor
-  const [compressedFile, setCompressedFile] = useState(null);
+  // const [compressedFile, setCompressedFile] = useState(null);
 
-  const handleCompressedUpload = (e) => {
-    const image = e.target.files[0];
-    new Compressor(image, {
-      quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
-      success: (compressedResult) => {
-        // compressedResult has the compressed file.
-        // Use the compressed file to upload the images to your server.
-        // setCompressedFile();
-      },
-    });
-  };
+  // const handleCompressedUpload = (e) => {
+  //   const image = e.target.files[0];
+  //   new Compressor(image, {
+  //     quality: 0.8, // 0.6 can also be used, but its not recommended to go below.
+  //     success: (compressedResult) => {
+  //       // compressedResult has the compressed file.
+  //       // Use the compressed file to upload the images to your server.
+  //       // setCompressedFile();
+  //     },
+  //   });
+  // };
   //
 
   return (
@@ -423,13 +441,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                               )}
                               <Row className="">
                                 <Col>
-                                  <Button
+                                  <Form.Control
                                     value="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
-                                  >
-                                    Upload
-                                  </Button>
+                                  />
                                 </Col>
                               </Row>
                               {errors && (
@@ -491,7 +507,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           className={styles.btnCategory}
                         >
                           {categories?.map((categories) => (
-                            <option value={categories.id} key={categories.id}>
+                            <option value={categories.id}>
                               {categories.name}
                             </option>
                           ))}
@@ -517,9 +533,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           className={styles.btnCuisine}
                         >
                           {cuisines?.map((cuisines) => (
-                            <option value={cuisines.id} key={cuisines.id}>
-                              {cuisines.name}
-                            </option>
+                            <option value={cuisines.id}>{cuisines.name}</option>
                           ))}
                         </Form.Select>
                       </Col>
@@ -577,25 +591,19 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                     <td>
                       <p className={styles.textParagrap2}>Php {item.price}</p>
                     </td>
-                    <td>
-                      <Form.Check
-                        type="switch"
-                        checked={item.is_available}
-                        onChange={() => setChecked(!checked)}
-                      />
-                    </td>
+                    <ProductAvailability availability={item.is_available} id={item.id}/>
                     <td>
                       <div>
-                        {/* <Button
+                        <Button
                           className={styles.btnEdit}
                           onClick={() => handleEdit(item.id)}
                         >
                           Edit
-                        </Button> */}
-                        {/* <EditModal
+                        </Button>
+                        <EditModal
                           show={editModal}
                           onHide={() => setEditModal(false)}
-                        /> */}
+                        />
                         <Button
                           className={styles.btnDelete}
                           onClick={() => handleDelete(item.id)}
@@ -796,7 +804,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 // }
 
 function EditModal(props: any) {
-  // const [product, setProduct] = useState<TMenu[] | null>(null);
+  const [product, setProduct] = useState<TMenu[] | null>(null);
   // const { getProductById } = useProduct();
   // const auth = useAuthUser();
   // const loadRestaurantByProductId = async () => {
@@ -811,92 +819,92 @@ function EditModal(props: any) {
   // useEffect(() => {
   //   loadRestaurantByProductId();
   // }, []);
-  //   return (
-  //     <Modal {...props} size="lg">
-  //       <Modal.Header closeButton className={styles.modalHeader}>
-  //         <Modal.Title id="contained-modal-title-vcenter">Menu</Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body className={styles.modalBody}>
-  //         <Form>
-  //           <Row>
-  //             <Col>
-  //               <h6>Add Menu</h6>
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col lg={4} xs={8}>
-  //               <Form.Group className="position-relative">
-  //                 <Form.Label>Food Name</Form.Label>
-  //                 <Form.Control className={styles.inputForm} type="text" />
-  //               </Form.Group>
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col>
-  //               <Form.Group className="position-relative">
-  //                 <Form.Label>Food Description</Form.Label>
-  //                 <Form.Control as="textarea" />
-  //               </Form.Group>
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col lg={4} xs={8}>
-  //               <Form.Group className="position-relative">
-  //                 <Form.Label>Price in PH-PESO</Form.Label>
-  //                 <Form.Control className={styles.inputForm} type="text" />
-  //               </Form.Group>
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col lg={4} xs={8}>
-  //               <Form.Label>Category</Form.Label>
-  //               <Dropdown>
-  //                 <Dropdown.Toggle className={styles.btnCategory}>
-  //                   Category
-  //                 </Dropdown.Toggle>
-  //                 <Dropdown.Menu>
-  //                   <Dropdown.Item href="#action-1">Category1</Dropdown.Item>
-  //                   <Dropdown.Item href="#action-2">Category2</Dropdown.Item>
-  //                   <Dropdown.Item href="#action-3">Category3</Dropdown.Item>
-  //                 </Dropdown.Menu>
-  //               </Dropdown>
-  //             </Col>
-  //             <Col>
-  //               <Button className={styles.btnUpload}>Upload</Button>
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col lg={4} xs={8}>
-  //               <Form.Label>Cuisine</Form.Label>
-  //               <Dropdown>
-  //                 <Dropdown.Toggle className={styles.btnCuisine}>
-  //                   Cuisine
-  //                 </Dropdown.Toggle>
-  //                 <Dropdown.Menu>
-  //                   <Dropdown.Item href="#action-1">Cuisine1</Dropdown.Item>
-  //                   <Dropdown.Item href="#action-2">Cuisine2</Dropdown.Item>
-  //                   <Dropdown.Item href="#action-3">Cuisine3</Dropdown.Item>
-  //                 </Dropdown.Menu>
-  //               </Dropdown>
-  //             </Col>
-  //             <Col>
-  //               <Form.Label>Availability</Form.Label>
-  //               <Form.Check type="switch" />
-  //             </Col>
-  //           </Row>
-  //           <Row>
-  //             <Col className="d-flex justify-content-center gap-2">
-  //               <Button className={styles.btnDiscard} onClick={props.onHide}>
-  //                 Discard
-  //               </Button>
-  //               <Button className={styles.btnSaveMenu}>Save Menu</Button>
-  //             </Col>
-  //           </Row>
-  //         </Form>
-  //       </Modal.Body>
-  //     </Modal>
-  //   );
-  // }
+    return (
+      <Modal {...props} size="lg">
+        <Modal.Header closeButton className={styles.modalHeader}>
+          <Modal.Title id="contained-modal-title-vcenter">Menu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={styles.modalBody}>
+          <Form>
+            <Row>
+              <Col>
+                <h6>Add Menu</h6>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={4} xs={8}>
+                <Form.Group className="position-relative">
+                  <Form.Label>Food Name</Form.Label>
+                  <Form.Control className={styles.inputForm} type="text" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group className="position-relative">
+                  <Form.Label>Food Description</Form.Label>
+                  <Form.Control as="textarea" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={4} xs={8}>
+                <Form.Group className="position-relative">
+                  <Form.Label>Price in PH-PESO</Form.Label>
+                  <Form.Control className={styles.inputForm} type="text" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={4} xs={8}>
+                <Form.Label>Category</Form.Label>
+                <Dropdown>
+                  <Dropdown.Toggle className={styles.btnCategory}>
+                    Category
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#action-1">Category1</Dropdown.Item>
+                    <Dropdown.Item href="#action-2">Category2</Dropdown.Item>
+                    <Dropdown.Item href="#action-3">Category3</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Col>
+              <Col>
+                <Button className={styles.btnUpload}>Upload</Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={4} xs={8}>
+                <Form.Label>Cuisine</Form.Label>
+                <Dropdown>
+                  <Dropdown.Toggle className={styles.btnCuisine}>
+                    Cuisine
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#action-1">Cuisine1</Dropdown.Item>
+                    <Dropdown.Item href="#action-2">Cuisine2</Dropdown.Item>
+                    <Dropdown.Item href="#action-3">Cuisine3</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Col>
+              <Col>
+                <Form.Label>Availability</Form.Label>
+                <Form.Check type="switch" />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-center gap-2">
+                <Button className={styles.btnDiscard} onClick={props.onHide}>
+                  Discard
+                </Button>
+                <Button className={styles.btnSaveMenu}>Save Menu</Button>
+              </Col>
+            </Row>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
   // function DeleteModal(props: any) {
   //   return (
   //     <Modal {...props} size="lg">
@@ -915,6 +923,6 @@ function EditModal(props: any) {
   //     </Modal>
   //   );
   // }
-}
+
 
 export default ProductContent;
