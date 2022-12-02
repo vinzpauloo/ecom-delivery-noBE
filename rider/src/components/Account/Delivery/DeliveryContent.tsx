@@ -22,6 +22,7 @@ import * as yup from "yup";
 
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
 import { useOrder } from "../../../hooks/useOrder";
+import { getDate, getTime } from "../../../utils/formatDate";
 
 import constants from "../../../utils/constants.json";
 
@@ -529,7 +530,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     <Row>
                       <Col>
                         <p>
-                          Order Placed Time: <span>{item.created_at}</span>
+                          Order Placed Time:{" "}
+                          <span>{item && getTime(item.created_at)}</span>
                         </p>
                       </Col>
                       <Col>
@@ -624,7 +626,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Row>
                     <Col>
                       <p>
-                        Order Placed Time: <span>{item.created_at}</span>
+                        Order Placed Time:{" "}
+                        <span>{item && getTime(item.created_at)}</span>
                       </p>
                     </Col>
                     <Col>
@@ -667,7 +670,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Row className="p-1">
                     <Col>
                       <p>
-                        Order Placed Time: <span>{item.created_at}</span>
+                        Order Placed Time:{" "}
+                        <span>{item && getTime(item.created_at)}</span>
                       </p>
                     </Col>
                     <Col>
@@ -761,7 +765,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     <Row>
                       <Col>
                         <p>
-                          Order Placed Time: <span>{item.created_at}</span>
+                          Order Placed Time:{" "}
+                          <span>{item && getTime(item.created_at)}</span>
                         </p>
                       </Col>
                       <Col>
@@ -856,7 +861,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Row>
                     <Col>
                       <p>
-                        Order Placed Time: <span>{item.created_at}</span>
+                        Order Placed Time:{" "}
+                        <span>{item && getTime(item.created_at)}</span>
                       </p>
                     </Col>
                     <Col>
@@ -899,7 +905,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Row className="p-1">
                     <Col>
                       <p>
-                        Order Placed Time: <span>{item.created_at}</span>
+                        Order Placed Time:{" "}
+                        <span>{item && getTime(item.created_at)}</span>
                       </p>
                     </Col>
                     <Col>
