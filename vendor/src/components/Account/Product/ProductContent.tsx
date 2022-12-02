@@ -423,11 +423,13 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                               )}
                               <Row className="">
                                 <Col>
-                                  <Form.Control
+                                  <Button
                                     value="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
-                                  />
+                                  >
+                                    Upload
+                                  </Button>
                                 </Col>
                               </Row>
                               {errors && (
@@ -489,7 +491,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           className={styles.btnCategory}
                         >
                           {categories?.map((categories) => (
-                            <option value={categories.id}>
+                            <option value={categories.id} key={categories.id}>
                               {categories.name}
                             </option>
                           ))}
@@ -515,7 +517,9 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           className={styles.btnCuisine}
                         >
                           {cuisines?.map((cuisines) => (
-                            <option value={cuisines.id}>{cuisines.name}</option>
+                            <option value={cuisines.id} key={cuisines.id}>
+                              {cuisines.name}
+                            </option>
                           ))}
                         </Form.Select>
                       </Col>
@@ -574,7 +578,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       <p className={styles.textParagrap2}>Php {item.price}</p>
                     </td>
                     <td>
-                      <Form.Check type="switch" checked={item.is_available} />
+                      <Form.Check
+                        type="switch"
+                        checked={item.is_available}
+                        onChange={() => setChecked(!checked)}
+                      />
                     </td>
                     <td>
                       <div>
