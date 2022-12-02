@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Container, Row, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import styles from "./HistoryStatusCompletedContent.module.scss";
-import { useGetOrderStatus } from "../../../../hooks/useGetOrderStatus";
+import { useOrder } from "../../../../hooks/useOrder";
 import imgs from "../../../../assets/images/kitchen-prep.png";
 import delivered from "../../../../assets/images/delivered.png";
 
@@ -37,7 +37,14 @@ type GetDeliveredItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: number;
+  total_amount: number;
+  products: products[]
 };
+
+type products = {
+  name: string;
+  quantity: number;
+}
 
 const SwiperSlideItem = () => {
   return(
@@ -53,20 +60,19 @@ const SwiperSlideItem = () => {
 
 const HistoryStatusContent = (props) => {
     const {id} = useParams();
-    const { getReceived, getAllOrders, getOrderCompleted, getOrderCanceled } = useGetOrderStatus();
-    const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
+    const { getOrdersById } = useOrder();
+    const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem>();
+    const [quantity, setQuantity] = useState(0);
 
-    const loadDeliveredItem = async (status: string) => {
-      const params = { status: status };
-      const response = await getOrderCompleted(params);
+    const loadDeliveredItem = async () => {
+      const response = await getOrdersById(id);
       console.log("getOrderCompleted", response);
-      setDeliveredItem(response.data);
+      setDeliveredItem(response);
     };
 
     useEffect(() => {
-      loadDeliveredItem("delivered");
+      loadDeliveredItem();
     }, []);
-
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>
@@ -84,12 +90,12 @@ const HistoryStatusContent = (props) => {
       <Row>
         <Col>
           <Row className={styles.titleContent}>
-            <h1 className={styles.title}>Header</h1>
+            <h1 className={styles.title}>{deliveredItem?.restaurant_name}</h1>
           </Row>
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={styles.id}>Order Id</h1>  
+                <h1 className={styles.id}>Order : {deliveredItem?.id}</h1>  
                 <Swiper
                 modules={[Grid]}
                 spaceBetween={15}
@@ -126,34 +132,37 @@ const HistoryStatusContent = (props) => {
             </Col>
             <Col  className={`${styles.rightContainer} col-5`}>
               <Row className={styles.topContent}>
-                <div className={styles.topContentOrderId}>ORDER ID : 4546</div>
-                <div className={styles.topContentOrderTitle}>FOOD TITLE</div>
+                <div className={styles.topContentOrderId}>Order : {deliveredItem?.id}</div>
+                <div className={styles.topContentOrderTitle}>{deliveredItem?.restaurant_name}</div>
                 <Row>
                   <Col className={styles.topContentOrderLeft}>
                     <Row className={styles.address}>
                       <h4>Delivery Address</h4>
-                      <p>4117 41st Floor., GT Tower Intl., De La Costa, Makati CIty, Philippines</p>
+                      <p>{deliveredItem?.order_address}</p>
                     </Row>
                     <Row className={styles.items}>
                       <h4>Items</h4>
-                      <p>2x Burger</p>
-                      <p>1x Spaghetti</p>
-                      <p>3x Softdrinks</p>
+                      {
+                        deliveredItem?.products.map((item, index) => {
+                          setQuantity(prev => prev + item.quantity);
+                          return (<p key={index}>{item.quantity}x {item.name}</p>)
+                        })
+                      }
                     </Row>
                   </Col>
                   <Col className={styles.topContentOrderRight}>
                     <h6 className={styles.status}>Order Status</h6>
                     <img src={delivered} alt="" />
-                    <h6 className={styles.orderReceived}>Order Received</h6>
+                    <h6 className={styles.orderReceived}>{deliveredItem?.order_status}</h6>
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
-                      <p>1,350 php</p>
+                      <p>{deliveredItem?.total_amount} php</p>
                     </div>
                   </Col>
                 </Row>
                 <Row className={styles.riderContent}>
                   <p className={styles.assignedRider}>Assigned Rider</p>
-                  <p className={styles.rider}>Jaime - Kawasaki Z1000R</p>
+                  <p className={styles.rider}>{deliveredItem?.rider_name}</p>
                 </Row>
               </Row>
               <Row className={styles.bottomContent}>
@@ -162,7 +171,7 @@ const HistoryStatusContent = (props) => {
                 <div>
                   <p>
                     <span>Item count</span>
-                    <span>012</span>
+                    <span>{quantity}</span>
                   </p>
                   <p>
                     <span>Sub-Total</span>

@@ -68,8 +68,42 @@ export const useReviews = () => {
     }
   };
 
+  const getRestaurantReviewsById = async (id, data) => {
+    console.log("getRestaurantReviewsById hook ...");
+
+    try {
+      // START: Access restaurant reviews by id API
+      const endpoint = `api/restaurants/${id}`;
+      const options = {
+        params: data,
+        headers: {
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+        withCredentials: true,
+      };
+
+      const response = await axios.get(endpoint, options);
+      // END: Access restaurant reviews by id API
+
+      if (response.status === 200) {
+        const { data } = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return error;
+    }
+  };
+
   return {
     reviewRider,
     reviewRestaurant,
+    getRestaurantReviewsById,
   };
 };

@@ -24,7 +24,9 @@ import * as PusherTypes from "pusher-js";
 
 var presenceChannel: PusherTypes.PresenceChannel;
 
-const pusher = new Pusher("301049041d7830d91c0e", {
+const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
 Pusher.logToConsole = true;
@@ -95,9 +97,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setOrder(response);
       setRider(thisRider);
 
-      const channel = pusher.subscribe(
-        "Customer-Channel-" + response.customer_id
-      );
+      // Specific customer channel
+      // const channel = pusher.subscribe(
+      //   "Customer-Channel-" + response.customer_id
+      // );
+
+      // Specific order channel
+      const channel = pusher.subscribe("Order-Channel-" + response.id);
       channel.bind("Order-Updated-Event", (data: any) => {
         const parsedData = JSON.parse(data.data);
         console.log(data);
@@ -105,7 +111,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
         const status = parsedData.status;
 
+        const thisRider = {
+          order_id: parsedData.id,
+          rider_id: parsedData.rider_id,
+          rider_name: parsedData.rider_name,
+          rider_photo: parsedData.rider_photo,
+          rider_vehicle_brand: parsedData.rider_vehicle_brand,
+          rider_vehicle_model: parsedData.rider_vehicle_model,
+          rider_average_rating: parsedData.rider_average_rating,
+          plate_number: parsedData.plate_number,
+        };
+
         setOrder({ ...parsedData, order_status: status });
+        setRider(thisRider);
       });
     } else {
       // Get guest session in local storage

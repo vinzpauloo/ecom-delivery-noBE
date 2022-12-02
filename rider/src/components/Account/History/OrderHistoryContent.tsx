@@ -18,6 +18,8 @@ import styles from "./OrderHistoryContent.module.scss";
 
 import SearchIcon from "../../../assets/images/search.png";
 
+import { getDate, getTime } from "../../../utils/formatDate";
+
 interface ContainerProps {}
 
 type ForDeliveryItem = {
@@ -396,9 +398,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
                                         {/* {getTime(item.created_at)} */}
-                                        {item.created_at
+                                        {/* {item.created_at
                                           .split(".")[0]
-                                          .slice(0, -3)}
+                                          .slice(0, -3)} */}
+                                        {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
                                   </Row>
@@ -430,9 +433,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
                                         {/* {getDate(item.created_at)} */}
-                                        {item.created_at
-                                          .split(".")[0]
-                                          .slice(0, -3)}
+                                        {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
                                   </Row>
@@ -554,9 +555,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
                                         {/* {getTime(item.created_at)} */}
-                                        {item.created_at
-                                          .split(".")[0]
-                                          .slice(0, -3)}
+                                        {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
                                   </Row>
@@ -588,9 +587,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
                                         {/* {getDate(item.created_at)} */}
-                                        {item.created_at
-                                          .split(".")[0]
-                                          .slice(0, -3)}
+                                        {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
                                   </Row>

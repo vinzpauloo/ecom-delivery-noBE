@@ -49,7 +49,7 @@ const schema = yup
     email: yup.string().email(constants.form.error.email).required(),
     password: yup
       .string()
-      .min(6, constants.form.error.passwordMin)
+      .min(7, constants.form.error.passwordMin)
       .max(16, constants.form.error.passwordMax)
       .required(),
     password_confirmation: yup
@@ -57,7 +57,13 @@ const schema = yup
       .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
       .required(),
     license_number: yup.string().required(),
-    license_expiration: yup.string().required(),
+    license_expiration: yup
+      .string()
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        constants.form.error.licenseExpirationFormat
+      )
+      .required(),
   })
   .required();
 
@@ -287,6 +293,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="photo"
+          maxFileSize={1572864}
         >
           {({
             imageList,
@@ -296,6 +303,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
             onImageRemove,
             isDragging,
             dragProps,
+            errors,
           }) => (
             <div className="d-flex flex-column justify-content-center align-items-center gap-2">
               {defaultImg ? (
@@ -370,6 +378,50 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   Next
                 </Button>
               </div>
+              {errors && (
+                <div>
+                  {errors.maxNumber && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Number of selected images exceed.
+                    </span>
+                  )}
+                  {errors.acceptType && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Your selected file type is not allowed.
+                    </span>
+                  )}
+                  {errors.maxFileSize && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Selected file size exceeded 1.5 MB.
+                    </span>
+                  )}
+                  {errors.resolution && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Selected file does not match the desired resolution
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </ImageUploading>
