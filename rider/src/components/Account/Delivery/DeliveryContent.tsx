@@ -555,7 +555,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                           <p style={{ fontWeight: "600" }}>
                             {item.restaurant_name}
                           </p>
-                          <img src={RestoIcon} alt="resto" />
+                          <img src={item.restaurant_photo} alt="resto" />
                         </div>
                       </Col>
                     </Row>
@@ -787,7 +787,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                           <p style={{ fontWeight: "600" }}>
                             {item.restaurant_name}
                           </p>
-                          <img src={RestoIcon} alt="resto" />
+                          <img src={item.restaurant_photo} alt="resto" />
                         </div>
                       </Col>
                     </Row>

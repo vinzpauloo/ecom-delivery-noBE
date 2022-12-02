@@ -63,6 +63,7 @@ type TOrder = {
   restaurant_address?: string;
   total_amount?: number;
   products?: [{ name: string; quantity: number }];
+  plate_number?: string;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
@@ -74,6 +75,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForDeliveryItem>();
   const [orderData, setOrderData] = useState<any>([]);
   const [modalShow, setModalShow] = React.useState(false);
+
+  const [products, setProducts] = useState<any>([]);
 
   const navigate = useNavigate();
   // Get the params from the URL
@@ -129,7 +132,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Get user order
       const response = await getOrdersById(id);
       console.log("getOrdersById response", response);
+      console.log(response.products);
       setOrder(response);
+      setProducts(response.products);
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -146,7 +151,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     loadOrderForDelivery("preparing");
   }, []);
 
-  console.log("test", orderData);
   function OtwModal(props: any) {
     return (
       <Modal {...props} size="lg" aria-labelledby="">
@@ -253,20 +257,31 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <ul title="Items:">
                   <Row>
                     <Col>
-                      <li>{orderData.products} </li>
+                      {products?.map((item: any, index: any) => {
+                        console.log("test");
+                        return (
+                          <li key={index}>
+                            {item.quantity} x {item.name}
+                          </li>
+                        );
+                      })}
+                      &nbsp;
+                      <p>Total:</p>
+                      <li>₱{order?.total_amount}.00</li>
+                      {/* <li> </li>
                       <li>Ramen Noodles</li>
                       <li>
                         {" "}
                         2x Milk tea <span>(1 watermelon)</span>
                         <span>(1 Soya bean)</span>
                       </li>
-                      <li> 1x Peking Duck</li>
+                      <li> 1x Peking Duck</li> */}
                     </Col>
-                    <Col>
+                    {/* <Col>
                       <li>145php x3 - 435php</li>
                       <li> 120php x2 - 240php</li>
                       <li> 500php 1x - 500php</li>
-                    </Col>
+                    </Col> */}
                   </Row>
                 </ul>
               </Row>
