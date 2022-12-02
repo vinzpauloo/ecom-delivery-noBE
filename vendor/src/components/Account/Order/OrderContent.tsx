@@ -167,7 +167,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadPendingOrder("pending");
-    loadOrderForDelivery("preparing");
+    loadOrderForDelivery("preparing, otw");
   }, []);
   return (
     <div className={styles.deliveryContainer}>
