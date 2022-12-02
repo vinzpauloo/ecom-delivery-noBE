@@ -11,6 +11,8 @@ import statusIsDelivered from "../../../assets/images/delivered.png";
 
 import styles from "./OrderDetailsContent.module.scss";
 
+import { getDate, getTime } from "../../../utils/formatDate";
+
 interface ContainerProps {}
 
 type TOrder = {
@@ -27,6 +29,8 @@ type TOrder = {
   restaurant_photo: string;
   products: [{ name: string; quantity: number }];
   total_amount: number;
+  delivered_at: string;
+  received_at: string;
 };
 
 // const sampleOrder: TOrder = {
@@ -138,7 +142,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order?.created_at}
+                                {order && getTime(order?.created_at)}
                               </p>
                             </Col>
                           </Row>
@@ -150,7 +154,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order?.created_at}
+                                {order && getTime(order?.delivered_at)}
                               </p>
                             </Col>
                           </Row>
@@ -166,7 +170,8 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order?.created_at}
+                                {/* {order && getTime(order?.created_at)} */}
+                                {order?.received_at}
                               </p>
                             </Col>
                           </Row>

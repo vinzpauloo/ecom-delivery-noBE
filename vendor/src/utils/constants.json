@@ -15,7 +15,7 @@
       "landline": "Invalid landline number",
       "firstNameMin": "*First name must be at least 6 characters.",
       "lastNameMin": "*Last name must be at least 6 characters.",
-      "passwordMin": "*Password must be at least 6 characters.",
+      "passwordMin": "*Password must be at least 7 characters.",
       "passwordMax": "*Password must be at most 16 characters.",
       "passwordConfirm": "*Password don't match.",
       "nameMin": "*Name must be at least 6 characters.",
