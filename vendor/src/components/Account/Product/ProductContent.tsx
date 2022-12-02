@@ -96,12 +96,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [categories, setCategories] = useState<Categories[]>([]);
+  const [category, setCategory] = useState("");
   const [cuisines, setCuisines] = useState<Cuisines[]>([]);
+  const [cuisine, setCuisine] = useState("");
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
 
   const [checked, setChecked] = React.useState(true);
-
+  const [editItemId, setEditItemId] = useState(0);
   const [images, setImages] = React.useState<any>();
 
   const [file, setFile] = useState();
@@ -132,7 +134,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 
   const handleEdit = (id: any) => {
     setEditModal(true);
-    console.log(id);
+    setEditItemId(id);
   };
 
   const discardMenu = async () => {
@@ -600,10 +602,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         >
                           Edit
                         </Button>
-                        <EditModal
-                          show={editModal}
-                          onHide={() => setEditModal(false)}
-                        />
                         <Button
                           className={styles.btnDelete}
                           onClick={() => handleDelete(item.id)}
@@ -623,6 +621,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
           </Table>
         </Form>
       </div>
+      {editModal && <EditModal
+        show={editModal}
+        onHide={() => setEditModal(false)}
+        id={editItemId}
+        product={product}
+      />}
     </div>
   );
 };
@@ -804,21 +808,95 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 // }
 
 function EditModal(props: any) {
-  const [product, setProduct] = useState<TMenu[] | null>(null);
-  // const { getProductById } = useProduct();
-  // const auth = useAuthUser();
-  // const loadRestaurantByProductId = async () => {
-  //   const params = {
-  //     id: auth()?.id,
-  //   };
-  //   console.log(params);
-  //   const response = await getProductById(params);
-  //   console.log("getRestaurantProduct response", response);
-  //   setProduct(response);
-  // };
-  // useEffect(() => {
-  //   loadRestaurantByProductId();
-  // }, []);
+
+  const { getCategories } = useCategories();
+  const { getCuisines } = useCuisines();
+  const [categories, setCategories] = useState<Categories[]>([]);
+  const [category, setCategory] = useState("");
+  const [cuisines, setCuisines] = useState<Cuisines[]>([]);
+  const [cuisine, setCuisine] = useState("");
+  const [product, setProduct] = useState<TMenu | null>(null);
+  const [defaultImg, setDefaultImg] = useState(true);
+  const [images, setImages] = React.useState<any>();
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [availability, setAvailability] = useState(false);
+
+
+  
+
+  const maxNumber = 1;
+
+  const { getProductInformation, editProduct } = useProduct();
+
+  const loadRestaurantByProductId = async () => {
+    const response = await getProductInformation(props.id);
+    console.log("getRestaurantProduct response", response);
+    setProduct(response);
+    setName(response.name);
+    setDescription(response.description);
+    setPrice(response.price);
+    setAvailability(!!response.is_available);
+    // setImages(response.photo);
+  };
+
+  const loadCuisines = async () => {
+    const response = await getCuisines();
+    console.log("getCuisines response", response);
+    setCuisines(response);
+    setCuisine(response[0].id);
+  };
+
+  const loadCategories = async () => {
+    const response = await getCategories();
+    console.log("getCategories response", response);
+    setCategories(response);
+    setCategory(response[0].id);
+  };
+
+  const handleClick = (onImageUpload: any) => {
+    console.log("aaaa");
+    setDefaultImg((prev) => !prev);
+    onImageUpload();
+  };
+
+  const handleRemove = (onImageRemove: any, index: any) => {
+    onImageRemove(index);
+    setDefaultImg((prev) => !prev);
+  };
+
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
+
+  const handleSave = async () => {
+    const data = {
+      name: name,
+      description: description,
+      price: `${price}`,
+      photo: images[0].photo,
+      is_available: availability,
+      categories: [+category],
+      cuisines: [+cuisine],
+      restaurant_id: props.product[0].restaurant_id
+    }
+
+    const response = await editProduct(props.id, data);
+    console.log("!!!",response);
+  }
+
+  useEffect(() => {
+    loadCategories()
+    loadCuisines()
+    loadRestaurantByProductId();
+  }, []);
     return (
       <Modal {...props} size="lg">
         <Modal.Header closeButton className={styles.modalHeader}>
@@ -835,7 +913,7 @@ function EditModal(props: any) {
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Name</Form.Label>
-                  <Form.Control className={styles.inputForm} type="text" />
+                  <Form.Control className={styles.inputForm} type="text" value={name} onChange={(e) => setName(e.target.value)}/>
                 </Form.Group>
               </Col>
             </Row>
@@ -843,7 +921,7 @@ function EditModal(props: any) {
               <Col>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Description</Form.Label>
-                  <Form.Control as="textarea" />
+                  <Form.Control as="textarea" value={description} onChange={(e) => setDescription(e.target.value)}/>
                 </Form.Group>
               </Col>
             </Row>
@@ -851,45 +929,145 @@ function EditModal(props: any) {
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Price in PH-PESO</Form.Label>
-                  <Form.Control className={styles.inputForm} type="text" />
+                  <Form.Control className={styles.inputForm} type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
                 </Form.Group>
               </Col>
             </Row>
             <Row>
               <Col lg={4} xs={8}>
                 <Form.Label>Category</Form.Label>
-                <Dropdown>
-                  <Dropdown.Toggle className={styles.btnCategory}>
-                    Category
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#action-1">Category1</Dropdown.Item>
-                    <Dropdown.Item href="#action-2">Category2</Dropdown.Item>
-                    <Dropdown.Item href="#action-3">Category3</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Form.Select
+                  // {...register("categories")}
+                  className={styles.btnCategory}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {categories?.map((categories) => (
+                    <option value={categories.id}>
+                      {categories.name}
+                    </option>
+                  ))}
+                </Form.Select>
               </Col>
               <Col>
-                <Button className={styles.btnUpload}>Upload</Button>
+                <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="photo"
+                  maxFileSize={1572864}
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                    errors,
+                  }) => (
+                    <div className="">
+                      {defaultImg ? (
+                        <img
+                          src={product?.photo}
+                          style={{ width: "100px" }}
+                        />
+                      ) : (
+                        imageList.map((image, index) => (
+                          <div key={index} className="image-item">
+                            <img
+                              src={image.photo}
+                              className={styles.thumbNail}
+                              alt="ad-img"
+                            />
+                            <div className="image-item__btn-wrapper">
+                              <a
+                                onClick={() =>
+                                  handleRemove(onImageRemove, index)
+                                }
+                              >
+                                Remove
+                              </a>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                      <Row className="">
+                        <Col>
+                          <Form.Control
+                            value="Upload"
+                            className={styles.btnUpload}
+                            onClick={() => handleClick(onImageUpload)}
+                          />
+                        </Col>
+                      </Row>
+                      {errors && (
+                        <div>
+                          {errors.maxNumber && (
+                            <span
+                              style={{
+                                color: "red",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Number of selected images exceed.
+                            </span>
+                          )}
+                          {errors.acceptType && (
+                            <span
+                              style={{
+                                color: "red",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Your selected file type is not allowed.
+                            </span>
+                          )}
+                          {errors.maxFileSize && (
+                            <span
+                              style={{
+                                color: "red",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Selected file size exceeded 1.5 MB.
+                            </span>
+                          )}
+                          {errors.resolution && (
+                            <span
+                              style={{
+                                color: "red",
+                                fontWeight: "600",
+                              }}
+                            >
+                              Selected file does not match the desired
+                              resolution
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </ImageUploading>
               </Col>
             </Row>
             <Row>
               <Col lg={4} xs={8}>
                 <Form.Label>Cuisine</Form.Label>
-                <Dropdown>
-                  <Dropdown.Toggle className={styles.btnCuisine}>
-                    Cuisine
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="#action-1">Cuisine1</Dropdown.Item>
-                    <Dropdown.Item href="#action-2">Cuisine2</Dropdown.Item>
-                    <Dropdown.Item href="#action-3">Cuisine3</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Form.Select
+                  // {...register("cuisines")}
+                  className={styles.btnCuisine}
+                  onChange={(e) => setCuisine(e.target.value)}
+                >
+                  {cuisines?.map((cuisines) => (
+                    <option value={cuisines.id}>{cuisines.name}</option>
+                  ))}
+                </Form.Select>
               </Col>
               <Col>
                 <Form.Label>Availability</Form.Label>
-                <Form.Check type="switch" />
+                <Form.Check type="switch" checked={availability} onChange={() => setAvailability(!availability)}/>
               </Col>
             </Row>
             <Row>
@@ -897,7 +1075,7 @@ function EditModal(props: any) {
                 <Button className={styles.btnDiscard} onClick={props.onHide}>
                   Discard
                 </Button>
-                <Button className={styles.btnSaveMenu}>Save Menu</Button>
+                <Button className={styles.btnSaveMenu} onClick={handleSave}>Save Menu</Button>
               </Col>
             </Row>
           </Form>
