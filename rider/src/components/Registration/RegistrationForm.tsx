@@ -49,7 +49,7 @@ const schema = yup
     email: yup.string().email(constants.form.error.email).required(),
     password: yup
       .string()
-      .min(6, constants.form.error.passwordMin)
+      .min(7, constants.form.error.passwordMin)
       .max(16, constants.form.error.passwordMax)
       .required(),
     password_confirmation: yup
@@ -57,7 +57,13 @@ const schema = yup
       .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
       .required(),
     license_number: yup.string().required(),
-    license_expiration: yup.string().required(),
+    license_expiration: yup
+      .string()
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        constants.form.error.licenseExpirationFormat
+      )
+      .required(),
   })
   .required();
 
