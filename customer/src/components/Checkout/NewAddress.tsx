@@ -135,6 +135,7 @@ const NewAddress: React.FC<ContainerProps> = ({
   setLng,
 }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [isGranted, setIsGranted] = useState(false);
   const [status, setStatus] = useState("");
   const { reverseGeocode } = useGoogleAPI();
 
@@ -171,13 +172,17 @@ const NewAddress: React.FC<ContainerProps> = ({
         .then(function (result) {
           console.log(result.state);
 
+          if (result.state === "prompt") {
+            setModalShow(true);
+          }
+
           if (result.state === "denied") {
             alert(
               "Location access is denied by your browser. Please grant location permission."
             );
           }
 
-          // if (result.state === "granted") setModalShow(true);
+          if (result.state === "granted") setIsGranted(true);
 
           result.onchange = function () {
             console.log("Result changed!", result);
@@ -188,10 +193,7 @@ const NewAddress: React.FC<ContainerProps> = ({
               );
             }
 
-            // if (result.state === "granted") {
-            //   console.log("result.state = granted", "setmodal = true");
-            //   setModalShow(true);
-            // }
+            if (result.state === "granted") setIsGranted(true);
           };
         });
 
@@ -241,11 +243,21 @@ const NewAddress: React.FC<ContainerProps> = ({
         centered
       >
         <Modal.Body className="p-0">
-          <p className={`px-2 py-2 mb-0 text-center ${styles.modalAddress}`}>
-            <strong>LOCATION:</strong> {newAddress}
-          </p>
-
-          <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+          {!isGranted ? (
+            <div className="text-center py-5">
+              <p>Waiting for location permission.</p>
+              <div className="spinner-grow text-primary" role="status"></div>
+            </div>
+          ) : (
+            <>
+              <p
+                className={`px-2 py-2 mb-0 text-center ${styles.modalAddress}`}
+              >
+                <strong>LOCATION:</strong> {newAddress}
+              </p>
+              <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+            </>
+          )}
         </Modal.Body>
       </Modal>
 
