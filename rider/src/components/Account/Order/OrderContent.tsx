@@ -62,6 +62,7 @@ type TOrder = {
   order_status?: string;
   restaurant_address?: string;
   total_amount?: number;
+  products?: [{ name: string; quantity: number }];
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
@@ -101,6 +102,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
     console.log(response);
     setOrderData(response);
+  };
+
+  const [productItem, setProductItem] = useState<TOrder>();
+
+  const handleClickItem = async (props: any) => {
+    const response = await getOrdersById(props);
+    console.log("getOrdersById response", response);
+    setProductItem(response);
   };
 
   const handleDelivered = async () => {
@@ -244,7 +253,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <ul title="Items:">
                   <Row>
                     <Col>
-                      <li>3x Ramen noodles</li>
+                      <li>{orderData.products} </li>
+                      <li>Ramen Noodles</li>
                       <li>
                         {" "}
                         2x Milk tea <span>(1 watermelon)</span>
@@ -314,7 +324,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
             <Button
               type="submit"
-              onClick={() => handleAccept()}
+              onClick={() => {
+                handleAccept();
+                handleClickItem(id);
+              }}
               className={styles.activateBtn}
               // onClick={() => setModalShow(true)}
             >

@@ -285,7 +285,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <p>Order Details:</p>
                       <ul>
                         {productItem?.products.map((item) => (
-                          <li key={index}>
+                          <li>
                             {item.quantity}x {item.name}
                           </li>
                         ))}
@@ -527,7 +527,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <p>Order Details:</p>
                       <ul>
                         {productItem?.products.map((item) => (
-                          <li key={index}>
+                          <li>
                             {item.quantity}x {item.name}
                           </li>
                         ))}
