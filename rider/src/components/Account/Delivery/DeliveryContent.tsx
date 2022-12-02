@@ -39,6 +39,22 @@ import Delivery from "../../../pages/Account/Delivery";
 
 interface ContainerProps {}
 
+type TOrder = {
+  id: number;
+  created_at: string;
+  customer_id: number;
+  customer_name: string;
+  customer_mobile: string;
+  order_address: string;
+  order_status: string;
+  order_mobile: number;
+  restaurant_address: string;
+  restaurant_name: string;
+  restaurant_photo: string;
+  products: [{ name: string; quantity: number }];
+  total_amount: number;
+};
+
 type ForDeliveryItem = {
   created_at: string;
   customer_id: string;
@@ -104,6 +120,9 @@ type ForCanceledItem = {
 
 const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const [isEdit, setIsEdit] = useState(false);
+
+  const [productItem, setProductItem] = useState<TOrder>();
+  const [order, setOrder] = useState<TOrder>();
 
   const navigate = useNavigate();
 
@@ -188,13 +207,26 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     console.log(response);
   };
 
+  const loadOrder = async () => {
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", response);
+    setOrder(response);
+  };
+
   useEffect(() => {
     // handleGetForDelivery();
     loadOrderForDelivery("preparing");
     // loadOrderForDelivery("pending");
     loadOrderCompleted("delivered, canceled");
     loadOrderCanceled("canceled");
+    loadOrder();
   }, []);
+
+  const handleClickItem = async (props: any) => {
+    const response = await getOrdersById(props);
+    console.log("getOrdersById response", response);
+    setProductItem(response);
+  };
 
   function CustomToggle({ children, eventKey }: any) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -459,7 +491,10 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 <Button className="viewDetailsBtn">View Details</Button> */}
                     Order ID: {item.id}
                   </CustomToggle>
-                  <div className="d-md-none">
+                  <div
+                    className="d-md-none"
+                    onClick={() => handleClickItem(item.id)}
+                  >
                     <CustomToggle2 eventKey={item.id}>
                       View Details
                     </CustomToggle2>
@@ -506,14 +541,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     <hr />
                     <Row>
                       <Col>
-                        <p>
-                          Order Details:
-                          <li>Ramen Noodles</li>
-                          <li>Milk Tea(2x)</li>
-                          <li>1 Watermelon</li>
-                          <li>1 Boba Soya</li>
-                          <li>Peking Duck (1x)</li>
-                        </p>
+                        Order Details:
+                        <ul>
+                          {productItem?.products.map((item) => (
+                            <li key={index}>
+                              {item.quantity}x {item.name}
+                            </li>
+                          ))}
+                        </ul>
                       </Col>
                       <Col>
                         <div className="resto">
@@ -663,9 +698,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       className="d-none d-md-block"
                       md={{ span: 7, offset: 5 }}
                     >
-                      <CustomToggle2 eventKey={item.id}>
-                        View Details
-                      </CustomToggle2>
+                      <div
+                        className="d-md-none"
+                        onClick={() => handleClickItem(item.id)}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </div>
                     </Col>
                   </Row>
                 </Col>
@@ -683,7 +723,10 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 <Button className="viewDetailsBtn">View Details</Button> */}
                     Order ID: {item.id}
                   </CustomToggle>
-                  <div className="d-md-none">
+                  <div
+                    className="d-md-none"
+                    onClick={() => handleClickItem(item.id)}
+                  >
                     <CustomToggle2 eventKey={item.id}>
                       View Details
                     </CustomToggle2>
@@ -730,14 +773,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                     <hr />
                     <Row>
                       <Col>
-                        <p>
-                          Order Details:
-                          <li>Ramen Noodles</li>
-                          <li>Milk Tea(2x)</li>
-                          <li>1 Watermelon</li>
-                          <li>1 Boba Soya</li>
-                          <li>Peking Duck (1x)</li>
-                        </p>
+                        <p>Order Details:</p>
+                        <ul>
+                          {productItem?.products.map((item) => (
+                            <li key={index}>
+                              {item.quantity}x {item.name}
+                            </li>
+                          ))}
+                        </ul>
                       </Col>
                       <Col>
                         <div className="resto">
@@ -887,9 +930,14 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       className="d-none d-md-block"
                       md={{ span: 7, offset: 5 }}
                     >
-                      <CustomToggle2 eventKey={item.id}>
-                        View Details
-                      </CustomToggle2>
+                      <div
+                        className="d-md-none"
+                        onClick={() => handleClickItem(item.id)}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </div>
                     </Col>
                   </Row>
                 </Col>
