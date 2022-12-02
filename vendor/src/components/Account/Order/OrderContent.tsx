@@ -195,7 +195,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadPendingOrder("pending");
-    // loadOrderForDelivery("preparing, otw");
+    loadOrderForDelivery("preparing, otw");
     loadOrder();
   }, []);
 
@@ -457,14 +457,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         );
       })}
       {/* Received Orders from Customer end //Orders Preparing for delivery start */}
-      {/* {forOtw.map((item, index) => {
+      {forOtw.map((item, index) => {
         return (
           <Accordion className={styles.test} flush key={index}>
             <Accordion.Item eventKey={item.id}>
               <div className={styles.orderDiv}>
                 <CustomToggle eventKey={item.id}>
-                  <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                <Button className="viewDetailsBtn">View Details</Button>
+                  {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                <Button className="viewDetailsBtn">View Details</Button> */}
                   Order ID: {item.id}
                 </CustomToggle>
                 <div className="d-md-none">
@@ -556,16 +556,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                     <Col>
                       <div className={styles.status}>
                         <p>Order Status</p>
-                        <img src={OrderReceivedIcon} />
+                        {/* <img src={OrderReceivedIcon} /> */}
                         <span>{item.order_status}</span>
                       </div>
                     </Col>
                   </Row>
                   <div className={styles.declineAccept}>
-                    <button>Decline</button>
-                    <Link to={`/account/order/status/${item.id}`}>
+                    {/* <button>Decline</button> */}
+                    {/* <Link to={`/account/order/status/${item.id}`}>
                       <button>Accept</button>
-                    </Link>
+                    </Link> */}
                     <Button onClick={() => handleAccept(item.id)}>
                       Accept
                     </Button>
@@ -666,7 +666,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                     </p>
                   </Col>
 
-                  <Row>
+                  {/* <Row>
                     <Col md={{ span: 4, offset: 5 }}>
                       <Button
                         className="detailsBtn"
@@ -680,7 +680,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         View Details
                       </Button>
                     </Col>
-                  </Row>
+                  </Row> */}
                 </Row>
 
                 <Row>
@@ -697,7 +697,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             </Row>
           </Accordion>
         );
-      })} */}
+      })}
       {/* Orders Preparing for delivery end */}
       {/* <div className={styles.bottomButtons}>
         <button onClick={navigateToHistory}>History</button>
