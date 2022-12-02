@@ -128,6 +128,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     navigate("completed/" + id);
   };
   const handleClickCancel = (id) => {
+    console.log("ajajaj")
     navigate("cancelled/" + id);
   };
 
@@ -206,7 +207,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                 >
                   <Row
                     className={styles.contentContainer}
-                    onClick={() => handleClickCancel(item.id)}
+                    onClick={() => handleClickComplete(item.id)}
                   >
                     <Col className={`col-3 ${styles.idContent}`}>
                       <Row>
@@ -282,7 +283,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                   fluid
                   key={index}
                 >
-                  <Row className={styles.modalRow}>
+                  <Row className={styles.modalRow} onClick={() => handleClickCancel(item.id)}>
                     <Col className={styles.modalHeader}>{item.id}</Col>
                     <Col className={styles.modalHeader}>
                       {item.created_at.slice(0, 10)}
