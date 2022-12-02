@@ -144,7 +144,7 @@ const HistoryStatusContent = (props) => {
                       <h4>Items</h4>
                       {
                         deliveredItem?.products.map((item, index) => {
-                          setQuantity(prev => prev + item.quantity);
+                          // setQuantity(prev => prev + item.quantity);
                           return (<p key={index}>{item.quantity}x {item.name}</p>)
                         })
                       }
