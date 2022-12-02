@@ -35,7 +35,14 @@ const AverageRating = ({ rating = 0 }: { rating: number | undefined }) => {
   const thisRate = Math.ceil(rating);
   const thisRemainder = rating % 1;
 
-  if (!rating) return null;
+  if (!rating)
+    return (
+      <>
+        {[...Array(5 - thisRate)]?.map((e, i) => (
+          <Star key={i} color="#E6B325" size={18} />
+        ))}
+      </>
+    );
 
   return (
     <>
