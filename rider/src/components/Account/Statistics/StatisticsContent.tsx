@@ -44,6 +44,8 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
 
       <Row>
         <Chart />
+        <Chart />
+        <Chart />
       </Row>
     </Container>
   );
