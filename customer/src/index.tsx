@@ -43,6 +43,12 @@ root.render(
             <Route path="restaurant" element={<Restaurant />} />
             <Route path="search/:keyword" element={<Search />} />
 
+            {/* Added route to search for empty keywords */}
+            <Route path="search">
+              <Route index element={<Search />} />
+              <Route path=":keyword" element={<Search />} />
+            </Route>
+
             {/* Restaurants routes */}
             <Route path="restaurants">
               <Route index element={<Navigate to="/" replace />} />
