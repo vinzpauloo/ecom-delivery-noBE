@@ -6,6 +6,12 @@ import "./App.scss";
 import Header from "./components/Header/Header";
 import HeaderBasic from "./components/Header/HeaderBasic";
 import Footer from "./components/Footer";
+import {
+  Modal,
+  Row,
+  Col
+} from "react-bootstrap";
+import monkey from "./assets/images/monkey.png"
 
 // Set axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
@@ -54,6 +60,17 @@ const App: React.FC = (props: Props) => {
         <Outlet />
         <Footer />
       </div>
+      <Modal show={!true} className="notificationContainer">
+        <div className="notification">
+          <Col className="col-3">
+            <img className="monkey" src={monkey} alt="" />
+          </Col>
+          <Col className="leftContent col-9">
+            <Row className="header">Měiwèi de shíwù 美味的食物</Row>
+            <Row className="buttonContent">NEW ORDER!</Row>
+          </Col>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -35,7 +35,15 @@ root.render(
           {/* Account dashboard routes */}
           <Route path="account">
             <Route index element={<Profile />} />
-            <Route path="for-delivery" element={<Order />} />
+            <Route path="for-delivery" element={<Order />}/>
+              <Route
+                path="for-delivery/completed/:id"
+                element={<HistoryStatusCompleted />}
+              />
+              <Route
+                path="for-delivery/cancelled/:id"
+                element={<HistoryStatusCancelled />}
+              />
             <Route path="order">
               <Route index element={<Order />} />
               <Route path="status/:id" element={<Status />} />

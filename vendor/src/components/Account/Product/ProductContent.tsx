@@ -377,14 +377,15 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                   <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row>
                       <Col className="col-10">
-                        <h3>Add Menu</h3>
+                        <h3>Menu</h3>
                       </Col>
                       <Col className={`${styles.menuListBtn} col-2`}>
                         <Button onClick={() => setMenuModal(false)}>Menu List</Button>
                       </Col>
                     </Row>
                     <hr />
-                    <Row>
+                    <h5>Add Menu</h5>
+                    <Row className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Group className="position-relative">
                           <Form.Label>Food Name</Form.Label>
@@ -397,7 +398,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col>
                         <Form.Group className="position-relative">
                           <Form.Label>Food Description</Form.Label>
@@ -409,7 +410,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Group className="position-relative">
                           <Form.Label>Price in PH-PESO</Form.Label>
@@ -546,20 +547,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </ImageUploading>
                       </Col>
                     </Row>
-                    <Row>
-                      {/* <Col>
-                        <Form.Control
-                          className={styles.btnUpload}
-                          type="file"
-                          accept=".png, .jpg, .jpeg"
-                          // value="https://via.placeholder.com/150"
-                          onChange={changeHandler}
-                          // {...register("photo")}
-                        />
-                      </Col> */}
-                    </Row>
-
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Label>Cuisine</Form.Label>
                         <Form.Select
@@ -588,7 +576,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Row>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col className="d-flex justify-content-center gap-2 mt-4">
                         <Button
                           className={styles.btnDiscard}
@@ -984,11 +972,12 @@ function EditModal(props: any) {
           <Form>
             <Row>
               <Col className="col-10">
-                <h3>Add Menu</h3>
+                <h3>Menu</h3>
               </Col>
             </Row>
             <hr />
-            <Row>
+            <h5>Add Menu</h5>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Name</Form.Label>
@@ -996,7 +985,7 @@ function EditModal(props: any) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Description</Form.Label>
@@ -1004,7 +993,7 @@ function EditModal(props: any) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Price in PH-PESO</Form.Label>
@@ -1128,7 +1117,7 @@ function EditModal(props: any) {
                 </ImageUploading>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Label>Cuisine</Form.Label>
                 <Form.Select
@@ -1154,7 +1143,7 @@ function EditModal(props: any) {
                 </Row>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col className="d-flex justify-content-center gap-2 mt-4">
                 <Button className={styles.btnDiscard} onClick={props.onHide}>
                   Discard
