@@ -4,11 +4,11 @@
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
   padding: 40px 0;
+  position: relative;
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
     padding: 15px 0;
-
     .mobileNav {
       position: absolute;
     }
@@ -69,3 +69,4 @@
     // background-color: #fdf5e7;
   }
 }
+

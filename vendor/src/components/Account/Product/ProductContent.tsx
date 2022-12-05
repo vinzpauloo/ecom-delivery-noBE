@@ -87,7 +87,7 @@ const ProductAvailability = ({availability, id}) => {
   }
   return(
     <td>
-      <Form.Check type="switch" checked={check} onChange={() => setCheck(!check)} onClick={() => handleClick(!check)}/>
+      <Form.Check className={styles.checkInput} type="switch" checked={check} onChange={() => setCheck(!check)} onClick={() => handleClick(!check)}/>
   </td>
   )
 }
@@ -335,17 +335,31 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
             <Row>
               <h3 className="d-lg-none">Restaurant Menu</h3>
               <Row>
-                <Col className={`${styles.searchInput} search col-6`}>
-                  <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
-                  <img className={styles.searchIcon} src={searchIcon} alt="" />
+                <Col>
+                  <Col className={`${styles.searchInput} search`}>
+                    <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <img className={styles.searchIcon} src={searchIcon} alt="" />
+                  </Col>
                 </Col>
                 <Col>
-                  <Button
-                    className={styles.btnAddProduct}
-                    onClick={() => setMenuModal(true)}
-                  >
-                    Add Menu
-                  </Button>
+                  <Row className={styles.buttonsContent}>
+                    <Col className="col-6">
+                      <Button
+                        className={styles.btnAddProduct}
+                        // onClick={() => setMenuModal(true)}
+                      >
+                        Add Promo
+                      </Button>
+                    </Col>
+                    <Col  className="col-6">
+                      <Button
+                        className={styles.btnAddProduct}
+                        onClick={() => setMenuModal(true)}
+                      >
+                        Add Menu
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
               {/* Add menu Modal */}
