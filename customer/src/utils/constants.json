@@ -24,6 +24,7 @@
     },
     "success": {
       "updateProfile": "Customer profile updated successfully!",
+      "updatePassword": "You have successfully changed your password!",
       "cancelOrder": "Your order has been canceled!",
       "reviewRider": "Rider feedback success!",
       "reviewRestaurant": "Restaurant feedback success!"

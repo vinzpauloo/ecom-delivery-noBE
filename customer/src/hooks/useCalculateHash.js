@@ -20,8 +20,8 @@ export const useCalculateHash = () => {
     code += "&";
     code += thisKey;
 
-    console.log("newBody", newBody);
-    console.log("md5", code);
+    // console.log("newBody", newBody);
+    // console.log("md5", code);
 
     return md5(md5(code));
   };
