@@ -141,18 +141,22 @@
 
   @include devices(md) {
     text-align: center;
-
-    .btnAddProduct {
-      width: 80px;
-      font-size: 10px;
-      line-height: 15px;
-      border-color: #61481c;
-      margin-bottom: 10px;
-      float: right;
-
-      &:hover {
-        background-color: #61481c;
-        color: #d9d9d9;
+    .mobileHeader{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .buttonsContent{
+        .btnAddProduct {
+          font-size: 10px;
+          line-height: 15px;
+          border-color: #61481c;
+          white-space: nowrap;
+          width: 70px!important;
+          &:hover {
+            background-color: #61481c;
+            color: #d9d9d9;
+          }
+        }
       }
     }
 
