@@ -29,12 +29,7 @@ const Header: React.FC<ContainerProps> = () => {
   };
 
   const handleSearch = () => {
-    // Check if there are minimum of 3 characters
-    if (searchTxt.length >= 3) {
-      navigate(`search/${searchTxt}`);
-    } else {
-      alert(constants.form.error.searchMin);
-    }
+    navigate(`search/${searchTxt}`);
   };
 
   const handleLogout = (

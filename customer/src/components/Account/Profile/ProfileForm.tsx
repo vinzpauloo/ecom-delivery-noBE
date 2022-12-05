@@ -183,6 +183,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
 
+      // Re-login with new user state
       signIn({
         token: localStorage.getItem("_auth") || "",
         expiresIn: 3600,
@@ -386,14 +387,13 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
             </Col>
           </Row>
 
-          {/* <Button
+          <Button
             variant="primary"
-            type="submit"
             className={styles.btnChangePass}
             onClick={() => navigate("change-password")}
           >
             Change Password
-          </Button> */}
+          </Button>
 
           {/* Error messages */}
           <div className={styles.errors}>

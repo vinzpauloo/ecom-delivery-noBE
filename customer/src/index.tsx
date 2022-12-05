@@ -20,6 +20,7 @@ import OrderDetails from "./pages/OrderDetails";
 import Search from "./pages/Search";
 import OrderFeedback from "./pages/OrderFeedback";
 import RestaurantFeedback from "./pages/RestaurantFeedback";
+import ChangePassword from "./pages/Account/ChangePassword";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -43,6 +44,12 @@ root.render(
             <Route path="restaurant" element={<Restaurant />} />
             <Route path="search/:keyword" element={<Search />} />
 
+            {/* Added route to search for empty keywords */}
+            <Route path="search">
+              <Route index element={<Search />} />
+              <Route path=":keyword" element={<Search />} />
+            </Route>
+
             {/* Restaurants routes */}
             <Route path="restaurants">
               <Route index element={<Navigate to="/" replace />} />
@@ -62,6 +69,7 @@ root.render(
             {/* Account dashboard routes */}
             <Route path="account">
               <Route index element={<Profile />} />
+              <Route path="change-password" element={<ChangePassword />} />
               <Route path="orders" element={<Orders />} />
               <Route path="orders/:id" element={<OrderDetails />} />
             </Route>

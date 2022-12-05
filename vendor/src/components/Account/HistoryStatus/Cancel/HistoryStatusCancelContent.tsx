@@ -75,11 +75,6 @@ const HistoryStatusCancelContent = (props) => {
             Cancelled Orders
           </h1>
         </Row>
-        <Row>
-          <Form>
-            <Form.Control placeholder='Search orders...' className={styles.formInput}/>
-          </Form>
-        </Row>
       </div>
       <Row>
         <Col>

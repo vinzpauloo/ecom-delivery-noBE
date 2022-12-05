@@ -16,6 +16,7 @@ import { useHelper } from "../../../hooks/useHelper";
 import { useProduct } from "../../../hooks/useProduct";
 import { useCategories } from "../../../hooks/useCategories";
 import { useCuisines } from "../../../hooks/useCuisines";
+import searchIcon from "../../../assets/images/searchIcon.png";
 
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
@@ -86,7 +87,7 @@ const ProductAvailability = ({availability, id}) => {
   }
   return(
     <td>
-      <Form.Check type="switch" checked={check} onChange={() => setCheck(!check)} onClick={() => handleClick(!check)}/>
+      <Form.Check className={styles.checkInput} type="switch" checked={check} onChange={() => setCheck(!check)} onClick={() => handleClick(!check)}/>
   </td>
   )
 }
@@ -101,6 +102,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [cuisine, setCuisine] = useState("");
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
+  const [search, setSearch] = useState("");
 
   const [checked, setChecked] = React.useState(true);
   const [editItemId, setEditItemId] = useState(0);
@@ -326,37 +328,64 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 placeholder="Search food and description"
               />
             </Col> */}
-            <Col>
+            <Row>
               <h3 className="d-none d-lg-block">Restaurant Menu</h3>
-            </Col>
+            </Row>
             {/* Button trigger modal */}
-            <Col>
+            <Row>
               <h3 className="d-lg-none">Restaurant Menu</h3>
-              <Button
-                className={styles.btnAddProduct}
-                onClick={() => setMenuModal(true)}
-              >
-                Add Menu
-              </Button>
+              <Row>
+                <Col>
+                  <Col className={`${styles.searchInput} search`}>
+                    <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <img className={styles.searchIcon} src={searchIcon} alt="" />
+                  </Col>
+                </Col>
+                <Col>
+                  <Row className={styles.buttonsContent}>
+                    <Col className={`${styles.buttonCont} col-6`}>
+                      <Button
+                        className={styles.btnAddProduct}
+                        // onClick={() => setMenuModal(true)}
+                      >
+                        Add Promo
+                      </Button>
+                    </Col>
+                    <Col className={`${styles.buttonCont} col-6`}>
+                      <Button
+                        className={styles.btnAddProduct}
+                        onClick={() => setMenuModal(true)}
+                      >
+                        Add Menu
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
               {/* Add menu Modal */}
               <Modal
                 show={menuModal}
                 onHide={() => setMenuModal(false)}
                 size="xl"
               >
-                <Modal.Header closeButton className={styles.modalHeader}>
+                {/* <Modal.Header closeButton className={styles.modalHeader}>
                   <Modal.Title id="contained-modal-title-vcenter">
                     Menu
                   </Modal.Title>
-                </Modal.Header>
+                </Modal.Header> */}
                 <Modal.Body className={styles.modalBody}>
                   <Form onSubmit={handleSubmit(onSubmit)}>
                     <Row>
-                      <Col>
-                        <h6>Add Menu</h6>
+                      <Col className="col-10">
+                        <h3>Menu</h3>
+                      </Col>
+                      <Col className={`${styles.menuListBtn} col-2`}>
+                        <Button onClick={() => setMenuModal(false)}>Menu List</Button>
                       </Col>
                     </Row>
-                    <Row>
+                    <hr />
+                    <h5>Add Menu</h5>
+                    <Row className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Group className="position-relative">
                           <Form.Label>Food Name</Form.Label>
@@ -369,7 +398,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col>
                         <Form.Group className="position-relative">
                           <Form.Label>Food Description</Form.Label>
@@ -381,7 +410,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Group className="position-relative">
                           <Form.Label>Price in PH-PESO</Form.Label>
@@ -392,10 +421,21 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             {...register("price")}
                           />
                         </Form.Group>
+                        <Col lg={4} xs={8}>
+                          <Form.Label>Category</Form.Label>
+
+                          <Form.Select
+                            {...register("categories")}
+                            className={styles.btnCategory}
+                          >
+                            {categories?.map((categories) => (
+                              <option value={categories.id}>
+                                {categories.name}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Col>
                       </Col>
-                      {/* <Col>
-                        <img src={fileDataURL} className={styles.thumbNail} />
-                      </Col> */}
                       <Col>
                         <ImageUploading
                           multiple
@@ -415,7 +455,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             dragProps,
                             errors,
                           }) => (
-                            <div className="">
+                            <div className={styles.imageUploadContent}>
                               {defaultImg ? (
                                 <img
                                   src={DefaultThumbnail}
@@ -429,26 +469,33 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                       className={styles.thumbNail}
                                       alt="ad-img"
                                     />
-                                    <div className="image-item__btn-wrapper">
-                                      <a
+                                    <Row  className={styles.btnUploadContent}>
+                                      {/* <button
+                                        className={styles.btnUpload}
                                         onClick={() =>
                                           handleRemove(onImageRemove, index)
                                         }
                                       >
                                         Remove
-                                      </a>
-                                    </div>
+                                      </button> */}
+                                      <Form.Control
+                                    value="Remove"
+                                    type="button"
+                                    className={styles.btnUpload}
+                                    onClick={() =>
+                                      handleRemove(onImageRemove, index)
+                                    }
+                                  />
+                                    </Row>
                                   </div>
                                 ))
                               )}
-                              <Row className="">
-                                <Col>
+                              <Row className={styles.btnUploadContent}>
                                   <Form.Control
                                     value="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
                                   />
-                                </Col>
                               </Row>
                               {errors && (
                                 <div>
@@ -500,34 +547,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         </ImageUploading>
                       </Col>
                     </Row>
-                    <Row>
-                      <Col lg={4} xs={8}>
-                        <Form.Label>Category</Form.Label>
-
-                        <Form.Select
-                          {...register("categories")}
-                          className={styles.btnCategory}
-                        >
-                          {categories?.map((categories) => (
-                            <option value={categories.id}>
-                              {categories.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </Col>
-                      {/* <Col>
-                        <Form.Control
-                          className={styles.btnUpload}
-                          type="file"
-                          accept=".png, .jpg, .jpeg"
-                          // value="https://via.placeholder.com/150"
-                          onChange={changeHandler}
-                          // {...register("photo")}
-                        />
-                      </Col> */}
-                    </Row>
-
-                    <Row>
+                    <Row  className="ps-3 pe-3">
                       <Col lg={4} xs={8}>
                         <Form.Label>Cuisine</Form.Label>
                         <Form.Select
@@ -539,17 +559,25 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           ))}
                         </Form.Select>
                       </Col>
-                      <Col>
-                        <Form.Label>Availability</Form.Label>
-                        <Form.Check
-                          type="switch"
-                          defaultChecked={checked}
-                          onChange={() => setChecked(!checked)}
-                        />
+                      <Col className={styles.availabilityContent}>
+                        <Row>
+                          <Form.Label>Availability</Form.Label>
+                        </Row>
+                        <Row className={styles.availability}>
+                          <Col>No</Col>
+                          <Col className={styles.switch}>
+                            <Form.Check
+                              type="switch"
+                              defaultChecked={checked}
+                              onChange={() => setChecked(!checked)}
+                            />
+                          </Col>
+                          <Col>Yes</Col>
+                        </Row>
                       </Col>
                     </Row>
-                    <Row>
-                      <Col className="d-flex justify-content-center gap-2">
+                    <Row  className="ps-3 pe-3">
+                      <Col className="d-flex justify-content-center gap-2 mt-4">
                         <Button
                           className={styles.btnDiscard}
                           onClick={discardMenu}
@@ -564,7 +592,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                   </Form>
                 </Modal.Body>
               </Modal>
-            </Col>
+            </Row>
           </Row>
           <Table>
             <thead className={styles.tHeader}>
@@ -583,41 +611,80 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 </th>
               </tr>
             </thead>
-            {product?.map((item, index) => {
-              return (
-                <tbody className={styles.tBody} key={index}>
-                  <tr>
-                    <td>
-                      <p className={styles.textParagrap2}>{item.name}</p>
-                    </td>
-                    <td>
-                      <p className={styles.textParagrap2}>Php {item.price}</p>
-                    </td>
-                    <ProductAvailability availability={item.is_available} id={item.id}/>
-                    <td>
-                      <div>
-                        <Button
-                          className={styles.btnEdit}
-                          onClick={() => handleEdit(item.id)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          className={styles.btnDelete}
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          Delete
-                        </Button>
-                        {/* <DeleteModal
-                          show={deleteModal}
-                          onHide={() => setDeleteModal(false)}
-                        /> */}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })}
+            {search !== "" ? (
+            product?.filter(item => item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())).map((item, index) => {
+                return (
+                  <tbody className={styles.tBody} key={index}>
+                    <tr>
+                      <td>
+                        <p className={styles.textParagrap2}>{item.name}</p>
+                      </td>
+                      <td>
+                        <p className={styles.textParagrap2}>Php {item.price}</p>
+                      </td>
+                      <ProductAvailability availability={item.is_available} id={item.id}/>
+                      <td>
+                        <div>
+                          {/* <Button
+                            className={styles.btnEdit}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Edit
+                          </Button> */}
+                          <Button
+                            className={styles.btnDelete}
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </Button>
+                          {/* <DeleteModal
+                            show={deleteModal}
+                            onHide={() => setDeleteModal(false)}
+                          /> */}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            ) : (
+              product?.map((item, index) => {
+                return (
+                  <tbody className={styles.tBody} key={index}>
+                    <tr>
+                      <td>
+                        <p className={styles.textParagrap2}>{item.name}</p>
+                      </td>
+                      <td>
+                        <p className={styles.textParagrap2}>Php {item.price}</p>
+                      </td>
+                      <ProductAvailability availability={item.is_available} id={item.id}/>
+                      <td>
+                        <div>
+                          <Button
+                            className={styles.btnEdit}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            className={styles.btnDelete}
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </Button>
+                          {/* <DeleteModal
+                            show={deleteModal}
+                            onHide={() => setDeleteModal(false)}
+                          /> */}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            )
+          }
           </Table>
         </Form>
       </div>
@@ -626,6 +693,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
         onHide={() => setEditModal(false)}
         id={editItemId}
         product={product}
+        setEditModal={setEditModal}
       />}
     </div>
   );
@@ -877,6 +945,7 @@ function EditModal(props: any) {
   };
 
   const handleSave = async () => {
+    props.setEditModal(false);
     const data = {
       name: name,
       description: description,
@@ -899,17 +968,16 @@ function EditModal(props: any) {
   }, []);
     return (
       <Modal {...props} size="lg">
-        <Modal.Header closeButton className={styles.modalHeader}>
-          <Modal.Title id="contained-modal-title-vcenter">Menu</Modal.Title>
-        </Modal.Header>
         <Modal.Body className={styles.modalBody}>
           <Form>
             <Row>
-              <Col>
-                <h6>Add Menu</h6>
+              <Col className="col-10">
+                <h3>Menu</h3>
               </Col>
             </Row>
-            <Row>
+            <hr />
+            <h5>Add Menu</h5>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Name</Form.Label>
@@ -917,7 +985,7 @@ function EditModal(props: any) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col>
                 <Form.Group className="position-relative">
                   <Form.Label>Food Description</Form.Label>
@@ -925,28 +993,26 @@ function EditModal(props: any) {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Group className="position-relative">
                   <Form.Label>Price in PH-PESO</Form.Label>
                   <Form.Control className={styles.inputForm} type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
                 </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={4} xs={8}>
-                <Form.Label>Category</Form.Label>
-                <Form.Select
-                  // {...register("categories")}
-                  className={styles.btnCategory}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  {categories?.map((categories) => (
-                    <option value={categories.id}>
-                      {categories.name}
-                    </option>
-                  ))}
-                </Form.Select>
+                <Col lg={4} xs={8}>
+                  <Form.Label>Category</Form.Label>
+                  <Form.Select
+                    // {...register("categories")}
+                    className={styles.btnCategory}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    {categories?.map((categories) => (
+                      <option value={categories.id}>
+                        {categories.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
               </Col>
               <Col>
                 <ImageUploading
@@ -967,7 +1033,7 @@ function EditModal(props: any) {
                     dragProps,
                     errors,
                   }) => (
-                    <div className="">
+                    <div className={styles.imageUploadContent}>
                       {defaultImg ? (
                         <img
                           src={product?.photo}
@@ -981,26 +1047,25 @@ function EditModal(props: any) {
                               className={styles.thumbNail}
                               alt="ad-img"
                             />
-                            <div className="image-item__btn-wrapper">
-                              <a
+                            <Row  className={styles.btnUploadContent}>
+                              <Form.Control
+                                value="Remove"
+                                type="button"
+                                className={styles.btnUpload}
                                 onClick={() =>
                                   handleRemove(onImageRemove, index)
                                 }
-                              >
-                                Remove
-                              </a>
-                            </div>
+                              />
+                            </Row>
                           </div>
                         ))
                       )}
-                      <Row className="">
-                        <Col>
+                      <Row className={styles.btnUploadContent}>
                           <Form.Control
                             value="Upload"
                             className={styles.btnUpload}
                             onClick={() => handleClick(onImageUpload)}
                           />
-                        </Col>
                       </Row>
                       {errors && (
                         <div>
@@ -1052,7 +1117,7 @@ function EditModal(props: any) {
                 </ImageUploading>
               </Col>
             </Row>
-            <Row>
+            <Row className="ps-3 pe-3">
               <Col lg={4} xs={8}>
                 <Form.Label>Cuisine</Form.Label>
                 <Form.Select
@@ -1065,13 +1130,21 @@ function EditModal(props: any) {
                   ))}
                 </Form.Select>
               </Col>
-              <Col>
-                <Form.Label>Availability</Form.Label>
-                <Form.Check type="switch" checked={availability} onChange={() => setAvailability(!availability)}/>
+              <Col className={styles.availabilityContent}>
+                <Row>
+                  <Form.Label>Availability</Form.Label>
+                </Row>
+                <Row className={styles.availability}>
+                  <Col>No</Col>
+                  <Col className={styles.switch}>
+                  <Form.Check type="switch" checked={availability} onChange={() => setAvailability(!availability)}/>
+                  </Col>
+                    <Col>Yes</Col>
+                </Row>
               </Col>
             </Row>
-            <Row>
-              <Col className="d-flex justify-content-center gap-2">
+            <Row className="ps-3 pe-3">
+              <Col className="d-flex justify-content-center gap-2 mt-4">
                 <Button className={styles.btnDiscard} onClick={props.onHide}>
                   Discard
                 </Button>

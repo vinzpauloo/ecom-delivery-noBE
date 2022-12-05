@@ -68,7 +68,7 @@ const Footer: React.FC<ContainerProps> = () => {
   const location = useLocation();
   return (
     // <footer className={`fixed-bottom ${styles.footer}`}>
-    <footer className={`${styles.footer}`}>
+    <footer className={`${styles.footer} d-none d-lg-block`}>
       <Container fluid="xxl">
         <Row
           // lg={5}

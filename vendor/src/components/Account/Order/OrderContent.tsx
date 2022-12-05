@@ -8,11 +8,13 @@ import {
   Form,
   Collapse,
   Card,
+  Modal
 } from "react-bootstrap";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
+import searchIcon from "../../../assets/images/searchIcon.png";
 
 import styles from "./OrderContent.module.scss";
 
@@ -78,6 +80,27 @@ type ForOtwItem = {
   total_amount: number;
 };
 
+type GetDeliveredItem = {
+  created_at: string;
+  customer_id: string;
+  customer_mobile: string;
+  customer_name: string;
+  order_address: string;
+  order_email: string;
+  order_mobile: string;
+  order_status: string;
+  otw_at: string;
+  payment_type: string;
+  plate_number: string;
+  restaurant_name: string;
+  restaurant_id: string;
+  updated_at: string;
+  rider_name: string;
+  rider_id: string;
+  rider_vehicle_model: string;
+  id: number;
+};
+
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder>();
   const [productItem, setProductItem] = useState<TOrder>();
@@ -94,6 +117,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
   const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
   const [status, setStatus] = useState<ForDeliveryItem>();
+  const [modalShow1, setModalShow1] = React.useState(false);
+  const [modalShow2, setModalShow2] = React.useState(false);
+  const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
+  const [search, setSearch] = useState("");
 
   const [isShown, setIsShown] = useState(true);
   const [show, setShow] = useState(true);
@@ -134,6 +161,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleClick = (e: any) => {
     setIsShown((current) => !current);
+  };
+
+  const loadDeliveredItem = async (status: string) => {
+    const params = { status: status };
+    const response = await getOrderCompleted(params);
+    console.log("getOrderCompleted", response);
+    setDeliveredItem(response.data);
   };
 
   function CustomToggle({ children, eventKey }: any) {
@@ -196,6 +230,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     loadPendingOrder("pending");
     loadOrderForDelivery("preparing, otw");
+    loadDeliveredItem("delivered");
     loadOrder();
   }, []);
 
@@ -205,514 +240,1310 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setProductItem(response);
   };
 
+  const handleClickComplete = (id) => {
+    navigate("completed/" + id);
+  };
+  const handleClickCancel = (id) => {
+    console.log("ajajaj")
+    navigate("cancelled/" + id);
+  };
+
+  function CompletedModal(props: any) {
+    return (
+      <>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-none d-lg-block"
+        >
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            <Container>
+              <Row className={styles.modalHeaderContent}>
+                <Col className={styles.modalHeader}>Order ID</Col>
+                <Col className={styles.modalHeader}>Date</Col>
+                <Col className={styles.modalHeader}>Order Placed Time</Col>
+                <Col className={styles.modalHeader}>Order Delivered</Col>
+                <Col className={styles.modalHeader}>Rider Name</Col>
+              </Row>
+            </Container>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                  // className="order-delivery-container d-flex flex-column gap-2"
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.modalRow}
+                    onClick={() => handleClickComplete(item.id)}
+                  >
+                    <Col className={styles.modalHeader}>{item.id}</Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(12, 19)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.updated_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-lg-none"
+        >
+          <h4>Completed</h4>
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={styles.orderDeliveryContainer}
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.contentContainer}
+                    onClick={() => handleClickComplete(item.id)}
+                  >
+                    <Col className={`col-3 ${styles.idContent}`}>
+                      <Row>
+                        <Col className={styles.modalHeader}>Order ID</Col>
+                      </Row>
+                      <Row>
+                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+                      </Row>
+                    </Col>
+                    <Col className="col-9">
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Date</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Placed Time</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(12, 19)}
+                          </Row>
+                        </Col>
+                      </Row>
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Rider Name</Row>
+                          <Row className={styles.lable}>{item.rider_name}</Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Delivered</Row>
+                          <Row className={styles.lable}>
+                            {item.updated_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
+
+  function CancelledModal(props: any) {
+    return (
+      <>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-none d-lg-block"
+        >
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            <Container>
+              <Row className={styles.modalHeaderContent}>
+                <Col className={styles.modalHeader}>Order ID</Col>
+                <Col className={styles.modalHeader}>Date</Col>
+                <Col className={styles.modalHeader}>Order Placed Time</Col>
+                <Col className={styles.modalHeader}>Time Cancelled</Col>
+                <Col className={styles.modalHeader}>Rider Name</Col>
+              </Row>
+            </Container>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+                  // className="order-delivery-container d-flex flex-column gap-2"
+                  fluid
+                  key={index}
+                >
+                  <Row className={styles.modalRow} onClick={() => handleClickCancel(item.id)}>
+                    <Col className={styles.modalHeader}>{item.id}</Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.created_at.slice(12, 19)}
+                    </Col>
+                    <Col className={styles.modalHeader}>
+                      {item.updated_at.slice(0, 10)}
+                    </Col>
+                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          className="d-lg-none"
+        >
+          <h4>Cancelled</h4>
+          <Modal.Body className={`${styles.modalBody} p-0`}>
+            {deliveredItem?.map((item, index) => {
+              return (
+                <Container
+                  className={styles.orderDeliveryContainer}
+                  fluid
+                  key={index}
+                >
+                  <Row
+                    className={styles.contentContainer}
+                    onClick={() => handleClickCancel(item.id)}
+                  >
+                    <Col className={`col-3 ${styles.idContent}`}>
+                      <Row>
+                        <Col className={styles.modalHeader}>Order ID</Col>
+                      </Row>
+                      <Row>
+                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+                      </Row>
+                    </Col>
+                    <Col className="col-9">
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Date</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Placed Time</Row>
+                          <Row className={styles.lable}>
+                            {item.created_at.slice(12, 19)}
+                          </Row>
+                        </Col>
+                      </Row>
+                      <Row className={styles.row}>
+                        <Col>
+                          <Row className={styles.lable}>Rider Name</Row>
+                          <Row className={styles.lable}>{item.rider_name}</Row>
+                        </Col>
+                        <Col>
+                          <Row className={styles.lable}>Order Delivered</Row>
+                          <Row className={styles.lable}>
+                            {item.updated_at.slice(0, 10)}
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Container>
+              );
+            })}
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
+
   return (
-    <div className={styles.deliveryContainer}>
-      <div className={styles.tableContainerHistory}>
-        <div className={styles.tableHeader}>
-          <div className={styles.tableHeader1}>
-            <h3>For Delivery</h3>
-            {/* <div className="search">
-              <input type="text" placeholder="Search order ID" />
-              <img src={SearchIcon} alt="" />
-            </div> */}
+    <>
+      <div className={styles.deliveryContainer}>
+        <div className={styles.tableContainerHistory}>
+          <div className={`${styles.tableHeader} d-none d-lg-block`}>
+            <Row className={`${styles.tableHeader1} w-100`}>
+              <Col className={`${styles.headerH3}`}>
+                <h3>
+                For Delivery (Current Orders)   
+                </h3>
+              </Col>
+            </Row>
+            <Row className="w-100">
+              <Col className={`${styles.searchInput} search col-6`}>
+                <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}  />
+                <img className={styles.searchIcon} src={searchIcon} alt="" />
+              </Col>
+              <Col className={styles.buttonContent}>
+                <Row>
+                  <Col className="col-6">
+                    <Button
+                      onClick={() => setModalShow1(true)}
+                      className={styles.buttons}
+                    >
+                      Completed
+                    </Button>
+                    <CompletedModal
+                      show={modalShow1}
+                      onHide={() => setModalShow1(false)}
+                    />
+                  </Col>
+                  <Col className="col-6">
+                    <Button
+                      onClick={() => setModalShow2(true)}
+                      className={styles.buttons}
+                    >
+                      Cancelled
+                    </Button>
+                    <CancelledModal
+                      show={modalShow2}
+                      onHide={() => setModalShow2(false)}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+          <div className={`${styles.mobileHeader} d-lg-none`}>
+            <Row>
+              <Col className={`${styles.headerH3}`}>
+                <h3>
+                For Delivery  
+                </h3>
+              </Col>
+              <Col className={`${styles.searchInput} search`}>
+                <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}  />
+                <img className={styles.searchIcon} src={searchIcon} alt="" />
+              </Col>
+            </Row>
+          </div>
+        </div>
+        {/* Received Orders from Customer start */}
+        {search !== "" ? (
+          forDelivery?.filter(item => item.id.toString().toLocaleLowerCase().includes(search.toLocaleLowerCase())).map((item, index) => {
+            return (
+              <Accordion className={styles.test} flush key={index}>
+                <Accordion.Item eventKey={item.id}>
+                  <div className={styles.orderDiv}>
+                    <CustomToggle eventKey={item.id}>
+                      {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                    <Button className="viewDetailsBtn">View Details</Button> */}
+                      Order ID: {item.id}
+                    </CustomToggle>
+                    <div
+                      className="d-md-none"
+                      onClick={() => handleClickItem(item.id)}
+                    >
+                      <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+                    </div>
+                  </div>
+                  <Accordion.Body className={styles.deliveryDetails2}>
+                    <div>
+                      <Row>
+                        <Col>
+                          <p>
+                            Customer Name: <span>{item.customer_name}</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Contact Number: <span>0917 123 4567 {item.id} </span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <p>
+                          Pick-up address:
+                          <span>
+                            Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <p>
+                          Delivery Address:
+                          <span>
+                            4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                            City
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <p>
+                            Order Placed Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Order Delivered Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>Order Details:</p>
+                          <ul>
+                            {productItem?.products.map((item) => (
+                              <li>
+                                {item.quantity}x {item.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </Col>
+                        <Col>
+                          <div className={styles.resto}>
+                            <p>Chan's Restaurant</p>
+                            <img src={productItem?.restaurant_photo} alt="resto" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>
+                            Sub Total: <span>1,350 php</span>
+                          </p>
+                          <p>
+                            Delivery Fee: <span>85 php</span>
+                          </p>
+                          <p>
+                            Total: <span>1,435 php</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <div className={styles.status}>
+                            <p>Order Status</p>
+                            {/* <img src={OrderReceivedIcon} /> */}
+                            <span>{item.order_status}</span>
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className={styles.declineAccept}>
+                        {/* <button>Decline</button> */}
+                        {/* <Link to={`/account/order/status/${item.id}`}>
+                          <button>Accept</button>
+                        </Link> */}
+                        <Button onClick={() => handleAccept(item.id)}>
+                          Accept
+                        </Button>
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Row className={styles.forDeliveryMobile}>
+                  <Col
+                    xs={1}
+                    className={`${styles.deliveryDetails} d-md-none`}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span> {item.customer_name} </span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+                <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
+                  <Col
+                    className={styles.deliveryDetails}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Customer Name: <span>Brandon Boyd</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+    
+                      {/* <Row>
+                        <Col md={{ span: 4, offset: 5 }}>
+                          <Button
+                            className="detailsBtn"
+                            onClick={(event) => {
+                              handleClick(event);
+                              setOpen(!open);
+                              changeState();
+                            }}
+                            style={{ display: isShown ? "block" : "none" }}
+                          >
+                            View Details
+                          </Button>
+                        </Col>
+                      </Row> */}
+                    </Row>
+    
+                    <Row>
+                      <Col
+                        className="d-none d-md-block"
+                        md={{ span: 7, offset: 5 }}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Accordion>
+            );
+          })
+        ) : (
+          forDelivery?.map((item, index) => {
+            return (
+              <Accordion className={styles.test} flush key={index}>
+                <Accordion.Item eventKey={item.id}>
+                  <div className={styles.orderDiv}>
+                    <CustomToggle eventKey={item.id}>
+                      {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                    <Button className="viewDetailsBtn">View Details</Button> */}
+                      Order ID: {item.id}
+                    </CustomToggle>
+                    <div
+                      className="d-md-none"
+                      onClick={() => handleClickItem(item.id)}
+                    >
+                      <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+                    </div>
+                  </div>
+                  <Accordion.Body className={styles.deliveryDetails2}>
+                    <div>
+                      <Row>
+                        <Col>
+                          <p>
+                            Customer Name: <span>{item.customer_name}</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Contact Number: <span>0917 123 4567 {item.id} </span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <p>
+                          Pick-up address:
+                          <span>
+                            Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <p>
+                          Delivery Address:
+                          <span>
+                            4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                            City
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <p>
+                            Order Placed Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Order Delivered Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>Order Details:</p>
+                          <ul>
+                            {productItem?.products.map((item) => (
+                              <li>
+                                {item.quantity}x {item.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </Col>
+                        <Col>
+                          <div className={styles.resto}>
+                            <p>Chan's Restaurant</p>
+                            <img src={productItem?.restaurant_photo} alt="resto" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>
+                            Sub Total: <span>1,350 php</span>
+                          </p>
+                          <p>
+                            Delivery Fee: <span>85 php</span>
+                          </p>
+                          <p>
+                            Total: <span>1,435 php</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <div className={styles.status}>
+                            <p>Order Status</p>
+                            {/* <img src={OrderReceivedIcon} /> */}
+                            <span>{item.order_status}</span>
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className={styles.declineAccept}>
+                        {/* <button>Decline</button> */}
+                        {/* <Link to={`/account/order/status/${item.id}`}>
+                          <button>Accept</button>
+                        </Link> */}
+                        <Button onClick={() => handleAccept(item.id)}>
+                          Accept
+                        </Button>
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Row className={styles.forDeliveryMobile}>
+                  <Col
+                    xs={1}
+                    className={`${styles.deliveryDetails} d-md-none`}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span> {item.customer_name} </span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+                <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
+                  <Col
+                    className={styles.deliveryDetails}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Customer Name: <span>Brandon Boyd</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+    
+                      {/* <Row>
+                        <Col md={{ span: 4, offset: 5 }}>
+                          <Button
+                            className="detailsBtn"
+                            onClick={(event) => {
+                              handleClick(event);
+                              setOpen(!open);
+                              changeState();
+                            }}
+                            style={{ display: isShown ? "block" : "none" }}
+                          >
+                            View Details
+                          </Button>
+                        </Col>
+                      </Row> */}
+                    </Row>
+    
+                    <Row>
+                      <Col
+                        className="d-none d-md-block"
+                        md={{ span: 7, offset: 5 }}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Accordion>
+            );
+          })
+        )}
+        {/* Received Orders from Customer end //Orders Preparing for delivery start */}
+        {search !== "" ? (
+          forOtw?.filter(item => item.id.toString().toLocaleLowerCase().includes(search.toLocaleLowerCase())).map((item, index) => {
+          return (
+            <Accordion className={styles.test} flush key={index}>
+              <Accordion.Item eventKey={item.id}>
+                <div className={styles.orderDiv}>
+                  <CustomToggle eventKey={item.id}>
+                    {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                  <Button className="viewDetailsBtn">View Details</Button> */}
+                    Order ID: {item.id}
+                  </CustomToggle>
+                  <div className="d-md-none">
+                    <div
+                      className="d-md-none"
+                      onClick={() => handleClickItem(item.id)}
+                    >
+                      <CustomToggle2 eventKey={item.id}>
+                        View Details
+                      </CustomToggle2>
+                    </div>
+                  </div>
+                </div>
+                <Accordion.Body className={styles.deliveryDetails2}>
+                  <div>
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span>{item.customer_name}</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567 {item.id} </span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                          City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col>
+                        <p>Order Details:</p>
+                        <ul>
+                          {productItem?.products.map((item) => (
+                            <li>
+                              {item.quantity}x {item.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </Col>
+                      <Col>
+                        <div className={styles.resto}>
+                          <p>Chan's Restaurant</p>
+                          <img src={productItem?.restaurant_photo} alt="resto" />
+                        </div>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col>
+                        <p>
+                          Sub Total: <span>1,350 php</span>
+                        </p>
+                        <p>
+                          Delivery Fee: <span>85 php</span>
+                        </p>
+                        <p>
+                          Total: <span>1,435 php</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <div className={styles.status}>
+                          <p>Order Status</p>
+                          {/* <img src={OrderReceivedIcon} /> */}
+                          <span>{item.order_status}</span>
+                        </div>
+                      </Col>
+                    </Row>
+                    <div className={styles.declineAccept}>
+                      {/* <button>Decline</button> */}
+                      {/* <Link to={`/account/order/status/${item.id}`}>
+                        <button>Accept</button>
+                      </Link> */}
+                      <Button onClick={() => handleAccept(item.id)}>
+                        Accept
+                      </Button>
+                    </div>
+                  </div>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Row className={styles.forDeliveryMobile}>
+                <Col
+                  xs={1}
+                  className={`${styles.deliveryDetails} d-md-none`}
+                  style={{ display: isShown ? "block" : "none" }}
+                >
+                  <Row>
+                    <Col>
+                      <p>
+                        Customer Name: <span> {item.customer_name} </span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Contact Number: <span>0917 123 4567</span>
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <p>
+                      Pick-up address:
+                      <span>
+                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                      </span>
+                    </p>
+                  </Row>
+                  <Row>
+                    <p>
+                      Delivery Address:
+                      <span>
+                        4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                      </span>
+                    </p>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p>
+                        Order Placed Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Order Delivered Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
+                <Col
+                  className={styles.deliveryDetails}
+                  style={{ display: isShown ? "block" : "none" }}
+                >
+                  <Row className="p-1">
+                    <Col>
+                      <p>
+                        Customer Name: <span>Brandon Boyd</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Contact Number: <span>0917 123 4567</span>
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row className="p-1">
+                    <p>
+                      Pick-up address:
+                      <span>
+                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                      </span>
+                    </p>
+                  </Row>
+                  <Row className="p-1">
+                    <p>
+                      Delivery Address:
+                      <span>
+                        4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                      </span>
+                    </p>
+                  </Row>
+                  <Row className="p-1">
+                    <Col>
+                      <p>
+                        Order Placed Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+                    <Col>
+                      <p>
+                        Order Delivered Time: <span>01:30 pm</span>
+                      </p>
+                    </Col>
+
+                    {/* <Row>
+                      <Col md={{ span: 4, offset: 5 }}>
+                        <Button
+                          className="detailsBtn"
+                          onClick={(event) => {
+                            handleClick(event);
+                            setOpen(!open);
+                            changeState();
+                          }}
+                          style={{ display: isShown ? "block" : "none" }}
+                        >
+                          View Details
+                        </Button>
+                      </Col>
+                    </Row> */}
+                  </Row>
+
+                  <Row>
+                    <Col
+                      className="d-none d-md-block"
+                      md={{ span: 7, offset: 5 }}
+                    >
+                      <CustomToggle2 eventKey={item.id}>
+                        View Details
+                      </CustomToggle2>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Accordion>
+          );
+        })
+        ) : (
+          forOtw.map((item, index) => {
+            return (
+              <Accordion className={styles.test} flush key={index}>
+                <Accordion.Item eventKey={item.id}>
+                  <div className={styles.orderDiv}>
+                    <CustomToggle eventKey={item.id}>
+                      {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
+                    <Button className="viewDetailsBtn">View Details</Button> */}
+                      Order ID: {item.id}
+                    </CustomToggle>
+                    <div className="d-md-none">
+                      <div
+                        className="d-md-none"
+                        onClick={() => handleClickItem(item.id)}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </div>
+                    </div>
+                  </div>
+                  <Accordion.Body className={styles.deliveryDetails2}>
+                    <div>
+                      <Row>
+                        <Col>
+                          <p>
+                            Customer Name: <span>{item.customer_name}</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Contact Number: <span>0917 123 4567 {item.id} </span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <p>
+                          Pick-up address:
+                          <span>
+                            Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <p>
+                          Delivery Address:
+                          <span>
+                            4117 41st Floor., GT Tower Intl., De La Costa, Makati
+                            City
+                          </span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <p>
+                            Order Placed Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Order Delivered Time: <span>01:30 pm</span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>Order Details:</p>
+                          <ul>
+                            {productItem?.products.map((item) => (
+                              <li>
+                                {item.quantity}x {item.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </Col>
+                        <Col>
+                          <div className={styles.resto}>
+                            <p>Chan's Restaurant</p>
+                            <img src={productItem?.restaurant_photo} alt="resto" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>
+                            Sub Total: <span>1,350 php</span>
+                          </p>
+                          <p>
+                            Delivery Fee: <span>85 php</span>
+                          </p>
+                          <p>
+                            Total: <span>1,435 php</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <div className={styles.status}>
+                            <p>Order Status</p>
+                            {/* <img src={OrderReceivedIcon} /> */}
+                            <span>{item.order_status}</span>
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className={styles.declineAccept}>
+                        {/* <button>Decline</button> */}
+                        {/* <Link to={`/account/order/status/${item.id}`}>
+                          <button>Accept</button>
+                        </Link> */}
+                        <Button onClick={() => handleAccept(item.id)}>
+                          Accept
+                        </Button>
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Row className={styles.forDeliveryMobile}>
+                  <Col
+                    xs={1}
+                    className={`${styles.deliveryDetails} d-md-none`}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span> {item.customer_name} </span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+                <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
+                  <Col
+                    className={styles.deliveryDetails}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Customer Name: <span>Brandon Boyd</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>0917 123 4567</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Pick-up address:
+                        <span>
+                          Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Delivery Address:
+                        <span>
+                          4117 41st Floor., GT Tower Intl., De La Costa, Makati City
+                        </span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Order Placed Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time: <span>01:30 pm</span>
+                        </p>
+                      </Col>
+    
+                      {/* <Row>
+                        <Col md={{ span: 4, offset: 5 }}>
+                          <Button
+                            className="detailsBtn"
+                            onClick={(event) => {
+                              handleClick(event);
+                              setOpen(!open);
+                              changeState();
+                            }}
+                            style={{ display: isShown ? "block" : "none" }}
+                          >
+                            View Details
+                          </Button>
+                        </Col>
+                      </Row> */}
+                    </Row>
+    
+                    <Row>
+                      <Col
+                        className="d-none d-md-block"
+                        md={{ span: 7, offset: 5 }}
+                      >
+                        <CustomToggle2 eventKey={item.id}>
+                          View Details
+                        </CustomToggle2>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Accordion>
+            );
+          })
+        )}
+        {/* Orders Preparing for delivery end */}
+        {/* <div className={styles.bottomButtons}>
+          <button onClick={navigateToHistory}>History</button>
+          
+          <button onClick={() => setModalShow1(true)}>Completed</button>
+          <CompletedModal show={modalShow1} onHide={() => setModalShow1(false)} />
+          <button onClick={() => setModalShow2(true)}>Cancelled</button>
+          <CancelledModal show={modalShow2} onHide={() => setModalShow2(false)} />
+        </div> */}
+        <div className={styles.rewardsContainer}>
+          <div className={styles.rewardsButton}>
+            <a href="/account/rewards">{/* <img src={RewardsBtn} alt="" /> */}</a>
           </div>
         </div>
       </div>
-      {/* Received Orders from Customer start */}
-      {forDelivery.map((item, index) => {
-        return (
-          <Accordion className={styles.test} flush key={index}>
-            <Accordion.Item eventKey={item.id}>
-              <div className={styles.orderDiv}>
-                <CustomToggle eventKey={item.id}>
-                  {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                <Button className="viewDetailsBtn">View Details</Button> */}
-                  Order ID: {item.id}
-                </CustomToggle>
-                <div
-                  className="d-md-none"
-                  onClick={() => handleClickItem(item.id)}
-                >
-                  <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
-                </div>
-              </div>
-              <Accordion.Body className={styles.deliveryDetails2}>
-                <div>
-                  <Row>
-                    <Col>
-                      <p>
-                        Customer Name: <span>{item.customer_name}</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <p>
-                        Contact Number: <span>0917 123 4567 {item.id} </span>
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <p>
-                      Pick-up address:
-                      <span>
-                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                      </span>
-                    </p>
-                  </Row>
-                  <Row>
-                    <p>
-                      Delivery Address:
-                      <span>
-                        4117 41st Floor., GT Tower Intl., De La Costa, Makati
-                        City
-                      </span>
-                    </p>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <p>
-                        Order Placed Time: <span>01:30 pm</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <p>
-                        Order Delivered Time: <span>01:30 pm</span>
-                      </p>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col>
-                      <p>Order Details:</p>
-                      <ul>
-                        {productItem?.products.map((item) => (
-                          <li>
-                            {item.quantity}x {item.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </Col>
-                    <Col>
-                      <div className={styles.resto}>
-                        <p>Chan's Restaurant</p>
-                        <img src={productItem?.restaurant_photo} alt="resto" />
-                      </div>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col>
-                      <p>
-                        Sub Total: <span>1,350 php</span>
-                      </p>
-                      <p>
-                        Delivery Fee: <span>85 php</span>
-                      </p>
-                      <p>
-                        Total: <span>1,435 php</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <div className={styles.status}>
-                        <p>Order Status</p>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                        <span>{item.order_status}</span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className={styles.declineAccept}>
-                    {/* <button>Decline</button> */}
-                    {/* <Link to={`/account/order/status/${item.id}`}>
-                      <button>Accept</button>
-                    </Link> */}
-                    <Button onClick={() => handleAccept(item.id)}>
-                      Accept
-                    </Button>
-                  </div>
-                </div>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Row className={styles.forDeliveryMobile}>
-              <Col
-                xs={1}
-                className={`${styles.deliveryDetails} d-md-none`}
-                style={{ display: isShown ? "block" : "none" }}
-              >
-                <Row>
-                  <Col>
-                    <p>
-                      Customer Name: <span> {item.customer_name} </span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Contact Number: <span>0917 123 4567</span>
-                    </p>
-                  </Col>
-                </Row>
-                <Row>
-                  <p>
-                    Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <p>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <Col>
-                    <p>
-                      Order Placed Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Order Delivered Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
-              <Col
-                className={styles.deliveryDetails}
-                style={{ display: isShown ? "block" : "none" }}
-              >
-                <Row className="p-1">
-                  <Col>
-                    <p>
-                      Customer Name: <span>Brandon Boyd</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Contact Number: <span>0917 123 4567</span>
-                    </p>
-                  </Col>
-                </Row>
-                <Row className="p-1">
-                  <p>
-                    Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </p>
-                </Row>
-                <Row className="p-1">
-                  <p>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </p>
-                </Row>
-                <Row className="p-1">
-                  <Col>
-                    <p>
-                      Order Placed Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Order Delivered Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-
-                  {/* <Row>
-                    <Col md={{ span: 4, offset: 5 }}>
-                      <Button
-                        className="detailsBtn"
-                        onClick={(event) => {
-                          handleClick(event);
-                          setOpen(!open);
-                          changeState();
-                        }}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        View Details
-                      </Button>
-                    </Col>
-                  </Row> */}
-                </Row>
-
-                <Row>
-                  <Col
-                    className="d-none d-md-block"
-                    md={{ span: 7, offset: 5 }}
-                  >
-                    <CustomToggle2 eventKey={item.id}>
-                      View Details
-                    </CustomToggle2>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Accordion>
-        );
-      })}
-      {/* Received Orders from Customer end //Orders Preparing for delivery start */}
-      {forOtw.map((item, index) => {
-        return (
-          <Accordion className={styles.test} flush key={index}>
-            <Accordion.Item eventKey={item.id}>
-              <div className={styles.orderDiv}>
-                <CustomToggle eventKey={item.id}>
-                  {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                <Button className="viewDetailsBtn">View Details</Button> */}
-                  Order ID: {item.id}
-                </CustomToggle>
-                <div className="d-md-none">
-                  <div
-                    className="d-md-none"
-                    onClick={() => handleClickItem(item.id)}
-                  >
-                    <CustomToggle2 eventKey={item.id}>
-                      View Details
-                    </CustomToggle2>
-                  </div>
-                </div>
-              </div>
-              <Accordion.Body className={styles.deliveryDetails2}>
-                <div>
-                  <Row>
-                    <Col>
-                      <p>
-                        Customer Name: <span>{item.customer_name}</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <p>
-                        Contact Number: <span>0917 123 4567 {item.id} </span>
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <p>
-                      Pick-up address:
-                      <span>
-                        Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                      </span>
-                    </p>
-                  </Row>
-                  <Row>
-                    <p>
-                      Delivery Address:
-                      <span>
-                        4117 41st Floor., GT Tower Intl., De La Costa, Makati
-                        City
-                      </span>
-                    </p>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <p>
-                        Order Placed Time: <span>01:30 pm</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <p>
-                        Order Delivered Time: <span>01:30 pm</span>
-                      </p>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col>
-                      <p>Order Details:</p>
-                      <ul>
-                        {productItem?.products.map((item) => (
-                          <li>
-                            {item.quantity}x {item.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </Col>
-                    <Col>
-                      <div className={styles.resto}>
-                        <p>Chan's Restaurant</p>
-                        <img src={productItem?.restaurant_photo} alt="resto" />
-                      </div>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col>
-                      <p>
-                        Sub Total: <span>1,350 php</span>
-                      </p>
-                      <p>
-                        Delivery Fee: <span>85 php</span>
-                      </p>
-                      <p>
-                        Total: <span>1,435 php</span>
-                      </p>
-                    </Col>
-                    <Col>
-                      <div className={styles.status}>
-                        <p>Order Status</p>
-                        {/* <img src={OrderReceivedIcon} /> */}
-                        <span>{item.order_status}</span>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className={styles.declineAccept}>
-                    {/* <button>Decline</button> */}
-                    {/* <Link to={`/account/order/status/${item.id}`}>
-                      <button>Accept</button>
-                    </Link> */}
-                    <Button onClick={() => handleAccept(item.id)}>
-                      Accept
-                    </Button>
-                  </div>
-                </div>
-              </Accordion.Body>
-            </Accordion.Item>
-            <Row className={styles.forDeliveryMobile}>
-              <Col
-                xs={1}
-                className={`${styles.deliveryDetails} d-md-none`}
-                style={{ display: isShown ? "block" : "none" }}
-              >
-                <Row>
-                  <Col>
-                    <p>
-                      Customer Name: <span> {item.customer_name} </span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Contact Number: <span>0917 123 4567</span>
-                    </p>
-                  </Col>
-                </Row>
-                <Row>
-                  <p>
-                    Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <p>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </p>
-                </Row>
-                <Row>
-                  <Col>
-                    <p>
-                      Order Placed Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Order Delivered Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row className={`${styles.forDeliveryDesktop} d-none d-md-block`}>
-              <Col
-                className={styles.deliveryDetails}
-                style={{ display: isShown ? "block" : "none" }}
-              >
-                <Row className="p-1">
-                  <Col>
-                    <p>
-                      Customer Name: <span>Brandon Boyd</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Contact Number: <span>0917 123 4567</span>
-                    </p>
-                  </Col>
-                </Row>
-                <Row className="p-1">
-                  <p>
-                    Pick-up address:
-                    <span>
-                      Chan’s Chinese Restaurant, Panglao, Bohol, Philippines
-                    </span>
-                  </p>
-                </Row>
-                <Row className="p-1">
-                  <p>
-                    Delivery Address:
-                    <span>
-                      4117 41st Floor., GT Tower Intl., De La Costa, Makati City
-                    </span>
-                  </p>
-                </Row>
-                <Row className="p-1">
-                  <Col>
-                    <p>
-                      Order Placed Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p>
-                      Order Delivered Time: <span>01:30 pm</span>
-                    </p>
-                  </Col>
-
-                  {/* <Row>
-                    <Col md={{ span: 4, offset: 5 }}>
-                      <Button
-                        className="detailsBtn"
-                        onClick={(event) => {
-                          handleClick(event);
-                          setOpen(!open);
-                          changeState();
-                        }}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        View Details
-                      </Button>
-                    </Col>
-                  </Row> */}
-                </Row>
-
-                <Row>
-                  <Col
-                    className="d-none d-md-block"
-                    md={{ span: 7, offset: 5 }}
-                  >
-                    <CustomToggle2 eventKey={item.id}>
-                      View Details
-                    </CustomToggle2>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Accordion>
-        );
-      })}
-      {/* Orders Preparing for delivery end */}
-      {/* <div className={styles.bottomButtons}>
-        <button onClick={navigateToHistory}>History</button>
-        
-        <button onClick={() => setModalShow1(true)}>Completed</button>
-        <CompletedModal show={modalShow1} onHide={() => setModalShow1(false)} />
-        <button onClick={() => setModalShow2(true)}>Cancelled</button>
-        <CancelledModal show={modalShow2} onHide={() => setModalShow2(false)} />
-      </div> */}
-      <div className={styles.rewardsContainer}>
-        <div className={styles.rewardsButton}>
-          <a href="/account/rewards">{/* <img src={RewardsBtn} alt="" /> */}</a>
-        </div>
-      </div>
-    </div>
+      <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
+        <Row>
+          <Col className="col-6">
+            <Button
+              onClick={() => setModalShow1(true)}
+              className={styles.buttons}
+            >
+              Completed
+            </Button>
+            <CompletedModal
+              show={modalShow1}
+              onHide={() => setModalShow1(false)}
+            />
+          </Col>
+          <Col className="col-6">
+            <Button
+              onClick={() => setModalShow2(true)}
+              className={styles.buttons}
+            >
+              Cancelled
+            </Button>
+            <CancelledModal
+              show={modalShow2}
+              onHide={() => setModalShow2(false)}
+            />
+          </Col>
+        </Row>
+      </Col>
+    </>
   );
 };
 

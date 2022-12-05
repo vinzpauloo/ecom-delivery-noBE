@@ -7,11 +7,16 @@ import CategoryRow from "./CategoryRow";
 import RestaurantRow from "./RestaurantRow";
 
 // Lunbo slider images
-import slider1 from "../../assets/images/slider1.jpg";
-import slider2 from "../../assets/images/slider2.jpg";
-import slider3 from "../../assets/images/slider3.jpg";
-import slider4 from "../../assets/images/slider4.jpg";
-import slider5 from "../../assets/images/slider5.png";
+// import slider1 from "../../assets/images/slider1.jpg";
+// import slider2 from "../../assets/images/slider2.jpg";
+// import slider3 from "../../assets/images/slider3.jpg";
+// import slider4 from "../../assets/images/slider4.jpg";
+// import slider5 from "../../assets/images/slider5.png";
+import slider1 from "../../assets/images/s1.jpg";
+import slider2 from "../../assets/images/s2.jpg";
+import slider3 from "../../assets/images/s3.jpg";
+import slider4 from "../../assets/images/s4.jpg";
+import slider5 from "../../assets/images/s5.jpg";
 
 import { useCategories } from "../../hooks/useCategories";
 import { useCuisines } from "../../hooks/useCuisines";

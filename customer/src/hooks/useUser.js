@@ -96,5 +96,36 @@ export const useUser = () => {
     }
   };
 
-  return { createUser, getUser, updateUser };
+  const changePassword = async (data) => {
+    try {
+      // START: Access change password API
+      const endpoint = "api/change-password";
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+      };
+
+      const response = await axios.put(endpoint, data, options);
+      // END: Access change password API
+
+      if (response.status === 201) {
+        console.log(response);
+        const { data, message } = response.data;
+
+        return { token: data.token, message };
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
+  return { createUser, getUser, updateUser, changePassword };
 };
