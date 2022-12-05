@@ -16,6 +16,7 @@ import { useHelper } from "../../../hooks/useHelper";
 import { useProduct } from "../../../hooks/useProduct";
 import { useCategories } from "../../../hooks/useCategories";
 import { useCuisines } from "../../../hooks/useCuisines";
+import searchIcon from "../../../assets/images/searchIcon.png";
 
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
@@ -101,6 +102,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [cuisine, setCuisine] = useState("");
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
+  const [search, setSearch] = useState("");
 
   const [checked, setChecked] = React.useState(true);
   const [editItemId, setEditItemId] = useState(0);
@@ -326,18 +328,26 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 placeholder="Search food and description"
               />
             </Col> */}
-            <Col>
+            <Row>
               <h3 className="d-none d-lg-block">Restaurant Menu</h3>
-            </Col>
+            </Row>
             {/* Button trigger modal */}
-            <Col>
+            <Row>
               <h3 className="d-lg-none">Restaurant Menu</h3>
-              <Button
-                className={styles.btnAddProduct}
-                onClick={() => setMenuModal(true)}
-              >
-                Add Menu
-              </Button>
+              <Row>
+                <Col className={`${styles.searchInput} search col-6`}>
+                  <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                  <img className={styles.searchIcon} src={searchIcon} alt="" />
+                </Col>
+                <Col>
+                  <Button
+                    className={styles.btnAddProduct}
+                    onClick={() => setMenuModal(true)}
+                  >
+                    Add Menu
+                  </Button>
+                </Col>
+              </Row>
               {/* Add menu Modal */}
               <Modal
                 show={menuModal}
@@ -564,7 +574,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                   </Form>
                 </Modal.Body>
               </Modal>
-            </Col>
+            </Row>
           </Row>
           <Table>
             <thead className={styles.tHeader}>
@@ -583,41 +593,80 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 </th>
               </tr>
             </thead>
-            {product?.map((item, index) => {
-              return (
-                <tbody className={styles.tBody} key={index}>
-                  <tr>
-                    <td>
-                      <p className={styles.textParagrap2}>{item.name}</p>
-                    </td>
-                    <td>
-                      <p className={styles.textParagrap2}>Php {item.price}</p>
-                    </td>
-                    <ProductAvailability availability={item.is_available} id={item.id}/>
-                    <td>
-                      <div>
-                        <Button
-                          className={styles.btnEdit}
-                          onClick={() => handleEdit(item.id)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          className={styles.btnDelete}
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          Delete
-                        </Button>
-                        {/* <DeleteModal
-                          show={deleteModal}
-                          onHide={() => setDeleteModal(false)}
-                        /> */}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })}
+            {search !== "" ? (
+            product?.filter(item => item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())).map((item, index) => {
+                return (
+                  <tbody className={styles.tBody} key={index}>
+                    <tr>
+                      <td>
+                        <p className={styles.textParagrap2}>{item.name}</p>
+                      </td>
+                      <td>
+                        <p className={styles.textParagrap2}>Php {item.price}</p>
+                      </td>
+                      <ProductAvailability availability={item.is_available} id={item.id}/>
+                      <td>
+                        <div>
+                          <Button
+                            className={styles.btnEdit}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            className={styles.btnDelete}
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </Button>
+                          {/* <DeleteModal
+                            show={deleteModal}
+                            onHide={() => setDeleteModal(false)}
+                          /> */}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            ) : (
+              product?.map((item, index) => {
+                return (
+                  <tbody className={styles.tBody} key={index}>
+                    <tr>
+                      <td>
+                        <p className={styles.textParagrap2}>{item.name}</p>
+                      </td>
+                      <td>
+                        <p className={styles.textParagrap2}>Php {item.price}</p>
+                      </td>
+                      <ProductAvailability availability={item.is_available} id={item.id}/>
+                      <td>
+                        <div>
+                          <Button
+                            className={styles.btnEdit}
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            className={styles.btnDelete}
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            Delete
+                          </Button>
+                          {/* <DeleteModal
+                            show={deleteModal}
+                            onHide={() => setDeleteModal(false)}
+                          /> */}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            )
+          }
           </Table>
         </Form>
       </div>

@@ -37,6 +37,7 @@ import RewardsIcon from "../../../assets/images/rewards-icon.png";
 import RewardsBtn from "../../../assets/images/rewardsBtn.png";
 import RestoIcon from "../../../assets/images/resto.png";
 import Delivery from "../../../pages/Account/Delivery";
+import OrderPreparing from "../../../assets/images/order-preparing.png";
 
 interface ContainerProps {}
 
@@ -54,6 +55,7 @@ type TOrder = {
   restaurant_photo: string;
   products: [{ name: string; quantity: number }];
   total_amount: number;
+  delivered_at: string;
 };
 
 type ForDeliveryItem = {
@@ -77,6 +79,7 @@ type ForDeliveryItem = {
   rider_vehicle_model: string;
   id: string;
   total_amount: string;
+  delivered_at: string;
 };
 
 type ForCompletedItem = {
@@ -96,6 +99,7 @@ type ForCompletedItem = {
   updated_at: string;
   rider_id: string;
   rider_vehicle_model: string;
+  delivered_at: string;
 };
 
 type ForCanceledItem = {
@@ -117,6 +121,7 @@ type ForCanceledItem = {
   rider_id: string;
   rider_vehicle_model: string;
   restaurant_photo: string;
+  delivered_at: string;
 };
 
 const DeliveryContent: React.FC<ContainerProps> = ({}) => {
@@ -536,7 +541,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                       <Col>
                         <p>
-                          Order Delivered Time: <span></span>
+                          Order Delivered Time:{" "}
+                          <span>{item.delivered_at} </span>
                         </p>
                       </Col>
                     </Row>
@@ -577,8 +583,12 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       <Col>
                         <div className="status">
                           <p>Order Status</p>
-                          <img src={OrderReceivedIcon} />
-                          <span>{item.order_status} </span>
+                          {item?.order_status === "preparing" && (
+                            <>
+                              <img src={OrderPreparing} />
+                              <span>Kitchen Preparing...</span>
+                            </>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -812,8 +822,12 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       <Col>
                         <div className="status">
                           <p>Order Status</p>
-                          <img src={OrderReceivedIcon} />
-                          <span>{item.order_status} </span>
+                          {item?.order_status === "preparing" && (
+                            <>
+                              <img src={OrderPreparing} />
+                              <span>Kitchen Preparing...</span>
+                            </>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -938,7 +952,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       md={{ span: 7, offset: 5 }}
                     >
                       <div
-                        className="d-md-none"
+                        className=""
                         onClick={() => handleClickItem(item.id)}
                       >
                         <CustomToggle2 eventKey={item.id}>

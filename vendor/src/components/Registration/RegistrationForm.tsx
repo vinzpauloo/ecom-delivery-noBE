@@ -152,7 +152,7 @@ const PlacesAutocomplete = ({
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          disabled={!ready}
+          // disabled={!ready}
           placeholder="Address"
           className={styles.addressInput}
         />

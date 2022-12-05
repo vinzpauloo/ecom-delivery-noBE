@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
+import statusIsPreparingAlt from "../../../assets/images/order-preparing-alt.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
 import OrderCancel from "../../../assets/images/order-cancel.png";
@@ -50,6 +51,7 @@ type ForDeliveryItem = {
   id: number;
   restaurant_address: string;
   total_amount: number;
+  received_at: string;
 };
 
 type TOrder = {
@@ -64,6 +66,8 @@ type TOrder = {
   total_amount?: number;
   products?: [{ name: string; quantity: number }];
   plate_number?: string;
+  received_at?: string;
+  restaurant_name?: string;
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
@@ -200,7 +204,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <Row>
                 <Col>
                   <p>
-                    Pick up Address: <span>{orderData.address}</span>
+                    Pick up Address: <span>{orderData.address} </span>
                   </p>
                 </Col>
                 <Col>
@@ -244,12 +248,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <Row>
                 <Col>
                   <p>
-                    Order Placed Date: <span>{orderData.created_at}</span>
+                    Order Placed Date: <span>{orderData.received_at}</span>
                   </p>
                 </Col>
                 <Col>
                   <p>
-                    Order Placed Time: <span>{orderData.created_at}</span>
+                    Order Placed Time: <span>{orderData.received_at}</span>
                   </p>
                 </Col>
               </Row>
@@ -312,7 +316,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         <div className={styles.title}>
           <h3>Order Tracker</h3>
           <p>Please don't close the page.</p>
-          <h4 className="mt-2">Order ID:{id} </h4>
+          <h4 className="mt-2">Order ID: {id} </h4>
         </div>
         {/* {forDelivery?.map((item, index) => {
           return ( */}
@@ -322,14 +326,23 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <img src={statusIsReceived} alt="" />
               <p>Order Received</p>
             </div>
-            <Button disabled>Activated</Button>
+            {/* <Button disabled>Activated</Button> */}
           </Col>
           <Col>
             <div className={styles.status}>
-              <img src={statusIsPreparing} alt="" />
-              <p>Kitchen Preparing ...</p>
+              <div className={styles.imgContainer}>
+                <img src={statusIsPreparing} alt="" />
+                {order?.order_status === "preparing" && (
+                  <img
+                    src={statusIsPreparingAlt}
+                    alt=""
+                    className={styles.altImg}
+                  />
+                )}
+                <p>Kitchen Preparing ...</p>
+              </div>
             </div>
-            <Button disabled>Activated</Button>
+            {/* <Button disabled>Activated</Button> */}
           </Col>
           <Col>
             <div className={styles.status}>
