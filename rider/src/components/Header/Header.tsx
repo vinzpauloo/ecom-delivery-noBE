@@ -59,18 +59,18 @@ const Header: React.FC<ContainerProps> = () => {
     // console.log("PUSHER", pusher);
     // Pusher.logToConsole = true;
 
-    const restaurantId = response.restaurant[0].id;
-    console.log(restaurantId);
+    // const restaurantId = response.restaurant[0].id;
+    // console.log(restaurantId);
 
-    const channel = pusher.subscribe("Restaurant-Channel-" + restaurantId);
-
-    channel.bind("Order-Created-Event", () => {
-      alert(`You have received a new order.`);
-    });
+    const channel = pusher.subscribe("Order-Preparing-Channel");
 
     channel.bind("Order-Updated-Event", () => {
-      alert(`Order status updated`);
+      alert(`You have received a new order for delivery.`);
     });
+
+    // channel.bind("Order-Updated-Event", () => {
+    //   alert(`Order status updated`);
+    // });
     //PusherJS end
   };
 

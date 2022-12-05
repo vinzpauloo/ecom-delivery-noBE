@@ -30,6 +30,7 @@ type TOrder = {
   restaurant_photo: string;
   products: [{ name: string; quantity: number }];
   total_amount: number;
+  delivered_at: string;
 };
 
 // const sampleOrder: TOrder = {
