@@ -62,6 +62,49 @@
       margin-top: 10px;
     }
   }
+  .imgContainer {
+    position: relative;
+
+    .altImg {
+      animation: fadeIn 1.5s infinite alternate;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @include devices(md) {
+    p {
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .imgContainer {
+      .altImg {
+        left: 50%;
+        transform: translate(-50%);
+      }
+    }
+  }
+
+  @include devices(sm) {
+    margin-bottom: 30px;
+
+    img {
+      // max-width: 50%;
+      max-width: 200px;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+  }
 }
 
 .button {
