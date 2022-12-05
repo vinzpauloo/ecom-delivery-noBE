@@ -96,9 +96,9 @@ const RewardsContent: React.FC<ContainerProps> = ({}) => {
           <p>My Rewards</p>
         </Col>
         <Col xs={3} md={3}>
-          <motion.div whileTap={{ x: -1000 }} transition={{ duration: 2 }}>
+          <Link to="/account/statistics">
             <Button className={styles.statsBtn}>My Stats</Button>
-          </motion.div>
+          </Link>
         </Col>
         <Col xs={{ span: 1, offset: 1 }} md={{ span: 0, offset: 0 }}>
           <CloseButton

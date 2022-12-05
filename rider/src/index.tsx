@@ -14,6 +14,7 @@ import History from "./pages/Account/History";
 import OrderDetails from "./pages/Account/OrderDetails";
 import Profile from "./pages/Account/Profile";
 import Rewards from "./pages/Account/Rewards";
+import Statistics from "./pages/Account/Statistics";
 import ResetPassword from "./pages/Account/ResetPassword";
 import Order from "./pages/Account/Order";
 import RiderTracker from "./pages/Account/RiderTracker";
@@ -45,6 +46,7 @@ root.render(
               <Route path="order-history/:id" element={<OrderDetails />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="rewards" element={<Rewards />} />
+              <Route path="statistics" element={<Statistics />} />
             </Route>
           </Route>
         </Routes>
