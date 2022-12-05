@@ -44,6 +44,7 @@ type GetDeliveredItem = {
 type products = {
   name: string;
   quantity: number;
+  photo: string;
 };
 
 const SwiperSlideItem = () => {
@@ -79,14 +80,14 @@ const HistoryStatusContent = (props) => {
         <Row>
           <h1 className={styles.header}>Completed Orders</h1>
         </Row>
-        <Row>
+        {/* <Row>
           <Form>
             <Form.Control
               placeholder="Search orders..."
               className={styles.formInput}
             />
           </Form>
-        </Row>
+        </Row> */}
       </div>
       <Row>
         <Col>
@@ -106,10 +107,10 @@ const HistoryStatusContent = (props) => {
                   }}
                   className={`d-none d-lg-block ${styles.imagesContainer}`}
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 7, 8, 8, 9, 2].map((item) => (
+                  {deliveredItem?.products.map((item) => (
                     <SwiperSlide className={styles.imageContainer}>
                       <img
-                        src={imgs}
+                        src={item.photo}
                         style={{ width: "100%", height: "100%" }}
                         alt=""
                       />
