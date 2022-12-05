@@ -374,33 +374,33 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           <h3>History</h3>
         </Row>
         <Row>
-          <Row className="d-none d-lg-block">
+          <Row className="d-none d-lg-flex">
             <Col className={`${styles.searchInput} search col-6`}>
-                    <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
-                    <img className={styles.searchIcon} src={searchIcon} alt="" />
-                  </Col>
-              <Col className={`${styles.buttonContent} col-6`}>
-                <Button
-                  onClick={() => setModalShow1(true)}
-                  className={styles.buttons}
-                >
-                  Completed
-                </Button>
-                <CompletedModal
-                  show={modalShow1}
-                  onHide={() => setModalShow1(false)}
-                />
-                <Button
-                  onClick={() => setModalShow2(true)}
-                  className={styles.buttons}
-                >
-                  Cancelled
-                </Button>
-                <CancelledModal
-                  show={modalShow2}
-                  onHide={() => setModalShow2(false)}
-                />
-              </Col>
+              <input type="text" placeholder="Search order ID" value={search} onChange={(e) => setSearch(e.target.value)}/>
+              <img className={styles.searchIcon} src={searchIcon} alt="" />
+            </Col>
+            <Col className={`${styles.buttonContent} col-6`}>
+              <Button
+                onClick={() => setModalShow1(true)}
+                className={styles.buttons}
+              >
+                Completed
+              </Button>
+              <CompletedModal
+                show={modalShow1}
+                onHide={() => setModalShow1(false)}
+              />
+              <Button
+                onClick={() => setModalShow2(true)}
+                className={styles.buttons}
+              >
+                Cancelled
+              </Button>
+              <CancelledModal
+                show={modalShow2}
+                onHide={() => setModalShow2(false)}
+              />
+            </Col>
           </Row>
           <div className={`${styles.mobileHeader} d-lg-none`}>
             <Row>
