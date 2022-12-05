@@ -4,7 +4,7 @@
     border: none !important;
     box-shadow: none;
     width: auto !important;
-    height: auto;
+    height: 44px;
     top: 15px !important;
     right: 15px !important;
 
@@ -17,13 +17,13 @@
   }
 }
 
-// .burger {
-//   background: #e6b325;
-//   border: 0.5px solid #61481c;
-//   border-radius: 3px;
-//   cursor: pointer;
-//   line-height: 1;
-// }
+.burger {
+  background: #e6b325;
+  border: 0.5px solid #61481c;
+  border-radius: 3px;
+  cursor: pointer;
+  line-height: 1;
+}
 
 .menu {
   margin: 0;
