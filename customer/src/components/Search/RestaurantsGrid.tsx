@@ -22,7 +22,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   const { keyword } = useParams();
 
   const loadRestaurants = async () => {
-    const response = await getRestaurantsByKeyword(keyword);
+    const response = await getRestaurantsByKeyword({ keywords: keyword });
     console.log("getRestaurantsByKeyword response", response);
     setRestaurants(response);
   };

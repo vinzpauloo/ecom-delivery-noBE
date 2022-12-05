@@ -4,6 +4,7 @@
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
   padding: 40px 0;
+  position: relative;
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
@@ -43,7 +44,15 @@
   height: 100%;
   padding: 30px 20px;
 }
+.contentContainer {
+  // background-color: #fdf5e7;
 
+  @media (max-width: 768px) {
+    height: 800px !important;
+    background: none;
+    padding: 30px 0 !important;
+  }
+}
 .contentContainer {
   height: 100%;
   padding: 30px 0;
