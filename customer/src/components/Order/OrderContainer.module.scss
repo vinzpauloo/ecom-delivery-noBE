@@ -3,11 +3,9 @@
 
 .container {
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
-  padding: 60px 0;
 
   @include devices(md) {
     min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
-    padding: 40px 0;
   }
 
   @include devices(xs) {
