@@ -1214,7 +1214,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <Col>
                               <p>
                                 Contact Number:{" "}
-                                <span>0917 123 4567 {item.id} </span>
+                                <span>{item.customer_mobile} </span>
                               </p>
                             </Col>
                           </Row>
@@ -1222,8 +1222,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <p>
                               Pick-up address:
                               <span>
-                                Chan’s Chinese Restaurant, Panglao, Bohol,
-                                Philippines
+                                {item.restaurant_address}
                               </span>
                             </p>
                           </Row>
@@ -1231,8 +1230,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <p>
                               Delivery Address:
                               <span>
-                                4117 41st Floor., GT Tower Intl., De La Costa,
-                                Makati City
+                                {item.order_address}
                               </span>
                             </p>
                           </Row>
@@ -1262,7 +1260,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col>
                               <div className={styles.resto}>
-                                <p>Chan's Restaurant</p>
+                                <p>{item.restaurant_name}</p>
                                 <img
                                   src={productItem?.restaurant_photo}
                                   alt="resto"
@@ -1369,7 +1367,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>0917 123 4567</span>
+                              Contact Number: <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1377,8 +1375,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Pick-up address:
                             <span>
-                              Chan’s Chinese Restaurant, Panglao, Bohol,
-                              Philippines
+                              {item.restaurant_address}
                             </span>
                           </p>
                         </Row>
@@ -1386,8 +1383,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Delivery Address:
                             <span>
-                              4117 41st Floor., GT Tower Intl., De La Costa,
-                              Makati City
+                              {item.order_address}
                             </span>
                           </p>
                         </Row>
@@ -1415,12 +1411,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Row className="p-1">
                           <Col>
                             <p>
-                              Customer Name: <span>Brandon Boyd</span>
+                              Customer Name: <span>{item.customer_name}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>0917 123 4567</span>
+                              Contact Number: <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1428,8 +1424,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Pick-up address:
                             <span>
-                              Chan’s Chinese Restaurant, Panglao, Bohol,
-                              Philippines
+                              {item.restaurant_address}
                             </span>
                           </p>
                         </Row>
@@ -1437,8 +1432,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Delivery Address:
                             <span>
-                              4117 41st Floor., GT Tower Intl., De La Costa,
-                              Makati City
+                              {item.order_address}
                             </span>
                           </p>
                         </Row>
@@ -1519,7 +1513,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <p>
                               Contact Number:{" "}
-                              <span>0917 123 4567 {item.id} </span>
+                              <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1527,8 +1521,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Pick-up address:
                             <span>
-                              Chan’s Chinese Restaurant, Panglao, Bohol,
-                              Philippines
+                              {item.restaurant_address}
                             </span>
                           </p>
                         </Row>
@@ -1536,8 +1529,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <p>
                             Delivery Address:
                             <span>
-                              4117 41st Floor., GT Tower Intl., De La Costa,
-                              Makati City
+                            {item.order_address}
                             </span>
                           </p>
                         </Row>
@@ -1567,7 +1559,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <div className={styles.resto}>
-                              <p>Chan's Restaurant</p>
+                              <p>{item.restaurant_name}</p>
                               <img
                                 src={productItem?.restaurant_photo}
                                 alt="resto"
@@ -1674,7 +1666,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                         <Col>
                           <p>
-                            Contact Number: <span>0917 123 4567</span>
+                            Contact Number: <span>{item.customer_mobile}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1682,8 +1674,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <p>
                           Pick-up address:
                           <span>
-                            Chan’s Chinese Restaurant, Panglao, Bohol,
-                            Philippines
+                          {item.restaurant_address}
                           </span>
                         </p>
                       </Row>
@@ -1691,8 +1682,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <p>
                           Delivery Address:
                           <span>
-                            4117 41st Floor., GT Tower Intl., De La Costa,
-                            Makati City
+                          {item.order_address}
                           </span>
                         </p>
                       </Row>
@@ -1720,12 +1710,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row className="p-1">
                         <Col>
                           <p>
-                            Customer Name: <span>Brandon Boyd</span>
+                            Customer Name: <span>{item.customer_name}</span>
                           </p>
                         </Col>
                         <Col>
                           <p>
-                            Contact Number: <span>0917 123 4567</span>
+                            Contact Number: <span>{item.customer_mobile}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1733,8 +1723,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <p>
                           Pick-up address:
                           <span>
-                            Chan’s Chinese Restaurant, Panglao, Bohol,
-                            Philippines
+                          {item.restaurant_address}
                           </span>
                         </p>
                       </Row>
@@ -1742,8 +1731,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <p>
                           Delivery Address:
                           <span>
-                            4117 41st Floor., GT Tower Intl., De La Costa,
-                            Makati City
+                          {item.order_address}
                           </span>
                         </p>
                       </Row>
