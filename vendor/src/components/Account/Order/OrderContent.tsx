@@ -176,8 +176,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   function CustomToggle({ children, eventKey }: any) {
-    const decoratedOnClick = useAccordionButton(eventKey, () =>
-      handleClick(eventKey)
+    const handleClickItem = async (props) => {
+      const response = await getOrdersById(props);
+      console.log("getOrdersById response", response);
+      setProductItem(response);
+    };
+
+    const decoratedOnClick = useAccordionButton(eventKey, () =>{
+        handleClick(eventKey)
+        handleClickItem(eventKey)
+      }
     );
 
     return (
@@ -850,6 +858,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col
                             className="d-none d-md-block"
                             md={{ span: 7, offset: 5 }}
+                            onClick={() => handleClickItem(item.id)}
                           >
                             <CustomToggle2 eventKey={item.id}>
                               View Details
@@ -866,7 +875,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <Accordion className={styles.test} flush key={index}>
                   <Accordion.Item eventKey={item.id}>
                     <div className={styles.orderDiv}>
-                      <CustomToggle eventKey={item.id}>
+                      <CustomToggle eventKey={item.id} >
                         {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
                     <Button className="viewDetailsBtn">View Details</Button> */}
                         Order ID: {item.id}
@@ -1152,6 +1161,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Col
                           className="d-none d-md-block"
                           md={{ span: 7, offset: 5 }}
+                          onClick={() => handleClickItem(item.id)}
                         >
                           <CustomToggle2 eventKey={item.id}>
                             View Details
@@ -1465,6 +1475,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col
                             className="d-none d-md-block"
                             md={{ span: 7, offset: 5 }}
+                            onClick={() => handleClickItem(item.id)}
                           >
                             <CustomToggle2 eventKey={item.id}>
                               View Details
@@ -1769,6 +1780,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Col
                           className="d-none d-md-block"
                           md={{ span: 7, offset: 5 }}
+                          onClick={() => handleClickItem(item.id)}
                         >
                           <CustomToggle2 eventKey={item.id}>
                             View Details

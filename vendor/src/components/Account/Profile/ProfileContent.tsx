@@ -9,6 +9,8 @@ import { useUser } from "../../../hooks/useUser";
 import styles from "./ProfileContent.module.scss";
 import constants from "../../../utils/constants.json";
 
+import ImageUploading, { ImageListType } from "react-images-uploading";
+
 import SearchIcon from "../../../assets/images/search.png";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
 import { createRefresh } from "react-auth-kit";
@@ -147,15 +149,32 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [restaurantId, setRestaurantId] = useState<number | null>(null);
+  const maxNumber = 1;
+  const [images, setImages] = React.useState<any>();
+  const [defaultImg, setDefaultImg] = useState(true);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: API_KEY,
     libraries: libraries,
   });
 
-  // const handleInput = () => {
-  //   setDisabledProfile(!disabledProfile);
-  // };
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    // data for submit
+    setImages(imageList as never[]);
+  };
+
+  const handleClick = (onImageUpload: any) => {
+    setDefaultImg((prev) => !prev);
+    onImageUpload();
+  };
+
+  const handleRemove = (onImageRemove: any, index: any) => {
+    onImageRemove(index);
+    setDefaultImg((prev) => !prev);
+  };
 
   const navigate = useNavigate();
 
@@ -323,6 +342,92 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
+            {/* <Col>
+              <Row>
+                <ImageUploading
+                  multiple
+                  value={images}
+                  onChange={onChange}
+                  maxNumber={maxNumber}
+                  dataURLKey="photo"
+                  maxFileSize={1572864}
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                    errors,
+                  }) => (
+                    <div className="d-flex flex-direction-col justify-content-center align-items-center gap-2">
+                      <Row>
+                        {defaultImg ? (
+                          <img
+                            src={DefaultThumbnail}
+                            className={styles.thumbNail}
+                          />
+                        ) : (
+                          imageList.map((image, index) => (
+                            <div key={index} className="image-item">
+                              <img
+                                src={image.photo}
+                                className={styles.thumbNail}
+                                alt="ad-img"
+                              />
+                              <Row  className={styles.btnUploadContent}>
+                                <Form.Control
+                                  value="Remove"
+                                  type="button"
+                                  className={styles.btnUpload}
+                                  onClick={() =>
+                                    handleRemove(onImageRemove, index)
+                                  }
+                                />
+                              </Row>
+                            </div>
+                          ))
+                        )}
+
+                        <Form.Control
+                          placeholder="Upload Logo"
+                          className={styles.btnUpload}
+                          onClick={() => handleClick(onImageUpload)}
+                        />
+                      </Row>
+                      <Row>
+                        {errors && (
+                          <div>
+                            {errors.maxNumber && (
+                              <span style={{ color: "red", fontWeight: "600" }}>
+                                Number of selected images exceed.
+                              </span>
+                            )}
+                            {errors.acceptType && (
+                              <span style={{ color: "red", fontWeight: "600" }}>
+                                Your selected file type is not allowed.
+                              </span>
+                            )}
+                            {errors.maxFileSize && (
+                              <span style={{ color: "red", fontWeight: "600" }}>
+                                Selected file size exceeded 1.5 MB.
+                              </span>
+                            )}
+                            {errors.resolution && (
+                              <span style={{ color: "red", fontWeight: "600" }}>
+                                Selected file does not match the desired resolution
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </Row>
+                    </div>
+                  )}
+                </ImageUploading>
+              </Row>
+            </Col> */}
           </Row>
           <Row>
             <Col>
