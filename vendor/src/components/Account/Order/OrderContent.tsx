@@ -636,8 +636,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <Col>
                               <p>Order Details:</p>
                               <ul>
-                                {productItem?.products.map((item) => (
-                                  <li>
+                                {productItem?.products.map((item,index) => (
+                                  <li key={index}>
                                     {item.quantity}x {item.name}
                                   </li>
                                 ))}
@@ -939,8 +939,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <p>Order Details:</p>
                             <ul>
-                              {productItem?.products.map((item) => (
-                                <li>
+                              {productItem?.products.map((item, index) => (
+                                <li key={index}>
                                   {item.quantity}x {item.name}
                                 </li>
                               ))}
@@ -1251,8 +1251,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <Col>
                               <p>Order Details:</p>
                               <ul>
-                                {productItem?.products.map((item) => (
-                                  <li>
+                                {productItem?.products.map((item, index) => (
+                                  <li key={index}>
                                     {item.quantity}x {item.name}
                                   </li>
                                 ))}
@@ -1550,8 +1550,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <p>Order Details:</p>
                             <ul>
-                              {productItem?.products.map((item) => (
-                                <li>
+                              {productItem?.products.map((item, index) => (
+                                <li key={index}>
                                   {item.quantity}x {item.name}
                                 </li>
                               ))}

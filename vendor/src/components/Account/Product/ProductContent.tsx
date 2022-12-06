@@ -412,8 +412,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           {...register("categories")}
                           className={styles.btnCategory}
                         >
-                          {categories?.map((categories) => (
-                            <option value={categories.id}>
+                          {categories?.map((categories, index) => (
+                            <option value={categories.id} key={index}>
                               {categories.name}
                             </option>
                           ))}
@@ -425,8 +425,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         {...register("cuisines")}
                         className={styles.btnCuisine}
                       >
-                        {cuisines?.map((cuisines) => (
-                          <option value={cuisines.id}>{cuisines.name}</option>
+                        {cuisines?.map((cuisines, index) => (
+                          <option value={cuisines.id} key={index}>{cuisines.name}</option>
                         ))}
                       </Form.Select>
                     </Col>
@@ -607,13 +607,13 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </td>
                       <ProductAvailability availability={item.is_available} id={item.id}/>
                       <td>
-                        <div>
-                          {/* <Button
+                        <div style={{display: "flex", alignItems: "center", justifyContent:"space-evenly"}}>
+                          <Button
                             className={styles.btnEdit}
                             onClick={() => handleEdit(item.id)}
                           >
                             Edit
-                          </Button> */}
+                          </Button>
                           <Button
                             className={styles.btnDelete}
                             onClick={() => handleDelete(item.id)}
@@ -643,7 +643,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </td>
                       <ProductAvailability availability={item.is_available} id={item.id}/>
                       <td>
-                        <div>
+                        <div style={{display: "flex", alignItems: "center", justifyContent:"space-evenly"}}>
                           <Button
                             className={styles.btnEdit}
                             onClick={() => handleEdit(item.id)}
@@ -989,8 +989,8 @@ function EditModal(props: any) {
                     className={styles.btnCategory}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    {categories?.map((categories) => (
-                      <option value={categories.id}>
+                    {categories?.map((categories, index) => (
+                      <option value={categories.id} key={index}>
                         {categories.name}
                       </option>
                     ))}
@@ -1003,8 +1003,8 @@ function EditModal(props: any) {
                   className={styles.btnCuisine}
                   onChange={(e) => setCuisine(e.target.value)}
                 >
-                  {cuisines?.map((cuisines) => (
-                    <option value={cuisines.id}>{cuisines.name}</option>
+                  {cuisines?.map((cuisines, index) => (
+                    <option value={cuisines.id} key={index}>{cuisines.name}</option>
                   ))}
                 </Form.Select>
               </Col>
