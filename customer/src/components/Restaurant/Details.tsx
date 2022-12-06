@@ -12,7 +12,7 @@ import CartSlider from "./CartSlider";
 
 interface ContainerProps {
   restaurant: TRestaurant | null;
-  menu: TMenu[] | null;
+  menu: TMenu[];
   categories: TCategory[] | null;
 }
 
