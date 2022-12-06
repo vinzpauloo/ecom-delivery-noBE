@@ -1509,11 +1509,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <button onClick={() => setModalShow2(true)}>Cancelled</button>
           <CancelledModal show={modalShow2} onHide={() => setModalShow2(false)} />
         </div> */}
-        <div className={styles.rewardsContainer}>
+        {/* <div className={styles.rewardsContainer}>
           <div className={styles.rewardsButton}>
-            <a href="/account/rewards">{/* <img src={RewardsBtn} alt="" /> */}</a>
+            <a href="/account/rewards">
+              <img src={RewardsBtn} alt="" />
+              </a>
           </div>
-        </div>
+        </div> */}
       </div>
       <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>

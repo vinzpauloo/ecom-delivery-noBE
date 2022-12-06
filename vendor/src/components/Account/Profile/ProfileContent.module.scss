@@ -259,3 +259,23 @@
     }
   }
 }
+
+.buttonsContainer{
+  .buttonLeftContainer{
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+@include devices(md){
+  .buttonsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .buttonLeftContainer,
+    .buttonRightContainer{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

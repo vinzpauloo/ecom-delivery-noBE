@@ -376,8 +376,13 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col>
+          <Row className={styles.buttonsContainer}>
+            <Col className={styles.buttonLeftContainer}>
+              <Button className={styles.btnUpdate} type="button" onClick={() => navigate("/account/feedback")}>
+                My Ratings
+              </Button>
+            </Col>
+            <Col className={styles.buttonRightContainer}>
               <Button className={styles.btnUpdate} type="submit">
                 Update
               </Button>

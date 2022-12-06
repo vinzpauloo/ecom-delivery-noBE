@@ -1,0 +1,30 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  width: 80%;
+}
+
+.listItem {
+  width: 50%;
+  margin-bottom: 10px;
+
+  img {
+    border: 1px solid #000000;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+
+  .rating {
+    line-height: 1;
+  }
+}

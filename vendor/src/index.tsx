@@ -16,6 +16,7 @@ import HistoryStatusCompleted from "./pages/Account/HistoryStatusCompleted";
 import HistoryStatusCancelled from "./pages/Account/HistoryStatusCancelled";
 import OrderDetails from "./pages/Account/OrderDetails";
 import ResetPassword from "./pages/Account/ResetPassword";
+import RestaurantFeedback from "./pages/Account/RestaurantFeedback"
 import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
 
@@ -60,6 +61,7 @@ root.render(
               path="order-history/cancelled/:id"
               element={<HistoryStatusCancelled />}
             />
+            <Route path="feedback" element={<RestaurantFeedback />} />
             <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Route>
