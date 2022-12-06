@@ -256,11 +256,22 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.orderStatus}>
                         <p>Order Status</p>
-                        <img
+                        {/* <img
                           className="img-fluid mt-1 mb-2"
                           src={statusIsReceived}
                         />
-                        <p className={styles.value}>{order?.order_status}</p>
+                        <p className={styles.value}>{order?.order_status}</p> */}
+                        {order?.order_status === "delivered" && (
+                          <div>
+                            <img
+                              src={statusIsDelivered}
+                              className="img-fluid mt-1 mb-2"
+                            />
+                            <p className={styles.value}>
+                              {order?.order_status}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </Col>
                   </Row>

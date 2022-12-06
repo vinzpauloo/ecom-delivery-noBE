@@ -83,17 +83,23 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
         {reviews?.map((item, index) => {
           return (
             <div key={index} className={styles.listItem}>
-              <div className="d-flex gap-2">
-                <img src={placeholder} />
-                <div className={styles.rating}>
-                  <h4 className="mb-0">Customer Name</h4>
-                  <div>
-                    <CustomerRating rating={item.restaurant_rating} /> |
-                    10|27|2022
+              <div className={styles.listItemContent}>
+                <div className="d-flex gap-2">
+                  <img src={placeholder} />
+                  <div className={styles.rating}>
+                    <h4 className="mb-0">{`${item.first_name} ${item.last_name}`}</h4>
+                    <div className="d-flex gap-2 align-items-center">
+                      <div>
+                        <CustomerRating rating={item.restaurant_rating} />
+                      </div>
+                      <span className={styles.dateLabel}>
+                        {getDate(item.restaurant_reviewed_at)}
+                      </span>
+                    </div>
                   </div>
                 </div>
+                <p className="mb-0">{item.restaurant_review}</p>
               </div>
-              <p className="mb-0">{item.restaurant_review}</p>
             </div>
           );
         })}

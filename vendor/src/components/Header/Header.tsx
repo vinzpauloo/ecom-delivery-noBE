@@ -144,7 +144,11 @@ const Header: React.FC<ContainerProps> = () => {
             md={{ span: 6, offset: 2 }}
             xs={{ span: 7, offset: 1 }}
             className="d-lg-none"
-          ></Col>
+          >
+            <div className="d-flex justify-content-end align-items-center">
+              <OffcanvasMenu />
+            </div>
+          </Col>
         </Row>
       </Container>
     </header>

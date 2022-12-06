@@ -18,6 +18,7 @@ import statusIsCancelAlt from "../../assets/images/order-cancel-alt.png";
 import styles from "./OrderContent.module.scss";
 import constants from "../../utils/constants.json";
 import RiderFeedback from "./RiderFeedback";
+import Chat from "./Chat";
 
 import Pusher from "pusher-js";
 import * as PusherTypes from "pusher-js";
@@ -336,6 +337,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           )}
         </h6>
       </div> */}
+
+      <div className={styles.chatContainer}>
+        <Chat />
+      </div>
     </div>
   );
 };

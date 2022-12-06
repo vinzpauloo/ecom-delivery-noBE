@@ -34,7 +34,8 @@ interface IFormInputs {
 }
 
 const schema = yup
-  .object({
+  .object()
+  .shape({
     first_name: yup
       .string()
       .min(2, constants.form.error.firstNameMin)
@@ -107,33 +108,48 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     resolver: yupResolver(schema),
   });
 
+  const [errorImage, setErrorImage] = useState<any>(Error());
+
+  const throwError = () => {
+    throw Error("Please upload a profile photo.");
+  };
+
   const onSubmit = async (data: IFormInputs) => {
-    const data1 = { ...data };
-    const data2 = { ...data, photo: images[0].photo };
-    console.log("onSubmit", data2);
-    console.log(images[0].photo);
+    const message = document.getElementById("imageError") as HTMLInputElement;
 
-    // Add address to form data
-    // const newFormData = { ...data, address: address };
-    // console.log("onsubmit", newFormData);
+    try {
+      const data1 = { ...data };
+      const data2 = { ...data, photo: images[0].photo };
+      console.log("onSubmit", data2);
+      console.log(images[0].photo);
 
-    // Validate fields
-    const response = await validateFields(data1);
-    // const response2 = await validateFields(data2);
+      // Add address to form data
+      // const newFormData = { ...data, address: address };
+      // console.log("onsubmit", newFormData);
 
-    if (response.errors) {
-      // Prepare errors
-      let arrErrors: string[] = [];
-      for (let value of Object.values(response.errors)) {
-        arrErrors.push("*" + value);
+      // Validate fields
+      const response = await validateFields(data1);
+      // const response2 = await validateFields(data2);
+
+      if (response.errors) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.errors)) {
+          arrErrors.push("*" + value);
+        }
+        setApiErrors(arrErrors);
+      } else {
+        // Set register data on local storage
+        localStorage.setItem("oldRegisterUser", JSON.stringify(data2));
+
+        // Navigate to OTP page
+        navigate("/registration2");
       }
-      setApiErrors(arrErrors);
-    } else {
-      // Set register data on local storage
-      localStorage.setItem("oldRegisterUser", JSON.stringify(data2));
-
-      // Navigate to OTP page
-      navigate("/registration2");
+    } catch (e) {
+      console.log(e);
+      // setErrorImage(e);
+      message.innerHTML =
+        "A profile photo is required. Please make sure the image is less than 15MB.";
     }
   };
 
@@ -284,6 +300,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <p>{errors.password_confirmation?.message}</p>
           <p>{errors.license_number?.message}</p>
           <p>{errors.license_expiration?.message}</p>
+          <p>{errors.photo?.message} </p>
+
+          <p id="imageError"></p>
         </div>
 
         <hr className="" />
@@ -294,6 +313,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           maxNumber={maxNumber}
           dataURLKey="photo"
           maxFileSize={1572864}
+          acceptType={["jpg", "gif", "png"]}
         >
           {({
             imageList,

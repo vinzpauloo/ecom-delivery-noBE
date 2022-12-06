@@ -31,8 +31,13 @@ const OffcanvasMenu: React.FC<ContainerProps> = ({}) => {
         </div>
       </a>
 
-      <Offcanvas show={show} onHide={handleClose} placement="end">
-        <Offcanvas.Body>
+      <Offcanvas
+        show={show}
+        onHide={handleClose}
+        placement="end"
+        className={styles.offcanvas}
+      >
+        <Offcanvas.Body className={styles.offcanvasBody}>
           <ul className={styles.menu}>
             <li>
               {isAuthenticated() ? (

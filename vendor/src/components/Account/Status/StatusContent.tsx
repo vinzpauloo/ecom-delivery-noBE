@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useOrder } from "../../../hooks/useOrder";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
+import statusIsReceivedAlt from "../../../assets/images/order-received-alt.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
@@ -20,7 +21,7 @@ type ForPreparingItem = {
   order_address: string;
   order_email: string;
   order_mobile: string;
-  order_status: string;
+  order_status?: string;
   otw_at: string;
   payment_type: string;
   plate_number: string;
@@ -39,6 +40,8 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   const { updateOrder, getOrdersById } = useOrder();
   const navigate = useNavigate();
 
+  const [order, setOrder] = useState<ForPreparingItem | null>(null);
+
   // Get the params from the url
   const { id } = useParams();
 
@@ -46,6 +49,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     const response = await getOrdersById(id);
     console.log("getOrdersById response", response);
     setStatus(response);
+    setOrder(response);
   };
 
   const handleAccept = async (id: any) => {
@@ -70,17 +74,31 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
         <Row md={4} xs={1}>
           <Col>
             <div className={styles.status}>
-              <img src={statusIsReceived} alt="" />
-              <p>Order Received</p>
+              {/* <img src={statusIsReceived} alt="" />
+              <p>Order Received</p> */}
+              <div className={styles.imgContainer}>
+                <img src={statusIsReceived} alt="" />
+                {order?.order_status === "received" && (
+                  <img
+                    src={statusIsReceivedAlt}
+                    alt=""
+                    className={styles.altImg}
+                  />
+                )}
+                <p>Order Received</p>
+              </div>
             </div>
-            <Button disabled>Activated</Button>
           </Col>
           <Col>
             <div className={styles.status}>
               <img src={statusIsPreparing} alt="" />
               <p>Kitchen Preparing ...</p>
             </div>
-            <Button type="submit" onClick={() => handleAccept(status?.id)}>
+            <Button
+              type="submit"
+              onClick={() => handleAccept(status?.id)}
+              className={styles.activateBtn}
+            >
               Activate
             </Button>
           </Col>

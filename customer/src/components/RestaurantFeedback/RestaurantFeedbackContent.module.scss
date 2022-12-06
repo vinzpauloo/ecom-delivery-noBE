@@ -10,8 +10,21 @@
 }
 
 .listItem {
-  width: 50%;
-  margin-bottom: 10px;
+  width: 45%;
+
+  &:nth-child(odd) {
+    margin-right: 5%;
+  }
+
+  &:nth-child(even) {
+    margin-left: 5%;
+  }
+
+  .listItemContent {
+    border-top: 1px solid #757575;
+    margin-bottom: 10px;
+    padding-top: 10px;
+  }
 
   img {
     border: 1px solid #000000;
@@ -26,5 +39,22 @@
 
   .rating {
     line-height: 1;
+  }
+
+  .dateLabel {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  @include devices(sm) {
+    width: 100%;
+
+    &:nth-child(odd) {
+      margin-right: 0%;
+    }
+
+    &:nth-child(even) {
+      margin-left: 0%;
+    }
   }
 }

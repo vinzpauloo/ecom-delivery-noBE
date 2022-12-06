@@ -419,6 +419,17 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           ))}
                         </Form.Select>
                       </Col>
+                      <Col lg={4} xs={8}>
+                      <Form.Label>Cuisine</Form.Label>
+                      <Form.Select
+                        {...register("cuisines")}
+                        className={styles.btnCuisine}
+                      >
+                        {cuisines?.map((cuisines) => (
+                          <option value={cuisines.id}>{cuisines.name}</option>
+                        ))}
+                      </Form.Select>
+                    </Col>
                     </Col>
                     <Col>
                       <ImageUploading
@@ -532,17 +543,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                   </Row>
                   <Row  className="ps-3 pe-3">
-                    <Col lg={4} xs={8}>
-                      <Form.Label>Cuisine</Form.Label>
-                      <Form.Select
-                        {...register("cuisines")}
-                        className={styles.btnCuisine}
-                      >
-                        {cuisines?.map((cuisines) => (
-                          <option value={cuisines.id}>{cuisines.name}</option>
-                        ))}
-                      </Form.Select>
-                    </Col>
                     <Col className={styles.availabilityContent}>
                       <Row>
                         <Form.Label>Availability</Form.Label>
@@ -996,6 +996,18 @@ function EditModal(props: any) {
                     ))}
                   </Form.Select>
                 </Col>
+                <Col lg={4} xs={8}>
+                <Form.Label>Cuisine</Form.Label>
+                <Form.Select
+                  // {...register("cuisines")}
+                  className={styles.btnCuisine}
+                  onChange={(e) => setCuisine(e.target.value)}
+                >
+                  {cuisines?.map((cuisines) => (
+                    <option value={cuisines.id}>{cuisines.name}</option>
+                  ))}
+                </Form.Select>
+              </Col>
               </Col>
               <Col>
                 <ImageUploading
@@ -1101,18 +1113,6 @@ function EditModal(props: any) {
               </Col>
             </Row>
             <Row className="ps-3 pe-3">
-              <Col lg={4} xs={8}>
-                <Form.Label>Cuisine</Form.Label>
-                <Form.Select
-                  // {...register("cuisines")}
-                  className={styles.btnCuisine}
-                  onChange={(e) => setCuisine(e.target.value)}
-                >
-                  {cuisines?.map((cuisines) => (
-                    <option value={cuisines.id}>{cuisines.name}</option>
-                  ))}
-                </Form.Select>
-              </Col>
               <Col className={styles.availabilityContent}>
                 <Row>
                   <Form.Label>Availability</Form.Label>

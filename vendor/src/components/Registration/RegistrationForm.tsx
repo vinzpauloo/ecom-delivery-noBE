@@ -217,37 +217,46 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log(address);
-    const data1 = {
-      ...data,
-      address: address,
-      lat: lat.toString(),
-      long: lng.toString(),
-    };
-    // Validate fields
-    const data2 = {
-      ...data,
-      photo: images[0].photo,
-      address: address,
-      lat: lat.toString(),
-      long: lng.toString(),
-    };
-    const response = await validateFields(data1);
-    console.log(data2);
+    const message = document.getElementById("imageError") as HTMLInputElement;
 
-    if (response.errors) {
-      // Prepare errors
-      let arrErrors: string[] = [];
-      for (let value of Object.values(response.errors)) {
-        arrErrors.push("*" + value);
+    try {
+      console.log(address);
+      const data1 = {
+        ...data,
+        address: address,
+        lat: lat.toString(),
+        long: lng.toString(),
+      };
+      // Validate fields
+      const data2 = {
+        ...data,
+        photo: images[0].photo,
+        address: address,
+        lat: lat.toString(),
+        long: lng.toString(),
+      };
+      const response = await validateFields(data1);
+      console.log(data2);
+
+      if (response.errors) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.errors)) {
+          arrErrors.push("*" + value);
+        }
+        setApiErrors(arrErrors);
+      } else {
+        // Set Register data on local storage
+        localStorage.setItem("registerUser", JSON.stringify(data2));
+
+        // Navigate to OTP page
+        navigate("/otp");
       }
-      setApiErrors(arrErrors);
-    } else {
-      // Set Register data on local storage
-      localStorage.setItem("registerUser", JSON.stringify(data2));
-
-      // Navigate to OTP page
-      navigate("/otp");
+    } catch (error) {
+      console.log(error);
+      // setErrorImage(e);
+      message.innerHTML =
+        "A restaurant profile photo is required. Please make sure the image is less than 15MB.";
     }
   };
 
@@ -515,6 +524,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                         />
                       </Col>
                     </Row>
+                    <div className={styles.errors}>
+                      <p id="imageError"></p>
+                    </div>
                     {errors && (
                       <div>
                         {errors.maxNumber && (

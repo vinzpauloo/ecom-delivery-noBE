@@ -321,14 +321,17 @@
   }
 }
 @include devices(md){
+  .deliveryContainer{
+    min-height: 95%;
+  }
   .mobileButtonContent{
-    position: absolute;
+    position: relative;
     left: 50%;
-    bottom: 10%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    padding: 0 0 30px;
     .buttons{
       width: 92px;
       height: 29px;

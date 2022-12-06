@@ -45,6 +45,7 @@ type products = {
   name: string;
   quantity: number;
   photo: string;
+  price: number;
 };
 
 const SwiperSlideItem = () => {
@@ -114,8 +115,8 @@ const HistoryStatusContent = (props) => {
                         style={{ width: "100%", height: "100%" }}
                         alt=""
                       />
-                      <p>title</p>
-                      <p>price</p>
+                      <p>{item.name}</p>
+                      <p>{item.price}</p>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -126,11 +127,11 @@ const HistoryStatusContent = (props) => {
                   pagination
                   className={`d-lg-none ${styles.imagesContainer}`}
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 7, 8, 8, 9, 2].map((item) => (
+                  {deliveredItem?.products.map((item) => (
                     <SwiperSlide className={styles.imageContainer}>
                       <img src={imgs} alt="" />
-                      <p>title</p>
-                      <p>price</p>
+                      <p>{item.name}</p>
+                      <p>{item.price}</p>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -153,7 +154,6 @@ const HistoryStatusContent = (props) => {
                     <Row className={styles.items}>
                       <h4>Items</h4>
                       {deliveredItem?.products.map((item, index) => {
-                        // setQuantity(prev => prev + item.quantity);
                         return (
                           <p key={index}>
                             {item.quantity}x {item.name}

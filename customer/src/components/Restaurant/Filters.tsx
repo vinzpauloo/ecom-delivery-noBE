@@ -20,13 +20,21 @@ const Filters: React.FC<ContainerProps> = ({
   filter,
   setFilter,
 }) => {
+  const handleChange = (item: any) => {
+    if (filter === item.id) {
+      setFilter(0);
+    } else {
+      setFilter(item.id);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div
         className={`d-flex justify-content-between align-items-center ${styles.title}`}
       >
         <h4 className="mb-0">Filters</h4>
-        <Form.Check type="switch" className={styles.switch} />
+        {/* <Form.Check type="switch" className={styles.switch} /> */}
       </div>
 
       <div className={styles.filters}>
@@ -39,7 +47,7 @@ const Filters: React.FC<ContainerProps> = ({
                 key={item.id}
                 id={`${item.id}`}
                 label={item.name}
-                onChange={() => setFilter(item.id)}
+                onChange={() => handleChange(item)}
                 checked={filter === item.id}
               />
             );
