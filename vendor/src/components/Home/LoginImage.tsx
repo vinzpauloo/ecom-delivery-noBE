@@ -13,9 +13,9 @@ import "swiper/scss/navigation";
 
 import styles from "./LoginImage.module.scss";
 
-import chef1 from "../../assets/images/chef-1.png";
-import chef2 from "../../assets/images/chef-2.png";
-import chef3 from "../../assets/images/chef-3.png";
+import chef1 from "../../assets/images/chef-1.jpg";
+import chef2 from "../../assets/images/chef-2.jpg";
+import chef3 from "../../assets/images/chef-3.jpg";
 
 import mobileChef1 from "../../assets/images/mobile-chef-1.png"
 import mobileChef2 from "../../assets/images/mobile-chef-2.png"

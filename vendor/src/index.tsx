@@ -61,7 +61,7 @@ root.render(
               path="order-history/cancelled/:id"
               element={<HistoryStatusCancelled />}
             />
-            <Route path="feedback" element={<RestaurantFeedback />} />
+            <Route path="feedback/:id" element={<RestaurantFeedback />} />
             <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Route>

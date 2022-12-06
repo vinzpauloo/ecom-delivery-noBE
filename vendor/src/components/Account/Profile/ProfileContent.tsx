@@ -146,6 +146,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [address, setAddress] = useState("");
   const [status, setStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [restaurantId, setRestaurantId] = useState<number | null>(null);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: API_KEY,
@@ -208,6 +209,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     };
     reset(defaultValues);
     setAddress(response.restaurant[0]?.address);
+    setRestaurantId(response.restaurant[0].id)
   };
 
   useEffect(() => {
@@ -378,7 +380,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row className={styles.buttonsContainer}>
             <Col className={styles.buttonLeftContainer}>
-              <Button className={styles.btnUpdate} type="button" onClick={() => navigate("/account/feedback")}>
+              <Button className={styles.btnUpdate} type="button" onClick={() => navigate(`/account/feedback/${restaurantId}`)}>
                 My Ratings
               </Button>
             </Col>
