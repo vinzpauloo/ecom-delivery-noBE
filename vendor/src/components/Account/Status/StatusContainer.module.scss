@@ -23,7 +23,7 @@
 
   @include devices(xs) {
     min-height: calc(109vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
-    padding: 15px 0;
+    padding: 25px 0;
 
     .mobileNav {
       position: absolute;
