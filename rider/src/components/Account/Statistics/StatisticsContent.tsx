@@ -14,7 +14,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import styles from "./StatisticsContent.module.scss";
 
-import Chart from "./Chart";
+//Chart
+// import Chart from "./Chart";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import axios, { AxiosError } from "axios";
 
 interface ContainerProps {}
 
@@ -28,6 +40,51 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
   const handleClickBack = () => {
     navigate(`/account/rewards`);
   };
+
+  //Chart
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+  const [data, setData] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Monthly",
+        data: [50, 400, 600, 100, 300, 200, 500],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
+
+  const [weeklyData, setWeeklyData] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Weekly",
+        data: [35, 5, 20, 10, 25, 15, 30],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
 
   return (
     <Container className={styles.container}>
@@ -43,9 +100,16 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row>
+        {/* <Chart />
         <Chart />
-        <Chart />
-        <Chart />
+        <Chart /> */}
+        <Col>
+          <Bar data={data} />
+        </Col>
+        <hr />
+        <Col>
+          <Bar data={weeklyData} />
+        </Col>
       </Row>
     </Container>
   );

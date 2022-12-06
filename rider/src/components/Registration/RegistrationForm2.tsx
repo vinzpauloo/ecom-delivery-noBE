@@ -86,50 +86,57 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    let items = JSON.parse(localStorage.getItem("oldRegisterUser") || "");
-    const merged = {
-      ...items,
-      ...data,
-      photos: [
-        images[0].photo,
-        images[1].photo,
-        images[2].photo,
-        images[3].photo,
-      ],
-    };
-    const merged1 = {
-      ...items,
-      ...data,
-    };
-    console.log(merged);
-    // console.log(
-    //   images[0].photo,
-    //   images[1].photo,
-    //   images[2].photo,
-    //   images[3].photo
-    // );
+    const message = document.getElementById("imageError") as HTMLInputElement;
 
-    // Add address to form data
-    const newFormData = { ...data, address: address };
-    console.log("onsubmit", newFormData);
+    try {
+      let items = JSON.parse(localStorage.getItem("oldRegisterUser") || "");
+      const merged = {
+        ...items,
+        ...data,
+        photos: [
+          images[0].photo,
+          images[1].photo,
+          images[2].photo,
+          images[3].photo,
+        ],
+      };
+      const merged1 = {
+        ...items,
+        ...data,
+      };
+      console.log(merged);
+      // console.log(
+      //   images[0].photo,
+      //   images[1].photo,
+      //   images[2].photo,
+      //   images[3].photo
+      // );
 
-    // Validate fields
-    const response = await validateFields(merged1);
-    console.log(response);
+      // Add address to form data
+      const newFormData = { ...data, address: address };
+      console.log("onsubmit", newFormData);
 
-    if (response.errors) {
-      // Prepare errors
-      let arrErrors: string[] = [];
-      for (let value of Object.values(response.errors)) {
-        arrErrors.push("*" + value);
+      // Validate fields
+      const response = await validateFields(merged1);
+      console.log(response);
+
+      if (response.errors) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.errors)) {
+          arrErrors.push("*" + value);
+        }
+        setApiErrors(arrErrors);
+      } else {
+        // Set register data on local storage
+        localStorage.setItem(`registerUser`, JSON.stringify(merged));
+
+        // Navigate to OTP page
+        navigate("/otp");
       }
-      setApiErrors(arrErrors);
-    } else {
-      // Set register data on local storage
-      localStorage.setItem(`registerUser`, JSON.stringify(merged));
-
-      // Navigate to OTP page
-      navigate("/otp");
+    } catch (e) {
+      message.innerHTML =
+        "Four(4) photos of your motor vehicle is required. Please make sure each image is less than 15MB.";
     }
   };
 
@@ -237,6 +244,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             <p>{errors.year?.message}</p>
             <p>{errors.or_number?.message}</p>
             <p>{errors.plate_number?.message}</p>
+
+            <p id="imageError"></p>
           </div>
           <ImageUploading
             multiple
@@ -244,6 +253,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
+            maxFileSize={1572864}
+            acceptType={["jpg", "gif", "png"]}
           >
             {({
               imageList,
@@ -253,6 +264,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
               onImageRemove,
               isDragging,
               dragProps,
+              errors,
             }) => (
               <div>
                 <div className="d-flex justify-content-center align-items-center gap-3 mt-5">
@@ -294,6 +306,50 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                     Upload
                   </Button>
                 </div>
+                {errors && (
+                  <div>
+                    {errors.maxNumber && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Number of selected images exceed.
+                      </span>
+                    )}
+                    {errors.acceptType && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Your selected file type is not allowed.
+                      </span>
+                    )}
+                    {errors.maxFileSize && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Selected file size exceeded 1.5 MB.
+                      </span>
+                    )}
+                    {errors.resolution && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Selected file does not match the desired resolution
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </ImageUploading>

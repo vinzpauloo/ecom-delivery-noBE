@@ -20,7 +20,9 @@
       "missingOtp": "Please input your OTP code.",
       "licenseNumberMin": "License number must be a minimum of 3 characters",
       "licenseNumberMax": "License number must be a maximum of 6 characters",
-      "licenseExpirationFormat": "License expiration format must be YYYY-MM-DD."
+      "licenseExpirationFormat": "License expiration format must be YYYY-MM-DD.",
+      "photo": "A profile photo is required, please make sure that it is less than 15MB.",
+      "photos": "Four(4) images of your motor vehicle is required, please make sure that it is less than 15MB."
     },
     "success": {
       "updateProfile": "Customer profile updated successfully!",

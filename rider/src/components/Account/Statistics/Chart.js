@@ -48,7 +48,7 @@ function Chart() {
     datasets: [
       {
         label: "Deliveries",
-        data: [100, 300, 400, 200, 600, 500, 50],
+        data: [10, 30, 40, 20, 60, 50, 70],
         backgroundColor: "#61481C",
         barPercentage: 0.5,
         barThickness: 30,
