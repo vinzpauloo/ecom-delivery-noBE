@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,6 +19,9 @@ import bike5 from "../../../assets/images/bike5.png";
 import { string } from "yup/lib/locale";
 import RiderTrackerContainer from "../Tracker/RiderTrackerContainer";
 import { response } from "express";
+
+import Lottie from "lottie-react";
+import saveSuccess from "../../../assets/save-success.json";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -79,6 +82,40 @@ type TBike = {
   photos: string;
 };
 
+const SaveSuccessModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={saveSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            Save Successfully
+          </p>
+
+          <Link
+            to="/account/for-delivery"
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Submit
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -86,6 +123,8 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
   const [disabled, setDisabled] = useState(true);
 
   const [sampleImg, setSampleImg] = useState<any>([]);
+
+  const [modalShow, setModalShow] = React.useState(false);
 
   const handleInput = () => {
     setDisabled(!disabled);
@@ -314,11 +353,18 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
             <Button
               id="saveBtn"
               type="submit"
-              onClick={saveAlert}
+              onClick={() => {
+                // saveAlert();
+                setModalShow(true);
+              }}
               // className="mt-5"
             >
               Save
             </Button>
+            <SaveSuccessModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+            />
           </div>
         </Form>
       </div>

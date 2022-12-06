@@ -12,10 +12,12 @@
 
   @include devices(md) {
     padding: 20px;
+    margin: 60px 0 0;
   }
 
   @include devices(sm) {
     padding: 15px;
+    margin: 50px 0 0 !important;
   }
 }
 
