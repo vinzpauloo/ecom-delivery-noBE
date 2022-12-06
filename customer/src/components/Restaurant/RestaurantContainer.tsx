@@ -38,6 +38,7 @@ type TCategory = {
 const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const [restaurant, setRestaurant] = useState<TRestaurant | null>(null);
   const [menu, setMenu] = useState<TMenu[]>([]);
+  const [menuOriginal, setMenuOriginal] = useState<TMenu[]>([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [filter, setFilter] = useState(0);
   const { getRestaurantsById, getRestaurantMenu, getRestaurantCategories } =
@@ -57,6 +58,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
     const response = await getRestaurantMenu(params);
     console.log("getRestaurantMenu response", response);
     setMenu(response);
+    setMenuOriginal(response);
   };
 
   const loadRestaurantCategories = async () => {
@@ -74,8 +76,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
       return singleMenu.categories[0].id === category;
     });
 
-    console.log(filteredMenu);
-
+    console.log("new filteredMenu", filteredMenu);
     setMenu(filteredMenu);
   };
 
@@ -86,8 +87,13 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   useEffect(() => {
-    // Filter menu items by category ID
-    // filter && handleFilter(menu, filter);
+    if (filter) {
+      // Filter menu items by category ID
+      handleFilter(menuOriginal, filter);
+    } else {
+      // Set original menu without filter
+      setMenu(menuOriginal);
+    }
   }, [filter]);
 
   return (
