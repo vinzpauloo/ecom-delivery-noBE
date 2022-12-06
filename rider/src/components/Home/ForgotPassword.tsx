@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +8,8 @@ import axios, { AxiosError } from "axios";
 import styles from "./ForgotPassword.module.scss";
 import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+
+import { useChangePass } from "../../hooks/useChangePass";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -26,6 +28,8 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const { calculateHash } = useCalculateHash();
 
+  const { resetPassword } = useChangePass();
+
   const {
     register,
     handleSubmit,
@@ -38,6 +42,9 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
     try {
       // START: Forgot password API
       console.log("onSubmit", data);
+
+      const response = await resetPassword(data);
+      console.log("reset PW", response);
       // END: Access password API
     } catch (err) {
       if (err && err instanceof AxiosError)
