@@ -60,7 +60,7 @@ const App: React.FC = (props: Props) => {
         <Outlet />
         <Footer />
       </div>
-      <Modal show={!true} className="notificationContainer">
+      <div className="notificationContainer">
         <div className="notification">
           <Col className="col-3">
             <img className="monkey" src={monkey} alt="" />
@@ -70,7 +70,7 @@ const App: React.FC = (props: Props) => {
             <Row className="buttonContent">NEW ORDER!</Row>
           </Col>
         </div>
-      </Modal>
+      </div>
     </>
   );
 };

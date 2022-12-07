@@ -78,9 +78,13 @@ body {
 }
 
 .notificationContainer{
+  position: fixed;
   width: 454px;
-  top: 80%;
-  left: 75%;
+  bottom: 20px;
+  right: 10px;
+  transform: translateX(500px);
+  transition: all 2s ease;
+  
   .notification{
     padding: 0 20px;
     width: 454px;
@@ -120,4 +124,8 @@ body {
       }
     }
   }
+}
+.active{
+  transition: all 2s ease;
+  transform: translateX(0px);
 }
