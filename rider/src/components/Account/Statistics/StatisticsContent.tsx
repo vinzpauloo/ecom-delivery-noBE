@@ -141,17 +141,22 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
         {/* <Chart />
         <Chart />
         <Chart /> */}
-        <Col>
-          <Bar data={data} />
+        <Col className="mt-5">
+          <Bar
+            data={data}
+            height="400px"
+            width="300px"
+            options={{ maintainAspectRatio: false }}
+          />
         </Col>
-        <hr />
+        {/* <hr />
         <Col>
           <Bar data={weeklyData} />
         </Col>
         <hr />
         <Col>
           <Bar data={dailyData} />
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );

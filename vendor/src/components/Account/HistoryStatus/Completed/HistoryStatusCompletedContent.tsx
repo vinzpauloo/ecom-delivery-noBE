@@ -70,25 +70,23 @@ const HistoryStatusContent = (props) => {
     const response = await getOrdersById(id);
     console.log("getOrderCompleted", response);
     setDeliveredItem(response);
+    setQuantity(prev => {
+      let value = prev;
+      response?.products.map((item) => value += item.quantity)
+      return value;
+    })
   };
 
   useEffect(() => {
     loadDeliveredItem();
   }, []);
+  console.log("!!!", deliveredItem)
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>
         <Row>
           <h1 className={styles.header}>Completed Orders</h1>
         </Row>
-        {/* <Row>
-          <Form>
-            <Form.Control
-              placeholder="Search orders..."
-              className={styles.formInput}
-            />
-          </Form>
-        </Row> */}
       </div>
       <Row>
         <Col>
@@ -98,7 +96,8 @@ const HistoryStatusContent = (props) => {
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={styles.id}>Order : {deliveredItem?.id}</h1>
+                <h1 className={`d-none d-lg-block ${styles.id}`}>Order ID : {deliveredItem?.id}</h1>
+                <h1 className={`d-lg-none ${styles.id}`}>Ordered Items</h1>
                 <Swiper
                   modules={[Grid]}
                   spaceBetween={15}
@@ -108,15 +107,15 @@ const HistoryStatusContent = (props) => {
                   }}
                   className={`d-none d-lg-block ${styles.imagesContainer}`}
                 >
-                  {deliveredItem?.products.map((item) => (
-                    <SwiperSlide className={styles.imageContainer}>
+                  {deliveredItem?.products.map((item, index) => (
+                    <SwiperSlide className={styles.imageContainer} key={index}>
                       <img
                         src={item.photo}
                         style={{ width: "100%", height: "100%" }}
                         alt=""
                       />
                       <p>{item.name}</p>
-                      <p>{item.price}</p>
+                      <p>{item.price}php</p>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -127,11 +126,13 @@ const HistoryStatusContent = (props) => {
                   pagination
                   className={`d-lg-none ${styles.imagesContainer}`}
                 >
-                  {deliveredItem?.products.map((item) => (
-                    <SwiperSlide className={styles.imageContainer}>
-                      <img src={imgs} alt="" />
+                  {deliveredItem?.products.map((item, index) => (
+                    <SwiperSlide className={styles.imageContainer} key={index}>
+                      <img src={item.photo} 
+                        style={{ width: "100%" }}
+                        alt="" />
                       <p>{item.name}</p>
-                      <p>{item.price}</p>
+                      <p>{item.price} php</p>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -140,7 +141,7 @@ const HistoryStatusContent = (props) => {
             <Col className={`${styles.rightContainer} col-5`}>
               <Row className={styles.topContent}>
                 <div className={styles.topContentOrderId}>
-                  Order : {deliveredItem?.id}
+                  Order ID : {deliveredItem?.id}
                 </div>
                 <div className={styles.topContentOrderTitle}>
                   {deliveredItem?.restaurant_name}
@@ -189,7 +190,7 @@ const HistoryStatusContent = (props) => {
                   </p>
                   <p>
                     <span>Sub-Total</span>
-                    <span>1,126 php</span>
+                    <span>{deliveredItem?.total_amount} php</span>
                   </p>
                   <p>
                     <span>Delivery fee</span>
@@ -198,7 +199,7 @@ const HistoryStatusContent = (props) => {
                 </div>
                 <p className={styles.bottomOrder}>
                   <span>Total</span>
-                  <span>1,212 php</span>
+                  <span>{deliveredItem?.total_amount} php</span>
                 </p>
               </Row>
             </Col>

@@ -74,11 +74,12 @@
   }
 
   @include devices(md){
-    margin: 30px 0px 50px;
+    padding: 20px;
+    min-height: 95%;
   }
   @include devices(sm){
-    min-height: 90%;
-    margin: 10px 0px 20px;
+    padding: 0px;
+    min-height: 95%;
     .buttons{
       width: 92px;
       height: 29px;
@@ -285,18 +286,32 @@
 
     .orderId {
       border-radius: 3px;
-      width: 180px;
+      width: 123px;
+      height: 26px;
+      h6{
+        padding: 5px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: #FFFFFF;
+        text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+      }
     }
 
     .btnView {
       display: block;
 
       a {
+        padding: 8px;
         border-radius: 3px;
-        font-size: 11px;
-        height: 34px;
-        line-height: 34px;
-        width: 110px;
+        height: 26px;
+        width: 82px;
+        font-weight: 700;
+        font-size: 8px;
+        line-height: 8px;
+        color: #FFFFFF;
+
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
       }
     }
   }
@@ -353,7 +368,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 0 0 30px;
+    padding: 10px 0 60px;
     .buttons{
       width: 92px;
       height: 29px;

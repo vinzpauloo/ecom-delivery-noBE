@@ -7,6 +7,10 @@ interface ContainerProps {
   categories: TCategory[];
   filter: number;
   setFilter: React.Dispatch<React.SetStateAction<number>>;
+  sort: number;
+  setSort: React.Dispatch<React.SetStateAction<number>>;
+  isFilterEnabled: boolean;
+  setIsFilterEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type TCategory = {
@@ -19,6 +23,10 @@ const Filters: React.FC<ContainerProps> = ({
   categories,
   filter,
   setFilter,
+  sort,
+  setSort,
+  isFilterEnabled,
+  setIsFilterEnabled,
 }) => {
   const handleChange = (item: any) => {
     if (filter === item.id) {
@@ -28,13 +36,25 @@ const Filters: React.FC<ContainerProps> = ({
     }
   };
 
+  const handleChangeSort = (id: number) => {
+    if (sort === id) {
+      setSort(0);
+    } else {
+      setSort(id);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div
         className={`d-flex justify-content-between align-items-center ${styles.title}`}
       >
         <h4 className="mb-0">Filters</h4>
-        {/* <Form.Check type="switch" className={styles.switch} /> */}
+        <Form.Check
+          type="switch"
+          onChange={() => setIsFilterEnabled(!isFilterEnabled)}
+          className={styles.switch}
+        />
       </div>
 
       <div className={styles.filters}>
@@ -49,6 +69,7 @@ const Filters: React.FC<ContainerProps> = ({
                 label={item.name}
                 onChange={() => handleChange(item)}
                 checked={filter === item.id}
+                className={styles.check}
               />
             );
           })}
@@ -62,11 +83,17 @@ const Filters: React.FC<ContainerProps> = ({
             type="checkbox"
             id="ascending"
             label="Price - Low to high"
+            onChange={() => handleChangeSort(1)}
+            checked={sort === 1}
+            className={styles.check}
           />
           <Form.Check
             type="checkbox"
             id="descending"
             label="Price - High to low"
+            onChange={() => handleChangeSort(2)}
+            checked={sort === 2}
+            className={styles.check}
           />
         </div>
       </div>

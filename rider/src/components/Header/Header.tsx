@@ -95,7 +95,7 @@ const Header: React.FC<ContainerProps> = () => {
           <Col lg={6} xs={4}>
             <div className="d-flex align-items-center">
               <div className={styles.logo}>
-                <Link to="/account">
+                <Link to="/">
                   <img
                     src={LogoHeader}
                     alt="Food Monkey Logo"

@@ -32,17 +32,33 @@
 .logo {
   height: 45px;
   text-align: center;
+  position: relative;
 
   a {
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      opacity: 0.5;
-    }
-
     img {
       width: auto;
       height: 100%;
+      transition: all 0.3s ease-in-out;
+
+      &.logoHover {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+      }
+    }
+
+    &:hover {
+      img {
+        &.logoMain {
+          opacity: 0;
+        }
+
+        &.logoHover {
+          opacity: 1;
+        }
+      }
     }
   }
 
@@ -51,7 +67,7 @@
   }
 
   @include devices(xs) {
-    height: 30px;
+    height: 35px;
   }
 }
 

@@ -19,6 +19,40 @@
   }
 }
 
+.switch {
+  input {
+    background: linear-gradient(180deg, #b8b8b8 0%);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border: none;
+
+    &:checked {
+      background-color: #464646;
+    }
+
+    &:focus {
+      box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.check {
+  input {
+    // background: linear-gradient(180deg, #9c9c9c 0%);
+    background: linear-gradient(180deg, #e8e8e8 0%, #f7f7f7 100%);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+    &:checked {
+      background-color: #464646;
+      border: none;
+    }
+
+    &:focus {
+      border-color: #464646;
+      box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
 .filters {
   margin-top: 15px;
 

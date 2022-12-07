@@ -41,6 +41,8 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const [menuOriginal, setMenuOriginal] = useState<TMenu[]>([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [filter, setFilter] = useState(0);
+  const [sort, setSort] = useState(0);
+  const [isFilterEnabled, setIsFilterEnabled] = useState(false);
   const { getRestaurantsById, getRestaurantMenu, getRestaurantCategories } =
     useRestaurants();
 
@@ -69,15 +71,57 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleFilter = (menu: TMenu[], category: number) => {
-    console.log("handleFilter", category);
-    console.log(menu);
-
+    console.log("filtering menu ...");
     const filteredMenu = menu.filter((singleMenu) => {
       return singleMenu.categories[0].id === category;
     });
 
-    console.log("new filteredMenu", filteredMenu);
     setMenu(filteredMenu);
+  };
+
+  const handleSort = (menu: TMenu[], sortId: number) => {
+    console.log("sorting menu ...");
+    let sortedMenu = [...menu];
+
+    if (sortId === 1) {
+      // Ascending
+      sortedMenu = sortedMenu.sort((a, b) => {
+        return a.price - b.price;
+      });
+    } else {
+      // Descending
+      sortedMenu = sortedMenu.sort((a, b) => {
+        return b.price - a.price;
+      });
+    }
+
+    setMenu(sortedMenu);
+  };
+
+  const handleFilterSort = (
+    menu: TMenu[],
+    category: number,
+    sortId: number
+  ) => {
+    console.log("filter + sort menu ....");
+    let menuCopy = [...menu];
+    menuCopy = menuCopy.filter((singleMenu) => {
+      return singleMenu.categories[0].id === category;
+    });
+
+    if (sortId === 1) {
+      // Ascending
+      menuCopy = menuCopy.sort((a, b) => {
+        return a.price - b.price;
+      });
+    } else {
+      // Descending
+      menuCopy = menuCopy.sort((a, b) => {
+        return b.price - a.price;
+      });
+    }
+
+    setMenu(menuCopy);
   };
 
   useEffect(() => {
@@ -87,14 +131,24 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (filter) {
-      // Filter menu items by category ID
-      handleFilter(menuOriginal, filter);
+    if (isFilterEnabled) {
+      if (filter && !sort) {
+        // Filter only enabled
+        handleFilter(menuOriginal, filter);
+      } else if (sort && !filter) {
+        // Sort only enabled
+        handleSort(menuOriginal, sort);
+      } else if (filter && sort) {
+        // Filter + sort enabled
+        handleFilterSort(menuOriginal, filter, sort);
+      } else {
+        setMenu(menuOriginal);
+      }
     } else {
       // Set original menu without filter
       setMenu(menuOriginal);
     }
-  }, [filter]);
+  }, [filter, sort, isFilterEnabled]);
 
   return (
     <Container fluid="xxl" className={`${styles.container}`}>
@@ -104,6 +158,10 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
             categories={categories}
             filter={filter}
             setFilter={setFilter}
+            isFilterEnabled={isFilterEnabled}
+            setIsFilterEnabled={setIsFilterEnabled}
+            sort={sort}
+            setSort={setSort}
           />
         </Col>
         <Col lg={9} className={`p-0 ${styles.bgBrown}`}>

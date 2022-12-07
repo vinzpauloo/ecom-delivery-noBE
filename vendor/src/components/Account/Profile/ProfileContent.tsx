@@ -21,7 +21,16 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from "@reach/combobox";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxOption,
+  ComboboxPopover,
+} from "@reach/combobox";
+
+import Lottie from "lottie-react";
+import updateSuccess from "../../../assets/update-success.json";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -153,6 +162,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [images, setImages] = React.useState<any>();
   const [defaultImg, setDefaultImg] = useState(true);
 
+  const [updateModalShow, setUpdateModalShow] = useState(false);
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: API_KEY,
     libraries: libraries,
@@ -197,7 +208,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log(data);
     console.log("Requesting updateUser ...");
-    const updatedData = {...data, address: address}
+    const updatedData = { ...data, address: address };
 
     const response = await updateUser(updatedData);
     console.log("updateUser response", response);
@@ -228,7 +239,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     };
     reset(defaultValues);
     setAddress(response.restaurant[0]?.address);
-    setRestaurantId(response.restaurant[0].id)
+    setRestaurantId(response.restaurant[0].id);
   };
 
   useEffect(() => {
@@ -295,6 +306,44 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
 
     // Reverse Geocode
     handleReverseGeocode(e.latLng.lat(), e.latLng.lng());
+  };
+
+  const UpdateSuccessModal = (props: any) => {
+    return (
+      <Modal
+        {...props}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4`}>
+            <Lottie animationData={updateSuccess} loop={true} />
+            <p className="mt-4" style={{ fontWeight: "400" }}>
+              Profile has been updated
+            </p>
+
+            <Link
+              to="/account/for-delivery"
+              className={`d-inline-block mt-2`}
+              style={{
+                background: "#e6b325",
+                border: "none",
+                borderRadius: "5px",
+                color: "black",
+                fontSize: "16px",
+                fontWeight: "300",
+                width: "180px",
+                padding: "6px",
+                textDecoration: "none",
+                transition: "all 0.3s ease-in-out",
+              }}
+            >
+              Next
+            </Link>
+          </div>
+        </Modal.Body>
+      </Modal>
+    );
   };
 
   return (
@@ -441,7 +490,13 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row  style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+          <Row
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <PlacesAutocomplete
               address={address}
               setAddress={setAddress}
@@ -450,11 +505,11 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
             />
             <Row className={styles.pinBtnContent}>
               <Button
-                  variant="primary"
-                  className={styles.pinBtn}
-                  onClick={handlePinLocation}
-                >
-                  Pin my location
+                variant="primary"
+                className={styles.pinBtn}
+                onClick={handlePinLocation}
+              >
+                Pin my location
               </Button>
             </Row>
           </Row>
@@ -485,14 +540,26 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row className={styles.buttonsContainer}>
             <Col className={styles.buttonLeftContainer}>
-              <Button className={styles.btnUpdate} type="button" onClick={() => navigate(`/account/feedback/${restaurantId}`)}>
+              <Button
+                className={styles.btnUpdate}
+                type="button"
+                onClick={() => navigate(`/account/feedback/${restaurantId}`)}
+              >
                 My Ratings
               </Button>
             </Col>
             <Col className={styles.buttonRightContainer}>
-              <Button className={styles.btnUpdate} type="submit">
+              <Button
+                className={styles.btnUpdate}
+                type="submit"
+                onClick={() => setUpdateModalShow(true)}
+              >
                 Update
               </Button>
+              <UpdateSuccessModal
+                show={updateModalShow}
+                onHide={() => setUpdateModalShow(false)}
+              />
               <Button
                 className={styles.btnChangePass}
                 onClick={() => navigate("/account/reset-password")}

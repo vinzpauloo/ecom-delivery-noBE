@@ -238,7 +238,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Delivery Fee :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}></p>
+                          <p className={styles.value}>₱86.00</p>
                         </Col>
                       </Row>
                       <Row>
@@ -261,7 +261,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           src={statusIsReceived}
                         />
                         <p className={styles.value}>{order?.order_status}</p> */}
-                        {order?.order_status === "delivered" && (
+                        {order?.order_status === "delivered" ? (
                           <div>
                             <img
                               src={statusIsDelivered}
@@ -270,6 +270,14 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             <p className={styles.value}>
                               {order?.order_status}
                             </p>
+                          </div>
+                        ) : (
+                          <div>
+                            <img
+                              className="img-fluid mt-1 mb-2"
+                              src={statusIsReceived}
+                            />
+                            <p className={styles.value}>{order?.order_status}</p>
                           </div>
                         )}
                       </div>
