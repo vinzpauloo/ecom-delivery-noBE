@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Modal, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios, { AxiosError } from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./ForgotPassword.module.scss";
 import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+
+import { useChangePass } from "../../hooks/useChangePass";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -26,6 +29,10 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const { calculateHash } = useCalculateHash();
 
+  const { forgotPassword } = useChangePass();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -37,8 +44,12 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Forgot password API
-      console.log("onSubmit", data);
+      console.log("forgotPassword", data);
+
+      const response = await forgotPassword(data);
+      console.log("reset PW", response);
       // END: Access password API
+      navigate("/forgot-password2");
     } catch (err) {
       if (err && err instanceof AxiosError)
         setError("*" + err.response?.data.message);
@@ -48,9 +59,85 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
     }
   };
 
+  const [modal, setModal] = useState(false);
+
+  // const ForgotModal = (props: any) => {
+  //   return (
+  //     <Modal
+  //       {...props}
+  //       aria-labelledby="contained-modal-title-vcenter"
+  //       centered
+  //     >
+  //       <Modal.Body>
+  //         <div className={styles.container}>
+  //           <h4 className="mb-4">Reset Password</h4>
+
+  //           <Form
+  //             className={`text-center ${styles.form}`}
+  //             onSubmit={handleSubmit(onSubmit)}
+  //           >
+  //             <Form.Group className="mb-4 position-relative">
+  //               <Form.Control
+  //                 size="lg"
+  //                 type="email"
+  //                 placeholder="Enter email"
+  //                 onKeyUp={() => setError("")}
+  //                 required
+  //                 {...register("email")}
+  //               />
+  //             </Form.Group>
+
+  //             <Form.Group className="mb-4 position-relative">
+  //               <Form.Control
+  //                 size="lg"
+  //                 type="text"
+  //                 placeholder="Enter reset code"
+  //                 onKeyUp={() => setError("")}
+  //                 required
+  //                 {...register("token")}
+  //               />
+  //             </Form.Group>
+
+  //             <Form.Group className="mb-4 position-relative">
+  //               <Form.Control
+  //                 size="lg"
+  //                 type="text"
+  //                 placeholder="Enter new password"
+  //                 onKeyUp={() => setError("")}
+  //                 required
+  //                 {...register("password")}
+  //               />
+  //             </Form.Group>
+
+  //             <Form.Group className="mb-4 position-relative">
+  //               <Form.Control
+  //                 size="lg"
+  //                 type="text"
+  //                 placeholder="Confirm new password"
+  //                 onKeyUp={() => setError("")}
+  //                 required
+  //                 {...register("password_confirmation")}
+  //               />
+  //             </Form.Group>
+
+  //             <Button
+  //               variant="primary"
+  //               size="lg"
+  //               type="submit"
+  //               className="d-block w-100"
+  //             >
+  //               Reset Password
+  //             </Button>
+  //           </Form>
+  //         </div>
+  //       </Modal.Body>
+  //     </Modal>
+  //   );
+  // };
+
   return (
     <div className={styles.container}>
-      <h4 className="mb-4">Change Password</h4>
+      <h4 className="mb-4">Reset Password</h4>
 
       <Form
         className={`text-center ${styles.form}`}
@@ -75,6 +162,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
         >
           Reset Password
         </Button>
+        {/* <ForgotModal show={modal} onHide={() => setModal(false)} /> */}
       </Form>
     </div>
   );

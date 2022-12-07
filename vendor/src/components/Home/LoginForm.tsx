@@ -162,8 +162,8 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
 
         <div className="mb-5 position-relative text-end">
           <Link
-            to="#"
-            onClick={() => setModalShow(true)}
+            to="/forgot-password"
+            // onClick={() => setModalShow(true)}
             className={styles.forgotPassword}
           >
             Forgot Password?
