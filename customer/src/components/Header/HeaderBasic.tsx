@@ -4,7 +4,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import styles from "./HeaderBasic.module.scss";
 
 import LogoHeader from "../../assets/images/logo-header.png";
-import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
 interface ContainerProps {}
@@ -23,11 +22,6 @@ const HeaderBasic: React.FC<ContainerProps> = () => {
                     src={LogoHeader}
                     alt="Food Monkey Logo"
                     className={styles.logoMain}
-                  />
-                  <img
-                    src={LogoHeaderHover}
-                    alt="Food Monkey Logo"
-                    className={styles.logoHover}
                   />
                 </Link>
               </div>

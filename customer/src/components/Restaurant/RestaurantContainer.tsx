@@ -41,6 +41,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const [menuOriginal, setMenuOriginal] = useState<TMenu[]>([]);
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [filter, setFilter] = useState(0);
+  const [isFilterEnabled, setIsFilterEnabled] = useState(false);
   const { getRestaurantsById, getRestaurantMenu, getRestaurantCategories } =
     useRestaurants();
 
@@ -87,14 +88,19 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (filter) {
-      // Filter menu items by category ID
-      handleFilter(menuOriginal, filter);
+    if (isFilterEnabled) {
+      if (filter) {
+        // Filter menu items by category ID
+        handleFilter(menuOriginal, filter);
+      } else {
+        // Set original menu without filter
+        setMenu(menuOriginal);
+      }
     } else {
       // Set original menu without filter
       setMenu(menuOriginal);
     }
-  }, [filter]);
+  }, [filter, isFilterEnabled]);
 
   return (
     <Container fluid="xxl" className={`${styles.container}`}>
@@ -104,6 +110,8 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
             categories={categories}
             filter={filter}
             setFilter={setFilter}
+            isFilterEnabled={isFilterEnabled}
+            setIsFilterEnabled={setIsFilterEnabled}
           />
         </Col>
         <Col lg={9} className={`p-0 ${styles.bgBrown}`}>
