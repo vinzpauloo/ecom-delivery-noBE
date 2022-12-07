@@ -11,6 +11,9 @@ import { useChangePass } from "../../../hooks/useChangePass";
 import styles from "./ResetPasswordContent.module.scss";
 import constants from "../../../utils/constants.json";
 
+import Lottie from "lottie-react";
+import saveSuccess from "../../../assets/update-success.json";
+
 // Setup form schema & validation
 interface IFormInputs {
   password: string;
