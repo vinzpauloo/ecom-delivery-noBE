@@ -9,6 +9,8 @@ import {
   Form,
   Collapse,
   ProgressBar,
+  Modal,
+  ModalBody,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -124,6 +126,55 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     ],
   });
 
+  function DailyModal(props: any) {
+    return (
+      <Modal {...props} size="lg" aria-labelledby="">
+        {/* <Modal.Header closeButton className="px-4">
+          <Modal.Title id="" className="ms-auto">
+            Rider On Its Way
+          </Modal.Title>
+        </Modal.Header> */}
+        <ModalBody className={`p-1`}>
+          <Bar
+            data={dailyData}
+            height="600px"
+            width="10px"
+            options={{ maintainAspectRatio: false }}
+          />
+        </ModalBody>
+        <Modal.Footer>
+          <button onClick={props.onHide}>Close</button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function WeeklyModal(props: any) {
+    return (
+      <Modal {...props} size="lg" aria-labelledby="">
+        {/* <Modal.Header closeButton className="px-4">
+          <Modal.Title id="" className="ms-auto">
+            Rider On Its Way
+          </Modal.Title>
+        </Modal.Header> */}
+        <ModalBody className={`p-1`}>
+          <Bar
+            data={weeklyData}
+            height="600px"
+            width="10px"
+            options={{ maintainAspectRatio: false }}
+          />
+        </ModalBody>
+        <Modal.Footer>
+          <button onClick={props.onHide}>Close</button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
   return (
     <Container className={styles.container}>
       <Row>
@@ -138,9 +189,6 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row>
-        {/* <Chart />
-        <Chart />
-        <Chart /> */}
         <Col className="mt-5">
           <Bar
             data={data}
@@ -149,14 +197,54 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
             options={{ maintainAspectRatio: false }}
           />
         </Col>
-        {/* <hr />
+      </Row>
+      <Row>
         <Col>
-          <Bar data={weeklyData} />
+          <Col>
+            <div className="d-flex justify-content-center align-content-center align-items-center mt-5 gap-5">
+              <Button
+                style={{
+                  width: "150px",
+                  height: "34px",
+                  lineHeight: "12px",
+                  textTransform: "uppercase",
+                  backgroundColor: "#d9d9d9",
+                  border: "1px solid #8E8E8E",
+                  color: "black",
+                  borderRadius: "5px",
+                  fontWeight: "700",
+                }}
+                onClick={() => setShowModal1(true)}
+              >
+                Daily
+              </Button>
+              <DailyModal
+                show={showModal1}
+                onHide={() => setShowModal1(false)}
+              />
+              <Button
+                style={{
+                  width: "150px",
+                  height: "34px",
+                  lineHeight: "12px",
+                  textTransform: "uppercase",
+                  backgroundColor: "#d9d9d9",
+                  border: "1px solid #8E8E8E",
+                  color: "black",
+                  borderRadius: "5px",
+                  fontWeight: "700",
+                }}
+                onClick={() => setShowModal2(true)}
+              >
+                Weekly
+              </Button>
+              <WeeklyModal
+                show={showModal2}
+                onHide={() => setShowModal2(false)}
+              />
+            </div>
+          </Col>
         </Col>
-        <hr />
-        <Col>
-          <Bar data={dailyData} />
-        </Col> */}
       </Row>
     </Container>
   );

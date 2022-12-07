@@ -8,7 +8,7 @@
   @include devices(md) {
     min-height: auto;
     margin-bottom: -220px + $FM_FOOTER_HEIGHT_MD;
-    padding: 0;
+    padding-top: 45px;
   }
   // @include devices(xs) {
   //   min-height: auto;
