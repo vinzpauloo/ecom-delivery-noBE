@@ -58,6 +58,15 @@
     border-color: #000000;
     cursor: pointer;
   }
+  &:active{
+    background-color: #61481c !important;
+    border-color: #000000 !important;
+  }
+}
+.activeBtn{
+  color: #fff;
+  background-color: #61481c;
+  border-color: #000000;
 }
 @include devices(sm){
   .list{
