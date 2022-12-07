@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 import LogoFooter from "../assets/images/logo-footer.png";
+import LogoFooterHover from "../assets/images/logo-footer-hover.png";
 import PinDark from "../assets/images/pin-dark.png";
 import SocialFacebook from "../assets/images/social-facebook.png";
 import SocialInstagram from "../assets/images/social-instagram.png";
@@ -55,6 +56,11 @@ const Footer: React.FC<ContainerProps> = () => {
             <div className={styles.logo}>
               <Link to="/">
                 <img src={LogoFooter} alt="Food Monkey Logo" />
+                <img
+                  src={LogoFooterHover}
+                  alt="Food Monkey Logo"
+                  className={styles.logoHover}
+                />
               </Link>
             </div>
           </Col>
@@ -93,6 +99,11 @@ const Footer: React.FC<ContainerProps> = () => {
               <div className={styles.logo}>
                 <Link to="/">
                   <img src={LogoFooter} alt="Food Monkey Logo" />
+                  <img
+                    src={LogoFooterHover}
+                    alt="Food Monkey Logo"
+                    className={styles.logoHover}
+                  />
                 </Link>
               </div>
               <div className={styles.location}>
