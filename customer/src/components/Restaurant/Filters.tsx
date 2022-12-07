@@ -7,6 +7,8 @@ interface ContainerProps {
   categories: TCategory[];
   filter: number;
   setFilter: React.Dispatch<React.SetStateAction<number>>;
+  sort: number;
+  setSort: React.Dispatch<React.SetStateAction<number>>;
   isFilterEnabled: boolean;
   setIsFilterEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -21,6 +23,8 @@ const Filters: React.FC<ContainerProps> = ({
   categories,
   filter,
   setFilter,
+  sort,
+  setSort,
   isFilterEnabled,
   setIsFilterEnabled,
 }) => {
@@ -29,6 +33,14 @@ const Filters: React.FC<ContainerProps> = ({
       setFilter(0);
     } else {
       setFilter(item.id);
+    }
+  };
+
+  const handleChangeSort = (id: number) => {
+    if (sort === id) {
+      setSort(0);
+    } else {
+      setSort(id);
     }
   };
 
@@ -71,12 +83,16 @@ const Filters: React.FC<ContainerProps> = ({
             type="checkbox"
             id="ascending"
             label="Price - Low to high"
+            onChange={() => handleChangeSort(1)}
+            checked={sort === 1}
             className={styles.check}
           />
           <Form.Check
             type="checkbox"
             id="descending"
             label="Price - High to low"
+            onChange={() => handleChangeSort(2)}
+            checked={sort === 2}
             className={styles.check}
           />
         </div>
