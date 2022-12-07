@@ -17,6 +17,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import "swiper/scss/grid";
+import { useOrder } from '../../../../hooks/useOrder';
 
 type GetCanceledItem = {
   created_at: string;
@@ -37,6 +38,15 @@ type GetCanceledItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: number;
+  total_amount: number;
+  products: products[];
+};
+
+type products = {
+  name: string;
+  quantity: number;
+  photo: string;
+  price: number;
 };
 
 const SwiperSlideItem = () => {
@@ -52,20 +62,25 @@ const SwiperSlideItem = () => {
 }
 
 const HistoryStatusCancelContent = (props) => {
-    const {id} = useParams();
-    const { getReceived, getAllOrders, getOrderCompleted, getOrderCanceled } = useGetOrderStatus();
-    const [canceledItem, setCanceledItem] = useState<GetCanceledItem[]>([]);
+  const {id} = useParams();
+  const { getOrdersById } = useOrder();
+  const [quantity, setQuantity] = useState(0)
+  const [canceledItem, setCanceledItem] = useState<GetCanceledItem>();
 
-    const loadCanceledItem = async (status: string) => {
-      const params = { status: status };
-      const response = await getOrderCanceled(params);
-      console.log("getOrderCanceled", response);
-      setCanceledItem(response.data);
-    };
+  const loadCanceledItem = async () => {
+    const response = await getOrdersById(id);
+    console.log("getOrderCanceled", response);
+    setCanceledItem(response);
+    setQuantity(prev => {
+      let value = prev;
+      response?.products.map((item) => value += item.quantity)
+      return value;
+    })
+  };
 
-    useEffect(() => {
-      loadCanceledItem("canceled");
-    }, []);
+  useEffect(() => {
+    loadCanceledItem();
+  }, []);
 
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
@@ -79,77 +94,86 @@ const HistoryStatusCancelContent = (props) => {
       <Row>
         <Col>
           <Row className={styles.titleContent}>
-            <h1 className={styles.title}>Header</h1>
+            <h1 className={styles.title}>{canceledItem?.restaurant_name}</h1>
           </Row>
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={styles.id}>Order Id</h1>  
+                <h1 className={styles.id}>Order : {canceledItem?.id}</h1>  
                 <Swiper
-                modules={[Grid]}
-                spaceBetween={15}
-                slidesPerView={3}
-                grid={{
-                  rows: 2,
-                }}
-                className={`d-none d-lg-block ${styles.imagesContainer}`}
+                  modules={[Grid]}
+                  spaceBetween={15}
+                  slidesPerView={3}
+                  grid={{
+                    rows: 2,
+                  }}
+                  className={`d-none d-lg-block ${styles.imagesContainer}`}
                 >
-                    {[1,2,3,4,5,6,7,7,8,8,9,2].map(item => (
-                      <SwiperSlide className={styles.imageContainer}>
-                          <img src={imgs} style={{width:"100%", height: "100%"}} alt=""/>
-                          <p>title</p> 
-                          <p>price</p>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                  <Swiper
+                  {canceledItem?.products.map((item, index) => (
+                    <SwiperSlide className={styles.imageContainer} key={index}>
+                      <img
+                        src={item.photo}
+                        style={{ width: "100%", height: "100%" }}
+                        alt=""
+                      />
+                      <p>{item.name}</p>
+                      <p>{item.price}</p>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <Swiper
                   modules={[Navigation, Grid]}
                   spaceBetween={5}
                   slidesPerView={3}
                   pagination
                   className={`d-lg-none ${styles.imagesContainer}`}
                 >
-                    {[1,2,3,4,5,6,7,7,8,8,9,2].map(item => (
-                      <SwiperSlide className={styles.imageContainer}>
-                          <img src={imgs} alt=""/>
-                          <p>title</p> 
-                          <p>price</p>
-                      </SwiperSlide>
-                    ))}
+                  {canceledItem?.products.map((item, index) => (
+                    <SwiperSlide className={styles.imageContainer} key={index}>
+                      <img
+                        src={item.photo}
+                        style={{ width: "100%" }}
+                        alt=""
+                      />
+                      <p>{item.name}</p>
+                      <p>{item.price}php</p>
+                    </SwiperSlide>
+                  ))}
                   </Swiper>
               </div>
             </Col>
             <Col  className={`${styles.rightContainer} col-5`}>
               <Row className={styles.topContent}>
-                <div className={styles.topContentOrderId}>ORDER ID : 4546</div>
-                <div className={styles.topContentOrderTitle}>FOOD TITLE</div>
+                <div className={styles.topContentOrderId}>Order : {canceledItem?.id}</div>
+                <div className={styles.topContentOrderTitle}>{canceledItem?.restaurant_name}</div>
                 <Row>
                   <Col className={styles.topContentOrderLeft}>
                     <Row className={styles.address}>
                       <h4>Delivery Address</h4>
-                      <p>4117 41st Floor., GT Tower Intl., De La Costa, Makati CIty, Philippines</p>
+                      <p>{canceledItem?.order_address}</p>
                     </Row>
                     <Row className={styles.items}>
-                      <h4>Items</h4>
-                      <p>2x Burger</p>
-                      <p>1x Spaghetti</p>
-                      <p>3x Softdrinks</p>
+                    <h4>Items</h4>
+                      {canceledItem?.products.map((item, index) => {
+                        return (
+                          <p key={index}>
+                            {item.quantity}x {item.name}
+                          </p>
+                        );
+                      })}
                     </Row>
                   </Col>
                   <Col className={styles.topContentOrderRight}>
                     <h6 className={styles.status}>Order Status</h6>
                     <img src={delivered} alt="" />
-                    <h6 className={styles.orderReceived}>Order Received</h6>
+                    <h6 className={styles.orderReceived}>{canceledItem?.order_status}</h6>
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
-                      <p>1,350 php</p>
+                      <p>{canceledItem?.total_amount} php</p>
                     </div>
                   </Col>
                 </Row>
-                <Row className={styles.riderContent}>
-                  <p className={styles.assignedRider}>Assigned Rider</p>
-                  <p className={styles.rider}>Jaime - Kawasaki Z1000R</p>
-                </Row>
+                <Row></Row>
               </Row>
               <Row className={styles.bottomContent}>
                 <h4>PROMO CODE</h4>
@@ -157,11 +181,11 @@ const HistoryStatusCancelContent = (props) => {
                 <div>
                   <p>
                     <span>Item count</span>
-                    <span>012</span>
+                    <span>{quantity}</span>
                   </p>
                   <p>
                     <span>Sub-Total</span>
-                    <span>1,126 php</span>
+                    <span>{canceledItem?.total_amount} php</span>
                   </p>
                   <p>
                     <span>Delivery fee</span>
@@ -170,7 +194,7 @@ const HistoryStatusCancelContent = (props) => {
                 </div>
                 <p className={styles.bottomOrder}>
                   <span>Total</span>
-                  <span>1,212 php</span>
+                  <span>{canceledItem?.total_amount} php</span>
                 </p>
               </Row>
               

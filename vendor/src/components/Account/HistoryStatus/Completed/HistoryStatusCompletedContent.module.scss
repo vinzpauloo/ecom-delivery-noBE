@@ -341,7 +341,7 @@
                     p:nth-child(3){
                         position: absolute;
                         top: 50px;    
-                        width: 217px;
+                        width: 100%;
                         display: block;
                         text-align: end;
                         color: #fff;
@@ -373,9 +373,6 @@
                     img{
                         width: 100px;
                         height: 72px;
-                    }
-                    p:nth-child(3){    
-                        width: 77px;
                     }
                 }
             }
