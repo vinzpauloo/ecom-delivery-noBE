@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Container, Modal, Row } from "react-bootstrap";
 import { StarFill, Star } from "react-bootstrap-icons";
 import { useRestaurants } from "../../hooks/useRestaurants";
 import { useReviews } from "../../hooks/useReviews";
@@ -10,7 +10,16 @@ import styles from "./RestaurantFeedbackContent.module.scss";
 import placeholder from "../../assets/images/placeholder.png";
 import constants from "../../utils/constants.json";
 import RestaurantHeader from "./RestaurantHeader";
+
 interface ContainerProps {}
+
+type PersonalFeedback = {
+  first_name: string;
+  last_name: string;
+  restaurant_rating: number;
+  restaurant_review: string;
+  restaurant_reviewed_at: string;
+};
 
 const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
   const thisRate = Math.ceil(rating);
@@ -42,6 +51,9 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [reviews, setReviews] = useState<any[]>();
   const [reviewsOriginal, setReviewsOriginal] = useState<any[]>();
   const [filter, setFilter] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [personalFeedback, setPersonalFeedback] =
+    useState<PersonalFeedback | null>(null);
   const { getRestaurantsById } = useRestaurants();
   const { getRestaurantReviewsById } = useReviews();
   const navigate = useNavigate();
@@ -71,6 +83,11 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
 
     setReviews(response.reviews);
     setReviewsOriginal(response.reviews);
+  };
+
+  const handleClick = (item: any) => {
+    setShowModal(true);
+    setPersonalFeedback(item);
   };
 
   useEffect(() => {
@@ -177,12 +194,45 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
                     </div>
                   </div>
                 </div>
-                <p className="mb-0">{item.restaurant_review}</p>
+                <p className="mb-0">
+                  {item.restaurant_review}
+                  &nbsp;
+                  <span
+                    className={styles.seeMore}
+                    onClick={() => handleClick(item)}
+                  >
+                    See more...
+                  </span>
+                </p>
               </div>
             </div>
           );
         })}
       </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Container className={styles.modalContainer}>
+          <div className="d-flex gap-2">
+            <img src={placeholder} />
+            <div className={styles.rating}>
+              <h4 className="mb-0">
+                {personalFeedback?.first_name} {personalFeedback?.last_name}
+              </h4>
+              <div className="d-flex gap-2 align-items-center">
+                <div>
+                  <CustomerRating
+                    rating={personalFeedback?.restaurant_rating}
+                  />
+                </div>
+                <span className={styles.dateLabel}>
+                  {getDate(personalFeedback?.restaurant_reviewed_at || "")}
+                </span>
+              </div>
+            </div>
+          </div>
+          <p className="mb-0 mt-3">{personalFeedback?.restaurant_review} </p>
+        </Container>
+      </Modal>
     </>
   );
 };
