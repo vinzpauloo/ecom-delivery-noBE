@@ -727,13 +727,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                           </Row>
                           <div className={styles.declineAccept}>
-                            {/* <button>Decline</button> */}
-                            {/* <Link to={`/account/order/status/${item.id}`}>
-                          <button>Accept</button>
-                        </Link> */}
-                            <Button onClick={() => handleAccept(item.id)}>
-                              Accept
-                            </Button>
+                            {
+                              item?.order_status === "pending" ? (
+                              <Button onClick={() => handleAccept(item.id)}>
+                                Accept
+                              </Button>
+                              ) : null
+                            }
                           </div>
                         </div>
                       </Accordion.Body>
@@ -1005,9 +1005,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                         </Row>
                         <div className={styles.declineAccept}>
-                          <Button onClick={() => handleAccept(item.id)}>
-                            Accept
-                          </Button>
+                          {
+                            item?.order_status === "pending" ? (
+                            <Button onClick={() => handleAccept(item.id)}>
+                              Accept
+                            </Button>
+                            ) : null
+                          }
                         </div>
                       </div>
                     </Accordion.Body>
@@ -1288,9 +1292,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                           </Row>
                           <div className={styles.declineAccept}>
-                            <Button onClick={() => handleAccept(item.id)}>
-                              Accept
-                            </Button>
+                            {
+                              item?.order_status === "pending" ? (
+                              <Button onClick={() => handleAccept(item.id)}>
+                                Accept
+                              </Button>
+                              ) : null
+                            }
                           </div>
                         </div>
                       </Accordion.Body>
@@ -1562,9 +1570,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                         </Row>
                         <div className={styles.declineAccept}>
-                          <Button onClick={() => handleAccept(item.id)}>
-                            Accept
-                          </Button>
+                          {
+                            item?.order_status === "pending" ? (
+                            <Button onClick={() => handleAccept(item.id)}>
+                              Accept
+                            </Button>
+                            ) : null
+                          }
                         </div>
                       </div>
                     </Accordion.Body>
