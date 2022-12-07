@@ -8,6 +8,7 @@ import {
   Modal,
   Dropdown,
 } from "react-bootstrap";
+import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -103,6 +104,10 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [product, setProduct] = useState<TMenu[] | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
   const [search, setSearch] = useState("");
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(10);
+  const [page, setPage] = useState(1);
+  const [pageLength, setPageLength] = useState(0);
 
   const [checked, setChecked] = React.useState(true);
   const [editItemId, setEditItemId] = useState(0);
@@ -186,6 +191,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     const response = await getProduct(params);
     console.log("getRestaurantProduct response", response);
     setProduct(response);
+    setPageLength(Math.ceil(response.length / 10));
   };
 
   //   const loadRestaurantByProductId = async () => {
@@ -249,26 +255,16 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     setImages(imageList as never[]);
   };
 
-  // const uploadImage = async (e: any) => {
-  //   const file = e.target.files[0];
-  //   const base64 = await convertBase64(file)
-  //   console.log(e.target.files);
-  // };
-
-  // const convertBase64=(file)=> {
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-
-  //     fileReader.onload(() => {
-  //       resolve(fileReader.result);
-  //     });
-
-  //     fileReader.onerror((error) => {
-  //       reject(error);
-  //     })
-  //   });
-  // };
+  const handlePrev = () => {
+    setPage(prev => prev - 1);
+    setStart(prev => prev - 10);
+    setEnd(prev => prev - 10);
+  }
+  const handleNext = () => {
+    setPage(prev => prev + 1);
+    setStart(prev => prev + 10);
+    setEnd(prev => prev + 10);
+  }
 
   useEffect(() => {
     loadCategories();
@@ -631,7 +627,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 );
               })
             ) : (
-              product?.map((item, index) => {
+              product?.slice(start, end).map((item, index) => {
                 return (
                   <tbody className={styles.tBody} key={index}>
                     <tr>
@@ -670,6 +666,17 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
           }
           </Table>
         </Form>
+        <Row>
+          <Col className={styles.pagination}>
+            <Button disabled={start === Math.min(0, start)} className={styles.arrowContainer} onClick={handlePrev}>
+              <ChevronLeft className={styles.arrow}/>
+            </Button>
+            <span>{" "}{page} of {pageLength}{" "}</span>
+            <Button disabled={(!!product && product?.length) <= Math.max(0, end)} className={styles.arrowContainer} onClick={handleNext}>
+            <ChevronRight className={styles.arrow}/>
+            </Button>
+          </Col>
+        </Row>
       </div>
       {editModal && <EditModal
         show={editModal}
