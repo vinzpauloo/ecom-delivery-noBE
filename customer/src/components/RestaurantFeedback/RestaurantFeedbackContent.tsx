@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {} from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 import { StarFill, Star } from "react-bootstrap-icons";
 import { useRestaurants } from "../../hooks/useRestaurants";
 import { useReviews } from "../../hooks/useReviews";
@@ -40,6 +40,8 @@ const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
 const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [restaurant, setRestaurant] = useState<any>();
   const [reviews, setReviews] = useState<any[]>();
+  const [reviewsOriginal, setReviewsOriginal] = useState<any[]>();
+  const [filter, setFilter] = useState(0);
   const { getRestaurantsById } = useRestaurants();
   const { getRestaurantReviewsById } = useReviews();
   const navigate = useNavigate();
@@ -68,6 +70,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     console.log("getRestaurantReviewsById response", response);
 
     setReviews(response.reviews);
+    setReviewsOriginal(response.reviews);
   };
 
   useEffect(() => {
@@ -75,9 +78,85 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     loadRestaurantReviews();
   }, []);
 
+  useEffect(() => {
+    if (filter) {
+      const filteredReviews = reviewsOriginal?.filter((singleReview) => {
+        return singleReview.restaurant_rating === filter;
+      });
+      setReviews(filteredReviews);
+    } else {
+      setReviews(reviewsOriginal);
+    }
+  }, [filter]);
+
   return (
     <>
       <RestaurantHeader restaurantHeader={restaurant} />
+
+      <Row>
+        <Container className="pt-3 d-flex align-items-center justify-content-center">
+          <span>
+            <Button
+              className={`${styles.button} ${
+                filter === 0 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(0)}
+            >
+              All
+            </Button>
+            <Button
+              className={`${styles.button} ${
+                filter === 5 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(5)}
+            >
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+            </Button>
+            <Button
+              className={`${styles.button} ${
+                filter === 4 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(4)}
+            >
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+            </Button>
+            <Button
+              className={`${styles.button} ${
+                filter === 3 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(3)}
+            >
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+            </Button>
+            <Button
+              className={`${styles.button} ${
+                filter === 2 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(2)}
+            >
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+            </Button>
+            <Button
+              className={`${styles.button} ${
+                filter === 1 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
+              onClick={() => setFilter(1)}
+            >
+              <StarFill className={`${styles.star} ms-1 me-1`} />
+            </Button>
+          </span>
+        </Container>
+      </Row>
 
       <div className={styles.list}>
         {reviews?.map((item, index) => {

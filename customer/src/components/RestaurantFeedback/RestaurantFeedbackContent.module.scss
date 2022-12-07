@@ -1,6 +1,39 @@
 @import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
+.button {
+  border: 0.5px solid #61481c;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #000000;
+  text-align: center;
+  padding-bottom: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 15px;
+
+  .star {
+    color: #e6b325;
+  }
+
+  &:hover {
+    background-color: #61481c;
+    border-color: #000000;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: #61481c !important;
+    border-color: #000000 !important;
+  }
+}
+
+.activeBtn {
+  color: #fff;
+  background-color: #61481c;
+  border-color: #000000;
+}
+
 .list {
   display: flex;
   flex-direction: row;
