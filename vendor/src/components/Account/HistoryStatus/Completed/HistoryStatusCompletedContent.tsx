@@ -96,7 +96,8 @@ const HistoryStatusContent = (props) => {
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={styles.id}>Order : {deliveredItem?.id}</h1>
+                <h1 className={`d-none d-lg-block ${styles.id}`}>Order ID : {deliveredItem?.id}</h1>
+                <h1 className={`d-lg-none ${styles.id}`}>Ordered Items</h1>
                 <Swiper
                   modules={[Grid]}
                   spaceBetween={15}
@@ -114,7 +115,7 @@ const HistoryStatusContent = (props) => {
                         alt=""
                       />
                       <p>{item.name}</p>
-                      <p>{item.price}</p>
+                      <p>{item.price}php</p>
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -140,7 +141,7 @@ const HistoryStatusContent = (props) => {
             <Col className={`${styles.rightContainer} col-5`}>
               <Row className={styles.topContent}>
                 <div className={styles.topContentOrderId}>
-                  Order : {deliveredItem?.id}
+                  Order ID : {deliveredItem?.id}
                 </div>
                 <div className={styles.topContentOrderTitle}>
                   {deliveredItem?.restaurant_name}

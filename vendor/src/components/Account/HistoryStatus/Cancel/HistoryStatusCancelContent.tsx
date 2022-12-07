@@ -99,7 +99,8 @@ const HistoryStatusCancelContent = (props) => {
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={styles.id}>Order : {canceledItem?.id}</h1>  
+                <h1 className={`d-none d-lg-block ${styles.id}`}>Order ID : {canceledItem?.id}</h1>  
+                <h1 className={`d-lg-none ${styles.id}`}>Ordered Items</h1>
                 <Swiper
                   modules={[Grid]}
                   spaceBetween={15}
@@ -144,7 +145,7 @@ const HistoryStatusCancelContent = (props) => {
             </Col>
             <Col  className={`${styles.rightContainer} col-5`}>
               <Row className={styles.topContent}>
-                <div className={styles.topContentOrderId}>Order : {canceledItem?.id}</div>
+                <div className={styles.topContentOrderId}>Order ID : {canceledItem?.id}</div>
                 <div className={styles.topContentOrderTitle}>{canceledItem?.restaurant_name}</div>
                 <Row>
                   <Col className={styles.topContentOrderLeft}>

@@ -18,6 +18,8 @@ import Statistics from "./pages/Account/Statistics";
 import ResetPassword from "./pages/Account/ResetPassword";
 import Order from "./pages/Account/Order";
 import RiderTracker from "./pages/Account/RiderTracker";
+import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword2 from "./pages/ForgotPassword2";
 // import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
 
@@ -35,6 +37,8 @@ root.render(
             <Route path="registration2" element={<Registration2 />} />
             <Route path="otp" element={<Otp />} />
             <Route path="otp-order" element={<OtpOrder />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="forgot-password2" element={<ForgotPassword2 />} />
 
             {/* Account dashboard routes */}
             <Route path="account">

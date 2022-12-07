@@ -222,6 +222,31 @@
       }
     }
   }
+  .pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #61481C;
+    margin: 0 0 10px;
+    span{
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 16px;
+    }
+    .arrowContainer{
+      background-color: transparent;
+      border: transparent;
+      .arrow{
+        color: #61481C;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 26px;
+      }
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .modalHeader {
