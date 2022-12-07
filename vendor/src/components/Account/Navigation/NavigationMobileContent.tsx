@@ -20,7 +20,7 @@ const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
   const [active, setActive] = useState(window.location.pathname);
   
   return (
-    <div className="d-lg-none fixed-bottom">
+    <div className="d-md-none fixed-bottom">
       <div className={styles.container}>
         <Link to="/account/for-delivery">
           {"/account/for-delivery" === active ? (
