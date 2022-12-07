@@ -19,6 +19,8 @@ import ResetPassword from "./pages/Account/ResetPassword";
 import RestaurantFeedback from "./pages/Account/RestaurantFeedback";
 import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
+import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword2 from "./pages/ForgotPassword2";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -32,6 +34,8 @@ root.render(
           <Route index element={<Home />} />
           <Route path="registration" element={<Registration />} />
           <Route path="otp" element={<Otp />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="forgot-password2" element={<ForgotPassword2 />} />
 
           {/* Account dashboard routes */}
           <Route path="account">
