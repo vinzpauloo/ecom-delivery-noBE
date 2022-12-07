@@ -74,11 +74,12 @@
   }
 
   @include devices(md){
-    margin: 30px 0px 50px;
+    padding: 20px;
+    min-height: 95%;
   }
   @include devices(sm){
-    min-height: 90%;
-    margin: 10px 0px 20px;
+    padding: 0px;
+    min-height: 95%;
     .buttons{
       width: 92px;
       height: 29px;
