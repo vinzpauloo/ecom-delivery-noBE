@@ -7,6 +7,8 @@ interface ContainerProps {
   categories: TCategory[];
   filter: number;
   setFilter: React.Dispatch<React.SetStateAction<number>>;
+  isFilterEnabled: boolean;
+  setIsFilterEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type TCategory = {
@@ -19,6 +21,8 @@ const Filters: React.FC<ContainerProps> = ({
   categories,
   filter,
   setFilter,
+  isFilterEnabled,
+  setIsFilterEnabled,
 }) => {
   const handleChange = (item: any) => {
     if (filter === item.id) {
@@ -34,7 +38,11 @@ const Filters: React.FC<ContainerProps> = ({
         className={`d-flex justify-content-between align-items-center ${styles.title}`}
       >
         <h4 className="mb-0">Filters</h4>
-        {/* <Form.Check type="switch" className={styles.switch} /> */}
+        <Form.Check
+          type="switch"
+          onChange={() => setIsFilterEnabled(!isFilterEnabled)}
+          className={styles.switch}
+        />
       </div>
 
       <div className={styles.filters}>
@@ -49,6 +57,7 @@ const Filters: React.FC<ContainerProps> = ({
                 label={item.name}
                 onChange={() => handleChange(item)}
                 checked={filter === item.id}
+                className={styles.check}
               />
             );
           })}
@@ -62,11 +71,13 @@ const Filters: React.FC<ContainerProps> = ({
             type="checkbox"
             id="ascending"
             label="Price - Low to high"
+            className={styles.check}
           />
           <Form.Check
             type="checkbox"
             id="descending"
             label="Price - High to low"
+            className={styles.check}
           />
         </div>
       </div>
