@@ -324,12 +324,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                 <h6 className="d-lg-none">Restaurant Menu</h6>
                 <Row className={`${styles.buttonsContent}`}>
                   <Col className={`${styles.buttonCont} col-6`}>
-                    <Button
+                    {/* <Button
                       className={styles.btnAddProduct}
-                      // onClick={() => setMenuModal(true)}
+                      onClick={() => setMenuModal(true)}
                     >
                       Add Promo
-                    </Button>
+                    </Button> */}
                   </Col>
                   <Col className={`${styles.buttonCont} col-6`}>
                     <Button
