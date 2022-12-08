@@ -1,70 +1,23 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+// components/BarChart.js
 import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-function Chart() {
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Monthly",
-      },
-    },
-  };
-
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Deliveries",
-        data: [10, 30, 40, 20, 60, 50, 70],
-        backgroundColor: "#61481C",
-        barPercentage: 0.5,
-        barThickness: 30,
-        maxBarThickness: 30,
-        minBarLength: 2,
-      },
-    ],
-  };
-
+export const BarChart = ({ chartData }) => {
   return (
-    <>
-      <div>
-        <Bar options={options} data={data} />
-      </div>
-    </>
+    <div className="chart-container">
+      <h2 style={{ textAlign: "center" }}>Bar Chart</h2>
+      <Bar
+        data={chartData}
+        options={{
+          plugins: {
+            title: {
+              display: true,
+              text: "Users Gained between 2016-2020",
+            },
+            legend: {
+              display: false,
+            },
+          },
+        }}
+      />
+    </div>
   );
-}
-
-export default Chart;
+};
