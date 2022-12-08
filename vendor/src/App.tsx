@@ -71,10 +71,10 @@ const App: React.FC = (props: Props) => {
       </div>
       <div className={`notificationContainer ${notification.status && "active"}`}>
         <div className="notification">
-          <Col className="col-3">
+          <Col className="col-3 md-col-5">
             <img className="monkey" src={monkey} alt="" />
           </Col>
-          <Col className="leftContent col-9">
+          <Col className="leftContent col-9 md-col-7">
             <Row className="header">Měiwèi de shíwù 美味的食物</Row>
             <Row className="buttonContent" onClick={handleClick}>NEW ORDER!</Row>
           </Col>
