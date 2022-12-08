@@ -196,8 +196,7 @@ export const useOrders = () => {
   const cancelOrderByIdGuest = async (id, guestSession) => {
     try {
       // START: Access cancel order by id (guest) API
-      // Need to update the endpoint for guest cancel order
-      const endpoint = `api/orders/${id}/cancel/customer`;
+      const endpoint = `api/orders/${id}/cancel/guest`;
       const options = {
         headers: {
           "X-Guest-Session": guestSession,
