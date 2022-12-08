@@ -94,11 +94,13 @@ const PlacesAutocomplete = ({
   setAddress,
   setLat,
   setLng,
+  handlePinLocation
 }: {
   address: string;
   setAddress: any;
   setLat: any;
   setLng: any;
+  handlePinLocation:any;
 }) => {
   const {
     ready,
@@ -126,16 +128,27 @@ const PlacesAutocomplete = ({
   }, [address]);
 
   return (
-    <Form.Group className="position-relative">
+    <Form.Group className={`${styles.positionRelative}`}>
       <Form.Label>Full Address</Form.Label>
-      <Combobox onSelect={handleSelect}>
-        <ComboboxInput
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          // disabled={!ready}
-          placeholder="Address"
-          className={styles.addressInput}
-        />
+      <Combobox onSelect={handleSelect} className={styles.pinLocationContainer}>
+        <Col className="col-lg-9">
+          <ComboboxInput
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            // disabled={!ready}
+            placeholder="Address"
+            className={styles.addressInput}
+          />
+        </Col>
+        <Col className={`${styles.pinBtnContent}`}>
+              <Button
+                variant="primary"
+                className={styles.pinBtn}
+                onClick={handlePinLocation}
+              >
+                Pin my location
+              </Button>
+            </Col>
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
@@ -366,12 +379,12 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
         </Modal.Body>
       </Modal>
-      <div className="">
+      <div className={styles.mainContainer}>
         <h3>Restaurant Information</h3>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Row lg={2} xs={1}>
             <Col>
-              <Form.Group className="position-relative">
+              <Form.Group className={`${styles.positionRelative}`}>
                 <Form.Label>Owner Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -380,7 +393,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   required
                 />
               </Form.Group>
-              <Form.Group className="position-relative">
+              <Form.Group className={`${styles.positionRelative}`}>
                 <Form.Label>Restaurant Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -391,7 +404,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
             <Col>
-              <Row>
+              <Row className="d-none d-lg-block">
                 <ImageUploading
                   multiple
                   value={images}
@@ -410,7 +423,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                     dragProps,
                     errors,
                   }) => (
-                    <div className={`gap-2 ${styles.imageUploadContainer}`}>
+                    <div className={`${styles.imageUploadContainer}`}>
                       <Row className={`${styles.imageUploadRow}`}>
                         {defaultImg ? (
                           <>
@@ -460,12 +473,6 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             </>
                           ))
                         )}
-
-                        {/* <Form.Control
-                          placeholder="Upload Logo"
-                          className={styles.btnUpload}
-                          onClick={() => handleClick(onImageUpload)}
-                        /> */}
                       </Row>
                       <Row>
                         {errors && (
@@ -501,10 +508,11 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           </Row>
           <Row>
             <Col>
-              <Form.Group className="position-relative">
+              <Form.Group className={`${styles.positionRelative}`}>
                 <Form.Label>Restaurant Description</Form.Label>
                 <Form.Control
                   as="textarea"
+                  required
                   onKeyUp={() => resetMessages()}
                   {...register("description")}
                 />
@@ -517,26 +525,18 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-          >
+            >
             <PlacesAutocomplete
               address={address}
               setAddress={setAddress}
               setLat={setLat}
               setLng={setLng}
+              handlePinLocation={handlePinLocation}
             />
-            <Row className={styles.pinBtnContent}>
-              <Button
-                variant="primary"
-                className={styles.pinBtn}
-                onClick={handlePinLocation}
-              >
-                Pin my location
-              </Button>
-            </Row>
           </Row>
           <Row lg={2} xs={1}>
             <Col>
-              <Form.Group className="position-relative">
+              <Form.Group className={`${styles.positionRelative}`}>
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="text"
@@ -548,7 +548,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group className="position-relative">
+              <Form.Group className={`${styles.positionRelative}`}>
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
@@ -559,7 +559,109 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row className={styles.buttonsContainer}>
+          {/* FOR MOBILE */}
+          <Row className="d-lg-none d-lg-flex">
+            <ImageUploading
+              multiple
+              value={images}
+              onChange={onChange}
+              maxNumber={maxNumber}
+              dataURLKey="photo"
+              maxFileSize={1572864}
+            >
+              {({
+                imageList,
+                onImageUpload,
+                onImageRemoveAll,
+                onImageUpdate,
+                onImageRemove,
+                isDragging,
+                dragProps,
+                errors,
+              }) => (
+                <div className={`${styles.imageUploadContainer}`}>
+                  <Row className={`${styles.imageUploadRow}`}>
+                    {defaultImg ? (
+                      <>
+                        <Col>
+                          <img
+                            src={restaurantImg}
+                            className={styles.thumbNail}
+                          />
+                          </Col>
+                          <Col style={{display:"flex", alignItems: "center", justifyContent: "center"}}>
+                          <Form.Control
+                            placeholder="Upload"
+                            className={styles.btnUploadMobile}
+                            onClick={() => handleClick(onImageUpload)}
+                          />
+                        </Col>
+                      </>
+                    ) : (
+                      imageList.map((image, index) => (
+                        <>
+                          <Row key={index} className={styles.imageItem}>
+                            <Col c>
+                            <img
+                              src={image.photo}
+                              className={styles.thumbNail}
+                              alt="ad-img"
+                              />
+                            </Col>
+                            <Col style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                              <Row  className={styles.btnUploadContent}>
+                                <Form.Control
+                                  value="Remove"
+                                  type="button"
+                                  className={styles.btnUploadMobile}
+                                  onClick={() =>
+                                    handleRemove(onImageRemove, index)
+                                  }
+                                />
+                              </Row>
+                                <Form.Control
+                                placeholder="Upload"
+                                className={styles.btnUploadMobile}
+                                onClick={() => handleClick(onImageUpload)}
+                                />
+                            </Col>
+                          </Row>
+                        </>
+                      ))
+                    )}
+                  </Row>
+                  <Row>
+                    {errors && (
+                      <div>
+                        {errors.maxNumber && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Number of selected images exceed.
+                          </span>
+                        )}
+                        {errors.acceptType && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Your selected file type is not allowed.
+                          </span>
+                        )}
+                        {errors.maxFileSize && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Selected file size exceeded 1.5 MB.
+                          </span>
+                        )}
+                        {errors.resolution && (
+                          <span style={{ color: "red", fontWeight: "600" }}>
+                            Selected file does not match the desired resolution
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </Row>
+                </div>
+              )}
+            </ImageUploading>
+          </Row>
+          {/* FOR DESKTOP */}
+          <Row className={`d-none d-lg-flex ${styles.buttonsContainer}`}>
             <Col className={styles.buttonLeftContainer}>
               <Button
                 className={styles.btnUpdate}
@@ -589,6 +691,37 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Button>
             </Col>
           </Row>
+          {/* FOR  MOBILE  */}
+          <Row className={`d-lg-none ${styles.buttonsContainer}`}>
+            <Col className={styles.buttonLeftContainer}>
+            <Button
+                className={styles.btnChangePass}
+                onClick={() => navigate("/account/reset-password")}
+              >
+                Change Password
+              </Button>
+            </Col>
+            <Col className={styles.buttonRightContainer}>
+              <Button
+                className={styles.btnUpdate}
+                type="submit"
+                onClick={() => setUpdateModalShow(true)}
+              >
+                Update
+              </Button>
+              <UpdateSuccessModal
+                show={updateModalShow}
+                onHide={() => setUpdateModalShow(false)}
+              />
+              <Button
+                className={styles.btnUpdate}
+                type="button"
+                onClick={() => navigate(`/account/feedback/${restaurantId}`)}
+              >
+                My Ratings
+              </Button>
+            </Col>
+          </Row>
           {/* Success messages */}
           <div className={styles.success}>
             <p className="text-success">{message}</p>
@@ -598,184 +731,5 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     </div>
   );
 };
-
-// // Setup form schema & validation
-// interface IFormInputs {
-//   first_name: string;
-//   name: string;
-//   description: string;
-//   address: string;
-//   email: string;
-//   mobile: string;
-// }
-
-// const schema = yup
-//   .object({
-//     first_name: yup.string().required(),
-//     name: yup.string().required(),
-//     description: yup.string().required(),
-//     address: yup.string(),
-//     email: yup.string().email(constants.form.error.email).required(),
-//     mobile: yup.string().required(),
-//   })
-//   .required();
-
-// function ProfileModal(props: any) {
-//   const [error, setError] = useState("");
-//   const [message, setMessage] = useState("");
-//   const navigate = useNavigate();
-
-//   const { getUser, updateUser } = useUser();
-
-//   const {
-//     reset,
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<IFormInputs>({
-//     resolver: yupResolver(schema),
-//   });
-
-//   const resetMessages = () => {
-//     setMessage("");
-//     setError("");
-//   };
-
-//   const onSubmit = async (data: IFormInputs) => {
-//     console.log(data);
-//     console.log("Requesting updateUser ...");
-
-//     const response = await updateUser(data);
-//     console.log("updateUser response", response);
-
-//     if (!response.error) {
-//       setMessage(constants.form.success.updateProfile);
-//     } else {
-//       setError(response.error);
-//     }
-//   };
-
-//   // Get user request
-//   const handleGetUser = async () => {
-//     console.log("Requesting getUser ...");
-
-//     const response = await getUser();
-//     console.log("handleGetUser response", response);
-//     let defaultValues = {
-//       email: response.email,
-//       first_name: response.first_name,
-//       last_name: response.last_name,
-//       mobile: response.mobile,
-//       address: response.restaurant[0]?.address,
-//       contact_number: response.restaurant[0]?.contact_number,
-//       description: response.restaurant[0]?.description,
-//       name: response.restaurant[0]?.name,
-//       photo: response.restaurant[0]?.photo || "https://placeholder.com/",
-//     };
-//     reset(defaultValues);
-//   };
-
-//   useEffect(() => {
-//     handleGetUser();
-//   }, []);
-
-//   return (
-//     <Modal {...props} size="lg">
-//       <Modal.Header closeButton className={styles.modalHeader}>
-//         {/* Success messages */}
-//         <div className={styles.success}>
-//           <p className="text-success">{message}</p>
-//         </div>
-//       </Modal.Header>
-//       <Modal.Body className={styles.modalBody}>
-//         <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-//           <Row lg={2} xs={1}>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Owner Name</Form.Label>
-//                 <Form.Control
-//                   type="text"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("first_name")}
-//                   required
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row lg={2} xs={1}>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Restaurant Name</Form.Label>
-//                 <Form.Control
-//                   type="text"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("name")}
-//                   required
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Restaurant Description</Form.Label>
-//                 <Form.Control
-//                   as="textarea"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("description")}
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Resturant Address</Form.Label>
-//                 <Form.Control
-//                   type="text"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("address")}
-//                   required
-//                 />
-//               </Form.Group>
-//             </Col>
-//           </Row>
-//           <Row lg={2} xs={1}>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Email</Form.Label>
-//                 <Form.Control
-//                   type="text"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("email")}
-//                   required
-//                 />
-//               </Form.Group>
-//             </Col>
-//             <Col>
-//               <Form.Group className="position-relative">
-//                 <Form.Label>Contact Number</Form.Label>
-//                 <Form.Control
-//                   type="text"
-//                   onKeyUp={() => resetMessages()}
-//                   {...register("mobile")}
-//                   required
-//                 />
-//               </Form.Group>
-//             </Col>
-//             <Col></Col>
-//           </Row>
-//           <Row>
-//             <Col>
-//               <Button className={styles.btnUpdate} type="submit">
-//                 Update
-//               </Button>
-//             </Col>
-//           </Row>
-//         </Form>
-//       </Modal.Body>
-//     </Modal>
-//   );
-// }
 
 export default ProfileContent;
