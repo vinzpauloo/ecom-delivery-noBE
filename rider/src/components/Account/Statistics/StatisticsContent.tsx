@@ -67,9 +67,56 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     });
   };
 
+  const loadMonthlyStatistics = async (status: string) => {
+    const params = { status: status };
+    const response = await getMonthlyStatistics(params);
+    console.log("getMonthlyStatistics", response);
+    console.log(data);
+    setData1({
+      labels: Object.keys(response),
+      datasets: [
+        {
+          ...data.datasets[0],
+          data: Object.values(response),
+        },
+      ],
+    });
+  };
+
   useEffect(() => {
     loadDailyStatistics("daily");
+    loadMonthlyStatistics("monthly");
   }, []);
+
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+
+  const labels: any = []; //Do not remove
+  const [data, setData] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Monthly",
+        data: [],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
+
+  const [data1, setData1] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Monthly",
+        data: [],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
 
   function DailyModal(props: any) {
     return (
@@ -80,12 +127,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header> */}
         <ModalBody className={`p-1`}>
-          {/* <Bar
-            data={dailyData}
-            height="600px"
-            width="10px"
+          <Bar
+            data={data}
+            height="400px"
+            width="300px"
             options={{ maintainAspectRatio: false }}
-          /> */}
+          />
         </ModalBody>
         <Modal.Footer>
           <button onClick={props.onHide}>Close</button>
@@ -117,26 +164,6 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     );
   }
 
-  const [showModal1, setShowModal1] = useState(false);
-  const [showModal2, setShowModal2] = useState(false);
-
-  const labels: any = []; //Do not remove
-  const [data, setData] = useState({
-    labels: labels,
-    datasets: [
-      {
-        label: "Monthly",
-        data: [],
-        backgroundColor: ["#61481C"],
-        borderColor: ["#61481C"],
-        borderWidth: 1,
-        maxWidth: "1000",
-        maxHeight: "1000",
-        maintainAspectRatio: false,
-      },
-    ],
-  });
-
   return (
     <Container className={styles.container}>
       <Row>
@@ -151,14 +178,13 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row>
-        <Col>
-          <p>Test</p>
-        </Col>
-      </Row>
-
-      <Row>
         <Col className="mt-5">
-          <Bar data={data} />
+          <Bar
+            data={data1}
+            height="400px"
+            width="300px"
+            options={{ maintainAspectRatio: false }}
+          />
         </Col>
       </Row>
       <Row>
