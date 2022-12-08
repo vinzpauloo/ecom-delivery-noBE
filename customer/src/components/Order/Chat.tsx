@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-
-import { Container, Form, Offcanvas } from "react-bootstrap";
+import React, { useState, useRef, useEffect } from "react";
+import { Button, Container, Form, Offcanvas } from "react-bootstrap";
+import { useAuthUser } from "react-auth-kit";
+import { useChat } from "../../hooks/useChat";
+import { getDate, getTime } from "../../utils/formatDate";
 
 import styles from "./Chat.module.scss";
 import chatRider from "../../assets/images/chat-rider.png";
@@ -8,120 +10,255 @@ import chatRiderAlt from "../../assets/images/chat-rider-alt.png";
 import chatVendor from "../../assets/images/chat-vendor.png";
 import chatVendorAlt from "../../assets/images/chat-vendor-alt.png";
 
-interface ContainerProps {}
+interface ContainerProps {
+  orderId?: string;
+  restaurantChat?: TChat[];
+  setRestaurantChat?: any;
+  riderChat?: TChat[];
+  setRiderChat?: any;
+}
 
-const Chat: React.FC<ContainerProps> = ({}) => {
+type TChat = {
+  created_at?: string;
+  from?: string;
+  message?: string;
+  to?: string;
+};
+
+const chatItem = () => {};
+
+const Chat: React.FC<ContainerProps> = ({
+  orderId,
+  restaurantChat,
+  setRestaurantChat,
+  riderChat,
+  setRiderChat,
+}) => {
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const [message, setMessage] = useState("");
+  const [user, setUser] = useState("");
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [initialLoadCounter, setInitialLoadCounter] = useState(0);
+  const [hasNewChatRestaurant, setHasNewChatRestaurant] = useState(false);
+  const [hasNewChatRider, setHasNewChatRider] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [chatBoxClass, setChatBoxClass] = useState("left");
+  const { getMessagesRestaurant, getMessagesRider, createMessage } = useChat();
+  const auth = useAuthUser();
 
   const containerClick = (e: any) => {
     e.preventDefault();
 
     // Prevent child click events
     if (e.target === e.currentTarget) {
+      // Hide chat box when clicked outside
       setShow(false);
+    } else if (e.target.type === "submit") {
+      // Trigger form submit programatically
+      handleSubmit();
     }
   };
+
+  const handleClose = () => setShow(false);
+
+  const handleShow = (direction: string) => {
+    setChatBoxClass(direction);
+    setShow(true);
+
+    // Update blinking chat icons
+    if (direction === "right") setHasNewChatRestaurant(false);
+    else setHasNewChatRider(false);
+  };
+
+  const handleOnShow = () => {
+    // 👇️ scroll to bottom every time messages change
+    if (messagesEndRef.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
+  const handleOnChange = (e: any) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    if (message.replace(/\s+/g, "")) {
+      const data = {
+        to_user_type: chatBoxClass === "right" ? "Merchant" : "Rider",
+        message,
+      };
+      console.log("submitting ...", data);
+
+      setIsSending(true);
+      const response = await createMessage(orderId, data);
+      console.log(response);
+
+      setIsSending(false);
+      setMessage("");
+    }
+  };
+
+  const loadMessagesMerchant = async () => {
+    // Get user messages
+    const response = await getMessagesRestaurant(orderId);
+    console.log("getMessagesRestaurant response", response);
+    setRestaurantChat(response.data);
+  };
+
+  const loadMessagesRider = async () => {
+    // Get user messages
+    const response = await getMessagesRider(orderId);
+    console.log("getMessagesRider response", response);
+    setRiderChat(response.data);
+  };
+
+  useEffect(() => {
+    loadMessagesMerchant();
+    loadMessagesRider();
+
+    // console.log(auth());
+
+    // Set current user
+    setUser(`${auth()?.first_name} ${auth()?.last_name}`);
+  }, []);
+
+  useEffect(() => {
+    // Mark initial load as done
+    setInitialLoadCounter(initialLoadCounter + 1);
+
+    // Update blinking chat icons
+    if (!show && initialLoadCounter > 1) {
+      console.log("setHasNewChatRestaurant === true");
+      setHasNewChatRestaurant(true);
+    }
+
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [restaurantChat]);
+
+  useEffect(() => {
+    // Mark initial load as done
+    setInitialLoadCounter(initialLoadCounter + 1);
+
+    // Update blinking chat icons
+    if (!show && initialLoadCounter > 1) {
+      console.log("setHasNewChatRestaurant === true");
+      setHasNewChatRider(true);
+    }
+
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [riderChat]);
 
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between">
         <div className={styles.riderChat}>
           {/* Chat image */}
-          <div className={styles.imgContainer}>
+          <div
+            className={styles.imgContainer}
+            onClick={() => handleShow("left")}
+          >
             <img src={chatRider} className="img-fluid" alt="" />
-            <img src={chatRiderAlt} alt="" className={styles.altImg} />
+            {hasNewChatRider && (
+              <img src={chatRiderAlt} alt="" className={styles.altImg} />
+            )}
           </div>
 
           {/* Preview */}
-          <div className={styles.preview}>
-            <p>Hi Rider!</p>
+          <div className={styles.preview} onClick={() => handleShow("left")}>
+            <p>{riderChat && riderChat[riderChat.length - 1]?.message}</p>
           </div>
-
-          {/* Chat box */}
-          {/* <div className={styles.chatBox}></div> */}
         </div>
 
         <div className={styles.vendorChat}>
           {/* Chat image */}
-          <div className={styles.imgContainer} onClick={handleShow}>
+          <div
+            className={styles.imgContainer}
+            onClick={() => handleShow("right")}
+          >
             <img src={chatVendor} className="img-fluid" alt="" />
-            <img src={chatVendorAlt} alt="" className={styles.altImg} />
+            {hasNewChatRestaurant && (
+              <img src={chatVendorAlt} alt="" className={styles.altImg} />
+            )}
           </div>
 
           {/* Preview */}
-          <div className={styles.preview} onClick={handleShow}>
-            <p>Hi Restaurant!</p>
+          <div className={styles.preview} onClick={() => handleShow("right")}>
+            <p>
+              {restaurantChat &&
+                restaurantChat[restaurantChat.length - 1]?.message}
+            </p>
           </div>
-
-          {/* Chat box */}
-          <Offcanvas
-            show={show}
-            onHide={handleClose}
-            placement="bottom"
-            className={styles.offcanvas}
-          >
-            <Offcanvas.Body className={styles.offcanvasBody}>
-              <Container fluid="md" onClick={containerClick}>
-                <div className={styles.chatBox}>
-                  <ul>
-                    <li>
-                      <p className={styles.time}>12/06/2022 | 01:11pm</p>
-                      <p className={styles.message}>Hi Restaurant!</p>
-                    </li>
-
-                    <li className={styles.reply}>
-                      <p className={styles.time}>12/06/2022 | 01:15pm</p>
-                      <p className={styles.message}>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and
-                        scrambled it to make a type specimen book.
-                      </p>
-                    </li>
-
-                    <li>
-                      <p className={styles.time}>12/06/2022 | 01:17pm</p>
-                      <p className={styles.message}>Okay, thank you!</p>
-                    </li>
-
-                    <li className={styles.reply}>
-                      <p className={styles.time}>12/06/2022 | 01:15pm</p>
-                      <p className={styles.message}>
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s
-                      </p>
-                    </li>
-
-                    <li>
-                      <p className={styles.time}>12/06/2022 | 01:17pm</p>
-                      <p className={styles.message}>Thankssss!</p>
-                    </li>
-
-                    <li>
-                      <p className={styles.time}>12/06/2022 | 01:17pm</p>
-                      <p className={styles.message}>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking at its layout. The point of using Lorem Ipsum is
-                        that it has a more-or-less normal distribution of
-                        letters, as opposed to using 'Content here
-                      </p>
-                    </li>
-                  </ul>
-
-                  <Form.Group className={styles.formGroup}>
-                    <Form.Control as="textarea" rows={3} />
-                  </Form.Group>
-                </div>
-              </Container>
-            </Offcanvas.Body>
-          </Offcanvas>
         </div>
       </div>
+
+      {/* Chat box offcanvas */}
+      <Offcanvas
+        show={show}
+        onShow={handleOnShow}
+        onHide={handleClose}
+        placement="bottom"
+        className={styles.offcanvas}
+      >
+        <Offcanvas.Body className={styles.offcanvasBody}>
+          <Container fluid="md" onClick={containerClick}>
+            <div className={`${styles.chatBox} ${styles[chatBoxClass]}`}>
+              <ul>
+                {chatBoxClass === "right"
+                  ? restaurantChat?.map((item, index) => {
+                      return (
+                        <li
+                          key={index}
+                          className={`${user === item.from && styles.reply}`}
+                        >
+                          <p className={styles.time}>
+                            {getDate(item.created_at || "")} |&nbsp;
+                            {getTime(item.created_at || "")}
+                          </p>
+                          <p className={styles.message}>{item.message}</p>
+                        </li>
+                      );
+                    })
+                  : riderChat?.map((item, index) => {
+                      return (
+                        <li
+                          key={index}
+                          className={`${user === item.from && styles.reply}`}
+                        >
+                          <p className={styles.time}>
+                            {getDate(item.created_at || "")} |&nbsp;
+                            {getTime(item.created_at || "")}
+                          </p>
+                          <p className={styles.message}>{item.message}</p>
+                        </li>
+                      );
+                    })}
+              </ul>
+
+              <Form className={styles.form} onSubmit={handleSubmit}>
+                <Form.Group className={styles.formGroup}>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={message}
+                    onChange={(e) => handleOnChange(e)}
+                    required
+                    disabled={isSending}
+                  />
+                </Form.Group>
+
+                <div className="text-center mt-2">
+                  <Button variant="primary" type="submit" disabled={isSending}>
+                    {!isSending ? "Send Messages" : "Sending ..."}
+                  </Button>
+                </div>
+              </Form>
+
+              {/* Reference to scroll down automatically when a new message is received */}
+              <div ref={messagesEndRef}></div>
+            </div>
+          </Container>
+        </Offcanvas.Body>
+      </Offcanvas>
     </div>
   );
 };

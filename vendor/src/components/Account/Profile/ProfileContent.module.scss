@@ -22,15 +22,13 @@
     background: #d9d9d9;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-bottom: 5px;
+    text-align: center;
   }
 
   textarea {
     background: #d9d9d9;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     color: #000000;
-    box-shadow: 2px 2px #d9d9d9;
     margin-bottom: 5px;
 
     resize: none;
@@ -44,7 +42,6 @@
     background: #d9d9d9;
     border-color: #61481c;
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
     margin-top: 15px;
     margin-right: 15px;
@@ -65,7 +62,6 @@
     background: #d9d9d9;
     border-color: #61481c;
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
     margin-top: 15px;
     margin-right: 15px;
@@ -86,7 +82,6 @@
     background: #d9d9d9;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
     margin-top: 15px;
     margin-right: 60px;
@@ -107,7 +102,6 @@
     background: #d9d9d9;
     border-color: #61481c;
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
     margin-top: 15px;
     margin-right: 15px;
@@ -123,38 +117,72 @@
       color: #d9d9d9;
     }
   }
-
-  .thumbNail {
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 1px;
-    width: 200px;
-    height: 150px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+  .imageUploadContainer{
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    .imageUploadRow{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .imageItem{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 10px;
+      }
+    }
+    .thumbNail {
+      border: 1px solid black;
+      border-radius: 4px;
+      padding: 1px;
+      width: 200px;
+      height: 150px;
+      margin-bottom: 10px;
+    }
+    .btnUploadContent{
+      width: 100%;
+    }
+  }
+  @include devices(md){
+    .imageUploadContainer{
+      margin: 10px 0;
+      .imageUploadRow{
+        flex-direction: column;
+        .imageItem{
+          flex-direction: column;
+        }
+      }
+      .btnUploadMobile{
+        width: 110px;
+        height: 30px;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 10px;
+        padding: 0;
+      }
+    }
+    .btnUpdate{
+      white-space: nowrap;
+      padding: 6px 12px;
+      width: 132px;
+    }
+    .btnChangePass{
+      padding: 6px 12px;
+      margin-right: 0;
+    }
+    .pinBtn{
+      font-size: 10px;
+      margin: 10px 0 0;
+    }
   }
 
-  // .buttons #editBtn {
-  //   background: #d9d9d9;
-  //   padding: 1em 5em;
-  //   color: black;
-
-  //   border: 0.5px solid rgba(97, 72, 28, 0.5);
-  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  //   border-radius: 5px;
-  //   text-decoration: none;
-  // }
-
-  // .buttons #saveBtn {
-  //   background: #d9d9d9;
-  //   padding: 1em 5em;
-  //   color: black;
-
-  //   border: 0.5px solid rgba(97, 72, 28, 0.5);
-  //   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  //   border-radius: 5px;
-  //   text-decoration: none;
-  // }
+  
 
   @include devices(md) {
     margin-left: 0;
@@ -174,7 +202,6 @@
     background: #d9d9d9;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
   }
 
@@ -182,7 +209,6 @@
     background: #d9d9d9;
     border: 0.5px solid rgba(97, 72, 28, 0.5);
     color: #000000;
-    box-shadow: 2px 2px #d9d9d9;
     margin-bottom: 5px;
 
     resize: none;
@@ -196,7 +222,6 @@
     background: #d9d9d9;
     border-color: #61481c;
     color: #000000;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding: 10px 32px;
     margin-top: 15px;
     margin-right: 15px;
@@ -213,6 +238,15 @@
     }
   }
 }
+.pinLocationContainer{
+  display: flex;
+  @include devices(md){
+    flex-direction: column;
+    .pinBtnContent{
+      margin: 5px 0 0;
+    }
+  }
+}
 .addressInput {
   width: 100%;
   display: block;
@@ -225,14 +259,13 @@
   border: 1px solid #ced4da;
   appearance: none;
   border-radius: 0.375rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out;
 
   &:focus {
     color: #212529;
     background-color: #fff;
     border-color: #86b7fe;
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
   }
 }
 .map {
@@ -244,12 +277,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5px auto;
   .pinBtn{
     width: fit-content;
     background: #000000;
     border: 1px solid #E6B325;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     font-weight: 700;
     text-transform: uppercase;
@@ -294,4 +325,33 @@
       justify-content: center;
     }
   }
+  .imageUploadContainer{
+    display: static !important;
+  }
+  .mainContainer{
+    h3{
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 15px;
+    }
+    .positionRelative{
+      margin: 0 0 15px;
+      label{
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 12px;
+      }
+      input{
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+      }
+      textarea{
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 12px;
+      }
+    }
+  }
 }
+

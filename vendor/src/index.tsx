@@ -14,6 +14,7 @@ import OrderInformation from "./pages/Account/OrderInformation";
 import History from "./pages/Account/History";
 import HistoryStatusCompleted from "./pages/Account/HistoryStatusCompleted";
 import HistoryStatusCancelled from "./pages/Account/HistoryStatusCancelled";
+import NewOrder from "./pages/Account/NewOrder";
 import OrderDetails from "./pages/Account/OrderDetails";
 import ResetPassword from "./pages/Account/ResetPassword";
 import RestaurantFeedback from "./pages/Account/RestaurantFeedback";
@@ -41,6 +42,7 @@ root.render(
           <Route path="account">
             <Route index element={<Profile />} />
             <Route path="for-delivery" element={<Order />} />
+            <Route path="for-delivery/:id" element={<NewOrder />} />
             <Route
               path="for-delivery/completed/:id"
               element={<HistoryStatusCompleted />}

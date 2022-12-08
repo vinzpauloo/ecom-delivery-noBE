@@ -23,9 +23,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import constants from "../../utils/constants.json";
 
-interface ContainerProps {}
+interface ContainerProps {
+  setNotification: any;
+}
 
-const Header: React.FC<ContainerProps> = () => {
+const Header: React.FC<ContainerProps> = ({setNotification}) => {
   const { logout } = useLogout();
   const isAuthenticated = useIsAuthenticated();
 
@@ -64,8 +66,11 @@ const Header: React.FC<ContainerProps> = () => {
 
     const channel = pusher.subscribe("Restaurant-Channel-" + restaurantId);
 
-    channel.bind("Order-Created-Event", () => {
-      alert(`You have received a new order.`);
+    channel.bind("Order-Created-Event", (data) => {
+      // alert(`You have received a new order.`);
+      const parsedData = JSON.parse(data.message);
+      // console.log("!!!", parsedData)
+      setNotification({status: true, id: parsedData.id});
     });
 
     channel.bind("Order-Updated-Event", () => {

@@ -66,16 +66,17 @@ export const useOrders = () => {
     }
   };
 
-  const getOrders = async () => {
+  const getOrders = async (data) => {
     console.log("getOrders hook ...");
 
     try {
       // START: Access get orders API
       const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint),
+          "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
@@ -195,8 +196,7 @@ export const useOrders = () => {
   const cancelOrderByIdGuest = async (id, guestSession) => {
     try {
       // START: Access cancel order by id (guest) API
-      // Need to update the endpoint for guest cancel order
-      const endpoint = `api/orders/${id}/cancel/customer`;
+      const endpoint = `api/orders/${id}/cancel/guest`;
       const options = {
         headers: {
           "X-Guest-Session": guestSession,

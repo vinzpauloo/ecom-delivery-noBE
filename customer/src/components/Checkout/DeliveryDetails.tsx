@@ -437,7 +437,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
         <Modal.Body>
           <div className={`text-center p-4 ${styles.lottie}`}>
             <Lottie animationData={otpSuccess} loop={true} />
-            <p className="mt-4">OTP Verified Successfully</p>
+            <p className="mt-4">Order Created Successfully</p>
 
             <Link
               to={`/order/${orderId}`}

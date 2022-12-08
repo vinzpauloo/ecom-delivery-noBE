@@ -666,7 +666,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
           }
           </Table>
         </Form>
-        <Row>
+        {product?.length !== 0 ? (<Row>
           <Col className={styles.pagination}>
             <Button disabled={start === Math.min(0, start)} className={styles.arrowContainer} onClick={handlePrev}>
               <ChevronLeft className={styles.arrow}/>
@@ -676,7 +676,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
             <ChevronRight className={styles.arrow}/>
             </Button>
           </Col>
-        </Row>
+        </Row>) : <h2 style={{textAlign: "center"}}>No Menu</h2>}
       </div>
       {editModal && <EditModal
         show={editModal}
