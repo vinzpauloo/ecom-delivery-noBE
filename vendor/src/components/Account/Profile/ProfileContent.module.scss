@@ -24,6 +24,7 @@
     color: #000000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
+    text-align: center;
   }
 
   textarea {
@@ -123,15 +124,45 @@
       color: #d9d9d9;
     }
   }
-
-  .thumbNail {
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 1px;
-    width: 200px;
-    height: 150px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+  .imageUploadContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .imageUploadRow{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .imageItem{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .thumbNail {
+      border: 1px solid black;
+      border-radius: 4px;
+      padding: 1px;
+      width: 200px;
+      height: 150px;
+      margin-bottom: 10px;
+    }
+    .btnUploadContent{
+      width: 100%;
+    }
+  }
+  @include devices(md){
+    .imageUploadContainer{
+      margin: 10px 0;
+      .imageItem{
+        flex-direction: column;
+      }
+    }
   }
 
   // .buttons #editBtn {
