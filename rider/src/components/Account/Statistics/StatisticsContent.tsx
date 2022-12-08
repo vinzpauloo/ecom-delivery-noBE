@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route, Link, useNavigate, useParams } from "react-router-dom";
 import {
   Container,
@@ -16,9 +16,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import styles from "./StatisticsContent.module.scss";
 
-//Chart
-// import Chart from "./Chart";
-import { Bar } from "react-chartjs-2";
+import { useStatistics } from "../../../hooks/useStatistics";
+
+//ChartJS
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,103 +28,48 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import axios, { AxiosError } from "axios";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface ContainerProps {}
 
 const StatisticsContent: React.FC<ContainerProps> = ({}) => {
-  const navigate = useNavigate();
+  const { getDailyStatistics, getWeeklyStatistics, getMonthlyStatistics } =
+    useStatistics();
 
-  const navigateToDelivery = () => {
-    navigate("/account/for-delivery");
-  };
+  const navigate = useNavigate();
 
   const handleClickBack = () => {
     navigate(`/account/rewards`);
   };
 
-  //Chart
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+  const loadDailyStatistics = async (status: string) => {
+    const params = { status: status };
+    const response = await getDailyStatistics(params);
+    console.log("getDailyStatistics", response);
+    console.log(data);
+    setData({
+      labels: Object.keys(response),
+      datasets: [
+        {
+          ...data.datasets[0],
+          data: Object.values(response),
+        },
+      ],
+    });
+  };
 
-  const monthlyLabels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
-
-  const weeklyLabels = ["Week 1", "Week 2", "Week 3", "Week 4"];
-
-  const dailyLabels = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-  ];
-
-  const [data, setData] = useState({
-    labels: monthlyLabels,
-    datasets: [
-      {
-        label: "Monthly",
-        data: [50, 400, 600, 100, 300, 200, 500],
-        backgroundColor: ["#61481C"],
-        borderColor: ["#61481C"],
-        borderWidth: 1,
-      },
-    ],
-  });
-
-  const [weeklyData, setWeeklyData] = useState({
-    labels: weeklyLabels,
-    datasets: [
-      {
-        label: "Weekly",
-        data: [35, 5, 20, 10, 25, 15, 30],
-        backgroundColor: ["#61481C"],
-        borderColor: ["#61481C"],
-        borderWidth: 1,
-      },
-    ],
-  });
-
-  const [dailyData, setDailyData] = useState({
-    labels: dailyLabels,
-    datasets: [
-      {
-        label: "Daily",
-        data: [10, 5, 3, 25, 15, 7],
-        backgroundColor: ["#61481C"],
-        borderColor: ["#61481C"],
-        borderWidth: 1,
-      },
-    ],
-  });
+  useEffect(() => {
+    loadDailyStatistics("daily");
+  }, []);
 
   function DailyModal(props: any) {
     return (
@@ -135,12 +80,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header> */}
         <ModalBody className={`p-1`}>
-          <Bar
+          {/* <Bar
             data={dailyData}
             height="600px"
             width="10px"
             options={{ maintainAspectRatio: false }}
-          />
+          /> */}
         </ModalBody>
         <Modal.Footer>
           <button onClick={props.onHide}>Close</button>
@@ -158,12 +103,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header> */}
         <ModalBody className={`p-1`}>
-          <Bar
+          {/* <Bar
             data={weeklyData}
             height="600px"
             width="10px"
             options={{ maintainAspectRatio: false }}
-          />
+          /> */}
         </ModalBody>
         <Modal.Footer>
           <button onClick={props.onHide}>Close</button>
@@ -174,6 +119,23 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
 
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+
+  const labels: any = []; //Do not remove
+  const [data, setData] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Monthly",
+        data: [],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+        maxWidth: "1000",
+        maxHeight: "1000",
+        maintainAspectRatio: false,
+      },
+    ],
+  });
 
   return (
     <Container className={styles.container}>
@@ -189,13 +151,14 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       </Row>
 
       <Row>
+        <Col>
+          <p>Test</p>
+        </Col>
+      </Row>
+
+      <Row>
         <Col className="mt-5">
-          <Bar
-            data={data}
-            height="400px"
-            width="300px"
-            options={{ maintainAspectRatio: false }}
-          />
+          <Bar data={data} />
         </Col>
       </Row>
       <Row>
