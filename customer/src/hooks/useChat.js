@@ -41,6 +41,36 @@ export const useChat = () => {
     }
   };
 
+  const getMessagesRider = async (id) => {
+    try {
+      // START: Access get message API
+      const endpoint = `api/chat/customer-rider/orders/${id}`;
+      const options = {
+        headers: {
+          Authorization: authHeader(),
+          "X-Authorization": calculateHash(endpoint),
+        },
+      };
+
+      const response = await axios.get(endpoint, options);
+      // END: Access get message API
+
+      if (response.status === 200) {
+        const data = response.data;
+
+        return data;
+      }
+    } catch (err) {
+      let error;
+      if (err && err instanceof AxiosError)
+        error = "*" + err.response?.data.message;
+      else if (err && err instanceof Error) error = err.message;
+
+      console.log("Error", err);
+      return { error: error };
+    }
+  };
+
   const createMessage = async (id, data) => {
     try {
       // START: Access create message API
@@ -103,6 +133,7 @@ export const useChat = () => {
 
   return {
     getMessagesRestaurant,
+    getMessagesRider,
     createMessage,
     createMessageGuest,
   };

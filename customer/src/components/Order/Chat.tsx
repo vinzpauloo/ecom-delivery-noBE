@@ -14,6 +14,8 @@ interface ContainerProps {
   orderId?: string;
   restaurantChat?: TChat[];
   setRestaurantChat?: any;
+  riderChat?: TChat[];
+  setRiderChat?: any;
 }
 
 type TChat = {
@@ -23,10 +25,14 @@ type TChat = {
   to?: string;
 };
 
+const chatItem = () => {};
+
 const Chat: React.FC<ContainerProps> = ({
   orderId,
   restaurantChat,
   setRestaurantChat,
+  riderChat,
+  setRiderChat,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -37,7 +43,7 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRider, setHasNewChatRider] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  const { getMessagesRestaurant, createMessage } = useChat();
+  const { getMessagesRestaurant, getMessagesRider, createMessage } = useChat();
   const auth = useAuthUser();
 
   const containerClick = (e: any) => {
@@ -99,8 +105,16 @@ const Chat: React.FC<ContainerProps> = ({
     setRestaurantChat(response.data);
   };
 
+  const loadMessagesRider = async () => {
+    // Get user messages
+    const response = await getMessagesRider(orderId);
+    console.log("getMessagesRider response", response);
+    setRiderChat(response.data);
+  };
+
   useEffect(() => {
     loadMessagesMerchant();
+    loadMessagesRider();
 
     // console.log(auth());
 
@@ -121,6 +135,19 @@ const Chat: React.FC<ContainerProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   }, [restaurantChat]);
 
+  useEffect(() => {
+    // Mark initial load as done
+    setInitialLoadCounter(initialLoadCounter + 1);
+
+    // Update blinking chat icons
+    if (!show && initialLoadCounter > 1) {
+      console.log("setHasNewChatRestaurant === true");
+      setHasNewChatRider(true);
+    }
+
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [riderChat]);
+
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between">
@@ -131,12 +158,14 @@ const Chat: React.FC<ContainerProps> = ({
             onClick={() => handleShow("left")}
           >
             <img src={chatRider} className="img-fluid" alt="" />
-            {/* <img src={chatRiderAlt} alt="" className={styles.altImg} /> */}
+            {hasNewChatRider && (
+              <img src={chatRiderAlt} alt="" className={styles.altImg} />
+            )}
           </div>
 
           {/* Preview */}
           <div className={styles.preview} onClick={() => handleShow("left")}>
-            <p>Hi Rider!</p>
+            <p>{riderChat && riderChat[riderChat.length - 1]?.message}</p>
           </div>
         </div>
 
@@ -174,20 +203,35 @@ const Chat: React.FC<ContainerProps> = ({
           <Container fluid="md" onClick={containerClick}>
             <div className={`${styles.chatBox} ${styles[chatBoxClass]}`}>
               <ul>
-                {restaurantChat?.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={`${user === item.from && styles.reply}`}
-                    >
-                      <p className={styles.time}>
-                        {getDate(item.created_at || "")} |&nbsp;
-                        {getTime(item.created_at || "")}
-                      </p>
-                      <p className={styles.message}>{item.message}</p>
-                    </li>
-                  );
-                })}
+                {chatBoxClass === "right"
+                  ? restaurantChat?.map((item, index) => {
+                      return (
+                        <li
+                          key={index}
+                          className={`${user === item.from && styles.reply}`}
+                        >
+                          <p className={styles.time}>
+                            {getDate(item.created_at || "")} |&nbsp;
+                            {getTime(item.created_at || "")}
+                          </p>
+                          <p className={styles.message}>{item.message}</p>
+                        </li>
+                      );
+                    })
+                  : riderChat?.map((item, index) => {
+                      return (
+                        <li
+                          key={index}
+                          className={`${user === item.from && styles.reply}`}
+                        >
+                          <p className={styles.time}>
+                            {getDate(item.created_at || "")} |&nbsp;
+                            {getTime(item.created_at || "")}
+                          </p>
+                          <p className={styles.message}>{item.message}</p>
+                        </li>
+                      );
+                    })}
               </ul>
 
               <Form className={styles.form} onSubmit={handleSubmit}>

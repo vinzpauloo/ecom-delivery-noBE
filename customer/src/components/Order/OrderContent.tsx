@@ -31,7 +31,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-// Pusher.logToConsole = true;
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -76,6 +76,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder>();
   const [rider, setRider] = useState<TRider>();
   const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
+  const [riderChat, setRiderChat] = useState<TChat[]>();
   const {
     getOrdersById,
     getOrdersByIdGuest,
@@ -132,14 +133,29 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         setRider(thisRider);
       });
 
-      // Specific chat channel
+      // Specific chat channel for restaurant
       const channelChat = pusher.subscribe(
         `ChatRoom-C${response.customer_id}-Re${response.restaurant_id}`
       );
       channelChat.bind("Message-Event", (data: any) => {
         const chatData = JSON.parse(data.message);
-        console.log("New chat!", chatData);
+        console.log("New restaurant chat!", chatData);
         setRestaurantChat((current) => {
+          if (current?.length) {
+            return [...current, chatData];
+          }
+          return [chatData];
+        });
+      });
+
+      // Specific chat channel for rider
+      const channelChatRider = pusher.subscribe(
+        `ChatRoom-C${response.customer_id}-Ri${response.rider_id}`
+      );
+      channelChatRider.bind("Message-Event", (data: any) => {
+        const chatData = JSON.parse(data.message);
+        console.log("New rider chat!", chatData);
+        setRiderChat((current) => {
           if (current?.length) {
             return [...current, chatData];
           }
@@ -341,6 +357,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           orderId={id}
           restaurantChat={restaurantChat}
           setRestaurantChat={setRestaurantChat}
+          riderChat={riderChat}
+          setRiderChat={setRiderChat}
         />
       </div>
     </div>
