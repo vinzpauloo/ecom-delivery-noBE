@@ -166,16 +166,30 @@ const OrderItem = (item: TOrder, index: number) => {
 
 const OrdersContent: React.FC<ContainerProps> = ({}) => {
   const [orders, setOrders] = useState<TOrder[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const { getOrders } = useOrders();
 
-  const loadOrders = async () => {
-    const response = await getOrders();
-    console.log("getOrders response", response.data);
-    setOrders(response.data);
+  const loadOrders = async (page: number) => {
+    setIsLoading(true);
+
+    const response = await getOrders({ page });
+    console.log("getOrders response", response);
+
+    setOrders((current) => [...current, ...response.data]);
+    setLastPage(response.last_page);
+    setIsLoading(false);
+  };
+
+  const handleLoadMore = () => {
+    console.log("load more ...");
+    loadOrders(currentPage + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   useEffect(() => {
-    loadOrders();
+    loadOrders(1);
   }, []);
 
   return (
@@ -189,6 +203,18 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
           })
         ) : (
           <h5>No orders found.</h5>
+        )}
+
+        {orders?.length && currentPage < lastPage && (
+          <div className="text-center">
+            <Button
+              variant="primary"
+              className={styles.btnLoadMore}
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
         )}
       </div>
     </div>

@@ -66,16 +66,17 @@ export const useOrders = () => {
     }
   };
 
-  const getOrders = async () => {
+  const getOrders = async (data) => {
     console.log("getOrders hook ...");
 
     try {
       // START: Access get orders API
       const endpoint = "api/orders";
       const options = {
+        params: data,
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint),
+          "X-Authorization": calculateHash(endpoint, data),
         },
         withCredentials: true,
       };
