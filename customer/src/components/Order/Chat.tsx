@@ -66,7 +66,6 @@ const Chat: React.FC<ContainerProps> = ({
 
   const handleOnShow = () => {
     // 👇️ scroll to bottom every time messages change
-    console.log("messagesEndRef", messagesEndRef);
     if (messagesEndRef.current) {
       messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
     }
