@@ -71,12 +71,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     const params = { status: status };
     const response = await getMonthlyStatistics(params);
     console.log("getMonthlyStatistics", response);
-    console.log(data);
+    console.log(data1);
     setData1({
       labels: Object.keys(response),
       datasets: [
         {
-          ...data.datasets[0],
+          ...data1.datasets[0],
           data: Object.values(response),
         },
       ],
@@ -96,7 +96,7 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     labels: labels,
     datasets: [
       {
-        label: "Monthly",
+        label: "Daily",
         data: [],
         backgroundColor: ["#61481C"],
         borderColor: ["#61481C"],
