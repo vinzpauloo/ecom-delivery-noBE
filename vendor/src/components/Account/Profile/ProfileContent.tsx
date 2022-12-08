@@ -40,6 +40,7 @@ interface IFormInputs {
   address: string;
   email: string;
   contact_number: string;
+  photo: string;
 }
 
 const libraries: (
@@ -161,6 +162,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const maxNumber = 1;
   const [images, setImages] = React.useState<any>();
   const [defaultImg, setDefaultImg] = useState(true);
+  const [restaurantImg, setRestaurantImg] = useState();
 
   const [updateModalShow, setUpdateModalShow] = useState(false);
 
@@ -208,10 +210,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     console.log(data);
     console.log("Requesting updateUser ...");
-    const updatedData = { ...data, address: address };
+    const updatedData = { ...data, address: address, photo: images[0].photo };
 
     const response = await updateUser(updatedData);
-    console.log("updateUser response", response);
+    console.log("updateUser response", images);
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
@@ -240,6 +242,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     reset(defaultValues);
     setAddress(response.restaurant[0]?.address);
     setRestaurantId(response.restaurant[0].id);
+    setRestaurantImg(response.restaurant[0]?.photo);
   };
 
   useEffect(() => {
@@ -377,10 +380,6 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   required
                 />
               </Form.Group>
-            </Col>
-          </Row>
-          <Row lg={2} xs={1}>
-            <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Restaurant Name</Form.Label>
                 <Form.Control
@@ -391,7 +390,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                 />
               </Form.Group>
             </Col>
-            {/* <Col>
+            <Col>
               <Row>
                 <ImageUploading
                   multiple
@@ -411,40 +410,62 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                     dragProps,
                     errors,
                   }) => (
-                    <div className="d-flex flex-direction-col justify-content-center align-items-center gap-2">
-                      <Row>
+                    <div className={`gap-2 ${styles.imageUploadContainer}`}>
+                      <Row className={`${styles.imageUploadRow}`}>
                         {defaultImg ? (
-                          <img
-                            src={DefaultThumbnail}
-                            className={styles.thumbNail}
-                          />
+                          <>
+                            <Col>
+                              <img
+                                src={restaurantImg}
+                                className={styles.thumbNail}
+                              />
+                              </Col>
+                              <Col style={{display:"flex", alignItems: "center"}}>
+                              <Form.Control
+                                placeholder="Upload"
+                                className={styles.btnUpload}
+                                onClick={() => handleClick(onImageUpload)}
+                              />
+                            </Col>
+                          </>
                         ) : (
                           imageList.map((image, index) => (
-                            <div key={index} className="image-item">
-                              <img
-                                src={image.photo}
-                                className={styles.thumbNail}
-                                alt="ad-img"
-                              />
-                              <Row  className={styles.btnUploadContent}>
-                                <Form.Control
-                                  value="Remove"
-                                  type="button"
-                                  className={styles.btnUpload}
-                                  onClick={() =>
-                                    handleRemove(onImageRemove, index)
-                                  }
-                                />
+                            <>
+                              <Row key={index} className={styles.imageItem}>
+                                <Col c>
+                                <img
+                                  src={image.photo}
+                                  className={styles.thumbNail}
+                                  alt="ad-img"
+                                  />
+                                </Col>
+                                <Col style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+                                  <Row  className={styles.btnUploadContent}>
+                                    <Form.Control
+                                      value="Remove"
+                                      type="button"
+                                      className={styles.btnUpload}
+                                      onClick={() =>
+                                        handleRemove(onImageRemove, index)
+                                      }
+                                    />
+                                  </Row>
+                                    <Form.Control
+                                    placeholder="Upload"
+                                    className={styles.btnUpload}
+                                    onClick={() => handleClick(onImageUpload)}
+                                    />
+                                </Col>
                               </Row>
-                            </div>
+                            </>
                           ))
                         )}
 
-                        <Form.Control
+                        {/* <Form.Control
                           placeholder="Upload Logo"
                           className={styles.btnUpload}
                           onClick={() => handleClick(onImageUpload)}
-                        />
+                        /> */}
                       </Row>
                       <Row>
                         {errors && (
@@ -476,7 +497,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   )}
                 </ImageUploading>
               </Row>
-            </Col> */}
+            </Col>
           </Row>
           <Row>
             <Col>
