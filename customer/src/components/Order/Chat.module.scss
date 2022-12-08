@@ -48,6 +48,10 @@
   width: 450px;
   margin-top: 10px;
   padding: 6px 20px;
+
+  p {
+    height: 16px;
+  }
 }
 
 .offcanvas {
@@ -70,8 +74,6 @@
   padding: 20px;
   width: 450px;
 
-  margin-left: auto;
-
   height: 320px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -79,6 +81,15 @@
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+
+  // rider chatbox
+  &.left {
+  }
+
+  // restaurant chatbox
+  &.right {
+    margin-left: auto;
+  }
 
   p {
     margin-bottom: 0;
@@ -119,24 +130,54 @@
   }
 }
 
-.formGroup {
-  textarea {
-    background: #f8f2e9;
-    border: 1px solid rgba(97, 72, 28, 0.5);
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-    font-size: 14px;
-    margin-top: 10px;
-    padding: 5px;
-    transition: all 0.3s ease-in-out;
-    resize: none;
+.form {
+  margin-top: 20px;
 
-    &::-webkit-scrollbar {
-      display: none;
+  .formGroup {
+    textarea {
+      background: #f8f2e9;
+      border: 1px solid rgba(97, 72, 28, 0.5);
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 5px;
+      transition: all 0.3s ease-in-out;
+      resize: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      @include devices(md) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  button {
+    background: #e6b325;
+    box-shadow: $FM_BUTTON_SHADOW;
+    border: none;
+    border-radius: 5px;
+    color: $FM_TEXT_BROWN;
+    font-size: 14px;
+    font-weight: 300;
+    width: 160px;
+    padding: 6px;
+
+    &:hover {
+      background: #a47e3b;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    &:disabled {
+      background: $FM_BG_GRAY2;
+      opacity: 1;
     }
 
     @include devices(md) {
-      margin-bottom: 10px;
+      padding: 6px;
     }
   }
 }
