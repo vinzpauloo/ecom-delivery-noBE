@@ -14,6 +14,9 @@ import styles from "./RiderFeedback.module.scss";
 import constants from "../../utils/constants.json";
 import StarButtons from "./StarButtons";
 
+import Lottie from "lottie-react";
+import saveSuccess from "../../assets/save-success.json";
+
 interface ContainerProps {
   modalShow: boolean;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +32,40 @@ type TRider = {
   rider_vehicle_model?: string;
   rider_average_rating?: number;
   plate_number?: string;
+};
+
+const SuccessModal = (props: any) => {
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={saveSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            Reset Password Successful
+          </p>
+
+          <Link
+            to="feedback"
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Back To Home
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 };
 
 const AverageRating = ({ rating = 0 }: { rating: number | undefined }) => {
@@ -70,6 +107,7 @@ const RiderFeedback: React.FC<ContainerProps> = ({
 }) => {
   const MAX_CHARACTERS = 255;
   const [charactersCount, setCharactersCount] = useState(0);
+  const [modalShowSuccess, setModalShowSuccess] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [rating, setRating] = useState(0);
   const { reviewRider } = useReviews();
@@ -102,100 +140,127 @@ const RiderFeedback: React.FC<ContainerProps> = ({
     console.log("reviewRider response", response);
 
     if (!response.error) {
-      alert(constants.form.success.reviewRider);
-
-      //  Redirect to restaurant feedback page
-      navigate("feedback");
+      setModalShowSuccess(true);
     } else {
       alert(response.error);
     }
   };
 
   return (
-    <Modal
-      size="xl"
-      show={modalShow}
-      onHide={() => setModalShow(false)}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      className={styles.container}
-    >
-      <Modal.Body>
-        <h5 className="text-center mb-3">Rider's Feedback</h5>
-        <div className="mx-lg-5">
-          <Row lg={2} xs={1}>
-            {/* Rider Profile + Star Rating */}
-            <Col>
-              <div
-                className={`d-flex gap-4 align-items-center mt-lg-3 mt-0 ${styles.riderInfoContainer}`}
-              >
-                {rider?.rider_photo ? (
-                  <img
-                    className={`img-fluid ${styles.riderImg}`}
-                    src={rider?.rider_photo}
-                    alt=""
-                  />
-                ) : (
-                  <PersonCircle color="#000000" size={130} />
-                )}
+    <>
+      <Modal
+        size="xl"
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        className={styles.container}
+      >
+        <Modal.Body>
+          <h5 className="text-center mb-3">Rider's Feedback</h5>
+          <div className="mx-lg-5">
+            <Row lg={2} xs={1}>
+              {/* Rider Profile + Star Rating */}
+              <Col>
+                <div
+                  className={`d-flex gap-4 align-items-center mt-lg-3 mt-0 ${styles.riderInfoContainer}`}
+                >
+                  {rider?.rider_photo ? (
+                    <img
+                      className={`img-fluid ${styles.riderImg}`}
+                      src={rider?.rider_photo}
+                      alt=""
+                    />
+                  ) : (
+                    <PersonCircle color="#000000" size={130} />
+                  )}
 
-                <div className={styles.riderInfo}>
-                  <h4 className="mb-0">{rider?.rider_name}</h4>
-                  <p className="mb-2">
-                    {rider?.rider_vehicle_brand} {rider?.rider_vehicle_model} |{" "}
-                    {rider?.plate_number?.toUpperCase()}
-                  </p>
-                  <div className={`d-flex gap-1 ${styles.rating}`}>
-                    <AverageRating rating={rider?.rider_average_rating} />
+                  <div className={styles.riderInfo}>
+                    <h4 className="mb-0">{rider?.rider_name}</h4>
+                    <p className="mb-2">
+                      {rider?.rider_vehicle_brand} {rider?.rider_vehicle_model}{" "}
+                      | {rider?.plate_number?.toUpperCase()}
+                    </p>
+                    <div className={`d-flex gap-1 ${styles.rating}`}>
+                      <AverageRating rating={rider?.rider_average_rating} />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Star Ratings */}
-              <div className={`d-flex gap-2 mt-3 ${styles.btnRating}`}>
-                <StarButtons value={5} rating={rating} setRating={setRating} />
-                <StarButtons value={4} rating={rating} setRating={setRating} />
-                <StarButtons value={3} rating={rating} setRating={setRating} />
-                <StarButtons value={2} rating={rating} setRating={setRating} />
-                <StarButtons value={1} rating={rating} setRating={setRating} />
-              </div>
-            </Col>
+                {/* Star Ratings */}
+                <div className={`d-flex gap-2 mt-3 ${styles.btnRating}`}>
+                  <StarButtons
+                    value={5}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                  <StarButtons
+                    value={4}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                  <StarButtons
+                    value={3}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                  <StarButtons
+                    value={2}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                  <StarButtons
+                    value={1}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                </div>
+              </Col>
 
-            {/* Rider Feedback Form */}
-            <Col className="text-center">
-              <Form.Group className={styles.formGroup}>
-                <Form.Label>Your Feedback</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={4}
-                  maxLength={MAX_CHARACTERS}
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                />
-                <span className={styles.characters}>
-                  {charactersCount}/{MAX_CHARACTERS}
-                </span>
-              </Form.Group>
+              {/* Rider Feedback Form */}
+              <Col className="text-center">
+                <Form.Group className={styles.formGroup}>
+                  <Form.Label>Your Feedback</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    maxLength={MAX_CHARACTERS}
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                  />
+                  <span className={styles.characters}>
+                    {charactersCount}/{MAX_CHARACTERS}
+                  </span>
+                </Form.Group>
 
-              <Button
-                variant="primary"
-                className={styles.btnGray}
-                onClick={handleOnClick}
-              >
-                Submit Feedback
-              </Button>
+                <Button
+                  variant="primary"
+                  className={styles.btnGray}
+                  onClick={handleOnClick}
+                >
+                  Submit Feedback
+                </Button>
 
-              <div className="mt-2">
-                <Link to="feedback" className={styles.linkSkip}>
-                  Skip
-                  <ChevronDoubleRight color="#A47E3B" size={16} />
-                </Link>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </Modal.Body>
-    </Modal>
+                <div className="mt-2">
+                  <Link to="feedback" className={styles.linkSkip}>
+                    Skip
+                    <ChevronDoubleRight color="#A47E3B" size={16} />
+                  </Link>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <SuccessModal
+        show={modalShowSuccess}
+        onHide={() => {
+          setModalShowSuccess(false);
+          navigate("feedback");
+        }}
+      />
+    </>
   );
 };
 

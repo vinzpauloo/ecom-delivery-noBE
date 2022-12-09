@@ -21,6 +21,8 @@ import Search from "./pages/Search";
 import OrderFeedback from "./pages/OrderFeedback";
 import RestaurantFeedback from "./pages/RestaurantFeedback";
 import ChangePassword from "./pages/Account/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword2 from "./pages/ForgotPassword2";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -39,6 +41,8 @@ root.render(
             <Route path="get-hash" element={<GetHash />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="forgot-password2" element={<ForgotPassword2 />} />
             <Route path="otp" element={<Otp />} />
             <Route path="otp-order" element={<OtpOrder />} />
             <Route path="restaurant" element={<Restaurant />} />

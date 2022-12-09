@@ -4,7 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 
 import Modal from "react-bootstrap/Modal";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
@@ -19,17 +19,40 @@ import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../../hooks/useOrders";
 import { useOrder } from "../../../hooks/useOrder";
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
+import { useChat } from "../../../hooks/useChat";
 
-// import Pusher from "pusher-js";
-// import * as PusherTypes from "pusher-js";
+import Chat from "./Chat";
+import Pusher from "pusher-js";
+import * as PusherTypes from "pusher-js";
 
-// var presenceChannel: PusherTypes.PresenceChannel;
+var presenceChannel: PusherTypes.PresenceChannel;
 
-// const pusher = new Pusher("dda7bca342e12a644ba2", {
-//   cluster: "ap1",
-// });
+const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+const pusher = new Pusher(PUSHER_KEY, {
+  cluster: "ap1",
+});
+// Pusher.logToConsole = true;
 
 interface ContainerProps {}
+
+type TChat = {
+  created_at?: string;
+  from?: string;
+  message?: string;
+  to?: string;
+};
+
+type TRider = {
+  order_id?: number;
+  rider_id?: number;
+  rider_name?: string;
+  rider_photo?: string;
+  rider_vehicle_brand?: string;
+  rider_vehicle_model?: string;
+  rider_average_rating?: number;
+  plate_number?: string;
+};
 
 type ForDeliveryItem = {
   created_at: string;
@@ -80,6 +103,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [orderData, setOrderData] = useState<any>([]);
   const [modalShow, setModalShow] = React.useState(false);
 
+  const [rider, setRider] = useState<TRider>();
+  const [isGuest, setIsGuest] = useState(false);
+
+  const [riderChat, setRiderChat] = useState<TChat[]>();
+
+  const { createMessage } = useChat();
+
   const [products, setProducts] = useState<any>([]);
 
   const navigate = useNavigate();
@@ -104,7 +134,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "otw");
-    alert("updated status otw successfully");
+    // alert("updated status otw successfully");
     // navigate(`/account/orders/${id}/otw`);
 
     console.log(response);
@@ -112,6 +142,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const [productItem, setProductItem] = useState<TOrder>();
+
+  const [orderStatus, setOrderStatus] = useState("pending");
 
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
@@ -123,7 +155,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "delivered");
-    alert("updated status delivered successfully");
+    // alert("updated status delivered successfully");
 
     navigate(`/account/order-history`);
 
@@ -132,22 +164,123 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const loadOrder = async () => {
-    if (isAuthenticated()) {
-      // Get user order
-      const response = await getOrdersById(id);
-      console.log("getOrdersById response", response);
-      console.log(response.products);
-      setOrder(response);
-      setProducts(response.products);
-    } else {
-      // Get guest session in local storage
-      const guestSession = localStorage.getItem("guestSession");
+    // if (isAuthenticated()) {
+    //   const response = await getOrdersById(id);
+    //   console.log("getOrdersById response", response);
+    //   const thisRider = {
+    //     order_id: response.id,
+    //     rider_id: response.rider_id,
+    //     rider_name: response.rider_name,
+    //     rider_photo: response.rider_photo,
+    //     rider_vehicle_brand: response.rider_vehicle_brand,
+    //     rider_vehicle_model: response.rider_vehicle_model,
+    //     rider_average_rating: response.rider_average_rating,
+    //     plate_number: response.plate_number,
+    //   };
+    //   setOrder(response);
+    //   setOrderStatus(response.order_status);
+    //   setRider(thisRider);
+    //   setIsGuest(!!response.guest_id);
+    //   const orderRoom = `Order-Channel-${response.id}`;
+    //   initializeOrderChannel(orderRoom);
+    //   if (response.rider_id) {
+    //     const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+    //     initializeChatChannel(riderChatRoom, setRiderChat);
+    //   }
+    // } else {
+    //   const guestSession = localStorage.getItem("guestSession");
+    //   const response = await getOrdersByIdGuest(id, guestSession);
+    //   console.log("getOrdersByIdGuest response", response);
+    //   const thisRider = {
+    //     order_id: response.id,
+    //     rider_id: response.rider_id,
+    //     rider_name: response.rider_name,
+    //     rider_photo: response.rider_photo,
+    //     rider_vehicle_brand: response.rider_vehicle_brand,
+    //     rider_vehicle_model: response.rider_vehicle_model,
+    //     rider_average_rating: response.rider_average_rating,
+    //     plate_number: response.plate_number,
+    //   };
+    //   setOrder(response);
+    //   setOrderStatus(response.order_status);
+    //   setProducts(response.products);
+    //   setRider(thisRider);
+    //   const orderRoom = `Order-Channel-${response.id}`;
+    //   initializeOrderChannel(orderRoom);
+    //   if (response.rider_id) {
+    //     const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+    //     initializeChatChannel(riderChatRoom, setRiderChat);
+    //   }
+    // }
 
-      // Get guest order
-      const response = await getOrdersByIdGuest(id, guestSession);
-      console.log("getOrdersByIdGuest response", response);
-      setOrder(response);
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", !!response.guest_id);
+    setStatus(response);
+    setOrder(response);
+    setIsGuest(!!response.guest_id);
+    setProducts(response.products);
+    if (!!!response.guest_id) {
+      // Initialize chat channel for merchant
+      const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+      initializeChatChannel(riderChatRoom, setRiderChat);
+    } else {
+      // Initialize chat channel for merchant
+      const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+      initializeChatChannel(riderChatRoom, setRiderChat);
     }
+  };
+
+  const initializeOrderChannel = (orderRoom: string) => {
+    const channel = pusher.subscribe(orderRoom);
+    channel.bind("Order-Updated-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      const status = parsedData.status;
+
+      console.log(parsedData);
+
+      setOrder({ ...parsedData, order_status: status });
+      setOrderStatus(status);
+
+      if (status == "canceled" || status == "delivered") {
+        pusher.unsubscribe(orderRoom);
+      } else {
+        if (status != "canceled") {
+          const thisRider = {
+            order_id: parsedData.id,
+            rider_id: parsedData.rider_id,
+            rider_name: parsedData.rider_name,
+            rider_photo: parsedData.rider_photo,
+            rider_vehicle_brand: parsedData.rider_vehicle_brand,
+            rider_vehicle_model: parsedData.rider_vehicle_model,
+            rider_average_rating: parsedData.rider_average_rating,
+            plate_number: parsedData.plate_number,
+          };
+          setRider(thisRider);
+        }
+
+        if (status == "otw") {
+          if (parsedData.rider_id) {
+            // Initialize chat channel for rider
+            const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+            initializeChatChannel(riderChatRoom, setRiderChat);
+          }
+        }
+      }
+    });
+  };
+
+  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+    const channelChat = pusher.subscribe(chatRoom);
+    channelChat.bind("Message-Event", (data: any) => {
+      const chatData = JSON.parse(data.message);
+      console.log("New restaurant chat!", chatData);
+      setChat((current: any) => {
+        if (current?.length) {
+          return [...current, chatData];
+        }
+        return [chatData];
+      });
+    });
   };
 
   useEffect(() => {
@@ -271,7 +404,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       })}
                       &nbsp;
                       <p>Total:</p>
-                      <li>₱{order?.total_amount}.00</li>
+                      <li>₱{order?.total_amount}.00 </li>
                       {/* <li> </li>
                       <li>Ramen Noodles</li>
                       <li>
@@ -293,7 +426,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <Row>
               <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
                 <a
-                  href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes"
+                  href="https://waze.com/ul?q={Geo-address}&ll=14.55147636%2C121.02443576&navigate=yes"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -399,6 +532,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           )}
         </h6>
       </div> */}
+      <div className={styles.chatContainer}>
+        <Chat
+          orderId={id}
+          riderChat={riderChat}
+          setRiderChat={setRiderChat}
+          orderStatus={orderStatus}
+          isGuest={isGuest}
+        />
+      </div>
     </div>
   );
 };

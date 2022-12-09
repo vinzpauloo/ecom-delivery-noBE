@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Modal, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios, { AxiosError } from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./ForgotPassword.module.scss";
 import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+
+import { useChangePass } from "../../hooks/useChangePass";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -24,7 +27,12 @@ interface ContainerProps {}
 
 const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { calculateHash } = useCalculateHash();
+
+  const { forgotPassword } = useChangePass();
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -37,8 +45,12 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Forgot password API
-      console.log("onSubmit", data);
+      console.log("forgotPassword", data);
+
+      const response = await forgotPassword(data);
+      console.log("reset PW", response);
       // END: Access password API
+      navigate("/forgot-password2");
     } catch (err) {
       if (err && err instanceof AxiosError)
         setError("*" + err.response?.data.message);
@@ -50,7 +62,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
   return (
     <div className={styles.container}>
-      <h4 className="mb-4">Change Password</h4>
+      <h4 className="mb-4">Reset Password</h4>
 
       <Form
         className={`text-center ${styles.form}`}

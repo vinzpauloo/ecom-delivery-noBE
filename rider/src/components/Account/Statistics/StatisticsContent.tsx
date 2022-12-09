@@ -67,16 +67,32 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     });
   };
 
+  const loadWeeklyStatistics = async (status: string) => {
+    const params = { status: status };
+    const response = await getWeeklyStatistics(params);
+    console.log("getWeeklyStatistics", response);
+    console.log(data2);
+    setData2({
+      labels: Object.keys(response),
+      datasets: [
+        {
+          ...data2.datasets[0],
+          data: Object.values(response),
+        },
+      ],
+    });
+  };
+
   const loadMonthlyStatistics = async (status: string) => {
     const params = { status: status };
     const response = await getMonthlyStatistics(params);
     console.log("getMonthlyStatistics", response);
-    console.log(data);
+    console.log(data1);
     setData1({
       labels: Object.keys(response),
       datasets: [
         {
-          ...data.datasets[0],
+          ...data1.datasets[0],
           data: Object.values(response),
         },
       ],
@@ -85,18 +101,21 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadDailyStatistics("daily");
+    loadWeeklyStatistics("weekly");
     loadMonthlyStatistics("monthly");
   }, []);
 
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
 
+  //ChartJS start
   const labels: any = []; //Do not remove
+
   const [data, setData] = useState({
     labels: labels,
     datasets: [
       {
-        label: "Monthly",
+        label: "Daily",
         data: [],
         backgroundColor: ["#61481C"],
         borderColor: ["#61481C"],
@@ -117,6 +136,20 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       },
     ],
   });
+
+  const [data2, setData2] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Weekly",
+        data: [],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
+  //ChartJS End
 
   function DailyModal(props: any) {
     return (
@@ -150,12 +183,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header> */}
         <ModalBody className={`p-1`}>
-          {/* <Bar
-            data={weeklyData}
-            height="600px"
-            width="10px"
+          <Bar
+            data={data2}
+            height="400px"
+            width="300px"
             options={{ maintainAspectRatio: false }}
-          /> */}
+          />
         </ModalBody>
         <Modal.Footer>
           <button onClick={props.onHide}>Close</button>

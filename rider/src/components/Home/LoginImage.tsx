@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./LoginImage.module.scss";
 
-import ThisImage from "../../assets/images/rider2.png";
+import ThisImage from "../../assets/images/rider3.jpg";
 import BGImg from "../../assets/images/bg-oppacity.jpg";
 
 interface ContainerProps {}

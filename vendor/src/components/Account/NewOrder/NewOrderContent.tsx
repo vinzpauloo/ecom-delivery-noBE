@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Col, Container, Row, Form, Button, Modal } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import styles from "./NewOrderContent.module.scss";
 import { useOrder } from "../../../hooks/useOrder";
 import imgs from "../../../assets/images/kitchen-prep.png";
 import delivered from "../../../assets/images/delivered.png";
+import updateSuccess from "../../../assets/update-success.json";
 
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, Grid } from "swiper";
@@ -17,6 +18,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/scss/grid";
+import Lottie from "lottie-react";
 
 type GetDeliveredItem = {
   created_at: string;
@@ -62,9 +64,10 @@ const SwiperSlideItem = () => {
 
 const NewOrderContent = (props) => {
   const { id } = useParams();
-  const { getOrdersById } = useOrder();
+  const { getOrdersById, updateOrder } = useOrder();
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem>();
   const [quantity, setQuantity] = useState(0);
+  const [updateModalShow, setUpdateModalShow] = useState(false);
 
   const loadDeliveredItem = async () => {
     const response = await getOrdersById(id);
@@ -77,10 +80,16 @@ const NewOrderContent = (props) => {
     })
   };
 
+  const handleAccept = async () => {
+    setUpdateModalShow(true);
+    const response = await updateOrder(id, "received");
+    // navigate(`/account/order/status/${id}`);
+  };
+
   useEffect(() => {
     loadDeliveredItem();
   }, []);
-  console.log("!!!", deliveredItem)
+
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>
@@ -175,10 +184,10 @@ const NewOrderContent = (props) => {
                     </div>
                   </Col>
                 </Row>
-                <Row className={styles.riderContent}>
+                {/* <Row className={styles.riderContent}>
                   <p className={styles.assignedRider}>Assigned Rider</p>
                   <p className={styles.rider}>{deliveredItem?.rider_name}</p>
-                </Row>
+                </Row> */}
               </Row>
               <Row className={styles.bottomContent}>
                 <h4>PROMO CODE ATTAHCED</h4>
@@ -201,12 +210,61 @@ const NewOrderContent = (props) => {
                   <span>Total</span>
                   <span>{deliveredItem?.total_amount} php</span>
                 </p>
+                <Button className={styles.acceptButton} onClick={handleAccept}>Accept</Button>
               </Row>
             </Col>
           </Row>
         </Col>
       </Row>
+
+      <UpdateSuccessModal
+        show={updateModalShow}
+        onHide={() => setUpdateModalShow(false)}
+        setUpdateModalShow={setUpdateModalShow}
+        updateModalShow={updateModalShow}
+      />
     </Container>
+  );
+};
+
+const UpdateSuccessModal = (props: any) => {
+  const { setUpdateModalShow, updateModalShow } = props;
+  const { id } = useParams();
+
+  const handleClick = async () => {
+    setUpdateModalShow(false);
+  };
+  return (
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={updateSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            You have accepted this order
+          </p>
+
+          <Link
+            to={`/account/order/status/${id}`}
+            onClick={handleClick}
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Next
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 

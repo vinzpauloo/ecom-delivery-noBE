@@ -31,7 +31,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -73,6 +73,7 @@ type TChat = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
+  const [orderStatus, setOrderStatus] = useState("pending");
   const [order, setOrder] = useState<TOrder>();
   const [rider, setRider] = useState<TRider>();
   const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
@@ -107,61 +108,27 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       };
 
       setOrder(response);
+      setOrderStatus(response.order_status);
       setRider(thisRider);
 
-      // Specific order channel
-      const channel = pusher.subscribe("Order-Channel-" + response.id);
-      channel.bind("Order-Updated-Event", (data: any) => {
-        const parsedData = JSON.parse(data.message);
-        console.log(data);
-        console.log(parsedData);
+      if (
+        response.order_status != "canceled" &&
+        response.order_status != "delivered"
+      ) {
+        // Initialize order channel
+        const orderRoom = `Order-Channel-${response.id}`;
+        initializeOrderChannel(orderRoom);
 
-        const status = parsedData.status;
+        // Initialize chat channel for merchant
+        const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
+        initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
-        const thisRider = {
-          order_id: parsedData.id,
-          rider_id: parsedData.rider_id,
-          rider_name: parsedData.rider_name,
-          rider_photo: parsedData.rider_photo,
-          rider_vehicle_brand: parsedData.rider_vehicle_brand,
-          rider_vehicle_model: parsedData.rider_vehicle_model,
-          rider_average_rating: parsedData.rider_average_rating,
-          plate_number: parsedData.plate_number,
-        };
-
-        setOrder({ ...parsedData, order_status: status });
-        setRider(thisRider);
-      });
-
-      // Specific chat channel for restaurant
-      const channelChat = pusher.subscribe(
-        `ChatRoom-C${response.customer_id}-Re${response.restaurant_id}`
-      );
-      channelChat.bind("Message-Event", (data: any) => {
-        const chatData = JSON.parse(data.message);
-        console.log("New restaurant chat!", chatData);
-        setRestaurantChat((current) => {
-          if (current?.length) {
-            return [...current, chatData];
-          }
-          return [chatData];
-        });
-      });
-
-      // Specific chat channel for rider
-      const channelChatRider = pusher.subscribe(
-        `ChatRoom-C${response.customer_id}-Ri${response.rider_id}`
-      );
-      channelChatRider.bind("Message-Event", (data: any) => {
-        const chatData = JSON.parse(data.message);
-        console.log("New rider chat!", chatData);
-        setRiderChat((current) => {
-          if (current?.length) {
-            return [...current, chatData];
-          }
-          return [chatData];
-        });
-      });
+        if (response.rider_id) {
+          // Initialize chat channel for rider
+          const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+          initializeChatChannel(riderChatRoom, setRiderChat);
+        }
+      }
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -169,18 +136,57 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Get guest order
       const response = await getOrdersByIdGuest(id, guestSession);
       console.log("getOrdersByIdGuest response", response);
+
+      const thisRider = {
+        order_id: response.id,
+        rider_id: response.rider_id,
+        rider_name: response.rider_name,
+        rider_photo: response.rider_photo,
+        rider_vehicle_brand: response.rider_vehicle_brand,
+        rider_vehicle_model: response.rider_vehicle_model,
+        rider_average_rating: response.rider_average_rating,
+        plate_number: response.plate_number,
+      };
+
       setOrder(response);
+      setOrderStatus(response.order_status);
+      setRider(thisRider);
 
-      const channel = pusher.subscribe("Order-Channel-" + response.id);
-      channel.bind("Order-Updated-Event", (data: any) => {
-        const parsedData = JSON.parse(data.message);
-        // console.log(data);
-        console.log(parsedData);
+      if (
+        response.order_status != "canceled" &&
+        response.order_status != "delivered"
+      ) {
+        // Initialize order channel
+        const orderRoom = `Order-Channel-${response.id}`;
+        initializeOrderChannel(orderRoom);
 
-        const status = parsedData.status;
+        // Initialize chat channel for merchant
+        const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
+        initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
-        setOrder({ ...parsedData, order_status: status });
+        if (response.rider_id) {
+          // Initialize chat channel for rider
+          const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+          initializeChatChannel(riderChatRoom, setRiderChat);
+        }
+      }
+    }
+  };
 
+  const initializeOrderChannel = (orderRoom: string) => {
+    const channel = pusher.subscribe(orderRoom);
+    channel.bind("Order-Updated-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      const status = parsedData.status;
+
+      console.log(parsedData);
+
+      setOrder({ ...parsedData, order_status: status });
+      setOrderStatus(status);
+
+      if (status == "canceled" || status == "delivered") {
+        pusher.unsubscribe(orderRoom);
+      } else {
         if (status != "canceled") {
           const thisRider = {
             order_id: parsedData.id,
@@ -194,8 +200,36 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           };
           setRider(thisRider);
         }
+
+        if (status == "otw") {
+          if (parsedData.rider_id) {
+            if (isAuthenticated()) {
+              // Initialize chat channel for rider
+              const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+              initializeChatChannel(riderChatRoom, setRiderChat);
+            } else {
+              // Initialize chat channel for rider
+              const riderChatRoom = `ChatRoom-G${parsedData.guest_id}-R${parsedData.rider_id}`;
+              initializeChatChannel(riderChatRoom, setRiderChat);
+            }
+          }
+        }
+      }
+    });
+  };
+
+  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+    const channelChat = pusher.subscribe(chatRoom);
+    channelChat.bind("Message-Event", (data: any) => {
+      const chatData = JSON.parse(data.message);
+      console.log("New restaurant chat!", chatData);
+      setChat((current: any) => {
+        if (current?.length) {
+          return [...current, chatData];
+        }
+        return [chatData];
       });
-    }
+    });
   };
 
   const handleCancelOrder = async () => {
@@ -359,6 +393,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           setRestaurantChat={setRestaurantChat}
           riderChat={riderChat}
           setRiderChat={setRiderChat}
+          orderStatus={orderStatus}
         />
       </div>
     </div>

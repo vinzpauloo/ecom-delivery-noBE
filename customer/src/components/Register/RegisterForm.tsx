@@ -167,6 +167,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const [lng, setLng] = useState(0);
   const [status, setStatus] = useState("");
   const [address, setAddress] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const { validateFields } = useValidate();
@@ -195,23 +196,27 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
     };
     console.log("onsubmit", newFormData);
 
-    // Validate fields
-    const response = await validateFields(newFormData);
-    console.log(response);
-
-    if (response.errors) {
-      // Prepare errors
-      let arrErrors: string[] = [];
-      for (let value of Object.values(response.errors)) {
-        arrErrors.push("*" + value);
-      }
-      setApiErrors(arrErrors);
+    if (!newFormData.address || !newFormData.lat || !newFormData.long) {
+      setError("Please select address from autocomplete or pin your location.");
     } else {
-      // Set register data on local storage
-      localStorage.setItem("registerUser", JSON.stringify(newFormData));
+      // Validate fields
+      const response = await validateFields(newFormData);
+      console.log(response);
 
-      // Navigate to OTP page
-      navigate("/otp");
+      if (response.errors) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.errors)) {
+          arrErrors.push("*" + value);
+        }
+        setApiErrors(arrErrors);
+      } else {
+        // Set register data on local storage
+        localStorage.setItem("registerUser", JSON.stringify(newFormData));
+
+        // Navigate to OTP page
+        navigate("/otp");
+      }
     }
   };
 
@@ -406,6 +411,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
               return <p key={index}>{item}</p>;
             })}
 
+            <p>{error}</p>
             <p>{errors.first_name?.message}</p>
             <p>{errors.last_name?.message}</p>
             {/* <p>{errors.address?.message}</p> */}
@@ -453,7 +459,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="mt-4"
-          disabled={!isValid || !isChecked || !address}
+          // disabled={!isValid || !isChecked || !address}
         >
           Create Account
         </Button>

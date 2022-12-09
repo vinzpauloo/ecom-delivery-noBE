@@ -71,9 +71,9 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleFilter = (menu: TMenu[], category: number) => {
-    console.log("filtering menu ...");
+    console.log("filtering menu ...", category);
     const filteredMenu = menu.filter((singleMenu) => {
-      return singleMenu.categories[0].id === category;
+      return singleMenu.categories[0]?.id === category;
     });
 
     setMenu(filteredMenu);

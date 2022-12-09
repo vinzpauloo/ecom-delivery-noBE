@@ -1,6 +1,21 @@
 @import "../../../theme/_variables.scss";
 @import "../../../theme/_mixins.scss";
 
+.container {
+  position: relative;
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 60px 0;
+
+  @include devices(md) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 40px 0;
+  }
+
+  @include devices(xs) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+  }
+}
+
 .title {
   color: $FM_TEXT_BROWN;
   margin-bottom: 50px;
@@ -41,18 +56,18 @@
     color: #000000;
     font-size: 18px;
     font-weight: 400;
-    margin: 30px 0 0;
+    margin: 5px 0 0;
   }
 
   @include devices(md) {
     p {
       font-size: 16px;
-      margin-top: 20px;
+      margin-top: 5px;
     }
   }
 
   @include devices(sm) {
-    margin-bottom: 30px;
+    margin-bottom: 5px;
 
     img {
       max-width: 50%;
@@ -83,7 +98,7 @@
   @include devices(md) {
     p {
       font-size: 16px;
-      margin-top: 20px;
+      // margin-top: 20px;
     }
 
     .imgContainer {
@@ -95,7 +110,7 @@
   }
 
   @include devices(sm) {
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
 
     img {
       // max-width: 50%;
@@ -103,8 +118,14 @@
     }
 
     p {
-      margin-top: 10px;
+      margin-bottom: 10px;
     }
+  }
+}
+
+@include devices(md) {
+  .statusContent{
+    margin-top: 20px;
   }
 }
 
@@ -122,5 +143,16 @@
 
   &:hover {
     background: #61481c !important;
+  }
+}
+
+.chatContainer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+
+  @include devices(sm) {
+    position: initial;
+    margin-top: 40px;
   }
 }

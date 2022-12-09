@@ -1,6 +1,21 @@
 @import "../../../theme/_variables.scss";
 @import "../../../theme/_mixins.scss";
 
+.container {
+  position: relative;
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 60px 0;
+
+  @include devices(md) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 40px 0;
+  }
+
+  @include devices(xs) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+  }
+}
+
 .title {
   color: $FM_TEXT_BROWN;
   margin-bottom: 50px;
@@ -243,5 +258,16 @@
   .wazeImg {
     width: 80px;
     border-radius: 50%;
+  }
+}
+
+.chatContainer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+
+  @include devices(sm) {
+    position: initial;
+    margin-top: 40px;
   }
 }
