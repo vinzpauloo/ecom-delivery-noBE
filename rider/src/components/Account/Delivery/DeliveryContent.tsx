@@ -206,7 +206,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const handleAccept = async (id: string) => {
     console.log(id);
     const response = await acceptOrder(id, "");
-    alert("You are now the rider for this order.");
+    // alert("You are now the rider for this order.");
     // navigate(`/account/orders/${id}/otw`);
 
     navigate(`/account/for-delivery/order/${id}`);

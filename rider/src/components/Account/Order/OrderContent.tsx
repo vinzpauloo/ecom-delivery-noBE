@@ -135,7 +135,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "otw");
-    alert("updated status otw successfully");
+    // alert("updated status otw successfully");
     // navigate(`/account/orders/${id}/otw`);
 
     console.log(response);
@@ -154,7 +154,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "delivered");
-    alert("updated status delivered successfully");
+    // alert("updated status delivered successfully");
 
     navigate(`/account/order-history`);
 
