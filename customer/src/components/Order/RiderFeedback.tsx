@@ -220,13 +220,14 @@ const RiderFeedback: React.FC<ContainerProps> = ({
               {/* Rider Feedback Form */}
               <Col className="text-center">
                 <Form.Group className={styles.formGroup}>
-                  <Form.Label>Your Feedback</Form.Label>
+                  {/* <Form.Label>Your Feedback</Form.Label> */}
                   <Form.Control
                     as="textarea"
                     rows={4}
                     maxLength={MAX_CHARACTERS}
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
+                    placeholder="Your Feedback"
                   />
                   <span className={styles.characters}>
                     {charactersCount}/{MAX_CHARACTERS}
