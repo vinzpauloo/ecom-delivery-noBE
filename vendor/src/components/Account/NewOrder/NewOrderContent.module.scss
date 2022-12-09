@@ -277,6 +277,11 @@
             border-radius: 5px;
         }
     }
+    .acceptButton{
+        background-color: #61481C;
+        border: #8E8E8E;
+        width: 100px;
+    }
 }
 
 @include devices(md){
@@ -379,7 +384,7 @@
             }
         }
         .bottomContent{
-            padding-bottom: 30px;
+            padding-bottom: 45px;
             div{
                 p{
                     padding-left: 90px;
