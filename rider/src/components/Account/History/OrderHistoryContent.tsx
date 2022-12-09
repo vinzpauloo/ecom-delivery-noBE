@@ -64,6 +64,7 @@ type ForCompletedItem = {
   rider_vehicle_model: string;
   id: string;
   delivered_at: string;
+  received_at: string;
 };
 
 type ForCanceledItem = {
@@ -213,7 +214,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               >
                 <Row
                   className={styles.modalRow}
-                  onClick={() => handleClickComplete(item.id)}
+                  // onClick={() => handleClickComplete(item.id)}
                 >
                   <Col className={styles.modalHeader}>{item.id}</Col>
                   <Col className={styles.modalHeader}>
@@ -272,7 +273,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               >
                 <Row
                   className={styles.modalRow}
-                  onClick={() => handleClickCancel(item.id)}
+                  // onClick={() => handleClickCancel(item.id)}
                 >
                   <Col className={styles.modalHeader}>{item.id}</Col>
                   <Col className={styles.modalHeader}>
@@ -437,7 +438,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                         {/* {item.delivered_at
                                         ? getTime(item.delivered_at)
                                         : "Waiting ..."} */}
-                                        {item.order_address}
+                                        {item.delivered_at}
                                       </p>
                                     </Col>
                                   </Row>
@@ -591,7 +592,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                         {/* {item.delivered_at
                                         ? getTime(item.delivered_at)
                                         : "Waiting ..."} */}
-                                        {item.order_address}
+                                        {item.delivered_at}
                                       </p>
                                     </Col>
                                   </Row>
@@ -608,7 +609,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
                                         {/* {getDate(item.created_at)} */}
-                                        {item && getTime(item?.created_at)}
+                                        {item?.received_at}
                                       </p>
                                     </Col>
                                   </Row>

@@ -16,7 +16,7 @@
         @media (max-width: 425px) {
           display: flex;
           align-items: center;
-          gap: 120px;
+          gap: 112px;
         }
         @media (width: 320px) {
           display: flex;
@@ -26,8 +26,9 @@
 
         h3 {
           @media (max-width: 425px) {
-            font-size: 15px;
-            padding-top: 10px;
+            font-size: 14px;
+            padding-top: 25px;
+            // font-weight: 600;
           }
           @media (width: 320px) {
             font-size: 15px;
