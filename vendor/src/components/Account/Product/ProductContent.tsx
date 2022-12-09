@@ -25,6 +25,8 @@ import { useAuthUser } from "react-auth-kit";
 
 import styles from "./ProductContent.module.scss";
 import constants from "../../../utils/constants.json";
+import Lottie from "lottie-react";
+import updateSuccess from "../../../assets/update-success.json"
 
 import SearchIcon from "../../../assets/images/search.png";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
@@ -108,7 +110,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [end, setEnd] = useState(10);
   const [page, setPage] = useState(1);
   const [pageLength, setPageLength] = useState(0);
-
+  const [updateModalShow, setUpdateModalShow] = useState(false);
   const [checked, setChecked] = React.useState(true);
   const [editItemId, setEditItemId] = useState(0);
   const [images, setImages] = React.useState<any>();
@@ -166,7 +168,6 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     };
     const response = await deleteProduct(id, params);
     console.log(response);
-    alert("Product Deleted");
     window.location.reload();
     navigate("/account/my-restaurant-menu");
   };
@@ -805,6 +806,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
         product={product}
         setEditModal={setEditModal}
       />}
+      <UpdateSuccessModal show={updateModalShow} onHide={() => setUpdateModalShow(false)}/>
     </div>
   );
 };
@@ -1250,6 +1252,45 @@ function EditModal(props: any) {
       </Modal>
     );
   }
+
+const UpdateSuccessModal = (props: any) => {
+  return (
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={updateSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            Profile has been updated
+          </p>
+
+          <Link
+            to="/account/for-delivery"
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Next
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
   // function DeleteModal(props: any) {
   //   return (
   //     <Modal {...props} size="lg">
