@@ -80,7 +80,7 @@ const NewOrderContent = (props) => {
   useEffect(() => {
     loadDeliveredItem();
   }, []);
-  console.log("!!!", deliveredItem)
+
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>
@@ -175,10 +175,10 @@ const NewOrderContent = (props) => {
                     </div>
                   </Col>
                 </Row>
-                <Row className={styles.riderContent}>
+                {/* <Row className={styles.riderContent}>
                   <p className={styles.assignedRider}>Assigned Rider</p>
                   <p className={styles.rider}>{deliveredItem?.rider_name}</p>
-                </Row>
+                </Row> */}
               </Row>
               <Row className={styles.bottomContent}>
                 <h4>PROMO CODE ATTAHCED</h4>
