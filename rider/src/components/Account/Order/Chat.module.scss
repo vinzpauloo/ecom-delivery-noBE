@@ -7,26 +7,21 @@
   }
 }
 
-// .riderChat,
-// .vendorChat {
-//   display: flex;
-//   flex-direction: column;
-//   flex: 50%;
-//   position: relative;
-// }
-
-.riderChat {
-  position: relative;
+.riderChat,
+.vendorChat {
   display: flex;
   flex-direction: column;
   flex: 50%;
-  align-items: end;
-  margin-top: 50px;
+  position: relative;
 }
 
-// .vendorChat {
-//   align-items: end;
-// }
+.riderChat {
+  align-items: start;
+}
+
+.vendorChat {
+  align-items: end;
+}
 
 .imgContainer {
   cursor: pointer;
@@ -177,7 +172,7 @@
     }
 
     &:disabled {
-      background: grey;
+      background: $FM_BG_GRAY2;
       opacity: 1;
     }
 
