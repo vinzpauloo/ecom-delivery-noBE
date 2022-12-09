@@ -1735,6 +1735,7 @@ const UpdateSuccessModal = (props: any) => {
   const { updateOrder } = useOrder();
 
   const handleClick = async () => {
+    const response = await updateOrder(updateModalShow.ID, "received");
     setUpdateModalShow({status: false, ID: ""})
   }
   return (
