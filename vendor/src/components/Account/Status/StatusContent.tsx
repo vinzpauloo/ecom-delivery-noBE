@@ -12,6 +12,19 @@ import statusIsDelivered from "../../../assets/images/delivered.png";
 import styles from "./StatusContent.module.scss";
 import Lottie from "lottie-react";
 import updateSuccess from "../../../assets/update-success.json";
+import Chat from "./Chat";
+
+import Pusher from "pusher-js";
+import * as PusherTypes from "pusher-js";
+
+var presenceChannel: PusherTypes.PresenceChannel;
+
+const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+const pusher = new Pusher(PUSHER_KEY, {
+  cluster: "ap1",
+});
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -37,9 +50,17 @@ type ForPreparingItem = {
   total_amount: number;
 };
 
+type TChat = {
+  created_at?: string;
+  from?: string;
+  message?: string;
+  to?: string;
+};
+
 const StatusContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForPreparingItem>();
   const [updateModalShow, setUpdateModalShow] = useState(false);
+  const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
   const { updateOrder, getOrdersById } = useOrder();
   const navigate = useNavigate();
 
@@ -53,6 +74,24 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     console.log("getOrdersById response", response);
     setStatus(response);
     setOrder(response);
+
+    // Initialize chat channel for merchant
+    const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
+    initializeChatChannel(merchantChatRoom, setRestaurantChat);
+  };
+
+  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+    const channelChat = pusher.subscribe(chatRoom);
+    channelChat.bind("Message-Event", (data: any) => {
+      const chatData = JSON.parse(data.message);
+      console.log("New restaurant chat!", chatData);
+      setChat((current: any) => {
+        if (current?.length) {
+          return [...current, chatData];
+        }
+        return [chatData];
+      });
+    });
   };
 
   const handleAccept = async (id: any) => {
@@ -117,6 +156,13 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
             </div>
           </Col>
         </Row>
+      </div>
+      <div className={styles.chatContainer}>
+        <Chat
+          orderId={id}
+          restaurantChat={restaurantChat}
+          setRestaurantChat={setRestaurantChat}
+        />
       </div>
       <UpdateSuccessModal
         show={updateModalShow}

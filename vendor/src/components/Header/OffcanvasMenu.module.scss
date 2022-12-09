@@ -1,19 +1,17 @@
-:global {
-  .offcanvas {
-    background: transparent;
-    border: none !important;
-    box-shadow: none;
-    width: auto !important;
-    height: auto;
-    top: 15px !important;
-    right: 15px !important;
+.offcanvas {
+  background: transparent;
+  border: none !important;
+  box-shadow: none;
+  width: auto !important;
+  height: auto;
+  top: 15px !important;
+  right: 15px !important;
 
-    .offcanvas-body {
-      background-color: #d9d9d9;
-      flex-grow: 0;
-      padding: 0;
-      width: auto;
-    }
+  .offcanvasBody {
+    background-color: #d9d9d9;
+    flex-grow: 0;
+    padding: 0;
+    width: auto;
   }
 }
 
