@@ -106,7 +106,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = React.useState(false);
 
   const [rider, setRider] = useState<TRider>();
-  const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
+
   const [riderChat, setRiderChat] = useState<TChat[]>();
 
   const { createMessage } = useChat();
@@ -186,10 +186,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
       initializeOrderChannel(orderRoom);
-
-      // Initialize chat channel for merchant
-      const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
-      initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
       // Initialize chat channel for rider
       const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
@@ -499,13 +495,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         </h6>
       </div> */}
       <div className={styles.chatContainer}>
-        <Chat
-          orderId={id}
-          restaurantChat={restaurantChat}
-          setRestaurantChat={setRestaurantChat}
-          riderChat={riderChat}
-          setRiderChat={setRiderChat}
-        />
+        <Chat orderId={id} riderChat={riderChat} setRiderChat={setRiderChat} />
       </div>
     </div>
   );
