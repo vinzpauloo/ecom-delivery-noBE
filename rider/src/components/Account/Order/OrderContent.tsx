@@ -4,7 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 
 import Modal from "react-bootstrap/Modal";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
@@ -19,17 +19,42 @@ import styles from "./OrderContent.module.scss";
 import { useOrders } from "../../../hooks/useOrders";
 import { useOrder } from "../../../hooks/useOrder";
 import { useRiderOTW } from "../../../hooks/useRiderOTW";
+import { useChat } from "../../../hooks/useChat";
 
-// import Pusher from "pusher-js";
-// import * as PusherTypes from "pusher-js";
+import Chat from "./Chat";
+import Pusher from "pusher-js";
+import * as PusherTypes from "pusher-js";
 
-// var presenceChannel: PusherTypes.PresenceChannel;
+var presenceChannel: PusherTypes.PresenceChannel;
 
-// const pusher = new Pusher("dda7bca342e12a644ba2", {
-//   cluster: "ap1",
-// });
+const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
+
+const pusher = new Pusher(PUSHER_KEY, {
+  cluster: "ap1",
+});
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
+
+interface ContainerProps {}
+
+type TChat = {
+  created_at?: string;
+  from?: string;
+  message?: string;
+  to?: string;
+};
+
+type TRider = {
+  order_id?: number;
+  rider_id?: number;
+  rider_name?: string;
+  rider_photo?: string;
+  rider_vehicle_brand?: string;
+  rider_vehicle_model?: string;
+  rider_average_rating?: number;
+  plate_number?: string;
+};
 
 type ForDeliveryItem = {
   created_at: string;
@@ -79,6 +104,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForDeliveryItem>();
   const [orderData, setOrderData] = useState<any>([]);
   const [modalShow, setModalShow] = React.useState(false);
+
+  const [rider, setRider] = useState<TRider>();
+  const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
+  const [riderChat, setRiderChat] = useState<TChat[]>();
+
+  const { createMessage } = useChat();
 
   const [products, setProducts] = useState<any>([]);
 
@@ -136,9 +167,74 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Get user order
       const response = await getOrdersById(id);
       console.log("getOrdersById response", response);
-      console.log(response.products);
+
+      const thisRider = {
+        order_id: response.id,
+        rider_id: response.rider_id,
+        rider_name: response.rider_name,
+        rider_photo: response.rider_photo,
+        rider_vehicle_brand: response.rider_vehicle_brand,
+        rider_vehicle_model: response.rider_vehicle_model,
+        rider_average_rating: response.rider_average_rating,
+        plate_number: response.plate_number,
+      };
+
       setOrder(response);
-      setProducts(response.products);
+      setRider(thisRider);
+
+      // Specific order channel
+      const channel = pusher.subscribe("Order-Channel-" + response.id);
+      channel.bind("Order-Updated-Event", (data: any) => {
+        const parsedData = JSON.parse(data.message);
+        console.log(data);
+        console.log(parsedData);
+
+        const status = parsedData.status;
+
+        const thisRider = {
+          order_id: parsedData.id,
+          rider_id: parsedData.rider_id,
+          rider_name: parsedData.rider_name,
+          rider_photo: parsedData.rider_photo,
+          rider_vehicle_brand: parsedData.rider_vehicle_brand,
+          rider_vehicle_model: parsedData.rider_vehicle_model,
+          rider_average_rating: parsedData.rider_average_rating,
+          plate_number: parsedData.plate_number,
+        };
+
+        setOrder({ ...parsedData, order_status: status });
+        setRider(thisRider);
+      });
+
+      // Specific chat channel for restaurant
+      const channelChat = pusher.subscribe(
+        `ChatRoom-C${response.customer_id}-Re${response.restaurant_id}`
+      );
+      channelChat.bind("Message-Event", (data: any) => {
+        const chatData = JSON.parse(data.message);
+        console.log("New restaurant chat!", chatData);
+        setRestaurantChat((current) => {
+          if (current?.length) {
+            return [...current, chatData];
+          }
+          return [chatData];
+        });
+      });
+
+      // Specific chat channel for rider
+      const channelChatRider = pusher.subscribe(
+        `ChatRoom-C${response.customer_id}-Ri${response.rider_id}`
+      );
+      channelChatRider.bind("Message-Event", (data: any) => {
+        const chatData = JSON.parse(data.message);
+        console.log("New rider chat!", chatData);
+        setRiderChat((current) => {
+          if (current?.length) {
+            return [...current, chatData];
+          }
+          return [chatData];
+        });
+      });
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -147,6 +243,31 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const response = await getOrdersByIdGuest(id, guestSession);
       console.log("getOrdersByIdGuest response", response);
       setOrder(response);
+
+      const channel = pusher.subscribe("Order-Channel-" + response.id);
+      channel.bind("Order-Updated-Event", (data: any) => {
+        const parsedData = JSON.parse(data.message);
+        // console.log(data);
+        console.log(parsedData);
+
+        const status = parsedData.status;
+
+        setOrder({ ...parsedData, order_status: status });
+
+        if (status != "canceled") {
+          const thisRider = {
+            order_id: parsedData.id,
+            rider_id: parsedData.rider_id,
+            rider_name: parsedData.rider_name,
+            rider_photo: parsedData.rider_photo,
+            rider_vehicle_brand: parsedData.rider_vehicle_brand,
+            rider_vehicle_model: parsedData.rider_vehicle_model,
+            rider_average_rating: parsedData.rider_average_rating,
+            plate_number: parsedData.plate_number,
+          };
+          setRider(thisRider);
+        }
+      });
     }
   };
 
@@ -399,6 +520,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           )}
         </h6>
       </div> */}
+      <div className={styles.chatContainer}>
+        <Chat
+          orderId={id}
+          restaurantChat={restaurantChat}
+          setRestaurantChat={setRestaurantChat}
+          riderChat={riderChat}
+          setRiderChat={setRiderChat}
+        />
+      </div>
     </div>
   );
 };

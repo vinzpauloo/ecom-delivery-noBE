@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Button } from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
+import { Col, Row, Button, Modal } from "react-bootstrap";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useOrder } from "../../../hooks/useOrder";
 
 import statusIsReceived from "../../../assets/images/order-received.png";
@@ -10,6 +10,8 @@ import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
 
 import styles from "./StatusContent.module.scss";
+import Lottie from "lottie-react";
+import updateSuccess from "../../../assets/update-success.json";
 
 interface ContainerProps {}
 
@@ -37,6 +39,7 @@ type ForPreparingItem = {
 
 const StatusContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForPreparingItem>();
+  const [updateModalShow, setUpdateModalShow] = useState(false);
   const { updateOrder, getOrdersById } = useOrder();
   const navigate = useNavigate();
 
@@ -54,11 +57,10 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 
   const handleAccept = async (id: any) => {
     console.log(id);
+    setUpdateModalShow(true)
     const response = await updateOrder(id, "preparing");
-    alert("updated status preparing successfully");
-    navigate("/account/for-delivery");
-
-    console.log(response);
+    // alert("updated status preparing successfully");
+    // navigate("/account/for-delivery");
   };
 
   useEffect(() => {
@@ -116,7 +118,57 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
           </Col>
         </Row>
       </div>
+      <UpdateSuccessModal
+        show={updateModalShow}
+        onHide={() => setUpdateModalShow(false)}
+        setUpdateModalShow={setUpdateModalShow}
+        updateModalShow={updateModalShow}
+      />
     </div>
+  );
+};
+
+const UpdateSuccessModal = (props: any) => {
+  const {setUpdateModalShow, updateModalShow} = props;
+
+  const handleClick = () => {
+    setUpdateModalShow(false)
+  }
+  return (
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={updateSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            Updated status preparing successfully
+          </p>
+
+          <Link
+            to="/account/for-delivery"
+            onClick={handleClick}
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Next
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 

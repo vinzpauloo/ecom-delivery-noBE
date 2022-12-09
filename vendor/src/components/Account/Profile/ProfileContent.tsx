@@ -221,12 +221,9 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log(data);
-    console.log("Requesting updateUser ...");
     const updatedData = { ...data, address: address, photo: images[0].photo };
 
     const response = await updateUser(updatedData);
-    console.log("updateUser response", images);
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);

@@ -14,7 +14,7 @@ import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
 import { useOrder } from "../../../hooks/useOrder";
-
+import updateSuccess from "../../../assets/update-success.json";
 import searchIcon from "../../../assets/images/searchIcon.png";
 import orderReceived from "../../../assets/images/order-received.png";
 import kitchenPrep from "../../../assets/images/kitchen-prep.png";
@@ -24,6 +24,7 @@ import riderDelivered from "../../../assets/images/delivered.png";
 import {getDate, getTime} from "../../../utils/formatDate";
 
 import styles from "./OrderContent.module.scss";
+import Lottie from "lottie-react";
 
 interface ContainerProps {}
 
@@ -128,7 +129,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow2, setModalShow2] = React.useState(false);
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
   const [search, setSearch] = useState("");
-
+  const [updateModalShow, setUpdateModalShow] = useState({status: false, ID: ""});
   const [isShown, setIsShown] = useState(true);
   const [show, setShow] = useState(true);
 
@@ -159,11 +160,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleAccept = async (id: string) => {
-    console.log(id);
-    const response = await updateOrder(id, "received");
-    console.log(response);
-    alert("You have accepted this order");
-    navigate(`/account/order/status/${id}`);
+    setUpdateModalShow({status: true, ID: id});
+    // const response = await updateOrder(id, "received");
+    // navigate(`/account/order/status/${id}`);
   };
 
   const handleClick = (e: any) => {
@@ -1721,7 +1720,58 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Col>
         </Row>
       </Col>
+      <UpdateSuccessModal
+        show={updateModalShow.status}
+        onHide={() => setUpdateModalShow({status: false, ID: ""})}
+        setUpdateModalShow={setUpdateModalShow}
+        updateModalShow={updateModalShow}
+      />
     </>
+  );
+};
+
+const UpdateSuccessModal = (props: any) => {
+  const {setUpdateModalShow, updateModalShow} = props;
+  const { updateOrder } = useOrder();
+
+  const handleClick = async () => {
+    setUpdateModalShow({status: false, ID: ""})
+  }
+  return (
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body>
+        <div className={`text-center p-4`}>
+          <Lottie animationData={updateSuccess} loop={true} />
+          <p className="mt-4" style={{ fontWeight: "400" }}>
+            You have accepted this order
+          </p>
+
+          <Link
+            to={`/account/order/status/${updateModalShow.ID}`}
+            onClick={handleClick}
+            className={`d-inline-block mt-2`}
+            style={{
+              background: "#e6b325",
+              border: "none",
+              borderRadius: "5px",
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "300",
+              width: "180px",
+              padding: "6px",
+              textDecoration: "none",
+              transition: "all 0.3s ease-in-out",
+            }}
+          >
+            Next
+          </Link>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 
