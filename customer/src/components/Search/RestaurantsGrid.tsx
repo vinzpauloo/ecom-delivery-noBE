@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import styles from "./RestaurantsGrid.module.scss";
 import { useRestaurants } from "../../hooks/useRestaurants";
+import { Button } from "react-bootstrap";
 
 type RestaurantsItem = {
   id: number;
@@ -16,19 +17,28 @@ interface ContainerProps {}
 
 const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   const [restaurants, setRestaurants] = useState<RestaurantsItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const { getRestaurantsByKeyword } = useRestaurants();
 
   // Get the params from the URL
   const { keyword } = useParams();
 
-  const loadRestaurants = async () => {
-    const response = await getRestaurantsByKeyword({ keywords: keyword });
+  const loadRestaurants = async (page: number) => {
+    const response = await getRestaurantsByKeyword({ page, keywords: keyword });
     console.log("getRestaurantsByKeyword response", response);
     setRestaurants(response);
   };
 
+  const handleLoadMore = () => {
+    console.log("load more ...");
+    loadRestaurants(currentPage + 1);
+    setCurrentPage(currentPage + 1);
+  };
+
   useEffect(() => {
-    loadRestaurants();
+    loadRestaurants(1);
   }, [keyword]);
 
   return (
@@ -64,6 +74,18 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
           </div>
         );
       })}
+
+      {restaurants?.length && currentPage < lastPage && (
+        <div className="text-center">
+          <Button
+            variant="primary"
+            className={styles.btnLoadMore}
+            onClick={handleLoadMore}
+          >
+            {!isLoading ? "Load more" : "Loading ..."}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

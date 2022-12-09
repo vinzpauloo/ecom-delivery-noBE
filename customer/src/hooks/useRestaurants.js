@@ -130,6 +130,7 @@ export const useRestaurants = () => {
       // END: Access search by keyword API
 
       if (response.status === 200) {
+        console.log(response);
         const { data } = response.data;
 
         return data;
