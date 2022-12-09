@@ -9,7 +9,7 @@ export const useUser = () => {
   const createUser = async (data) => {
     try {
       // START: Access register API
-      const endpoint = "api/customer/register";
+      const endpoint = "api/rider/register";
       const options = {
         headers: {
           "X-Authorization": calculateHash(endpoint, data),
