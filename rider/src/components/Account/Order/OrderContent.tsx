@@ -36,8 +36,6 @@ Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
-interface ContainerProps {}
-
 type TChat = {
   created_at?: string;
   from?: string;
@@ -144,6 +142,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const [productItem, setProductItem] = useState<TOrder>();
 
+  const [orderStatus, setOrderStatus] = useState("pending");
+
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
     console.log("getOrdersById response", response);
@@ -180,16 +180,18 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       };
 
       setOrder(response);
+      setOrderStatus(response.order_status);
       setRider(thisRider);
-      setProducts(response.products);
 
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
       initializeOrderChannel(orderRoom);
 
-      // Initialize chat channel for rider
-      const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-      initializeChatChannel(riderChatRoom, setRiderChat);
+      if (response.rider_id) {
+        // Initialize chat channel for rider
+        const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+        initializeChatChannel(riderChatRoom, setRiderChat);
+      }
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -197,11 +199,32 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Get guest order
       const response = await getOrdersByIdGuest(id, guestSession);
       console.log("getOrdersByIdGuest response", response);
+
+      const thisRider = {
+        order_id: response.id,
+        rider_id: response.rider_id,
+        rider_name: response.rider_name,
+        rider_photo: response.rider_photo,
+        rider_vehicle_brand: response.rider_vehicle_brand,
+        rider_vehicle_model: response.rider_vehicle_model,
+        rider_average_rating: response.rider_average_rating,
+        plate_number: response.plate_number,
+      };
+
       setOrder(response);
+      setOrderStatus(response.order_status);
+      setProducts(response.products);
+      setRider(thisRider);
 
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
       initializeOrderChannel(orderRoom);
+
+      if (response.rider_id) {
+        // Initialize chat channel for rider
+        const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+        initializeChatChannel(riderChatRoom, setRiderChat);
+      }
     }
   };
 
@@ -214,19 +237,32 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       console.log(parsedData);
 
       setOrder({ ...parsedData, order_status: status });
+      setOrderStatus(status);
 
-      if (status != "canceled") {
-        const thisRider = {
-          order_id: parsedData.id,
-          rider_id: parsedData.rider_id,
-          rider_name: parsedData.rider_name,
-          rider_photo: parsedData.rider_photo,
-          rider_vehicle_brand: parsedData.rider_vehicle_brand,
-          rider_vehicle_model: parsedData.rider_vehicle_model,
-          rider_average_rating: parsedData.rider_average_rating,
-          plate_number: parsedData.plate_number,
-        };
-        setRider(thisRider);
+      if (status == "canceled" || status == "delivered") {
+        pusher.unsubscribe(orderRoom);
+      } else {
+        if (status != "canceled") {
+          const thisRider = {
+            order_id: parsedData.id,
+            rider_id: parsedData.rider_id,
+            rider_name: parsedData.rider_name,
+            rider_photo: parsedData.rider_photo,
+            rider_vehicle_brand: parsedData.rider_vehicle_brand,
+            rider_vehicle_model: parsedData.rider_vehicle_model,
+            rider_average_rating: parsedData.rider_average_rating,
+            plate_number: parsedData.plate_number,
+          };
+          setRider(thisRider);
+        }
+
+        if (status == "otw") {
+          if (parsedData.rider_id) {
+            // Initialize chat channel for rider
+            const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+            initializeChatChannel(riderChatRoom, setRiderChat);
+          }
+        }
       }
     });
   };
@@ -495,7 +531,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         </h6>
       </div> */}
       <div className={styles.chatContainer}>
-        <Chat orderId={id} riderChat={riderChat} setRiderChat={setRiderChat} />
+        <Chat
+          orderId={id}
+          riderChat={riderChat}
+          setRiderChat={setRiderChat}
+          orderStatus={orderStatus}
+        />
       </div>
     </div>
   );
