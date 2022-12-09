@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {} from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import { useReviews } from "../../hooks/useReviews";
 import { useOrders } from "../../hooks/useOrders";
 
@@ -10,6 +10,9 @@ import FeedbackForm from "./FeedbackForm";
 import ReviewOptions from "./ReviewOptions";
 import StarRatings from "./StarRatings";
 import RestaurantHeader from "./RestaurantHeader";
+
+import Lottie from "lottie-react";
+import saveSuccess from "../../assets/save-success.json";
 
 interface ContainerProps {}
 
@@ -32,6 +35,7 @@ type TOrder = {
 };
 
 const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
+  const [modalShowSuccess, setModalShowSuccess] = useState(false);
   const [options, setOptions] = useState("");
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
@@ -90,10 +94,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
     console.log("reviewRider response", response);
 
     if (!response.error) {
-      alert(constants.form.success.reviewRestaurant);
-
-      //  Redirect to restaurant feedback list page
-      navigate(`/restaurants/${order?.restaurant_id}/feedback`);
+      setModalShowSuccess(true);
     } else {
       alert(response.error);
     }
@@ -113,6 +114,44 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
         setFeedback={setFeedback}
         handleOnClick={handleOnClick}
       />
+
+      <Modal
+        show={modalShowSuccess}
+        onHide={() => {
+          setModalShowSuccess(false);
+          navigate(`/restaurants/${order?.restaurant_id}/feedback`);
+        }}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4`}>
+            <Lottie animationData={saveSuccess} loop={true} />
+            <p className="mt-4" style={{ fontWeight: "400" }}>
+              Reset Password Successful
+            </p>
+
+            <Link
+              to="feedback"
+              className={`d-inline-block mt-2`}
+              style={{
+                background: "#e6b325",
+                border: "none",
+                borderRadius: "5px",
+                color: "black",
+                fontSize: "16px",
+                fontWeight: "300",
+                width: "180px",
+                padding: "6px",
+                textDecoration: "none",
+                transition: "all 0.3s ease-in-out",
+              }}
+            >
+              Back To Home
+            </Link>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
