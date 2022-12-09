@@ -153,14 +153,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (onImageUpload: any) => {
-    // console.log("!!!",onImageUpload)
-    // setDefaultImg((prev) => !prev);
+    console.log("aaaa");
+    setDefaultImg((prev) => !prev);
     onImageUpload();
   };
 
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
-    // setDefaultImg((prev) => !prev);
+    setDefaultImg((prev) => !prev);
   };
 
   const handleDelete = async (id: any) => {
@@ -356,327 +356,333 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                       </Form.Group>
                     </Col>
                   </Row>
-                  {/* FOR DESKTOP CODE START*/}
-                  <Row  className="d-none d-lg-flex ps-3 pe-3">
-                    <Col lg={4} xs={8}>
-                      <Col>
-                        <Form.Group className="position-relative">
-                          <Form.Label>Price in PH-PESO</Form.Label>
-                            <Form.Control
-                              className={styles.inputForm}
-                              type="text"
-                              required
-                              {...register("price")}
-                            />
-                        </Form.Group>
-                      </Col>
-                      <Col lg={4} xs={8}>
-                        <Form.Label>Category</Form.Label>
-                        <Form.Select
-                          {...register("categories")}
-                          className={styles.btnCategory}
-                        >
-                          {categories?.map((categories, index) => (
-                            <option value={categories.id} key={index}>
-                              {categories.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </Col>
-                      <Col lg={4} xs={8}>
-                        <Form.Label>Cuisine</Form.Label>
-                        <Form.Select
-                          {...register("cuisines")}
-                          className={styles.btnCuisine}
-                        >
-                          {cuisines?.map((cuisines, index) => (
-                            <option value={cuisines.id} key={index}>{cuisines.name}</option>
-                          ))}
-                        </Form.Select>
-                      </Col>
-                    </Col>
-                    <Col>
-                      <ImageUploading
-                        multiple
-                        value={images}
-                        onChange={onChange}
-                        maxNumber={maxNumber}
-                        dataURLKey="photo"
-                        maxFileSize={150000}
-                        acceptType={["jpg", "png"]}
-                      >
-                        {({
-                          imageList,
-                          onImageUpload,
-                          onImageRemoveAll,
-                          onImageUpdate,
-                          onImageRemove,
-                          isDragging,
-                          dragProps,
-                          errors,
-                        }) => (
-                          <div className={styles.imageUploadContent}>
-                            {imageList.length === 0 ? (
-                              <img
-                                src={DefaultThumbnail}
-                                style={{ width: "100px" }}
-                              />
-                            ) : (
-                              imageList.map((image, index) => (
-                                <div key={index} className={styles.imageItem}>
-                                  <img
-                                    src={image.photo}
-                                    className={styles.thumbNail}
-                                    alt="ad-img"
-                                  />
-                                  <Row  className={styles.btnUploadContent}>
-                                    <Form.Control
-                                      value="Remove"
-                                      type="button"
-                                      className={styles.btnUpload}
-                                      onClick={() =>
-                                        handleRemove(onImageRemove, index)
-                                      }
-                                    />
-                                  </Row>
-                                </div>
-                              ))
-                            )}
-                            <Row className={styles.btnUploadContent}>
+                  {
+                    window.innerWidth <= 990 ? (
+                      <>
+                        <Row className={`${styles.mobileRow} d-lg-none`}>
+                        <Col>
+                          <Form.Group className="position-relative">
+                              <Form.Label>Price</Form.Label>
                               <Form.Control
-                                value="Upload"
-                                className={styles.btnUpload}
-                                onClick={() => handleClick(onImageUpload)}
+                                className={styles.inputForm}
+                                type="text"
+                                required
+                                {...register("price")}
                               />
-                            </Row>
-                            {errors && (
-                              <div>
-                                {errors.maxNumber && (
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Number of selected images exceed.
-                                  </span>
-                                )}
-                                {errors.acceptType && (
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Your selected file type is not allowed.
-                                  </span>
-                                )}
-                                {errors.maxFileSize && (
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Selected file size exceeded 150 KB.
-                                  </span>
-                                )}
-                                {errors.resolution && (
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Selected file does not match the desired
-                                    resolution
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </ImageUploading>
-                    </Col>
-                  </Row>
-                  <Row  className="d-none d-lg-block ps-3 pe-3">
-                    <Col className={styles.availabilityContent}>
-                      <Row>
-                        <Form.Label>Availability</Form.Label>
-                      </Row>
-                      <Row className={styles.availability}>
-                        <Col>No</Col>
-                        <Col className={styles.switch}>
-                          <Form.Check
-                            type="switch"
-                            defaultChecked={checked}
-                            onChange={() => setChecked(!checked)}
-                          />
+                          </Form.Group>
                         </Col>
-                        <Col>Yes</Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  {/* FOR DESKTOP CODE END*/}
-                  {/* FOR MOBILE CODE START */}
-                  <Row className={`${styles.mobileRow} d-lg-none`}>
-                    <Col>
-                      <Form.Group className="position-relative">
-                          <Form.Label>Price</Form.Label>
-                          <Form.Control
-                            className={styles.inputForm}
-                            type="text"
-                            required
-                            {...register("price")}
-                          />
-                      </Form.Group>
-                    </Col>
-                    <Col className={styles.availabilityContent}>
-                      <Row>
-                        <Form.Label>Availability</Form.Label>
-                      </Row>
-                      <Row className={styles.availability}>
-                        <Col>No</Col>
-                        <Col className={styles.switch}>
-                          <Form.Check
-                            type="switch"
-                            defaultChecked={checked}
-                            onChange={() => setChecked(!checked)}
-                          />
-                        </Col>
-                        <Col>Yes</Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row className={`${styles.mobileRow} d-lg-none`}>
-                  <Col>
-                      <Form.Label>Cuisine</Form.Label>
-                      <Form.Select
-                        {...register("cuisines")}
-                        className={styles.btnCuisine}
-                      >
-                        {cuisines?.map((cuisines, index) => (
-                          <option value={cuisines.id} key={index}>{cuisines.name}</option>
-                        ))}
-                      </Form.Select>
-                    </Col>
-                    <Col>
-                        <Form.Label>Category</Form.Label>
-                        <Form.Select
-                          {...register("categories")}
-                          className={styles.btnCategory}
-                        >
-                          {categories?.map((categories, index) => (
-                            <option value={categories.id} key={index}>
-                              {categories.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </Col>
-                  </Row>
-                  <Row className="d-lg-none">
-                    <ImageUploading
-                      multiple
-                      value={images}
-                      onChange={onChange}
-                      maxNumber={maxNumber}
-                      dataURLKey="photo"
-                      maxFileSize={150000}
-                      acceptType={["jpg", "png"]}
-                    >
-                      {({
-                        imageList,
-                        onImageUpload,
-                        onImageRemoveAll,
-                        onImageUpdate,
-                        onImageRemove,
-                        isDragging,
-                        dragProps,
-                        errors,
-                      }) => (
-                        <div className={styles.imageUploadContent}>
-                          {imageList.length === 0 ? (
-                            <img
-                              src={DefaultThumbnail}
-                              style={{ width: "100px" }}
-                            />
-                          ) : (
-                            imageList.map((image, index) => (
-                              <div key={index} className={styles.imageItem}>
-                                <img
-                                  src={image.photo}
-                                  className={styles.thumbNail}
-                                  alt="ad-img"
-                                />
-                                <Row  className={styles.btnUploadContent}>
-                                  <Form.Control
-                                    value="Remove"
-                                    type="button"
-                                    className={styles.btnUpload}
-                                    onClick={() =>
-                                      handleRemove(onImageRemove, index)
-                                    }
-                                  />
-                                </Row>
-                              </div>
-                            ))
-                          )}
-                          <Row className={styles.btnUploadContent}>
-                            <Form.Control
-                              value="Upload"
-                              className={styles.btnUpload}
-                              onClick={() => handleClick(onImageUpload)}
-                            />
+                        <Col className={styles.availabilityContent}>
+                          <Row>
+                            <Form.Label>Availability</Form.Label>
                           </Row>
-                          {errors && (
-                            <div>
-                              {errors.maxNumber && (
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Number of selected images exceed.
-                                </span>
+                          <Row className={styles.availability}>
+                            <Col>No</Col>
+                            <Col className={styles.switch}>
+                              <Form.Check
+                                type="switch"
+                                defaultChecked={checked}
+                                onChange={() => setChecked(!checked)}
+                              />
+                            </Col>
+                            <Col>Yes</Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                      <Row className={`${styles.mobileRow} d-lg-none`}>
+                      <Col>
+                          <Form.Label>Cuisine</Form.Label>
+                          <Form.Select
+                            {...register("cuisines")}
+                            className={styles.btnCuisine}
+                          >
+                            {cuisines?.map((cuisines, index) => (
+                              <option value={cuisines.id} key={index}>{cuisines.name}</option>
+                            ))}
+                          </Form.Select>
+                        </Col>
+                        <Col>
+                            <Form.Label>Category</Form.Label>
+                            <Form.Select
+                              {...register("categories")}
+                              className={styles.btnCategory}
+                            >
+                              {categories?.map((categories, index) => (
+                                <option value={categories.id} key={index}>
+                                  {categories.name}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Col>
+                      </Row>
+                      <Row className="d-lg-none">
+                        <ImageUploading
+                          multiple
+                          value={images}
+                          onChange={onChange}
+                          maxNumber={maxNumber}
+                          dataURLKey="photo"
+                          maxFileSize={150000}
+                          acceptType={["jpg", "png"]}
+                        >
+                          {({
+                            imageList,
+                            onImageUpload,
+                            onImageRemoveAll,
+                            onImageUpdate,
+                            onImageRemove,
+                            isDragging,
+                            dragProps,
+                            errors,
+                          }) => (
+                            <div className={styles.imageUploadContent}>
+                              {imageList.length === 0 ? (
+                                <img
+                                  src={DefaultThumbnail}
+                                  style={{ width: "100px" }}
+                                />
+                              ) : (
+                                imageList.map((image, index) => (
+                                  <div key={index} className={styles.imageItem}>
+                                    <img
+                                      src={image.photo}
+                                      className={styles.thumbNail}
+                                      alt="ad-img"
+                                    />
+                                    <Row  className={styles.btnUploadContent}>
+                                      <Form.Control
+                                        value="Remove"
+                                        type="button"
+                                        className={styles.btnUpload}
+                                        onClick={() =>
+                                          handleRemove(onImageRemove, index)
+                                        }
+                                      />
+                                    </Row>
+                                  </div>
+                                ))
                               )}
-                              {errors.acceptType && (
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Your selected file type is not allowed.
-                                </span>
-                              )}
-                              {errors.maxFileSize && (
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Selected file size exceeded 150 KB.
-                                </span>
-                              )}
-                              {errors.resolution && (
-                                <span
-                                  style={{
-                                    color: "red",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Selected file does not match the desired
-                                  resolution
-                                </span>
+                              <Row className={styles.btnUploadContent}>
+                                <Form.Control
+                                  value="Upload"
+                                  className={styles.btnUpload}
+                                  onClick={() => handleClick(onImageUpload)}
+                                />
+                              </Row>
+                              {errors && (
+                                <div>
+                                  {errors.maxNumber && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Number of selected images exceed.
+                                    </span>
+                                  )}
+                                  {errors.acceptType && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Your selected file type is not allowed.
+                                    </span>
+                                  )}
+                                  {errors.maxFileSize && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file size exceeded 150 KB.
+                                    </span>
+                                  )}
+                                  {errors.resolution && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file does not match the desired
+                                      resolution
+                                    </span>
+                                  )}
+                                </div>
                               )}
                             </div>
                           )}
-                        </div>
-                      )}
-                    </ImageUploading>
-                  </Row>
+                        </ImageUploading>
+                      </Row>
+                      </>
+                    ) : (
+                      <>
+                      <Row  className="d-none d-lg-flex ps-3 pe-3">
+                      <Col lg={4} xs={8}>
+                        <Col>
+                          <Form.Group className="position-relative">
+                            <Form.Label>Price in PH-PESO</Form.Label>
+                              <Form.Control
+                                className={styles.inputForm}
+                                type="text"
+                                required
+                                {...register("price")}
+                              />
+                          </Form.Group>
+                        </Col>
+                        <Col lg={4} xs={8}>
+                          <Form.Label>Category</Form.Label>
+                          <Form.Select
+                            {...register("categories")}
+                            className={styles.btnCategory}
+                          >
+                            {categories?.map((categories, index) => (
+                              <option value={categories.id} key={index}>
+                                {categories.name}
+                              </option>
+                            ))}
+                          </Form.Select>
+                        </Col>
+                        <Col lg={4} xs={8}>
+                          <Form.Label>Cuisine</Form.Label>
+                          <Form.Select
+                            {...register("cuisines")}
+                            className={styles.btnCuisine}
+                          >
+                            {cuisines?.map((cuisines, index) => (
+                              <option value={cuisines.id} key={index}>{cuisines.name}</option>
+                            ))}
+                          </Form.Select>
+                        </Col>
+                      </Col>
+                      <Col>
+                        <ImageUploading
+                          multiple
+                          value={images}
+                          onChange={onChange}
+                          maxNumber={maxNumber}
+                          dataURLKey="photo"
+                          maxFileSize={150000}
+                          acceptType={["jpg", "png"]}
+                        >
+                          {({
+                            imageList,
+                            onImageUpload,
+                            onImageRemoveAll,
+                            onImageUpdate,
+                            onImageRemove,
+                            isDragging,
+                            dragProps,
+                            errors,
+                          }) => (
+                            <div className={styles.imageUploadContent}>
+                              {imageList.length === 0 ? (
+                                <img
+                                  src={DefaultThumbnail}
+                                  style={{ width: "100px" }}
+                                />
+                              ) : (
+                                imageList.map((image, index) => (
+                                  <div key={index} className={styles.imageItem}>
+                                    <img
+                                      src={image.photo}
+                                      className={styles.thumbNail}
+                                      alt="ad-img"
+                                    />
+                                    <Row  className={styles.btnUploadContent}>
+                                      <Form.Control
+                                        value="Remove"
+                                        type="button"
+                                        className={styles.btnUpload}
+                                        onClick={() =>
+                                          handleRemove(onImageRemove, index)
+                                        }
+                                      />
+                                    </Row>
+                                  </div>
+                                ))
+                              )}
+                              <Row className={styles.btnUploadContent}>
+                                <Form.Control
+                                  value="Upload"
+                                  className={styles.btnUpload}
+                                  onClick={() => handleClick(onImageUpload)}
+                                />
+                              </Row>
+                              {errors && (
+                                <div>
+                                  {errors.maxNumber && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Number of selected images exceed.
+                                    </span>
+                                  )}
+                                  {errors.acceptType && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Your selected file type is not allowed.
+                                    </span>
+                                  )}
+                                  {errors.maxFileSize && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file size exceeded 150 KB.
+                                    </span>
+                                  )}
+                                  {errors.resolution && (
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Selected file does not match the desired
+                                      resolution
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </ImageUploading>
+                      </Col>
+                    </Row>
+                    <Row  className="d-none d-lg-block ps-3 pe-3">
+                      <Col className={styles.availabilityContent}>
+                        <Row>
+                          <Form.Label>Availability</Form.Label>
+                        </Row>
+                        <Row className={styles.availability}>
+                          <Col>No</Col>
+                          <Col className={styles.switch}>
+                            <Form.Check
+                              type="switch"
+                              defaultChecked={checked}
+                              onChange={() => setChecked(!checked)}
+                            />
+                          </Col>
+                          <Col>Yes</Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    </>
+                    )
+                  } 
                   <Row  className="ps-3 pe-3">
                     <Col className="d-flex justify-content-center gap-2 mt-lg-4">
                       <Button
@@ -689,8 +695,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                         Add Menu
                       </Button>
                     </Col>
-                  </Row>
-                  {/* FOR MOBILE CODE END */}
+                  </Row>                 
                 </Form>
               </Modal.Body>
             </Modal>
