@@ -117,9 +117,11 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
       initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
-      // Initialize chat channel for rider
-      const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-      initializeChatChannel(riderChatRoom, setRiderChat);
+      if (response.rider_id) {
+        // Initialize chat channel for rider
+        const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+        initializeChatChannel(riderChatRoom, setRiderChat);
+      }
     } else {
       // Get guest session in local storage
       const guestSession = localStorage.getItem("guestSession");
@@ -157,6 +159,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           plate_number: parsedData.plate_number,
         };
         setRider(thisRider);
+      }
+
+      if (status == "otw") {
+        if (parsedData.rider_id) {
+          // Initialize chat channel for rider
+          const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+          initializeChatChannel(riderChatRoom, setRiderChat);
+        }
       }
     });
   };
