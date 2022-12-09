@@ -14,7 +14,7 @@ export const useChat = () => {
   const getMessagesRestaurant = async (id) => {
     try {
       // START: Access get message API
-      const endpoint = `api/chat/customer-restaurant/orders/${id}`;
+      const endpoint = `api/chat/customer-merchant/orders/${id}`;
       const options = {
         headers: {
           Authorization: authHeader(),

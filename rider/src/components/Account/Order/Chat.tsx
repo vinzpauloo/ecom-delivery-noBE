@@ -150,7 +150,7 @@ const Chat: React.FC<ContainerProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.chat}>
+      <div className={`d-flex justify-content-between`}>
         <div className={styles.riderChat}>
           {/* Chat image */}
           <div

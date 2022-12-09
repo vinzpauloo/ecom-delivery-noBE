@@ -20,9 +20,8 @@ interface ContainerProps {
 
 type TChat = {
   created_at?: string;
-  from?: string;
+  from_user_type?: string;
   message?: string;
-  to?: string;
 };
 
 const chatItem = () => {};
@@ -116,10 +115,9 @@ const Chat: React.FC<ContainerProps> = ({
     loadMessagesMerchant();
     loadMessagesRider();
 
-    // console.log(auth());
-
     // Set current user
-    setUser(`${auth()?.first_name} ${auth()?.last_name}`);
+    const userFullname = `${auth()?.first_name} ${auth()?.last_name}`;
+    setUser(userFullname);
   }, []);
 
   useEffect(() => {
@@ -127,7 +125,7 @@ const Chat: React.FC<ContainerProps> = ({
     setInitialLoadCounter(initialLoadCounter + 1);
 
     // Update blinking chat icons
-    if (!show && initialLoadCounter > 1) {
+    if (!show && initialLoadCounter > 1 && restaurantChat?.length) {
       console.log("setHasNewChatRestaurant === true");
       setHasNewChatRestaurant(true);
     }
@@ -140,7 +138,7 @@ const Chat: React.FC<ContainerProps> = ({
     setInitialLoadCounter(initialLoadCounter + 1);
 
     // Update blinking chat icons
-    if (!show && initialLoadCounter > 1) {
+    if (!show && initialLoadCounter > 1 && riderChat?.length) {
       console.log("setHasNewChatRestaurant === true");
       setHasNewChatRider(true);
     }
@@ -208,7 +206,9 @@ const Chat: React.FC<ContainerProps> = ({
                       return (
                         <li
                           key={index}
-                          className={`${user === item.from && styles.reply}`}
+                          className={`${
+                            item.from_user_type === "Customer" && styles.reply
+                          }`}
                         >
                           <p className={styles.time}>
                             {getDate(item.created_at || "")} |&nbsp;
@@ -222,7 +222,9 @@ const Chat: React.FC<ContainerProps> = ({
                       return (
                         <li
                           key={index}
-                          className={`${user === item.from && styles.reply}`}
+                          className={`${
+                            item.from_user_type === "Customer" && styles.reply
+                          }`}
                         >
                           <p className={styles.time}>
                             {getDate(item.created_at || "")} |&nbsp;
