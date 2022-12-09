@@ -96,13 +96,13 @@ export const useChat = () => {
     }
   };
 
-  const getMessagesRiderGuest = async (id, guestSession) => {
+  const getMessagesRiderGuest = async (id) => {
     try {
       // START: Access get message API
       const endpoint = `api/chat/guest-rider/orders/${id}`;
       const options = {
         headers: {
-          "X-Guest-Session": guestSession,
+          Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint),
         },
       };
@@ -156,13 +156,13 @@ export const useChat = () => {
     }
   };
 
-  const createMessageGuest = async (id, data, guestSession) => {
+  const createMessageGuest = async (id, data) => {
     try {
       // START: Access create message guest API
       const endpoint = `api/chat/guest/orders/${id}`;
       const options = {
         headers: {
-          "X-Guest-Session": guestSession,
+          Authorization: authHeader(),
           "X-Authorization": calculateHash(endpoint, data),
         },
       };

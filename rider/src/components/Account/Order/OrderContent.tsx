@@ -104,6 +104,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = React.useState(false);
 
   const [rider, setRider] = useState<TRider>();
+  const [isGuest, setIsGuest] = useState(false);
 
   const [riderChat, setRiderChat] = useState<TChat[]>();
 
@@ -163,68 +164,69 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const loadOrder = async () => {
-    if (isAuthenticated()) {
-      // Get user order
-      const response = await getOrdersById(id);
-      console.log("getOrdersById response", response);
+    // if (isAuthenticated()) {
+    //   const response = await getOrdersById(id);
+    //   console.log("getOrdersById response", response);
+    //   const thisRider = {
+    //     order_id: response.id,
+    //     rider_id: response.rider_id,
+    //     rider_name: response.rider_name,
+    //     rider_photo: response.rider_photo,
+    //     rider_vehicle_brand: response.rider_vehicle_brand,
+    //     rider_vehicle_model: response.rider_vehicle_model,
+    //     rider_average_rating: response.rider_average_rating,
+    //     plate_number: response.plate_number,
+    //   };
+    //   setOrder(response);
+    //   setOrderStatus(response.order_status);
+    //   setRider(thisRider);
+    //   setIsGuest(!!response.guest_id);
+    //   const orderRoom = `Order-Channel-${response.id}`;
+    //   initializeOrderChannel(orderRoom);
+    //   if (response.rider_id) {
+    //     const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+    //     initializeChatChannel(riderChatRoom, setRiderChat);
+    //   }
+    // } else {
+    //   const guestSession = localStorage.getItem("guestSession");
+    //   const response = await getOrdersByIdGuest(id, guestSession);
+    //   console.log("getOrdersByIdGuest response", response);
+    //   const thisRider = {
+    //     order_id: response.id,
+    //     rider_id: response.rider_id,
+    //     rider_name: response.rider_name,
+    //     rider_photo: response.rider_photo,
+    //     rider_vehicle_brand: response.rider_vehicle_brand,
+    //     rider_vehicle_model: response.rider_vehicle_model,
+    //     rider_average_rating: response.rider_average_rating,
+    //     plate_number: response.plate_number,
+    //   };
+    //   setOrder(response);
+    //   setOrderStatus(response.order_status);
+    //   setProducts(response.products);
+    //   setRider(thisRider);
+    //   const orderRoom = `Order-Channel-${response.id}`;
+    //   initializeOrderChannel(orderRoom);
+    //   if (response.rider_id) {
+    //     const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+    //     initializeChatChannel(riderChatRoom, setRiderChat);
+    //   }
+    // }
 
-      const thisRider = {
-        order_id: response.id,
-        rider_id: response.rider_id,
-        rider_name: response.rider_name,
-        rider_photo: response.rider_photo,
-        rider_vehicle_brand: response.rider_vehicle_brand,
-        rider_vehicle_model: response.rider_vehicle_model,
-        rider_average_rating: response.rider_average_rating,
-        plate_number: response.plate_number,
-      };
-
-      setOrder(response);
-      setOrderStatus(response.order_status);
-      setRider(thisRider);
-
-      // Initialize order channel
-      const orderRoom = `Order-Channel-${response.id}`;
-      initializeOrderChannel(orderRoom);
-
-      if (response.rider_id) {
-        // Initialize chat channel for rider
-        const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-        initializeChatChannel(riderChatRoom, setRiderChat);
-      }
+    const response = await getOrdersById(id);
+    console.log("getOrdersById response", !!response.guest_id);
+    setStatus(response);
+    setOrder(response);
+    setIsGuest(!!response.guest_id);
+    setProducts(response.products);
+    if (!!!response.guest_id) {
+      // Initialize chat channel for merchant
+      const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+      initializeChatChannel(riderChatRoom, setRiderChat);
     } else {
-      // Get guest session in local storage
-      const guestSession = localStorage.getItem("guestSession");
-
-      // Get guest order
-      const response = await getOrdersByIdGuest(id, guestSession);
-      console.log("getOrdersByIdGuest response", response);
-
-      const thisRider = {
-        order_id: response.id,
-        rider_id: response.rider_id,
-        rider_name: response.rider_name,
-        rider_photo: response.rider_photo,
-        rider_vehicle_brand: response.rider_vehicle_brand,
-        rider_vehicle_model: response.rider_vehicle_model,
-        rider_average_rating: response.rider_average_rating,
-        plate_number: response.plate_number,
-      };
-
-      setOrder(response);
-      setOrderStatus(response.order_status);
-      setProducts(response.products);
-      setRider(thisRider);
-
-      // Initialize order channel
-      const orderRoom = `Order-Channel-${response.id}`;
-      initializeOrderChannel(orderRoom);
-
-      if (response.rider_id) {
-        // Initialize chat channel for rider
-        const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
-        initializeChatChannel(riderChatRoom, setRiderChat);
-      }
+      // Initialize chat channel for merchant
+      const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+      initializeChatChannel(riderChatRoom, setRiderChat);
     }
   };
 
@@ -536,6 +538,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           riderChat={riderChat}
           setRiderChat={setRiderChat}
           orderStatus={orderStatus}
+          isGuest={isGuest}
         />
       </div>
     </div>

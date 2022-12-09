@@ -27,7 +27,7 @@ const Chat: React.FC<ContainerProps> = ({
   orderId,
   restaurantChat,
   setRestaurantChat,
-  isGuest
+  isGuest,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -37,7 +37,7 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRestaurant, setHasNewChatRestaurant] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  
+
   const {
     getMessagesRestaurant,
     getMessagesRestaurantGuest,
@@ -105,7 +105,6 @@ const Chat: React.FC<ContainerProps> = ({
     setRestaurantChat(response.data);
   };
 
-
   useEffect(() => {
     loadMessagesMerchant();
 
@@ -130,7 +129,6 @@ const Chat: React.FC<ContainerProps> = ({
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between">
-
         <div className={styles.vendorChat}>
           {/* Chat image */}
           <div
@@ -165,7 +163,7 @@ const Chat: React.FC<ContainerProps> = ({
           <Container fluid="md" onClick={containerClick}>
             <div className={`${styles.chatBox} ${styles[chatBoxClass]}`}>
               <ul>
-                {chatBoxClass === "right" && (
+                {chatBoxClass === "right" &&
                   restaurantChat?.map((item, index) => {
                     return (
                       <li
@@ -181,9 +179,7 @@ const Chat: React.FC<ContainerProps> = ({
                         <p className={styles.message}>{item.message}</p>
                       </li>
                     );
-                  })
-                )
-                 }
+                  })}
               </ul>
 
               <Form className={styles.form} onSubmit={handleSubmit}>

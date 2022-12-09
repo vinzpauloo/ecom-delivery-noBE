@@ -13,6 +13,7 @@ interface ContainerProps {
   riderChat?: TChat[];
   setRiderChat?: any;
   orderStatus?: string;
+  isGuest?: boolean;
 }
 
 type TChat = {
@@ -31,6 +32,7 @@ const Chat: React.FC<ContainerProps> = ({
   riderChat,
   setRiderChat,
   orderStatus,
+  isGuest,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -85,21 +87,24 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const handleSubmit = async () => {
+    console.log(isGuest);
     if (message.replace(/\s+/g, "")) {
       const data = {
-        to_user_type: "Customer",
+        to_user_type: isGuest ? "Guest" : "Customer",
         message,
       };
       console.log("submitting ...", data);
 
       setIsSending(true);
+      const response = await createMessage(orderId, data);
+      console.log(response);
 
-      if (isAuthenticated()) {
-        const response = await createMessage(orderId, data);
-        console.log(response);
-      } else {
-        const response = await createMessageGuest(orderId, data, guestSession);
-      }
+      // if (isAuthenticated()) {
+      //   const response = await createMessage(orderId, data);
+      //   console.log(response);
+      // } else {
+      //   const response = await createMessageGuest(orderId, data, guestSession);
+      // }
 
       setIsSending(false);
       setMessage("");
@@ -107,17 +112,22 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesRider = async () => {
-    if (isAuthenticated()) {
-      // Get authenticated user messages
-      const response = await getMessagesRider(orderId);
-      console.log("getMessagesRider response", response);
-      setRiderChat(response.data);
-    } else {
-      // Get guest user messages
-      const response = await getMessagesRiderGuest(orderId, guestSession);
-      console.log("getMessagesRider response", response);
-      setRiderChat(response.data);
-    }
+    // if (isAuthenticated()) {
+    //   // Get authenticated user messages
+    //   const response = await getMessagesRider(orderId);
+    //   console.log("getMessagesRider response", response);
+    //   setRiderChat(response.data);
+    // } else {
+    //   // Get guest user messages
+    //   const response = await getMessagesRiderGuest(orderId, guestSession);
+    //   console.log("getMessagesRider response", response);
+    //   setRiderChat(response.data);
+    // }
+    console.log(isGuest);
+    // Get authenticated user messages
+    const response = await getMessagesRider(orderId);
+    console.log("getMessagesRider response", response);
+    setRiderChat(response.data);
   };
 
   useEffect(() => {
@@ -144,40 +154,31 @@ const Chat: React.FC<ContainerProps> = ({
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between">
-        {orderStatus != "canceled" &&
+        {/* {orderStatus != "canceled" &&
           orderStatus != "pending" &&
           orderStatus != "delivered" && (
             <>
-              {orderStatus === "otw" && (
-                <div className={styles.riderChat}>
-                  {/* Chat image */}
-                  <div
-                    className={styles.imgContainer}
-                    onClick={() => handleShow("left")}
-                  >
-                    <img src={chatRider} className="img-fluid" alt="" />
-                    {hasNewChatRider && (
-                      <img
-                        src={chatRiderAlt}
-                        alt=""
-                        className={styles.altImg}
-                      />
-                    )}
-                  </div>
+              {orderStatus === "otw" && ( */}
+        <div className={styles.riderChat}>
+          {/* Chat image */}
+          <div
+            className={styles.imgContainer}
+            onClick={() => handleShow("left")}
+          >
+            <img src={chatRider} className="img-fluid" alt="" />
+            {hasNewChatRider && (
+              <img src={chatRiderAlt} alt="" className={styles.altImg} />
+            )}
+          </div>
 
-                  {/* Preview */}
-                  <div
-                    className={styles.preview}
-                    onClick={() => handleShow("left")}
-                  >
-                    <p>
-                      {riderChat && riderChat[riderChat.length - 1]?.message}
-                    </p>
-                  </div>
-                </div>
-              )}
+          {/* Preview */}
+          <div className={styles.preview} onClick={() => handleShow("left")}>
+            <p>{riderChat && riderChat[riderChat.length - 1]?.message}</p>
+          </div>
+        </div>
+        {/* )}
             </>
-          )}
+          )} */}
       </div>
 
       {/* Chat box offcanvas */}
