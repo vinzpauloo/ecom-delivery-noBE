@@ -67,6 +67,22 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     });
   };
 
+  const loadWeeklyStatistics = async (status: string) => {
+    const params = { status: status };
+    const response = await getWeeklyStatistics(params);
+    console.log("getWeeklyStatistics", response);
+    console.log(data2);
+    setData2({
+      labels: Object.keys(response),
+      datasets: [
+        {
+          ...data2.datasets[0],
+          data: Object.values(response),
+        },
+      ],
+    });
+  };
+
   const loadMonthlyStatistics = async (status: string) => {
     const params = { status: status };
     const response = await getMonthlyStatistics(params);
@@ -85,6 +101,7 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     loadDailyStatistics("daily");
+    loadWeeklyStatistics("weekly");
     loadMonthlyStatistics("monthly");
   }, []);
 
@@ -112,6 +129,19 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
     datasets: [
       {
         label: "Monthly",
+        data: [],
+        backgroundColor: ["#61481C"],
+        borderColor: ["#61481C"],
+        borderWidth: 1,
+      },
+    ],
+  });
+
+  const [data2, setData2] = useState({
+    labels: labels,
+    datasets: [
+      {
+        label: "Weekly",
         data: [],
         backgroundColor: ["#61481C"],
         borderColor: ["#61481C"],
@@ -153,12 +183,12 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
           </Modal.Title>
         </Modal.Header> */}
         <ModalBody className={`p-1`}>
-          {/* <Bar
-            data={weeklyData}
-            height="600px"
-            width="10px"
+          <Bar
+            data={data2}
+            height="400px"
+            width="300px"
             options={{ maintainAspectRatio: false }}
-          /> */}
+          />
         </ModalBody>
         <Modal.Footer>
           <button onClick={props.onHide}>Close</button>
