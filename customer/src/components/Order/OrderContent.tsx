@@ -203,9 +203,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
         if (status == "otw") {
           if (parsedData.rider_id) {
-            // Initialize chat channel for rider
-            const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
-            initializeChatChannel(riderChatRoom, setRiderChat);
+            if (isAuthenticated()) {
+              // Initialize chat channel for rider
+              const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+              initializeChatChannel(riderChatRoom, setRiderChat);
+            } else {
+              // Initialize chat channel for rider
+              const riderChatRoom = `ChatRoom-C${parsedData.guest_id}-R${parsedData.rider_id}`;
+              initializeChatChannel(riderChatRoom, setRiderChat);
+            }
           }
         }
       }
