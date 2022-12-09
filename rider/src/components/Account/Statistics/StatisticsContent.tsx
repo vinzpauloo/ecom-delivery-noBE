@@ -91,7 +91,9 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
 
+  //ChartJS start
   const labels: any = []; //Do not remove
+
   const [data, setData] = useState({
     labels: labels,
     datasets: [
@@ -117,6 +119,7 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
       },
     ],
   });
+  //ChartJS End
 
   function DailyModal(props: any) {
     return (
