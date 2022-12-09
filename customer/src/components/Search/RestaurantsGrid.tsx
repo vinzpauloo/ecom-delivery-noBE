@@ -75,16 +75,20 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
         );
       })}
 
-      {restaurants?.length && currentPage < lastPage && (
-        <div className="text-center">
-          <Button
-            variant="primary"
-            className={styles.btnLoadMore}
-            onClick={handleLoadMore}
-          >
-            {!isLoading ? "Load more" : "Loading ..."}
-          </Button>
-        </div>
+      {restaurants?.length ? (
+        currentPage < lastPage && (
+          <div className="text-center">
+            <Button
+              variant="primary"
+              className={styles.btnLoadMore}
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
+        )
+      ) : (
+        <h5 className="text-center">No restaurants found.</h5>
       )}
     </div>
   );
