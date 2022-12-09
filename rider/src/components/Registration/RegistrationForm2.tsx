@@ -253,7 +253,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={150000}
+            maxFileSize={1572864}
             // acceptType={["jpg", "png"]}
           >
             {({
@@ -335,7 +335,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                           fontWeight: "600",
                         }}
                       >
-                        Selected file size exceeded 150 KB.
+                        Selected file size exceeded 15 MB.
                       </span>
                     )}
                     {errors.resolution && (
