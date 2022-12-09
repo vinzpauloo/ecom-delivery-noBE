@@ -106,7 +106,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = React.useState(false);
 
   const [rider, setRider] = useState<TRider>();
-  const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
+
   const [riderChat, setRiderChat] = useState<TChat[]>();
 
   const { createMessage } = useChat();
@@ -135,7 +135,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "otw");
-    alert("updated status otw successfully");
+    // alert("updated status otw successfully");
     // navigate(`/account/orders/${id}/otw`);
 
     console.log(response);
@@ -154,7 +154,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "delivered");
-    alert("updated status delivered successfully");
+    // alert("updated status delivered successfully");
 
     navigate(`/account/order-history`);
 
@@ -186,10 +186,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
       initializeOrderChannel(orderRoom);
-
-      // Initialize chat channel for merchant
-      const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
-      initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
       // Initialize chat channel for rider
       const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
@@ -392,7 +388,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <Row>
               <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
                 <a
-                  href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes"
+                  href="https://waze.com/ul?q={Geo-address}&ll=14.55147636%2C121.02443576&navigate=yes"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -499,13 +495,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         </h6>
       </div> */}
       <div className={styles.chatContainer}>
-        <Chat
-          orderId={id}
-          restaurantChat={restaurantChat}
-          setRestaurantChat={setRestaurantChat}
-          riderChat={riderChat}
-          setRiderChat={setRiderChat}
-        />
+        <Chat orderId={id} riderChat={riderChat} setRiderChat={setRiderChat} />
       </div>
     </div>
   );

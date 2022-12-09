@@ -7,13 +7,10 @@ import { getDate, getTime } from "../../../utils/formatDate";
 import styles from "./Chat.module.scss";
 import chatRider from "../../../assets/images/chat-rider.png";
 import chatRiderAlt from "../../../assets/images/chat-rider-alt.png";
-import chatVendor from "../../../assets/images/chat-vendor.png";
-import chatVendorAlt from "../../../assets/images/chat-vendor-alt.png";
 
 interface ContainerProps {
   orderId?: string;
-  restaurantChat?: TChat[];
-  setRestaurantChat?: any;
+
   riderChat?: TChat[];
   setRiderChat?: any;
 }
@@ -28,8 +25,7 @@ const chatItem = () => {};
 
 const Chat: React.FC<ContainerProps> = ({
   orderId,
-  restaurantChat,
-  setRestaurantChat,
+
   riderChat,
   setRiderChat,
 }) => {
@@ -38,11 +34,11 @@ const Chat: React.FC<ContainerProps> = ({
   const [user, setUser] = useState("");
   const [show, setShow] = useState(false);
   const [initialLoadCounter, setInitialLoadCounter] = useState(0);
-  const [hasNewChatRestaurant, setHasNewChatRestaurant] = useState(false);
+
   const [hasNewChatRider, setHasNewChatRider] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  const { getMessagesRestaurant, getMessagesRider, createMessage } = useChat();
+  const { getMessagesRider, createMessage } = useChat();
   const auth = useAuthUser();
 
   const containerClick = (e: any) => {
@@ -65,8 +61,7 @@ const Chat: React.FC<ContainerProps> = ({
     setShow(true);
 
     // Update blinking chat icons
-    if (direction === "right") setHasNewChatRestaurant(false);
-    else setHasNewChatRider(false);
+    if (direction === "left") setHasNewChatRider(false);
   };
 
   const handleOnShow = () => {
@@ -83,7 +78,7 @@ const Chat: React.FC<ContainerProps> = ({
   const handleSubmit = async () => {
     if (message.replace(/\s+/g, "")) {
       const data = {
-        to_user_type: chatBoxClass === "right" ? "Merchant" : "Rider",
+        to_user_type: "Customer",
         message,
       };
       console.log("submitting ...", data);
@@ -97,13 +92,6 @@ const Chat: React.FC<ContainerProps> = ({
     }
   };
 
-  const loadMessagesMerchant = async () => {
-    // Get user messages
-    const response = await getMessagesRestaurant(orderId);
-    console.log("getMessagesRestaurant response", response);
-    setRestaurantChat(response.data);
-  };
-
   const loadMessagesRider = async () => {
     // Get user messages
     const response = await getMessagesRider(orderId);
@@ -112,7 +100,6 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   useEffect(() => {
-    loadMessagesMerchant();
     loadMessagesRider();
 
     // console.log(auth());
@@ -127,21 +114,8 @@ const Chat: React.FC<ContainerProps> = ({
     setInitialLoadCounter(initialLoadCounter + 1);
 
     // Update blinking chat icons
-    if (!show && initialLoadCounter > 1 && restaurantChat?.length) {
-      console.log("setHasNewChatRestaurant === true");
-      setHasNewChatRestaurant(true);
-    }
-
-    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-  }, [restaurantChat]);
-
-  useEffect(() => {
-    // Mark initial load as done
-    setInitialLoadCounter(initialLoadCounter + 1);
-
-    // Update blinking chat icons
     if (!show && initialLoadCounter > 1) {
-      console.log("setHasNewChatRestaurant === true");
+      console.log("setHasNewChatRider === true");
       setHasNewChatRider(true);
     }
 
@@ -168,27 +142,6 @@ const Chat: React.FC<ContainerProps> = ({
             <p>{riderChat && riderChat[riderChat.length - 1]?.message}</p>
           </div>
         </div>
-
-        {/* <div className={styles.vendorChat}>
-          Chat image
-          <div
-            className={styles.imgContainer}
-            onClick={() => handleShow("right")}
-          >
-            <img src={chatVendor} className="img-fluid" alt="" />
-            {hasNewChatRestaurant && (
-              <img src={chatVendorAlt} alt="" className={styles.altImg} />
-            )}
-          </div>
-
-          Preview
-          <div className={styles.preview} onClick={() => handleShow("right")}>
-            <p>
-              {restaurantChat &&
-                restaurantChat[restaurantChat.length - 1]?.message}
-            </p>
-          </div>
-        </div> */}
       </div>
 
       {/* Chat box offcanvas */}
@@ -203,39 +156,23 @@ const Chat: React.FC<ContainerProps> = ({
           <Container fluid="md" onClick={containerClick}>
             <div className={`${styles.chatBox} ${styles[chatBoxClass]}`}>
               <ul>
-                {chatBoxClass === "right"
-                  ? restaurantChat?.map((item, index) => {
-                      return (
-                        <li
-                          key={index}
-                          className={`${
-                            item.from_user_type === "Customer" && styles.reply
-                          }`}
-                        >
-                          <p className={styles.time}>
-                            {getDate(item.created_at || "")} |&nbsp;
-                            {getTime(item.created_at || "")}
-                          </p>
-                          <p className={styles.message}>{item.message}</p>
-                        </li>
-                      );
-                    })
-                  : riderChat?.map((item, index) => {
-                      return (
-                        <li
-                          key={index}
-                          className={`${
-                            item.from_user_type === "Customer" && styles.reply
-                          }`}
-                        >
-                          <p className={styles.time}>
-                            {getDate(item.created_at || "")} |&nbsp;
-                            {getTime(item.created_at || "")}
-                          </p>
-                          <p className={styles.message}>{item.message}</p>
-                        </li>
-                      );
-                    })}
+                {chatBoxClass === "left" &&
+                  riderChat?.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`${
+                          item.from_user_type === "Rider" && styles.reply
+                        }`}
+                      >
+                        <p className={styles.time}>
+                          {getDate(item.created_at || "")} |&nbsp;
+                          {getTime(item.created_at || "")}
+                        </p>
+                        <p className={styles.message}>{item.message}</p>
+                      </li>
+                    );
+                  })}
               </ul>
 
               <Form className={styles.form} onSubmit={handleSubmit}>

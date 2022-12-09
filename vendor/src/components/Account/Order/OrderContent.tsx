@@ -21,7 +21,7 @@ import kitchenPrep from "../../../assets/images/kitchen-prep.png";
 import riderOTW from "../../../assets/images/rider-on-the-way.png";
 import riderDelivered from "../../../assets/images/delivered.png";
 
-import {getDate, getTime} from "../../../utils/formatDate";
+import { getDate, getTime } from "../../../utils/formatDate";
 
 import styles from "./OrderContent.module.scss";
 import Lottie from "lottie-react";
@@ -129,7 +129,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow2, setModalShow2] = React.useState(false);
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
   const [search, setSearch] = useState("");
-  const [updateModalShow, setUpdateModalShow] = useState({status: false, ID: ""});
+  const [updateModalShow, setUpdateModalShow] = useState({
+    status: false,
+    ID: "",
+  });
   const [isShown, setIsShown] = useState(true);
   const [show, setShow] = useState(true);
 
@@ -160,8 +163,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleAccept = async (id: string) => {
-    setUpdateModalShow({status: true, ID: id});
-    // const response = await updateOrder(id, "received");
+    setUpdateModalShow({ status: true, ID: id });
+    const response = await updateOrder(id, "received");
     // navigate(`/account/order/status/${id}`);
   };
 
@@ -183,11 +186,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setProductItem(response);
     };
 
-    const decoratedOnClick = useAccordionButton(eventKey, () =>{
-        handleClick(eventKey)
-        handleClickItem(eventKey)
-      }
-    );
+    const decoratedOnClick = useAccordionButton(eventKey, () => {
+      handleClick(eventKey);
+      handleClickItem(eventKey);
+    });
 
     return (
       <button
@@ -605,28 +607,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Row>
                             <p>
                               Pick-up address:
-                              <span>
-                                {item.restaurant_address}
-                              </span>
+                              <span>{item.restaurant_address}</span>
                             </p>
                           </Row>
                           <Row>
                             <p>
                               Delivery Address:
-                              <span>
-                                {item.order_address}
-                              </span>
+                              <span>{item.order_address}</span>
                             </p>
                           </Row>
                           <Row>
                             <Col>
                               <p>
-                                Order Placed Time: <span>{getTime(item.created_at)}</span>
+                                Order Placed Time:{" "}
+                                <span>{getTime(item.created_at)}</span>
                               </p>
                             </Col>
                             <Col>
                               <p>
-                                Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                                Order Delivered Time:{" "}
+                                <span>{getTime(item.updated_at)}</span>
                               </p>
                             </Col>
                           </Row>
@@ -635,7 +635,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             <Col>
                               <p>Order Details:</p>
                               <ul>
-                                {productItem?.products.map((item,index) => (
+                                {productItem?.products.map((item, index) => (
                                   <li key={index}>
                                     {item.quantity}x {item.name}
                                   </li>
@@ -726,13 +726,11 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                           </Row>
                           <div className={styles.declineAccept}>
-                            {
-                              item?.order_status === "pending" ? (
+                            {item?.order_status === "pending" ? (
                               <Button onClick={() => handleAccept(item.id)}>
                                 Accept
                               </Button>
-                              ) : null
-                            }
+                            ) : null}
                           </div>
                         </div>
                       </Accordion.Body>
@@ -751,35 +749,34 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>{item.customer_mobile}</span>
+                              Contact Number:{" "}
+                              <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
                         <Row>
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <p>
                             Delivery Address:
-                            <span>
-                              {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <Col>
                             <p>
-                              Order Placed Time: <span>{getTime(item.created_at)}</span>
+                              Order Placed Time:{" "}
+                              <span>{getTime(item.created_at)}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                              Order Delivered Time:{" "}
+                              <span>{getTime(item.updated_at)}</span>
                             </p>
                           </Col>
                         </Row>
@@ -800,24 +797,21 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>{item.customer_mobile}</span>
+                              Contact Number:{" "}
+                              <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
                         <Row className="p-1">
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row className="p-1">
                           <p>
                             Delivery Address:
-                            <span>
-                              {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row className="p-1">
@@ -828,7 +822,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{item.updated_at}</span>
+                              Order Delivered Time:{" "}
+                              <span>{item.updated_at}</span>
                             </p>
                           </Col>
                         </Row>
@@ -853,7 +848,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 <Accordion className={styles.test} flush key={index}>
                   <Accordion.Item eventKey={item.id}>
                     <div className={styles.orderDiv}>
-                      <CustomToggle eventKey={item.id} >
+                      <CustomToggle eventKey={item.id}>
                         Order ID: {item.id}
                       </CustomToggle>
                       <div
@@ -883,28 +878,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Row>
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <p>
                             Delivery Address:
-                            <span>
-                              {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <Col>
                             <p>
-                              Order Placed Time: <span>{getTime(item.created_at)}</span>
+                              Order Placed Time:{" "}
+                              <span>{getTime(item.created_at)}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                              Order Delivered Time:{" "}
+                              <span>{getTime(item.updated_at)}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1004,13 +997,11 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                         </Row>
                         <div className={styles.declineAccept}>
-                          {
-                            item?.order_status === "pending" ? (
+                          {item?.order_status === "pending" ? (
                             <Button onClick={() => handleAccept(item.id)}>
                               Accept
                             </Button>
-                            ) : null
-                          }
+                          ) : null}
                         </div>
                       </div>
                     </Accordion.Body>
@@ -1036,28 +1027,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row>
                         <p>
                           Pick-up address:
-                          <span>
-                            {item.restaurant_address}
-                          </span>
+                          <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row>
                         <p>
                           Delivery Address:
-                          <span>
-                            {item.order_address}
-                          </span>
+                          <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row>
                         <Col>
                           <p>
-                            Order Placed Time: <span>{getTime(item.created_at)}</span>
+                            Order Placed Time:{" "}
+                            <span>{getTime(item.created_at)}</span>
                           </p>
                         </Col>
                         <Col>
                           <p>
-                            Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                            Order Delivered Time:{" "}
+                            <span>{getTime(item.updated_at)}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1085,28 +1074,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row className="p-1">
                         <p>
                           Pick-up address:
-                          <span>
-                            {item.restaurant_address}
-                          </span>
+                          <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
                         <p>
                           Delivery Address:
-                          <span>
-                            {item.order_address}
-                          </span>
+                          <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
                         <Col>
                           <p>
-                            Order Placed Time: <span>{getTime(item.created_at)}</span>
+                            Order Placed Time:{" "}
+                            <span>{getTime(item.created_at)}</span>
                           </p>
                         </Col>
                         <Col>
                           <p>
-                            Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                            Order Delivered Time:{" "}
+                            <span>{getTime(item.updated_at)}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1172,28 +1159,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Row>
                             <p>
                               Pick-up address:
-                              <span>
-                                {item.restaurant_address}
-                              </span>
+                              <span>{item.restaurant_address}</span>
                             </p>
                           </Row>
                           <Row>
                             <p>
                               Delivery Address:
-                              <span>
-                                {item.order_address}
-                              </span>
+                              <span>{item.order_address}</span>
                             </p>
                           </Row>
                           <Row>
                             <Col>
                               <p>
-                                Order Placed Time: <span>{getTime(item.created_at)}</span>
+                                Order Placed Time:{" "}
+                                <span>{getTime(item.created_at)}</span>
                               </p>
                             </Col>
                             <Col>
                               <p>
-                                Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                                Order Delivered Time:{" "}
+                                <span>{getTime(item.updated_at)}</span>
                               </p>
                             </Col>
                           </Row>
@@ -1291,13 +1276,11 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                           </Row>
                           <div className={styles.declineAccept}>
-                            {
-                              item?.order_status === "pending" ? (
+                            {item?.order_status === "pending" ? (
                               <Button onClick={() => handleAccept(item.id)}>
                                 Accept
                               </Button>
-                              ) : null
-                            }
+                            ) : null}
                           </div>
                         </div>
                       </Accordion.Body>
@@ -1316,35 +1299,34 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>{item.customer_mobile}</span>
+                              Contact Number:{" "}
+                              <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
                         <Row>
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <p>
                             Delivery Address:
-                            <span>
-                              {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <Col>
                             <p>
-                              Order Placed Time: <span>{getTime(item.created_at)}</span>
+                              Order Placed Time:{" "}
+                              <span>{getTime(item.created_at)}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                              Order Delivered Time:{" "}
+                              <span>{getTime(item.updated_at)}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1365,35 +1347,34 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number: <span>{item.customer_mobile}</span>
+                              Contact Number:{" "}
+                              <span>{item.customer_mobile}</span>
                             </p>
                           </Col>
                         </Row>
                         <Row className="p-1">
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row className="p-1">
                           <p>
                             Delivery Address:
-                            <span>
-                              {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row className="p-1">
                           <Col>
                             <p>
-                              Order Placed Time: <span>{getTime(item.created_at)}</span>
+                              Order Placed Time:{" "}
+                              <span>{getTime(item.created_at)}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                              Order Delivered Time:{" "}
+                              <span>{getTime(item.updated_at)}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1450,28 +1431,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Row>
                           <p>
                             Pick-up address:
-                            <span>
-                              {item.restaurant_address}
-                            </span>
+                            <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <p>
                             Delivery Address:
-                            <span>
-                            {item.order_address}
-                            </span>
+                            <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <Col>
                             <p>
-                              Order Placed Time: <span>{getTime(item.created_at)}</span>
+                              Order Placed Time:{" "}
+                              <span>{getTime(item.created_at)}</span>
                             </p>
                           </Col>
                           <Col>
                             <p>
-                              Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                              Order Delivered Time:{" "}
+                              <span>{getTime(item.updated_at)}</span>
                             </p>
                           </Col>
                         </Row>
@@ -1569,13 +1548,11 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Col>
                         </Row>
                         <div className={styles.declineAccept}>
-                          {
-                            item?.order_status === "pending" ? (
+                          {item?.order_status === "pending" ? (
                             <Button onClick={() => handleAccept(item.id)}>
                               Accept
                             </Button>
-                            ) : null
-                          }
+                          ) : null}
                         </div>
                       </div>
                     </Accordion.Body>
@@ -1601,28 +1578,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row>
                         <p>
                           Pick-up address:
-                          <span>
-                          {item.restaurant_address}
-                          </span>
+                          <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row>
                         <p>
                           Delivery Address:
-                          <span>
-                          {item.order_address}
-                          </span>
+                          <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row>
                         <Col>
                           <p>
-                            Order Placed Time: <span>{getTime(item.created_at)}</span>
+                            Order Placed Time:{" "}
+                            <span>{getTime(item.created_at)}</span>
                           </p>
                         </Col>
                         <Col>
                           <p>
-                            Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                            Order Delivered Time:{" "}
+                            <span>{getTime(item.updated_at)}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1650,28 +1625,26 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row className="p-1">
                         <p>
                           Pick-up address:
-                          <span>
-                          {item.restaurant_address}
-                          </span>
+                          <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
                         <p>
                           Delivery Address:
-                          <span>
-                          {item.order_address}
-                          </span>
+                          <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
                         <Col>
                           <p>
-                            Order Placed Time: <span>{getTime(item.created_at)}</span>
+                            Order Placed Time:{" "}
+                            <span>{getTime(item.created_at)}</span>
                           </p>
                         </Col>
                         <Col>
                           <p>
-                            Order Delivered Time: <span>{getTime(item.updated_at)}</span>
+                            Order Delivered Time:{" "}
+                            <span>{getTime(item.updated_at)}</span>
                           </p>
                         </Col>
                       </Row>
@@ -1722,7 +1695,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       </Col>
       <UpdateSuccessModal
         show={updateModalShow.status}
-        onHide={() => setUpdateModalShow({status: false, ID: ""})}
+        onHide={() => setUpdateModalShow({ status: false, ID: "" })}
         setUpdateModalShow={setUpdateModalShow}
         updateModalShow={updateModalShow}
       />
@@ -1731,19 +1704,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 };
 
 const UpdateSuccessModal = (props: any) => {
-  const {setUpdateModalShow, updateModalShow} = props;
+  const { setUpdateModalShow, updateModalShow } = props;
   const { updateOrder } = useOrder();
 
   const handleClick = async () => {
-    const response = await updateOrder(updateModalShow.ID, "received");
-    setUpdateModalShow({status: false, ID: ""})
-  }
+    // const response = await updateOrder(updateModalShow.ID, "received");
+    setUpdateModalShow({ status: false, ID: "" });
+  };
   return (
-    <Modal
-      {...props}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
         <div className={`text-center p-4`}>
           <Lottie animationData={updateSuccess} loop={true} />
