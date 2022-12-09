@@ -195,11 +195,14 @@ const Chat: React.FC<ContainerProps> = ({
                   >
                     <img src={chatRider} className="img-fluid" alt="" />
                     {hasNewChatRider && (
-                      <img
-                        src={chatRiderAlt}
-                        alt=""
-                        className={styles.altImg}
-                      />
+                      <>
+                        <img
+                          src={chatRiderAlt}
+                          alt=""
+                          className={styles.altImg}
+                        />
+                        <span className={styles.dot}></span>
+                      </>
                     )}
                   </div>
 
@@ -223,7 +226,14 @@ const Chat: React.FC<ContainerProps> = ({
                 >
                   <img src={chatVendor} className="img-fluid" alt="" />
                   {hasNewChatRestaurant && (
-                    <img src={chatVendorAlt} alt="" className={styles.altImg} />
+                    <>
+                      <img
+                        src={chatVendorAlt}
+                        alt=""
+                        className={styles.altImg}
+                      />
+                      <span className={styles.dot}></span>
+                    </>
                   )}
                 </div>
 
