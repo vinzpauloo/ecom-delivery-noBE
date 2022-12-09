@@ -260,7 +260,9 @@ const Chat: React.FC<ContainerProps> = ({
                         <li
                           key={index}
                           className={`${
-                            item.from_user_type === "Customer" && styles.reply
+                            (item.from_user_type === "Customer" ||
+                              item.from_user_type === "Guest") &&
+                            styles.reply
                           }`}
                         >
                           <p className={styles.time}>
@@ -276,7 +278,9 @@ const Chat: React.FC<ContainerProps> = ({
                         <li
                           key={index}
                           className={`${
-                            item.from_user_type === "Customer" && styles.reply
+                            (item.from_user_type === "Customer" ||
+                              item.from_user_type === "Guest") &&
+                            styles.reply
                           }`}
                         >
                           <p className={styles.time}>
