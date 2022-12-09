@@ -209,7 +209,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               initializeChatChannel(riderChatRoom, setRiderChat);
             } else {
               // Initialize chat channel for rider
-              const riderChatRoom = `ChatRoom-C${parsedData.guest_id}-R${parsedData.rider_id}`;
+              const riderChatRoom = `ChatRoom-G${parsedData.guest_id}-R${parsedData.rider_id}`;
               initializeChatChannel(riderChatRoom, setRiderChat);
             }
           }
