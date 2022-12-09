@@ -111,18 +111,23 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setOrderStatus(response.order_status);
       setRider(thisRider);
 
-      // Initialize order channel
-      const orderRoom = `Order-Channel-${response.id}`;
-      initializeOrderChannel(orderRoom);
+      if (
+        response.order_status != "canceled" &&
+        response.order_status != "delivered"
+      ) {
+        // Initialize order channel
+        const orderRoom = `Order-Channel-${response.id}`;
+        initializeOrderChannel(orderRoom);
 
-      // Initialize chat channel for merchant
-      const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
-      initializeChatChannel(merchantChatRoom, setRestaurantChat);
+        // Initialize chat channel for merchant
+        const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
+        initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
-      if (response.rider_id) {
-        // Initialize chat channel for rider
-        const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-        initializeChatChannel(riderChatRoom, setRiderChat);
+        if (response.rider_id) {
+          // Initialize chat channel for rider
+          const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+          initializeChatChannel(riderChatRoom, setRiderChat);
+        }
       }
     } else {
       // Get guest session in local storage
@@ -147,18 +152,23 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setOrderStatus(response.order_status);
       setRider(thisRider);
 
-      // Initialize order channel
-      const orderRoom = `Order-Channel-${response.id}`;
-      initializeOrderChannel(orderRoom);
+      if (
+        response.order_status != "canceled" &&
+        response.order_status != "delivered"
+      ) {
+        // Initialize order channel
+        const orderRoom = `Order-Channel-${response.id}`;
+        initializeOrderChannel(orderRoom);
 
-      // Initialize chat channel for merchant
-      const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
-      initializeChatChannel(merchantChatRoom, setRestaurantChat);
+        // Initialize chat channel for merchant
+        const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
+        initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
-      if (response.rider_id) {
-        // Initialize chat channel for rider
-        const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
-        initializeChatChannel(riderChatRoom, setRiderChat);
+        if (response.rider_id) {
+          // Initialize chat channel for rider
+          const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
+          initializeChatChannel(riderChatRoom, setRiderChat);
+        }
       }
     }
   };
