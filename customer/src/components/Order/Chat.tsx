@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Container, Form, Offcanvas } from "react-bootstrap";
-import { useAuthUser } from "react-auth-kit";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 import { useChat } from "../../hooks/useChat";
 import { getDate, getTime } from "../../utils/formatDate";
 
@@ -16,6 +16,7 @@ interface ContainerProps {
   setRestaurantChat?: any;
   riderChat?: TChat[];
   setRiderChat?: any;
+  orderStatus?: string;
 }
 
 type TChat = {
@@ -26,12 +27,16 @@ type TChat = {
 
 const chatItem = () => {};
 
+// Get guest session in local storage
+const guestSession = localStorage.getItem("guestSession");
+
 const Chat: React.FC<ContainerProps> = ({
   orderId,
   restaurantChat,
   setRestaurantChat,
   riderChat,
   setRiderChat,
+  orderStatus,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -42,8 +47,16 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRider, setHasNewChatRider] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  const { getMessagesRestaurant, getMessagesRider, createMessage } = useChat();
+  const {
+    getMessagesRestaurant,
+    getMessagesRestaurantGuest,
+    getMessagesRider,
+    getMessagesRiderGuest,
+    createMessage,
+    createMessageGuest,
+  } = useChat();
   const auth = useAuthUser();
+  const isAuthenticated = useIsAuthenticated();
 
   const containerClick = (e: any) => {
     e.preventDefault();
@@ -89,8 +102,14 @@ const Chat: React.FC<ContainerProps> = ({
       console.log("submitting ...", data);
 
       setIsSending(true);
-      const response = await createMessage(orderId, data);
-      console.log(response);
+
+      if (isAuthenticated()) {
+        const response = await createMessage(orderId, data);
+        // console.log(response);
+      } else {
+        const response = await createMessageGuest(orderId, data, guestSession);
+        // console.log(response);
+      }
 
       setIsSending(false);
       setMessage("");
@@ -98,17 +117,31 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesMerchant = async () => {
-    // Get user messages
-    const response = await getMessagesRestaurant(orderId);
-    console.log("getMessagesRestaurant response", response);
-    setRestaurantChat(response.data);
+    if (isAuthenticated()) {
+      // Get authenticated user messages
+      const response = await getMessagesRestaurant(orderId);
+      console.log("getMessagesRestaurant response", response);
+      setRestaurantChat(response.data);
+    } else {
+      // Get guest user messages
+      const response = await getMessagesRestaurantGuest(orderId, guestSession);
+      console.log("getMessagesRestaurant response", response);
+      setRestaurantChat(response.data);
+    }
   };
 
   const loadMessagesRider = async () => {
-    // Get user messages
-    const response = await getMessagesRider(orderId);
-    console.log("getMessagesRider response", response);
-    setRiderChat(response.data);
+    if (isAuthenticated()) {
+      // Get authenticated user messages
+      const response = await getMessagesRider(orderId);
+      console.log("getMessagesRider response", response);
+      setRiderChat(response.data);
+    } else {
+      // Get guest user messages
+      const response = await getMessagesRiderGuest(orderId, guestSession);
+      console.log("getMessagesRider response", response);
+      setRiderChat(response.data);
+    }
   };
 
   useEffect(() => {
@@ -149,44 +182,64 @@ const Chat: React.FC<ContainerProps> = ({
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between">
-        <div className={styles.riderChat}>
-          {/* Chat image */}
-          <div
-            className={styles.imgContainer}
-            onClick={() => handleShow("left")}
-          >
-            <img src={chatRider} className="img-fluid" alt="" />
-            {hasNewChatRider && (
-              <img src={chatRiderAlt} alt="" className={styles.altImg} />
-            )}
-          </div>
+        {orderStatus != "canceled" &&
+          orderStatus != "pending" &&
+          orderStatus != "delivered" && (
+            <>
+              {orderStatus === "otw" && (
+                <div className={styles.riderChat}>
+                  {/* Chat image */}
+                  <div
+                    className={styles.imgContainer}
+                    onClick={() => handleShow("left")}
+                  >
+                    <img src={chatRider} className="img-fluid" alt="" />
+                    {hasNewChatRider && (
+                      <img
+                        src={chatRiderAlt}
+                        alt=""
+                        className={styles.altImg}
+                      />
+                    )}
+                  </div>
 
-          {/* Preview */}
-          <div className={styles.preview} onClick={() => handleShow("left")}>
-            <p>{riderChat && riderChat[riderChat.length - 1]?.message}</p>
-          </div>
-        </div>
+                  {/* Preview */}
+                  <div
+                    className={styles.preview}
+                    onClick={() => handleShow("left")}
+                  >
+                    <p>
+                      {riderChat && riderChat[riderChat.length - 1]?.message}
+                    </p>
+                  </div>
+                </div>
+              )}
 
-        <div className={styles.vendorChat}>
-          {/* Chat image */}
-          <div
-            className={styles.imgContainer}
-            onClick={() => handleShow("right")}
-          >
-            <img src={chatVendor} className="img-fluid" alt="" />
-            {hasNewChatRestaurant && (
-              <img src={chatVendorAlt} alt="" className={styles.altImg} />
-            )}
-          </div>
+              <div className={styles.vendorChat}>
+                {/* Chat image */}
+                <div
+                  className={styles.imgContainer}
+                  onClick={() => handleShow("right")}
+                >
+                  <img src={chatVendor} className="img-fluid" alt="" />
+                  {hasNewChatRestaurant && (
+                    <img src={chatVendorAlt} alt="" className={styles.altImg} />
+                  )}
+                </div>
 
-          {/* Preview */}
-          <div className={styles.preview} onClick={() => handleShow("right")}>
-            <p>
-              {restaurantChat &&
-                restaurantChat[restaurantChat.length - 1]?.message}
-            </p>
-          </div>
-        </div>
+                {/* Preview */}
+                <div
+                  className={styles.preview}
+                  onClick={() => handleShow("right")}
+                >
+                  <p>
+                    {restaurantChat &&
+                      restaurantChat[restaurantChat.length - 1]?.message}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
       </div>
 
       {/* Chat box offcanvas */}

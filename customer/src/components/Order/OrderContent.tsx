@@ -73,6 +73,7 @@ type TChat = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
+  const [orderStatus, setOrderStatus] = useState("pending");
   const [order, setOrder] = useState<TOrder>();
   const [rider, setRider] = useState<TRider>();
   const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
@@ -107,6 +108,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       };
 
       setOrder(response);
+      setOrderStatus(response.order_status);
       setRider(thisRider);
 
       // Initialize order channel
@@ -134,6 +136,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
       initializeOrderChannel(orderRoom);
+
+      // Initialize chat channel for merchant
+      const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
+      initializeChatChannel(merchantChatRoom, setRestaurantChat);
     }
   };
 
@@ -146,6 +152,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       console.log(parsedData);
 
       setOrder({ ...parsedData, order_status: status });
+      setOrderStatus(status);
 
       if (status != "canceled") {
         const thisRider = {
@@ -346,6 +353,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           setRestaurantChat={setRestaurantChat}
           riderChat={riderChat}
           setRiderChat={setRiderChat}
+          orderStatus={orderStatus}
         />
       </div>
     </div>
