@@ -163,11 +163,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleAccept = async (id: string) => {
-<<<<<<< HEAD
     setUpdateModalShow({ status: true, ID: id });
-=======
-    setUpdateModalShow({status: true, ID: id});
->>>>>>> 6f3350612761c54690a11443a51d2aac064bfef9
     const response = await updateOrder(id, "received");
     // navigate(`/account/order/status/${id}`);
   };
@@ -1713,8 +1709,8 @@ const UpdateSuccessModal = (props: any) => {
 
   const handleClick = async () => {
     // const response = await updateOrder(updateModalShow.ID, "received");
-    setUpdateModalShow({status: false, ID: ""})
-  }
+    setUpdateModalShow({ status: false, ID: "" });
+  };
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
