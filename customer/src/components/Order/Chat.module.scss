@@ -31,11 +31,24 @@
     width: 90px;
 
     &.altImg {
-      animation: fadeIn 1.5s infinite alternate;
+      animation: fadeIn 1s infinite alternate;
       position: absolute;
       top: 0;
       left: 0;
     }
+  }
+
+  .dot {
+    display: inline-block;
+    background-color: red;
+    border: 1px solid #ffffff;
+    box-shadow: $FM_BUTTON_SHADOW;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    right: 0;
   }
 }
 
