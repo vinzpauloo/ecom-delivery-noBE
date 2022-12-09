@@ -1177,7 +1177,7 @@ function EditModal(props: any) {
                     className={styles.btnCuisine}
                   >
                     {cuisines?.map((cuisines, index) => (
-                      <option value={cuisines.id} key={index}>{cuisines.name}</option>
+                      <option selected={+cuisine === cuisines.id ? true : false } value={cuisines.id} key={index}>{cuisines.name}</option>
                     ))}
                   </Form.Select>
                 </Col>
@@ -1188,7 +1188,7 @@ function EditModal(props: any) {
                       className={styles.btnCategory}
                     >
                       {categories?.map((categories, index) => (
-                        <option value={categories.id} key={index}>
+                        <option selected={+category === categories.id ? true : false } value={categories.id} key={index}>
                           {categories.name}
                         </option>
                       ))}
