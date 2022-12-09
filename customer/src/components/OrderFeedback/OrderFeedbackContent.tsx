@@ -91,7 +91,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
     console.log(id, data);
 
     const response = await reviewRestaurant(id, data);
-    console.log("reviewRider response", response);
+    console.log("reviewRestaurant response", response);
 
     if (!response.error) {
       setModalShowSuccess(true);
@@ -132,7 +132,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
             </p>
 
             <Link
-              to="feedback"
+              to={`/restaurants/${order?.restaurant_id}/feedback`}
               className={`d-inline-block mt-2`}
               style={{
                 background: "#e6b325",
