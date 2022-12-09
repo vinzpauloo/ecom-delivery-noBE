@@ -74,6 +74,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     console.log("getOrdersById response", response);
     setStatus(response);
     setOrder(response);
+    console.log("!!!!", response)
 
     // Initialize chat channel for merchant
     const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
@@ -113,7 +114,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
         </div>
 
         <Row md={4} xs={1}>
-          <Col>
+          <Col className={styles.statusContent}>
             <div className={styles.status}>
               {/* <img src={statusIsReceived} alt="" />
               <p>Order Received</p> */}
@@ -130,7 +131,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
               </div>
             </div>
           </Col>
-          <Col>
+          <Col className={styles.statusContent}>
             <div className={styles.status}>
               <img src={statusIsPreparing} alt="" />
               <p>Kitchen Preparing ...</p>
@@ -143,13 +144,13 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
               Activate
             </Button>
           </Col>
-          <Col>
+          <Col className={styles.statusContent}>
             <div className={styles.status}>
               <img src={statusIsOtw} alt="" />
               <p>Rider on its way</p>
             </div>
           </Col>
-          <Col>
+          <Col className={styles.statusContent}>
             <div className={styles.status}>
               <img src={statusIsDelivered} alt="" />
               <p>Delivered</p>
@@ -175,7 +176,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 };
 
 const UpdateSuccessModal = (props: any) => {
-  const {setUpdateModalShow, updateModalShow} = props;
+  const {setUpdateModalShow} = props;
 
   const handleClick = () => {
     setUpdateModalShow(false)

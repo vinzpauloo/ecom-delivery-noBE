@@ -161,7 +161,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleAccept = async (id: string) => {
     setUpdateModalShow({status: true, ID: id});
-    // const response = await updateOrder(id, "received");
+    const response = await updateOrder(id, "received");
     // navigate(`/account/order/status/${id}`);
   };
 
@@ -1735,7 +1735,7 @@ const UpdateSuccessModal = (props: any) => {
   const { updateOrder } = useOrder();
 
   const handleClick = async () => {
-    const response = await updateOrder(updateModalShow.ID, "received");
+    // const response = await updateOrder(updateModalShow.ID, "received");
     setUpdateModalShow({status: false, ID: ""})
   }
   return (
