@@ -181,6 +181,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
       setOrder(response);
       setRider(thisRider);
+      setProducts(response.products);
 
       // Initialize order channel
       const orderRoom = `Order-Channel-${response.id}`;
