@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
   Form,
@@ -115,6 +115,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [price, setPrice] = useState("");
   const [cuisine, setCuisine] = useState("");
   const [category, setCategory] = useState("");
+  const [errorHandling, setErrorHandling] = useState(false);
 
   const [file, setFile] = useState();
   const [fileDataURL, setFileDataURL] = useState("");
@@ -161,6 +162,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
     setDefaultImg((prev) => !prev);
+    setErrorHandling(false);
+    setImages(undefined);
   };
 
   const handleDelete = async (id: any) => {
@@ -197,7 +200,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("@@@@",data)
+    if(!!!images){
+      setErrorHandling(true);
+    }
+    else{
+      setErrorHandling(false);
+    }
     const menu = {
       ...data,
       restaurant_id: auth()?.restaurant[0].id,
@@ -232,10 +240,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const onChange = (
+    
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
+    setErrorHandling(false)
     console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
@@ -513,6 +523,16 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                   )}
                                 </div>
                               )}
+                              {errorHandling && (
+                                <span
+                                style={{
+                                  color: "red",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                Photo for the menu is needed
+                              </span>
+                              )}
                             </div>
                           )}
                         </ImageUploading>
@@ -656,6 +676,16 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                     </span>
                                   )}
                                 </div>
+                              )}
+                              {errorHandling && (
+                                <span
+                                style={{
+                                  color: "red",
+                                  fontWeight: "600",
+                                }}
+                              >
+                                Photo for the menu is needed
+                              </span>
                               )}
                             </div>
                           )}
@@ -849,7 +879,6 @@ function EditModal(props: any) {
     console.log("@@@",response.categories[0].id)
     console.log("@@@",response.cuisines[0].id)
     if(response.categories.length > 0){
-      console.log("@@@",response.categories[0].id)
       setCategory(response.categories[0].id);
     }
     if(response.cuisines.length > 0){
@@ -879,6 +908,7 @@ function EditModal(props: any) {
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
     setDefaultImg((prev) => !prev);
+
   };
 
   const onChange = (
@@ -968,9 +998,10 @@ function EditModal(props: any) {
                     // {...register("categories")}
                     className={styles.btnCategory}
                     onChange={(e) => setCategory(e.target.value)}
+                    // value={category}
                   >
                     {categories?.map((categories, index) => (
-                      <option value={categories.id} key={index}>
+                      <option selected={+category === categories.id ? true : false } value={categories.id} key={index}>
                         {categories.name}
                       </option>
                     ))}
@@ -984,7 +1015,7 @@ function EditModal(props: any) {
                   onChange={(e) => setCuisine(e.target.value)}
                 >
                   {cuisines?.map((cuisines, index) => (
-                    <option value={cuisines.id} key={index}>{cuisines.name}</option>
+                    <option selected={+cuisine === cuisines.id ? true : false } value={cuisines.id} key={index}>{cuisines.name}</option>
                   ))}
                 </Form.Select>
               </Col>
