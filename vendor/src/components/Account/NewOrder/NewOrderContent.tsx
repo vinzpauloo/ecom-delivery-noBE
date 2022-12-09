@@ -202,9 +202,9 @@ const NewOrderContent = (props) => {
                   <span>{deliveredItem?.total_amount} php</span>
                 </p>
               </Row>
-              <Row>
+              {/* <Row>
                 <Button>Accept</Button>
-              </Row>
+              </Row> */}
             </Col>
           </Row>
         </Col>
