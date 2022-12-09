@@ -388,7 +388,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             <Row>
               <Col md={{ span: 0, offset: 5 }} xs={{ span: 0, offset: 4 }}>
                 <a
-                  href="https://waze.com/ul?q=Glorietta%202%20Basement%20Parking&ll=14.55147636%2C121.02443576&navigate=yes"
+                  href="https://waze.com/ul?q={Geo-address}&ll=14.55147636%2C121.02443576&navigate=yes"
                   target="_blank"
                   rel="noreferrer"
                 >
