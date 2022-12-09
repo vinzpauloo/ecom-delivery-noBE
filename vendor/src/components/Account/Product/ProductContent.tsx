@@ -821,9 +821,9 @@ function EditModal(props: any) {
   const { getCategories } = useCategories();
   const { getCuisines } = useCuisines();
   const [categories, setCategories] = useState<Categories[]>([]);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("1");
   const [cuisines, setCuisines] = useState<Cuisines[]>([]);
-  const [cuisine, setCuisine] = useState("");
+  const [cuisine, setCuisine] = useState("1");
   const [product, setProduct] = useState<TMenu | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
   const [images, setImages] = React.useState<any>();
@@ -846,20 +846,29 @@ function EditModal(props: any) {
     setPrice(response.price);
     setAvailability(!!response.is_available);
     // setImages(response.photo);
+    console.log("@@@",response.categories[0].id)
+    console.log("@@@",response.cuisines[0].id)
+    if(response.categories.length > 0){
+      console.log("@@@",response.categories[0].id)
+      setCategory(response.categories[0].id);
+    }
+    if(response.cuisines.length > 0){
+      setCuisine(response.cuisines[0].id);
+    }
   };
 
   const loadCuisines = async () => {
     const response = await getCuisines();
     console.log("getCuisines response", response);
     setCuisines(response);
-    setCuisine(response[0].id);
+    // setCuisine(response[0].id);
   };
 
   const loadCategories = async () => {
     const response = await getCategories();
     console.log("getCategories response", response);
     setCategories(response);
-    setCategory(response[0].id);
+    // setCategory(response[0].id);
   };
 
   const handleClick = (onImageUpload: any) => {
