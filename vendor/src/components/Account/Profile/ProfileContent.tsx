@@ -221,12 +221,18 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    const updatedData = { ...data, address: address, photo: images[0].photo };
+    let updatedData = {};
+    if(!!images){
+      updatedData = { ...data, address: address, photo: images[0].photo};
+    }
+    else{
+      updatedData = { ...data, address: address};
+    }
 
     const response = await updateUser(updatedData);
-
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
+      setUpdateModalShow(true);
     } else {
       setError(response.error);
     }
@@ -247,7 +253,6 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       contact_number: response.restaurant[0]?.contact_number,
       description: response.restaurant[0]?.description,
       name: response.restaurant[0]?.name,
-      photo: response.restaurant[0]?.photo || "https://placeholder.com/",
     };
     reset(defaultValues);
     setAddress(response.restaurant[0]?.address);
@@ -337,6 +342,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
 
             <Link
               to="/account/for-delivery"
+              onClick={() => setUpdateModalShow(false)}
               className={`d-inline-block mt-2`}
               style={{
                 background: "#e6b325",
@@ -408,7 +414,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onChange={onChange}
                   maxNumber={maxNumber}
                   dataURLKey="photo"
-                  maxFileSize={1572864}
+                  maxFileSize={150000}
+                  acceptType={["jpg", "png"]}
                 >
                   {({
                     imageList,
@@ -486,7 +493,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             )}
                             {errors.maxFileSize && (
                               <span style={{ color: "red", fontWeight: "600" }}>
-                                Selected file size exceeded 1.5 MB.
+                                Selected file size exceeded 150 KB.
                               </span>
                             )}
                             {errors.resolution && (
@@ -564,7 +571,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               onChange={onChange}
               maxNumber={maxNumber}
               dataURLKey="photo"
-              maxFileSize={1572864}
+              maxFileSize={150000}
+              acceptType={["jpg", "png"]}
             >
               {({
                 imageList,
@@ -642,7 +650,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                         )}
                         {errors.maxFileSize && (
                           <span style={{ color: "red", fontWeight: "600" }}>
-                            Selected file size exceeded 1.5 MB.
+                            Selected file size exceeded 150 KB.
                           </span>
                         )}
                         {errors.resolution && (
@@ -672,7 +680,6 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               <Button
                 className={styles.btnUpdate}
                 type="submit"
-                onClick={() => setUpdateModalShow(true)}
               >
                 Update
               </Button>

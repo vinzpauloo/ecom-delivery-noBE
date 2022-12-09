@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Form } from "react-bootstrap";
+import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styles from "./NewOrderContent.module.scss";
 import { useOrder } from "../../../hooks/useOrder";
@@ -201,6 +201,9 @@ const NewOrderContent = (props) => {
                   <span>Total</span>
                   <span>{deliveredItem?.total_amount} php</span>
                 </p>
+              </Row>
+              <Row>
+                <Button>Accept</Button>
               </Row>
             </Col>
           </Row>

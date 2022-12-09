@@ -74,7 +74,7 @@ const Header: React.FC<ContainerProps> = ({setNotification}) => {
     });
 
     channel.bind("Order-Updated-Event", () => {
-      alert(`Order status updated`);
+      // alert(`Order status updated`);
     });
     //PusherJS end
   };
