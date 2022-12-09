@@ -128,7 +128,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
           <div className={`text-center p-4`}>
             <Lottie animationData={saveSuccess} loop={true} />
             <p className="mt-4" style={{ fontWeight: "400" }}>
-              Reset Password Successful
+              Restaurant Feedback Successful!
             </p>
 
             <Link
@@ -147,7 +147,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
                 transition: "all 0.3s ease-in-out",
               }}
             >
-              Back To Home
+              Go to Restaurant Feedbacks
             </Link>
           </div>
         </Modal.Body>

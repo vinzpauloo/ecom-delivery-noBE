@@ -41,7 +41,7 @@ const SuccessModal = (props: any) => {
         <div className={`text-center p-4`}>
           <Lottie animationData={saveSuccess} loop={true} />
           <p className="mt-4" style={{ fontWeight: "400" }}>
-            Reset Password Successful
+            Rider Feedback Successful!
           </p>
 
           <Link
@@ -60,7 +60,7 @@ const SuccessModal = (props: any) => {
               transition: "all 0.3s ease-in-out",
             }}
           >
-            Back To Home
+            Go to Restaurant Feedback
           </Link>
         </div>
       </Modal.Body>

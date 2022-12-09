@@ -1,0 +1,89 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.container {
+  background-color: #2c2c2c;
+  color: #d9d9d9;
+  padding: 20px 30px;
+
+  p {
+    margin: 0;
+  }
+
+  @include devices(md) {
+    padding: 20px;
+    margin: 60px 0 0;
+  }
+
+  @include devices(sm) {
+    padding: 15px;
+    margin: 50px 0 0 !important;
+  }
+}
+
+.restaurantProfile {
+  img {
+    width: 100px;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  @include devices(md) {
+    img {
+      height: 80px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+}
+
+.restaurantContent {
+  color: #ffffff;
+  text-align: right;
+
+  h4 {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.2;
+  }
+
+  @include devices(md) {
+    h4 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @include devices(sm) {
+    text-align: left;
+    margin-top: 10px;
+
+    h4,
+    p {
+      font-size: 13px;
+      font-weight: 300;
+      margin-bottom: 0;
+    }
+  }
+}

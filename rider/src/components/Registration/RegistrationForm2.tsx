@@ -253,8 +253,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={150000}
-            acceptType={["jpg", "png"]}
+            maxFileSize={1572864}
+            // acceptType={["jpg", "png"]}
           >
             {({
               imageList,
@@ -318,7 +318,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                         Number of selected images exceed.
                       </span>
                     )}
-                    {errors.acceptType && (
+                    {/* {errors.acceptType && (
                       <span
                         style={{
                           color: "red",
@@ -327,7 +327,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                       >
                         Your selected file type is not allowed.
                       </span>
-                    )}
+                    )} */}
                     {errors.maxFileSize && (
                       <span
                         style={{
@@ -335,7 +335,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                           fontWeight: "600",
                         }}
                       >
-                        Selected file size exceeded 150 KB.
+                        Selected file size exceeded 15 MB.
                       </span>
                     )}
                     {errors.resolution && (

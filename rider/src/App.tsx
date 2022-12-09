@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./App.scss";
 
@@ -7,7 +7,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer";
 import FooterMobile from "./components/FooterMobile";
 import { Col, Row } from "react-bootstrap";
-import monkey from "./assets/images/monkey.png"
+import monkey from "./assets/images/monkey.png";
 
 // Set axios defaults
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
@@ -19,6 +19,7 @@ const App: React.FC = (props: Props) => {
   const [notification, setNotification] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { id } = useParams();
   let RenderHeader;
   let RenderFooter;
   let customClassNames = "";
@@ -32,6 +33,8 @@ const App: React.FC = (props: Props) => {
     "/account/for-delivery",
     "/account/order-history",
     "/account/reset-password",
+    "/account/statistics",
+    `/account/feedback/${id}`,
   ];
 
   // Pages with custom background
@@ -47,7 +50,7 @@ const App: React.FC = (props: Props) => {
     customClassNames += "no-header";
     RenderHeader = <></>;
   } else {
-    RenderHeader = <Header setNotification={setNotification}/>;
+    RenderHeader = <Header setNotification={setNotification} />;
   }
 
   if (
@@ -71,9 +74,9 @@ const App: React.FC = (props: Props) => {
   }
 
   const handleClick = () => {
-    setNotification(false)
-    navigate(`/account/for-delivery`)
-  }
+    setNotification(false);
+    navigate(`/account/for-delivery`);
+  };
 
   return (
     <>
@@ -89,7 +92,9 @@ const App: React.FC = (props: Props) => {
           </Col>
           <Col className="leftContent col-9 md-col-7">
             <Row className="header">Měiwèi de shíwù 美味的食物</Row>
-            <Row className="buttonContent" onClick={handleClick}>NEW ORDER!</Row>
+            <Row className="buttonContent" onClick={handleClick}>
+              NEW ORDER!
+            </Row>
           </Col>
         </div>
       </div>

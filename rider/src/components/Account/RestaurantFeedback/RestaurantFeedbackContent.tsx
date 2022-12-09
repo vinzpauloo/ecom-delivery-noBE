@@ -80,7 +80,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     setReviews(response.reviews);
   };
 
-  const handleClick = (item) => {
+  const handleClick = (item: any) => {
     setShowModal(true);
     setPersonalFeedback(item);
   };
