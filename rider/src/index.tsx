@@ -16,6 +16,7 @@ import Profile from "./pages/Account/Profile";
 import Rewards from "./pages/Account/Rewards";
 import Statistics from "./pages/Account/Statistics";
 import ResetPassword from "./pages/Account/ResetPassword";
+import RestaurantFeedback from "./pages/Account/RestaurantFeedback";
 import Order from "./pages/Account/Order";
 import RiderTracker from "./pages/Account/RiderTracker";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -48,6 +49,7 @@ root.render(
               <Route path="orders/:id/otw" element={<RiderTracker />} />
               <Route path="order-history" element={<History />} />
               <Route path="order-history/:id" element={<OrderDetails />} />
+              <Route path="feedback/:id" element={<RestaurantFeedback />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="rewards" element={<Rewards />} />
               <Route path="statistics" element={<Statistics />} />
