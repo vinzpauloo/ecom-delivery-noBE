@@ -109,15 +109,43 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setOrder(response);
       setRider(thisRider);
 
-      // Specific order channel
-      const channel = pusher.subscribe("Order-Channel-" + response.id);
-      channel.bind("Order-Updated-Event", (data: any) => {
-        const parsedData = JSON.parse(data.message);
-        console.log(data);
-        console.log(parsedData);
+      // Initialize order channel
+      const orderRoom = `Order-Channel-${response.id}`;
+      initializeOrderChannel(orderRoom);
 
-        const status = parsedData.status;
+      // Initialize chat channel for merchant
+      const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
+      initializeChatChannel(merchantChatRoom, setRestaurantChat);
 
+      // Initialize chat channel for rider
+      const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
+      initializeChatChannel(riderChatRoom, setRiderChat);
+    } else {
+      // Get guest session in local storage
+      const guestSession = localStorage.getItem("guestSession");
+
+      // Get guest order
+      const response = await getOrdersByIdGuest(id, guestSession);
+      console.log("getOrdersByIdGuest response", response);
+      setOrder(response);
+
+      // Initialize order channel
+      const orderRoom = `Order-Channel-${response.id}`;
+      initializeOrderChannel(orderRoom);
+    }
+  };
+
+  const initializeOrderChannel = (orderRoom: string) => {
+    const channel = pusher.subscribe(orderRoom);
+    channel.bind("Order-Updated-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      const status = parsedData.status;
+
+      console.log(parsedData);
+
+      setOrder({ ...parsedData, order_status: status });
+
+      if (status != "canceled") {
         const thisRider = {
           order_id: parsedData.id,
           rider_id: parsedData.rider_id,
@@ -128,74 +156,23 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           rider_average_rating: parsedData.rider_average_rating,
           plate_number: parsedData.plate_number,
         };
-
-        setOrder({ ...parsedData, order_status: status });
         setRider(thisRider);
-      });
+      }
+    });
+  };
 
-      // Specific chat channel for restaurant
-      const channelChat = pusher.subscribe(
-        `ChatRoom-C${response.customer_id}-Re${response.restaurant_id}`
-      );
-      channelChat.bind("Message-Event", (data: any) => {
-        const chatData = JSON.parse(data.message);
-        console.log("New restaurant chat!", chatData);
-        setRestaurantChat((current) => {
-          if (current?.length) {
-            return [...current, chatData];
-          }
-          return [chatData];
-        });
-      });
-
-      // Specific chat channel for rider
-      const channelChatRider = pusher.subscribe(
-        `ChatRoom-C${response.customer_id}-Ri${response.rider_id}`
-      );
-      channelChatRider.bind("Message-Event", (data: any) => {
-        const chatData = JSON.parse(data.message);
-        console.log("New rider chat!", chatData);
-        setRiderChat((current) => {
-          if (current?.length) {
-            return [...current, chatData];
-          }
-          return [chatData];
-        });
-      });
-    } else {
-      // Get guest session in local storage
-      const guestSession = localStorage.getItem("guestSession");
-
-      // Get guest order
-      const response = await getOrdersByIdGuest(id, guestSession);
-      console.log("getOrdersByIdGuest response", response);
-      setOrder(response);
-
-      const channel = pusher.subscribe("Order-Channel-" + response.id);
-      channel.bind("Order-Updated-Event", (data: any) => {
-        const parsedData = JSON.parse(data.message);
-        // console.log(data);
-        console.log(parsedData);
-
-        const status = parsedData.status;
-
-        setOrder({ ...parsedData, order_status: status });
-
-        if (status != "canceled") {
-          const thisRider = {
-            order_id: parsedData.id,
-            rider_id: parsedData.rider_id,
-            rider_name: parsedData.rider_name,
-            rider_photo: parsedData.rider_photo,
-            rider_vehicle_brand: parsedData.rider_vehicle_brand,
-            rider_vehicle_model: parsedData.rider_vehicle_model,
-            rider_average_rating: parsedData.rider_average_rating,
-            plate_number: parsedData.plate_number,
-          };
-          setRider(thisRider);
+  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+    const channelChat = pusher.subscribe(chatRoom);
+    channelChat.bind("Message-Event", (data: any) => {
+      const chatData = JSON.parse(data.message);
+      console.log("New restaurant chat!", chatData);
+      setChat((current: any) => {
+        if (current?.length) {
+          return [...current, chatData];
         }
+        return [chatData];
       });
-    }
+    });
   };
 
   const handleCancelOrder = async () => {
