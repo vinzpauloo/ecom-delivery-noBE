@@ -242,7 +242,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   // Get user request
   const handleGetUser = async () => {
     console.log("Requesting getUser ...");
-
+    
     const response = await getUser();
     console.log("handleGetUser response", response);
     let defaultValues = {
