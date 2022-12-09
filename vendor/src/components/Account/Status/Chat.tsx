@@ -12,6 +12,7 @@ interface ContainerProps {
   orderId?: string;
   restaurantChat?: TChat[];
   setRestaurantChat?: any;
+  isGuest?: boolean;
 }
 
 type TChat = {
@@ -26,6 +27,7 @@ const Chat: React.FC<ContainerProps> = ({
   orderId,
   restaurantChat,
   setRestaurantChat,
+  isGuest
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -35,7 +37,13 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRestaurant, setHasNewChatRestaurant] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  const { getMessagesRestaurant, getMessagesRider, createMessage } = useChat();
+  
+  const {
+    getMessagesRestaurant,
+    getMessagesRestaurantGuest,
+    createMessage,
+    createMessageGuest,
+  } = useChat();
   const auth = useAuthUser();
 
   const containerClick = (e: any) => {
@@ -75,7 +83,7 @@ const Chat: React.FC<ContainerProps> = ({
   const handleSubmit = async () => {
     if (message.replace(/\s+/g, "")) {
       const data = {
-        to_user_type: "Customer",
+        to_user_type: isGuest ? "Guest" : "Customer",
         message,
       };
       console.log("submitting ...", data);
@@ -90,7 +98,8 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesMerchant = async () => {
-    // Get user messages
+    console.log(isGuest);
+    // Get authenticated user messages
     const response = await getMessagesRestaurant(orderId);
     console.log("getMessagesRestaurant response", response);
     setRestaurantChat(response.data);

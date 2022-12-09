@@ -6,11 +6,6 @@ export const useChat = () => {
   const { calculateHash } = useCalculateHash();
   const authHeader = useAuthHeader();
 
-  /*
-    api/chat/customer-restaurant/orders/{id}
-    api/chat/customer-rider/orders/{id}
-  */
-
   const getMessagesRestaurant = async (id) => {
     try {
       // START: Access get message API
@@ -41,10 +36,10 @@ export const useChat = () => {
     }
   };
 
-  const getMessagesRider = async (id) => {
+  const getMessagesRestaurantGuest = async (id) => {
     try {
       // START: Access get message API
-      const endpoint = `api/chat/customer-rider/orders/${id}`;
+      const endpoint = `api/chat/guest-merchant/orders/${id}`;
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -104,7 +99,7 @@ export const useChat = () => {
   const createMessageGuest = async (id, data) => {
     try {
       // START: Access create message guest API
-      const endpoint = `api/guest/chat/orders/${id}`;
+      const endpoint = `api/chat/guest/orders/${id}`;
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -133,7 +128,7 @@ export const useChat = () => {
 
   return {
     getMessagesRestaurant,
-    getMessagesRider,
+    getMessagesRestaurantGuest,
     createMessage,
     createMessageGuest,
   };

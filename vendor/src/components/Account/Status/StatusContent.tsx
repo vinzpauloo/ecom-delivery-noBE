@@ -61,6 +61,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   const [status, setStatus] = useState<ForPreparingItem>();
   const [updateModalShow, setUpdateModalShow] = useState(false);
   const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
+  const [isGuest, setIsGuest] = useState(false);
   const { updateOrder, getOrdersById } = useOrder();
   const navigate = useNavigate();
 
@@ -71,14 +72,20 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 
   const loadReceivedOrder = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
+    console.log("getOrdersById response", !!response.guest_id);
     setStatus(response);
     setOrder(response);
-    console.log("!!!!", response)
-
-    // Initialize chat channel for merchant
-    const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
+    setIsGuest(!!response.guest_id);
+    if(!!!response.guest_id){
+      // Initialize chat channel for merchant
+      const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
     initializeChatChannel(merchantChatRoom, setRestaurantChat);
+    }else{
+      // Initialize chat channel for merchant
+      const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
+      initializeChatChannel(merchantChatRoom, setRestaurantChat);
+    }
+
   };
 
   const initializeChatChannel = (chatRoom: string, setChat: any) => {
@@ -163,6 +170,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
           orderId={id}
           restaurantChat={restaurantChat}
           setRestaurantChat={setRestaurantChat}
+          isGuest={isGuest}
         />
       </div>
       <UpdateSuccessModal
