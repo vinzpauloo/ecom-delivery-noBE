@@ -460,6 +460,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           type="submit"
           className="mt-4"
           // disabled={!isValid || !isChecked || !address}
+          disabled={!isChecked}
         >
           Create Account
         </Button>
