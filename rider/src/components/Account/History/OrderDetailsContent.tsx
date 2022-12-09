@@ -280,9 +280,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                     <Link to="/account/order-history">Back</Link>
                   </div>
 
-                  <div className={styles.feedbackBtn}>
+                  {/* <div className={styles.feedbackBtn}>
                     <Link to={`/account/feedback/${id}`}>Rider Feedback</Link>
-                  </div>
+                  </div> */}
                 </div>
               </Col>
             </Row>
