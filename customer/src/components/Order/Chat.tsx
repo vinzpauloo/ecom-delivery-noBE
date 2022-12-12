@@ -48,16 +48,8 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRider, setHasNewChatRider] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
-  const {
-    getMessages,
-    getMessagesGuest,
-    getMessagesRestaurant,
-    getMessagesRestaurantGuest,
-    getMessagesRider,
-    getMessagesRiderGuest,
-    createMessage,
-    createMessageGuest,
-  } = useChat();
+  const { getMessages, getMessagesGuest, createMessage, createMessageGuest } =
+    useChat();
   const auth = useAuthUser();
   const isAuthenticated = useIsAuthenticated();
 

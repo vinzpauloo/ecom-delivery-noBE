@@ -31,7 +31,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
