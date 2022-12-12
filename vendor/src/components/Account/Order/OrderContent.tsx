@@ -115,10 +115,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [productItem, setProductItem] = useState<TOrder>();
 
   const {
-    getCurrentOrder,
+    // getCurrentOrder,
     getForDeliveryOTW,
-    getOrderCompleted,
-    getOrderCanceled,
+    // getOrderCompleted,
+    // getOrderCanceled,
   } = useGetOrderStatus();
 
   const { updateOrder, cancelOrder, getOrdersById } = useOrder();
