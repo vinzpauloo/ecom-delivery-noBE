@@ -118,6 +118,8 @@ const SwiperSlideItem = (
             </Button>
           </div>
         </div>
+
+        <div className={styles.flavor}>Spicy</div>
       </div>
     </SwiperSlide>
   );

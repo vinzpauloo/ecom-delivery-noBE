@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import { Dash, Plus } from "react-bootstrap-icons";
 
 // Import Swiper React components
@@ -43,10 +43,12 @@ const SwiperSlideItem = (
   index: number,
   setCart: ContainerProps["setCart"],
   quantity: any,
-  setQuantity: any
+  setQuantity: any,
+  setModalShow: any,
+  setItem: any,
+  setSelectedMenuIndex: any,
+  addToCartAction: any
 ) => {
-  // const [thisQuantity, setThisQuantity] = useState(1);
-
   const getThisQuantity = (index: number) => {
     if (quantity && quantity[index]) {
       return quantity[index];
@@ -76,40 +78,16 @@ const SwiperSlideItem = (
   };
 
   const handleAddToCart = (index: number) => {
-    const newItem = {
-      id: item.id,
-      name: item.name,
-      photo: item.photo,
-      price: item.price,
-      quantity: quantity[index] || 1,
-    };
+    const hasFlavor = true;
 
-    console.log("add to cart", newItem);
-
-    setCart((cart) => {
-      const cartCopy = cart.slice();
-      const index = cartCopy.findIndex((product) => newItem.id === product.id);
-
-      if (index === -1) {
-        cartCopy.push({ ...newItem });
-      } else {
-        const pr = cartCopy[index];
-        cartCopy[index] = { ...pr, quantity: pr.quantity + newItem.quantity };
-      }
-
-      return cartCopy;
-    });
-
-    // reset quantity
-    setQuantity((qty: any) => {
-      let qtyCopy = qty.slice();
-      qtyCopy[index] = 0;
-
-      return qtyCopy;
-    });
-
-    console.log("Added new item in cart ...");
-    console.log(newItem);
+    if (hasFlavor) {
+      // Show modal popup for flavor
+      setItem(item);
+      setSelectedMenuIndex(index);
+      setModalShow(true);
+    } else {
+      addToCartAction(index);
+    }
   };
 
   return (
@@ -165,6 +143,56 @@ const SwiperSlideItem = (
 
 const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [quantity, setQuantity] = useState<any[]>();
+  const [modalShow, setModalShow] = useState(false);
+  const [flavor, setFlavor] = useState(0);
+  const [item, setItem] = useState<Slide>();
+  const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
+
+  const addToCartAction = (index: number) => {
+    console.log(index, item);
+    console.log(quantity);
+
+    if (item) {
+      const newItem = {
+        id: item.id,
+        name: item.name,
+        photo: item.photo,
+        price: item.price,
+        quantity: quantity ? (quantity[index] ? quantity[index] : 1) : 1,
+      };
+
+      console.log("add to cart", newItem);
+
+      setCart((cart) => {
+        const cartCopy = cart.slice();
+        const index = cartCopy.findIndex(
+          (product) => newItem.id === product.id
+        );
+
+        if (index === -1) {
+          cartCopy.push({ ...newItem });
+        } else {
+          const pr = cartCopy[index];
+          cartCopy[index] = { ...pr, quantity: pr.quantity + newItem.quantity };
+        }
+
+        return cartCopy;
+      });
+
+      // reset quantity
+      setQuantity((qty: any) => {
+        let qtyCopy = qty.slice();
+        qtyCopy[index] = 0;
+
+        return qtyCopy;
+      });
+
+      console.log("Added new item in cart ...");
+      console.log(newItem);
+
+      setModalShow(false);
+    }
+  };
 
   useEffect(() => {
     if (slides.length) {
@@ -183,7 +211,17 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         className={`d-none d-lg-block ${styles.sliderContainer}`}
       >
         {slides?.map((item, index) => {
-          return SwiperSlideItem(item, index, setCart, quantity, setQuantity);
+          return SwiperSlideItem(
+            item,
+            index,
+            setCart,
+            quantity,
+            setQuantity,
+            setModalShow,
+            setItem,
+            setSelectedMenuIndex,
+            addToCartAction
+          );
         })}
       </Swiper>
 
@@ -206,9 +244,78 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         className={`d-lg-none ${styles.sliderContainer}`}
       >
         {slides?.map((item, index) => {
-          return SwiperSlideItem(item, index, setCart, quantity, setQuantity);
+          return SwiperSlideItem(
+            item,
+            index,
+            setCart,
+            quantity,
+            setQuantity,
+            setModalShow,
+            setItem,
+            setSelectedMenuIndex,
+            addToCartAction
+          );
         })}
       </Swiper>
+
+      <Modal
+        show={modalShow}
+        onHide={() => {
+          setModalShow(false);
+        }}
+        aria-labelledby="contained-modal-title-vcenter"
+        className={styles.modal}
+        centered
+      >
+        <Modal.Body>
+          <div className={styles.modalContent}>
+            <div className="d-flex justify-content-between">
+              <div>
+                <h6 className="mb-0">Choose your flavor variant</h6>
+                <span>Select one</span>
+              </div>
+              <div>
+                <span className={styles.required}>Required</span>
+              </div>
+            </div>
+
+            <ul className={styles.flavors}>
+              <li>
+                <Form.Check
+                  type="radio"
+                  id="flavor-1"
+                  label="Original (Free)"
+                  name="flavor"
+                  onChange={() => setFlavor(1)}
+                  checked={flavor === 1}
+                  className={styles.check}
+                />
+              </li>
+              <li>
+                <Form.Check
+                  type="radio"
+                  id="flavor-2"
+                  label="Spicy (+P5.00)"
+                  name="flavor"
+                  onChange={() => setFlavor(2)}
+                  checked={flavor === 2}
+                  className={styles.check}
+                />
+              </li>
+            </ul>
+
+            <div className="text-center">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => addToCartAction(selectedMenuIndex)}
+              >
+                Choose this flavor
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

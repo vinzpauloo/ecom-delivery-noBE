@@ -73,6 +73,11 @@
   }
 }
 
+.flavor {
+  font-size: 14px;
+  text-align: center;
+}
+
 @include devices(md) {
   .sliderContainer {
     /* 

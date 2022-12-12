@@ -204,7 +204,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                               return (
                                 <li
                                   key={index}
-                                >{`${item.name} (${item.quantity}x)`}</li>
+                                >{`${item.name} (Spicy, ${item.quantity}x)`}</li>
                               );
                             })}
                           </ul>

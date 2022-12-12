@@ -1,6 +1,12 @@
 @import "../../theme/_variables.scss";
 @import "../../theme/_mixins.scss";
 
+:global {
+  body.modal-open {
+    padding-right: 0 !important;
+  }
+}
+
 .sliderContainer {
   margin: 0 15px;
   padding-bottom: 30px;
@@ -123,6 +129,69 @@
           opacity: 0.75;
         }
       }
+    }
+  }
+}
+
+.modal {
+  padding-right: 0 !important;
+}
+
+.modalContent {
+  span {
+    color: $FM_TEXT_BROWN;
+    font-size: 12px;
+
+    &.required {
+      background-color: $FM_TEXT_BROWN;
+      border-radius: 20px;
+      color: #ffffff;
+      font-weight: 400;
+      padding: 5px 10px;
+    }
+  }
+
+  .flavors {
+    padding-top: 5px;
+    padding-left: 10px;
+
+    li {
+      list-style-type: none;
+
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+    }
+
+    .check {
+      input {
+        &:checked {
+          background-color: #464646;
+          border: none;
+        }
+
+        &:focus {
+          border-color: #464646;
+          box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+
+  button {
+    background-color: $FM_BG_GRAY !important;
+    border: 0.5px solid #000000;
+    border-radius: 5px;
+    color: #000000 !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 10px 20px;
+
+    &:hover {
+      border-color: rgba(97, 72, 28, 0.5);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     }
   }
 }
