@@ -194,14 +194,18 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   //   console.log(response.data);
   // };
 
-  const loadOrderForDelivery = async (status: string, page: number) => {
+  const loadOrderForDelivery = async (status: string, page: any) => {
     setIsLoading(true);
 
-    const params = { status: status };
+    const params = { status: status, page: page };
     const response = await getForDeliveryOTW(params);
+    const data = response.data.filter(
+      (item: any) => item.order_status === "preparing"
+    );
     console.log("getForDelivery", response);
 
-    setOrders((current) => [...current, ...response.data]);
+    setOrders((current: any) => [...current, ...data]);
+    // setOrders((current) => [...current, ...response.data]);
     setLastPage(response.last_page);
     setIsLoading(false);
   };
