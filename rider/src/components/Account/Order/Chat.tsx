@@ -14,6 +14,8 @@ interface ContainerProps {
   setRiderChat?: any;
   orderStatus?: string;
   isGuest?: boolean;
+  restaurantChatroom?: string;
+  riderChatroom?: string;
 }
 
 type TChat = {
@@ -25,13 +27,15 @@ type TChat = {
 const chatItem = () => {};
 
 //Get guest session in local storage
-const guestSession = localStorage.getItem("guestSession");
+// const guestSession = localStorage.getItem("guestSession");
 
 const Chat: React.FC<ContainerProps> = ({
   orderId,
   riderChat,
   setRiderChat,
   orderStatus,
+  restaurantChatroom,
+  riderChatroom,
   isGuest,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
@@ -44,10 +48,11 @@ const Chat: React.FC<ContainerProps> = ({
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
   const {
-    getMessagesRider,
+    getMessages,
+    getMessagesGuest,
     createMessage,
-    getMessagesRiderGuest,
     createMessageGuest,
+    getMessagesRider,
   } = useChat();
   const auth = useAuthUser();
   const isAuthenticated = useIsAuthenticated();
@@ -87,17 +92,20 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const handleSubmit = async () => {
-    console.log(isGuest);
+    // console.log(isGuest);
     if (message.replace(/\s+/g, "")) {
       const data = {
+        order_id: orderId,
         to_user_type: isGuest ? "Guest" : "Customer",
         message,
       };
       console.log("submitting ...", data);
 
       setIsSending(true);
-      const response = await createMessage(orderId, data);
-      console.log(response);
+
+      const response = await createMessage(data);
+      // const response = await createMessage(orderId, data);
+      // console.log(response);
 
       // if (isAuthenticated()) {
       //   const response = await createMessage(orderId, data);
@@ -123,9 +131,16 @@ const Chat: React.FC<ContainerProps> = ({
     //   console.log("getMessagesRider response", response);
     //   setRiderChat(response.data);
     // }
-    console.log(isGuest);
+    const data = {
+      order_id: orderId,
+      channel_name: riderChatroom,
+    };
+    // console.log(isGuest);
     // Get authenticated user messages
+    // const response = await getMessagesRider(orderId);
+
     const response = await getMessagesRider(orderId);
+
     console.log("getMessagesRider response", response);
     setRiderChat(response.data);
   };

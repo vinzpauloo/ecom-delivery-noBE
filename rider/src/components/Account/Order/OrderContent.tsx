@@ -103,6 +103,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [orderData, setOrderData] = useState<any>([]);
   const [modalShow, setModalShow] = React.useState(false);
 
+  const [riderChatroom, setRiderChatroom] = useState("");
+
   const [rider, setRider] = useState<TRider>();
   const [isGuest, setIsGuest] = useState(false);
 
@@ -222,58 +224,65 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     if (!!!response.guest_id) {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-      initializeChatChannel(riderChatRoom, setRiderChat);
+      initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
     } else {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
-      initializeChatChannel(riderChatRoom, setRiderChat);
+      initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
     }
   };
 
-  const initializeOrderChannel = (orderRoom: string) => {
-    const channel = pusher.subscribe(orderRoom);
-    channel.bind("Order-Updated-Event", (data: any) => {
-      const parsedData = JSON.parse(data.message);
-      const status = parsedData.status;
+  // const initializeOrderChannel = (orderRoom: string) => {
+  //   const channel = pusher.subscribe(orderRoom);
+  //   channel.bind("Order-Updated-Event", (data: any) => {
+  //     const parsedData = JSON.parse(data.message);
+  //     const status = parsedData.status;
 
-      console.log(parsedData);
+  //     console.log(parsedData);
 
-      setOrder({ ...parsedData, order_status: status });
-      setOrderStatus(status);
+  //     setOrder({ ...parsedData, order_status: status });
+  //     setOrderStatus(status);
 
-      if (status == "canceled" || status == "delivered") {
-        pusher.unsubscribe(orderRoom);
-      } else {
-        if (status != "canceled") {
-          const thisRider = {
-            order_id: parsedData.id,
-            rider_id: parsedData.rider_id,
-            rider_name: parsedData.rider_name,
-            rider_photo: parsedData.rider_photo,
-            rider_vehicle_brand: parsedData.rider_vehicle_brand,
-            rider_vehicle_model: parsedData.rider_vehicle_model,
-            rider_average_rating: parsedData.rider_average_rating,
-            plate_number: parsedData.plate_number,
-          };
-          setRider(thisRider);
-        }
+  //     if (status == "canceled" || status == "delivered") {
+  //       pusher.unsubscribe(orderRoom);
+  //     } else {
+  //       if (status != "canceled") {
+  //         const thisRider = {
+  //           order_id: parsedData.id,
+  //           rider_id: parsedData.rider_id,
+  //           rider_name: parsedData.rider_name,
+  //           rider_photo: parsedData.rider_photo,
+  //           rider_vehicle_brand: parsedData.rider_vehicle_brand,
+  //           rider_vehicle_model: parsedData.rider_vehicle_model,
+  //           rider_average_rating: parsedData.rider_average_rating,
+  //           plate_number: parsedData.plate_number,
+  //         };
+  //         setRider(thisRider);
+  //       }
 
-        if (status == "otw") {
-          if (parsedData.rider_id) {
-            // Initialize chat channel for rider
-            const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
-            initializeChatChannel(riderChatRoom, setRiderChat);
-          }
-        }
-      }
-    });
-  };
+  //       if (status == "otw") {
+  //         if (parsedData.rider_id) {
+  //           // Initialize chat channel for rider
+  //           const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
+  //           initializeChatChannel(riderChatRoom, setRiderChat);
+  //         }
+  //       }
+  //     }
+  //   });
+  // };
 
-  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+  const initializeChatChannel = (
+    chatRoom: string,
+    setChat: any,
+    setChatroom: any
+  ) => {
+    setChatroom(chatRoom);
+    console.log("setChatroom", chatRoom);
+
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
       const chatData = JSON.parse(data.message);
-      console.log("New restaurant chat!", chatData);
+      console.log("New chat!", chatData);
       setChat((current: any) => {
         if (current?.length) {
           return [...current, chatData];
@@ -539,6 +548,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           setRiderChat={setRiderChat}
           orderStatus={orderStatus}
           isGuest={isGuest}
+          riderChatroom={riderChatroom}
         />
       </div>
     </div>
