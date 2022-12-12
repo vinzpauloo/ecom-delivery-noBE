@@ -13,6 +13,7 @@ interface ContainerProps {
   restaurantChat?: TChat[];
   setRestaurantChat?: any;
   isGuest?: boolean;
+  restaurantChatroom?: string;
 }
 
 type TChat = {
@@ -28,6 +29,7 @@ const Chat: React.FC<ContainerProps> = ({
   restaurantChat,
   setRestaurantChat,
   isGuest,
+  restaurantChatroom,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -40,9 +42,7 @@ const Chat: React.FC<ContainerProps> = ({
 
   const {
     getMessagesRestaurant,
-    getMessagesRestaurantGuest,
     createMessage,
-    createMessageGuest,
   } = useChat();
   const auth = useAuthUser();
 
@@ -83,13 +83,14 @@ const Chat: React.FC<ContainerProps> = ({
   const handleSubmit = async () => {
     if (message.replace(/\s+/g, "")) {
       const data = {
+        order_id: orderId,
         to_user_type: isGuest ? "Guest" : "Customer",
         message,
       };
       console.log("submitting ...", data);
 
       setIsSending(true);
-      const response = await createMessage(orderId, data);
+      const response = await createMessage(data);
       console.log(response);
 
       setIsSending(false);
@@ -98,7 +99,11 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesMerchant = async () => {
-    console.log(isGuest);
+    // console.log(isGuest);
+    const data = {
+      order_id: orderId,
+      channel_name: restaurantChatroom,
+    };
     // Get authenticated user messages
     const response = await getMessagesRestaurant(orderId);
     console.log("getMessagesRestaurant response", response);
