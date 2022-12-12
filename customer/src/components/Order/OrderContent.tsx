@@ -31,7 +31,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-// Pusher.logToConsole = true;
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -74,6 +74,8 @@ type TChat = {
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
   const [orderStatus, setOrderStatus] = useState("pending");
+  const [restaurantChatroom, setRestaurantChatroom] = useState("");
+  const [riderChatroom, setRiderChatroom] = useState("");
   const [order, setOrder] = useState<TOrder>();
   const [rider, setRider] = useState<TRider>();
   const [restaurantChat, setRestaurantChat] = useState<TChat[]>();
@@ -121,12 +123,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
         // Initialize chat channel for merchant
         const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
-        initializeChatChannel(merchantChatRoom, setRestaurantChat);
+        initializeChatChannel(
+          merchantChatRoom,
+          setRestaurantChat,
+          setRestaurantChatroom
+        );
 
         if (response.rider_id) {
           // Initialize chat channel for rider
           const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
-          initializeChatChannel(riderChatRoom, setRiderChat);
+          initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
         }
       }
     } else {
@@ -162,12 +168,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
         // Initialize chat channel for merchant
         const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
-        initializeChatChannel(merchantChatRoom, setRestaurantChat);
+        initializeChatChannel(
+          merchantChatRoom,
+          setRestaurantChat,
+          setRestaurantChatroom
+        );
 
         if (response.rider_id) {
           // Initialize chat channel for rider
           const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
-          initializeChatChannel(riderChatRoom, setRiderChat);
+          initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
         }
       }
     }
@@ -179,7 +189,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const parsedData = JSON.parse(data.message);
       const status = parsedData.status;
 
-      console.log(parsedData);
+      console.log("parsedData", parsedData);
 
       setOrder({ ...parsedData, order_status: status });
       setOrderStatus(status);
@@ -206,11 +216,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             if (isAuthenticated()) {
               // Initialize chat channel for rider
               const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
-              initializeChatChannel(riderChatRoom, setRiderChat);
+              initializeChatChannel(
+                riderChatRoom,
+                setRiderChat,
+                setRiderChatroom
+              );
             } else {
               // Initialize chat channel for rider
               const riderChatRoom = `ChatRoom-G${parsedData.guest_id}-R${parsedData.rider_id}`;
-              initializeChatChannel(riderChatRoom, setRiderChat);
+              initializeChatChannel(
+                riderChatRoom,
+                setRiderChat,
+                setRiderChatroom
+              );
             }
           }
         }
@@ -218,11 +236,18 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     });
   };
 
-  const initializeChatChannel = (chatRoom: string, setChat: any) => {
+  const initializeChatChannel = (
+    chatRoom: string,
+    setChat: any,
+    setChatroom: any
+  ) => {
+    setChatroom(chatRoom);
+    console.log("setChatroom", chatRoom);
+
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
       const chatData = JSON.parse(data.message);
-      console.log("New restaurant chat!", chatData);
+      console.log("New chat!", chatData);
       setChat((current: any) => {
         if (current?.length) {
           return [...current, chatData];
@@ -394,6 +419,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           riderChat={riderChat}
           setRiderChat={setRiderChat}
           orderStatus={orderStatus}
+          restaurantChatroom={restaurantChatroom}
+          riderChatroom={riderChatroom}
         />
       </div>
     </div>

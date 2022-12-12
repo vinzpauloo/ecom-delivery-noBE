@@ -17,6 +17,8 @@ interface ContainerProps {
   riderChat?: TChat[];
   setRiderChat?: any;
   orderStatus?: string;
+  restaurantChatroom?: string;
+  riderChatroom?: string;
 }
 
 type TChat = {
@@ -27,9 +29,6 @@ type TChat = {
 
 const chatItem = () => {};
 
-// Get guest session in local storage
-const guestSession = localStorage.getItem("guestSession");
-
 const Chat: React.FC<ContainerProps> = ({
   orderId,
   restaurantChat,
@@ -37,6 +36,8 @@ const Chat: React.FC<ContainerProps> = ({
   riderChat,
   setRiderChat,
   orderStatus,
+  restaurantChatroom,
+  riderChatroom,
 }) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [message, setMessage] = useState("");
@@ -48,6 +49,8 @@ const Chat: React.FC<ContainerProps> = ({
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
   const {
+    getMessages,
+    getMessagesGuest,
     getMessagesRestaurant,
     getMessagesRestaurantGuest,
     getMessagesRider,
@@ -96,6 +99,7 @@ const Chat: React.FC<ContainerProps> = ({
   const handleSubmit = async () => {
     if (message.replace(/\s+/g, "")) {
       const data = {
+        order_id: orderId,
         to_user_type: chatBoxClass === "right" ? "Merchant" : "Rider",
         message,
       };
@@ -103,13 +107,9 @@ const Chat: React.FC<ContainerProps> = ({
 
       setIsSending(true);
 
-      if (isAuthenticated()) {
-        const response = await createMessage(orderId, data);
-        // console.log(response);
-      } else {
-        const response = await createMessageGuest(orderId, data, guestSession);
-        // console.log(response);
-      }
+      const response = isAuthenticated()
+        ? await createMessage(data)
+        : await createMessageGuest(data);
 
       setIsSending(false);
       setMessage("");
@@ -117,41 +117,46 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesMerchant = async () => {
-    if (isAuthenticated()) {
-      // Get authenticated user messages
-      const response = await getMessagesRestaurant(orderId);
-      console.log("getMessagesRestaurant response", response);
-      setRestaurantChat(response.data);
-    } else {
-      // Get guest user messages
-      const response = await getMessagesRestaurantGuest(orderId, guestSession);
-      console.log("getMessagesRestaurant response", response);
-      setRestaurantChat(response.data);
-    }
+    const data = {
+      order_id: orderId,
+      channel_name: restaurantChatroom,
+    };
+
+    const response = isAuthenticated()
+      ? await getMessages(data)
+      : await getMessagesGuest(data);
+
+    console.log("getMessages|restaurant response", response);
+    setRestaurantChat(response.data);
   };
 
   const loadMessagesRider = async () => {
-    if (isAuthenticated()) {
-      // Get authenticated user messages
-      const response = await getMessagesRider(orderId);
-      console.log("getMessagesRider response", response);
-      setRiderChat(response.data);
-    } else {
-      // Get guest user messages
-      const response = await getMessagesRiderGuest(orderId, guestSession);
-      console.log("getMessagesRider response", response);
-      setRiderChat(response.data);
-    }
+    const data = {
+      order_id: orderId,
+      channel_name: riderChatroom,
+    };
+
+    const response = isAuthenticated()
+      ? await getMessages(data)
+      : await getMessagesGuest(data);
+
+    console.log("getMessages|rider response", response);
+    setRiderChat(response.data);
   };
 
   useEffect(() => {
-    loadMessagesMerchant();
-    loadMessagesRider();
-
     // Set current user
     const userFullname = `${auth()?.first_name} ${auth()?.last_name}`;
     setUser(userFullname);
   }, []);
+
+  useEffect(() => {
+    restaurantChatroom && loadMessagesMerchant();
+  }, [restaurantChatroom]);
+
+  useEffect(() => {
+    riderChatroom && loadMessagesRider();
+  }, [riderChatroom]);
 
   useEffect(() => {
     // Mark initial load as done
