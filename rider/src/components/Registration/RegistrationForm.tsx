@@ -98,6 +98,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
+    setDefaultImg((prev) => !prev);
   };
 
   const {
@@ -155,13 +156,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
 
   const handleClick = (onImageUpload: any) => {
     console.log("aaaa");
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
     onImageUpload();
   };
 
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
   };
 
   return (
