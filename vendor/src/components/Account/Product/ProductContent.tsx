@@ -690,6 +690,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             </div>
                           )}
                         </ImageUploading>
+                        <Row>ajsjdfklsaflk</Row>
                       </Col>
                     </Row>
                     <Row  className="d-none d-lg-block ps-3 pe-3">
