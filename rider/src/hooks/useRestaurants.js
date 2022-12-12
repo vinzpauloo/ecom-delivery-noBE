@@ -1,8 +1,10 @@
 import axios, { AxiosError } from "axios";
 import { useCalculateHash } from "./useCalculateHash";
+import { useAuthHeader } from "react-auth-kit";
 
 export const useRestaurants = () => {
   const { calculateHash } = useCalculateHash();
+  const authHeader = useAuthHeader();
 
   const getRestaurants = async () => {
     console.log("getRestaurants hook ...");

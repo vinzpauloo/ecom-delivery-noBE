@@ -6,6 +6,7 @@ import styles from "./RestaurantHeader.module.scss";
 
 interface ContainerProps {
   restaurantHeader: any;
+  riderRating: any;
 }
 
 const AverageRating = ({ rating = 0 }: { rating: number | undefined }) => {
@@ -40,7 +41,10 @@ const AverageRating = ({ rating = 0 }: { rating: number | undefined }) => {
   );
 };
 
-const RestaurantHeader: React.FC<ContainerProps> = ({ restaurantHeader }) => {
+const RestaurantHeader: React.FC<ContainerProps> = ({
+  restaurantHeader,
+  riderRating,
+}) => {
   return (
     <div className={styles.container}>
       <Row>
@@ -49,17 +53,18 @@ const RestaurantHeader: React.FC<ContainerProps> = ({ restaurantHeader }) => {
             className={`d-flex gap-3 align-items-center ${styles.restaurantProfile}`}
           >
             <img
-              src={restaurantHeader?.restaurant_photo}
+              src={restaurantHeader?.rider_photo}
               className="img-fluid"
               alt=""
             />
             <div>
-              <h2>{restaurantHeader?.restaurant_name}</h2>
-              <p className="mb-2">{restaurantHeader?.restaurant_address}</p>
+              <h2>
+                {restaurantHeader?.rider_first_name}{" "}
+                {restaurantHeader?.rider_last_name}
+              </h2>
+              <p className="mb-2">{restaurantHeader?.rider_average_rating}</p>
               <div className={`d-flex gap-1 ${styles.rating}`}>
-                <AverageRating
-                  rating={restaurantHeader?.restaurant_average_rating}
-                />
+                <AverageRating rating={riderRating?.rider_average_rating} />
               </div>
             </div>
           </div>
@@ -67,8 +72,8 @@ const RestaurantHeader: React.FC<ContainerProps> = ({ restaurantHeader }) => {
 
         <Col lg={{ span: 7, offset: 1 }} md={{ span: 7, offset: 0 }}>
           <div className={styles.restaurantContent}>
-            <h4>What is the {restaurantHeader?.restaurant_name}?</h4>
-            <p>{restaurantHeader?.restaurant_description}</p>
+            <h4>{restaurantHeader?.mobile}</h4>
+            <p>{restaurantHeader?.email}</p>
           </div>
         </Col>
       </Row>

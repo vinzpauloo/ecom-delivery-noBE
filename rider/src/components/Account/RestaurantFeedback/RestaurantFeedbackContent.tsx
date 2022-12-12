@@ -4,6 +4,7 @@ import { Button, Row, Container, Modal } from "react-bootstrap";
 import { StarFill, Star } from "react-bootstrap-icons";
 import { useRestaurants } from "../../../hooks/useRestaurants";
 import { useReviews } from "../../../hooks/useReviews";
+import { useUser } from "../../../hooks/useUser";
 import { getDate } from "../../../utils/formatDate";
 
 import styles from "./RestaurantFeedbackContent.module.scss";
@@ -48,14 +49,17 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [restaurant, setRestaurant] = useState<any>();
   const [reviews, setReviews] = useState<any[]>();
   const { getRestaurantsById } = useRestaurants();
-  const { getRestaurantReviewsById } = useReviews();
+  const { getRestaurantReviewsById, getRiderReviews } = useReviews();
   const [showModal, setShowModal] = useState(false);
   const [personalFeedback, setPersonalFeedback] =
     useState<personalFeedback | null>(null);
   const [filter, setFilter] = useState(0);
+  const { getUser } = useUser();
+  const [rider, setRider] = useState<any>();
+  const [rating, setRating] = useState<any>();
 
   // Get the params from the URL
-  const { id } = useParams();
+  const { id, order } = useParams();
 
   const loadRestaurant = async () => {
     const response = await getRestaurantsById(id);
@@ -73,6 +77,34 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     setRestaurant(thisRestaurant);
   };
 
+  // Get user request
+  const loadUser = async () => {
+    console.log("Requesting getUser ...");
+
+    const response = await getUser();
+    console.log("getUser response", response);
+    let defaultValues = {
+      first_name: response.rider.first_name,
+      last_name: response.rider.last_name,
+      address: response.rider.rider.address,
+      email: response.rider.email,
+      mobile: response.rider.mobile,
+      brand: response.rider.rider.brand,
+      model: response.rider.rider.model,
+      or_number: response.rider.rider.or_number,
+      plate_number: response.rider.rider.plate_number,
+      license_expiration: response.rider.rider.license_expiration,
+      license_number: response.rider.rider.license_number,
+      // license_type: response.rider.license_type,
+      // year: response.rider.year,
+      rider_photo: response.rider.photo,
+      rider_first_name: response.rider.first_name,
+      rider_last_name: response.rider.last_name,
+    };
+
+    setRider(defaultValues);
+  };
+
   const loadRestaurantReviews = async () => {
     const response = await getRestaurantReviewsById(id, { reviews: "true" });
     console.log("getRestaurantReviewsById response", response);
@@ -80,19 +112,36 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     setReviews(response.reviews);
   };
 
-  const handleClick = (item: any) => {
+  const loadRiderReviews = async () => {
+    const response = await getRiderReviews(id);
+    console.log("riderReviews", response);
+
+    const riderRating = {
+      rider_average_rating: response.rider_rating,
+      customer_first_name: response.customer_first_name,
+      customer_last_name: response.customer_last_name,
+      id: response.id,
+      rider_review: response.rider_review,
+    };
+    console.log(response.rider_rating);
+    setRating(riderRating);
+  };
+
+  const handleClick = () => {
     setShowModal(true);
-    setPersonalFeedback(item);
+    // setPersonalFeedback(item);
   };
 
   useEffect(() => {
-    loadRestaurant();
-    loadRestaurantReviews();
+    // loadRestaurant();
+    // loadRestaurantReviews();
+    loadUser();
+    loadRiderReviews();
   }, []);
 
   return (
     <>
-      <RestaurantHeader restaurantHeader={restaurant} />
+      <RestaurantHeader restaurantHeader={rider} riderRating={rating} />
       <Row>
         <Container className="pt-3 d-flex align-items-center justify-content-center">
           <span>
@@ -158,41 +207,36 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
         </Container>
       </Row>
       <div className={styles.list}>
-        {filter === 0
+        {/* {filter === 0
           ? reviews?.map((item, index) => {
-              return (
-                <div key={index} className={styles.listItem}>
-                  <hr />
-                  <div className="d-flex gap-2">
-                    <img src={placeholder} />
-                    <div className={styles.rating}>
-                      <h4 className="mb-0">
-                        {item?.first_name} {item?.last_name}
-                      </h4>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <CustomerRating rating={item.restaurant_rating} />{" "}
-                        {" | "}
-                        {item.restaurant_reviewed_at.split(" ")[0]}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mb-0 mt-2">
-                    {item.restaurant_review}{" "}
-                    <span
-                      className={styles.seeMore}
-                      onClick={() => handleClick(item)}
-                    >
-                      See more...
-                    </span>
-                  </p>
-                </div>
-              );
-            })
-          : reviews
+            return ( */}
+        <div className={styles.listItem}>
+          <hr />
+          <div className="d-flex gap-2">
+            <img src={placeholder} />
+            <div className={styles.rating}>
+              <h4 className="mb-0">
+                {rating?.customer_first_name} {rating?.customer_last_name}
+              </h4>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <CustomerRating rating={rating?.rider_average_rating} /> {" | "}
+                {/* {item.restaurant_reviewed_at.split(" ")[0]} */}
+              </div>
+            </div>
+          </div>
+          <p className="mb-0 mt-2">
+            {rating?.rider_review}{" "}
+            <span className={styles.seeMore} onClick={handleClick}>
+              See more...
+            </span>
+          </p>
+        </div>
+
+        {/* : reviews
               ?.filter((item) => item.restaurant_rating === filter)
               ?.map((item, index) => {
-                return (
-                  <div key={index} className={styles.listItem}>
+                return ( */}
+        {/* <div className={styles.listItem}>
                     <hr />
                     <div className="d-flex gap-2">
                       <img src={placeholder} />
@@ -216,9 +260,9 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
                         See more...
                       </span>
                     </p>
-                  </div>
-                );
-              })}
+                  </div> */}
+        {/* );
+               })} */}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Container className={styles.modalContainer}>
@@ -226,16 +270,15 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
             <img src={placeholder} />
             <div className={styles.rating}>
               <h4 className="mb-0">
-                {personalFeedback?.first_name} {personalFeedback?.last_name}
+                {rating?.customer_first_name} {rating?.customer_last_name}
               </h4>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <CustomerRating rating={personalFeedback?.restaurant_rating} />{" "}
-                {" | "}
+                <CustomerRating rating={rating?.rider_average_rating} /> {" | "}
                 {personalFeedback?.restaurant_reviewed_at.split(" ")[0]}
               </div>
             </div>
           </div>
-          <p className="mb-0 mt-3">{personalFeedback?.restaurant_review} </p>
+          <p className="mb-0 mt-3">{rating?.rider_review} </p>
         </Container>
       </Modal>
     </>
