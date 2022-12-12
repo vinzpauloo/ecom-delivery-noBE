@@ -194,10 +194,11 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   //   console.log(response.data);
   // };
 
-  const loadOrderForDelivery = async (page: number) => {
+  const loadOrderForDelivery = async (status: string, page: number) => {
     setIsLoading(true);
 
-    const response = await getForDeliveryOTW({ page });
+    const params = { status: status };
+    const response = await getForDeliveryOTW(params);
     console.log("getForDelivery", response);
 
     setOrders((current) => [...current, ...response.data]);
@@ -207,7 +208,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
 
   const handleLoadMore = () => {
     console.log("load more ...");
-    loadOrderForDelivery(currentPage + 1);
+    loadOrderForDelivery("preparing", currentPage + 1);
     setCurrentPage(currentPage + 1);
   };
 
@@ -244,7 +245,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     // handleGetForDelivery();
     // loadOrderForDelivery("preparing");
-    loadOrderForDelivery(1);
+    loadOrderForDelivery("preparing", 1);
     // loadOrderForDelivery("pending");
     loadOrderCompleted("delivered, canceled");
     loadOrderCanceled("canceled");
