@@ -42,6 +42,7 @@ type TOrder = {
   restaurant_photo: string;
   products: [{ name: string; quantity: number }];
   total_amount: number;
+  updated_at: string;
 };
 
 type ForDeliveryItem = {
@@ -110,7 +111,7 @@ type GetDeliveredItem = {
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
-  const [order, setOrder] = useState<TOrder>();
+  const [orders, setOrders] = useState<TOrder[]>([]);
   const [productItem, setProductItem] = useState<TOrder>();
 
   const {
@@ -124,7 +125,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
   const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
-  const [status, setStatus] = useState<ForDeliveryItem>();
   const [modalShow1, setModalShow1] = React.useState(false);
   const [modalShow2, setModalShow2] = React.useState(false);
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
@@ -134,26 +134,36 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     ID: "",
   });
   const [isShown, setIsShown] = useState(true);
-  const [show, setShow] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const loadPendingOrder = async (status: string) => {
-    const params = { status: status };
-    const response = await getCurrentOrder(params);
-    console.log("getForDelivery", response);
-    setForDelivery(response.data);
-    console.log(response.data);
+  const handleLoadMore = () => {
+    loadOrderForDelivery("preparing, otw, pending, received", currentPage + 1)
+    setCurrentPage(currentPage + 1);
   };
+
+  // const loadPendingOrder = async (status: string) => {
+  //   const params = { status: status };
+  //   const response = await getCurrentOrder(params);
+  //   console.log("getForDelivery", response);
+  //   setForDelivery(response.data);
+  //   console.log(response.data);
+  // };
+
+  // const loadOrders = async (page: number) => {
+  //   const response = await getOrders({ page });
+  //   console.log("!!!",response)
+  //   const data = response.data.filter(item => (item.order_status !== "delivered"))
+  //   setOrders((current:any) => [...current, ...data]);
+  //   setLastPage(response.last_page);
+  //   setIsLoading(false);
+  // };
 
   const navigate = useNavigate();
 
   // Get the params from the url
   const { id } = useParams();
-
-  const loadOrder = async () => {
-    const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
-    setOrder(response);
-  };
 
   const handleCancel = async (id: any) => {
     const response = await cancelOrder(id, "cancel");
@@ -172,12 +182,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setIsShown((current) => !current);
   };
 
-  const loadDeliveredItem = async (status: string) => {
-    const params = { status: status };
-    const response = await getOrderCompleted(params);
-    console.log("getOrderCompleted", response);
-    setDeliveredItem(response.data);
-  };
+  // const loadDeliveredItem = async (status: string) => {
+  //   const params = { status: status };
+  //   const response = await getOrderCompleted(params);
+  //   console.log("getOrderCompleted", response);
+    
+  //   setDeliveredItem(response.data);
+  // };
 
   function CustomToggle({ children, eventKey }: any) {
     const handleClickItem = async (props) => {
@@ -236,18 +247,20 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     );
   }
 
-  const loadOrderForDelivery = async (status: string) => {
-    const params = { status: status };
+  const loadOrderForDelivery = async (status: string, page) => {
+    const params = { status: status, page: page};
     const response = await getForDeliveryOTW(params);
-    console.log("getForDelivery", response);
-    setForOtw(response.data);
+    const data = response.data.filter(item => (item.order_status !== "delivered"))
+    setOrders((current:any) => [...current, ...data]);
+    setLastPage(response.last_page);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    loadPendingOrder("pending");
-    loadOrderForDelivery("preparing, otw");
-    loadDeliveredItem("delivered");
-    loadOrder();
+    // loadPendingOrder("pending");
+    loadOrderForDelivery("preparing, otw, pending, received", 1);
+    // loadDeliveredItem("delivered");
+    // loadOrders(1);
   }, []);
 
   const handleClickItem = async (props) => {
@@ -560,10 +573,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               </Col>
             </Row>
           </div>
-        </div>
-        {/* Received Orders from Customer start */}
+        </div>   
+        {/* Mapping of Orders*/}
         {search !== ""
-          ? forDelivery
+          ? orders
               ?.filter((item) =>
                 item.id
                   .toString()
@@ -573,561 +586,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               .map((item, index) => {
                 return (
                   <Accordion className={styles.test} flush key={index}>
-                    <Accordion.Item eventKey={item.id}>
+                    <Accordion.Item eventKey={`${item.id}`}>
                       <div className={styles.orderDiv}>
-                        <CustomToggle eventKey={item.id}>
-                          {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                    <Button className="viewDetailsBtn">View Details</Button> */}
-                          Order ID: {item.id}
-                        </CustomToggle>
-                        <div
-                          className="d-md-none"
-                          onClick={() => handleClickItem(item.id)}
-                        >
-                          <CustomToggle2 eventKey={item.id}>
-                            View Details
-                          </CustomToggle2>
-                        </div>
-                      </div>
-                      <Accordion.Body className={styles.deliveryDetails2}>
-                        <div>
-                          <Row>
-                            <Col>
-                              <p>
-                                Customer Name: <span>{item.customer_name}</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <p>
-                                Contact Number:{" "}
-                                <span>{item.customer_mobile}</span>
-                              </p>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <p>
-                              Pick-up address:
-                              <span>{item.restaurant_address}</span>
-                            </p>
-                          </Row>
-                          <Row>
-                            <p>
-                              Delivery Address:
-                              <span>{item.order_address}</span>
-                            </p>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <p>
-                                Order Placed Time:{" "}
-                                <span>{getTime(item.created_at)}</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <p>
-                                Order Delivered Time:{" "}
-                                <span>{getTime(item.updated_at)}</span>
-                              </p>
-                            </Col>
-                          </Row>
-                          <hr />
-                          <Row>
-                            <Col>
-                              <p>Order Details:</p>
-                              <ul>
-                                {productItem?.products.map((item, index) => (
-                                  <li key={index}>
-                                    {item.quantity}x {item.name}
-                                  </li>
-                                ))}
-                              </ul>
-                            </Col>
-                            <Col>
-                              <div className={styles.resto}>
-                                <p>{item.restaurant_name}</p>
-                                <img
-                                  src={productItem?.restaurant_photo}
-                                  alt="resto"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                          <hr />
-                          <Row>
-                            <Col>
-                              <p>
-                                Sub Total: <span>1,350 php</span>
-                              </p>
-                              <p>
-                                Delivery Fee: <span>85 php</span>
-                              </p>
-                              <p>
-                                Total: <span>1,435 php</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <div className={styles.status}>
-                                <p>Order Status</p>
-                                {/* <img src={OrderReceivedIcon} /> */}
-                                {/* <span>{item.order_status}</span> */}
-                                {item?.order_status === "pending" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={orderReceived} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Pending
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "preparing" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={kitchenPrep} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Kitchen Preparing...
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "otw" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={riderOTW} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Rider On Its Way
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "delivered" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={riderDelivered} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Order Delivered
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                          <div className={styles.declineAccept}>
-                            {item?.order_status === "pending" ? (
-                              <Button onClick={() => handleAccept(item.id)}>
-                                Accept
-                              </Button>
-                            ) : null}
-                          </div>
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Row className={styles.forDeliveryMobile}>
-                      <Col
-                        xs={1}
-                        className={`${styles.deliveryDetails} d-md-none`}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        <Row>
-                          <Col>
-                            <p>
-                              Customer Name: <span> {item.customer_name} </span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <p>
-                            Pick-up address:
-                            <span>{item.restaurant_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <p>
-                              Order Placed Time:{" "}
-                              <span>{getTime(item.created_at)}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Order Delivered Time:{" "}
-                              <span>{getTime(item.updated_at)}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row
-                      className={`${styles.forDeliveryDesktop} d-none d-md-block`}
-                    >
-                      <Col
-                        className={styles.deliveryDetails}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        <Row className="p-1">
-                          <Col>
-                            <p>
-                              Customer Name: <span>{item.customer_name}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row className="p-1">
-                          <p>
-                            Pick-up address:
-                            <span>{item.restaurant_address}</span>
-                          </p>
-                        </Row>
-                        <Row className="p-1">
-                          <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
-                          </p>
-                        </Row>
-                        <Row className="p-1">
-                          <Col>
-                            <p>
-                              Order Placed Time: <span>{item.created_at}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Order Delivered Time:{" "}
-                              <span>{item.updated_at}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col
-                            className="d-none d-md-block"
-                            md={{ span: 7, offset: 5 }}
-                            onClick={() => handleClickItem(item.id)}
-                          >
-                            <CustomToggle2 eventKey={item.id}>
-                              View Details
-                            </CustomToggle2>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Accordion>
-                );
-              })
-          : forDelivery?.map((item, index) => {
-              return (
-                <Accordion className={styles.test} flush key={index}>
-                  <Accordion.Item eventKey={item.id}>
-                    <div className={styles.orderDiv}>
-                      <CustomToggle eventKey={item.id}>
-                        Order ID: {item.id}
-                      </CustomToggle>
-                      <div
-                        className="d-md-none"
-                        onClick={() => handleClickItem(item.id)}
-                      >
-                        <CustomToggle2 eventKey={item.id}>
-                          View Details
-                        </CustomToggle2>
-                      </div>
-                    </div>
-                    <Accordion.Body className={styles.deliveryDetails2}>
-                      <div>
-                        <Row>
-                          <Col>
-                            <p>
-                              Customer Name: <span>{item.customer_name}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <p>
-                            Pick-up address:
-                            <span>{item.restaurant_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <p>
-                              Order Placed Time:{" "}
-                              <span>{getTime(item.created_at)}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Order Delivered Time:{" "}
-                              <span>{getTime(item.updated_at)}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <p>Order Details:</p>
-                            <ul>
-                              {productItem?.products.map((item, index) => (
-                                <li key={index}>
-                                  {item.quantity}x {item.name}
-                                </li>
-                              ))}
-                            </ul>
-                          </Col>
-                          <Col>
-                            <div className={styles.resto}>
-                              <p>{item.restaurant_name}</p>
-                              <img
-                                src={productItem?.restaurant_photo}
-                                alt="resto"
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col>
-                            <p>
-                              Sub Total: <span>1,350 php</span>
-                            </p>
-                            <p>
-                              Delivery Fee: <span>85 php</span>
-                            </p>
-                            <p>
-                              Total: <span>1,435 php</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <div className={styles.status}>
-                              <p>Order Status</p>
-                              {/* <img src={OrderReceivedIcon} /> */}
-                              {/* <span>{item.order_status}</span> */}
-                              {item?.order_status === "pending" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={orderReceived} />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Pending
-                                  </p>
-                                </div>
-                              )}
-                              {item?.order_status === "preparing" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={kitchenPrep} />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Kitchen Preparing...
-                                  </p>
-                                </div>
-                              )}
-                              {item?.order_status === "otw" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderOTW} />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Rider On Its Way
-                                  </p>
-                                </div>
-                              )}
-                              {item?.order_status === "delivered" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderDelivered} />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Order Delivered
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          </Col>
-                        </Row>
-                        <div className={styles.declineAccept}>
-                          {item?.order_status === "pending" ? (
-                            <Button onClick={() => handleAccept(item.id)}>
-                              Accept
-                            </Button>
-                          ) : null}
-                        </div>
-                      </div>
-                    </Accordion.Body>
-                  </Accordion.Item>
-                  <Row className={styles.forDeliveryMobile}>
-                    <Col
-                      xs={1}
-                      className={`${styles.deliveryDetails} d-md-none`}
-                      style={{ display: isShown ? "block" : "none" }}
-                    >
-                      <Row>
-                        <Col>
-                          <p>
-                            Customer Name: <span> {item.customer_name} </span>
-                          </p>
-                        </Col>
-                        <Col>
-                          <p>
-                            Contact Number: <span>{item.customer_mobile}</span>
-                          </p>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <p>
-                          Pick-up address:
-                          <span>{item.restaurant_address}</span>
-                        </p>
-                      </Row>
-                      <Row>
-                        <p>
-                          Delivery Address:
-                          <span>{item.order_address}</span>
-                        </p>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <p>
-                            Order Placed Time:{" "}
-                            <span>{getTime(item.created_at)}</span>
-                          </p>
-                        </Col>
-                        <Col>
-                          <p>
-                            Order Delivered Time:{" "}
-                            <span>{getTime(item.updated_at)}</span>
-                          </p>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row
-                    className={`${styles.forDeliveryDesktop} d-none d-md-block`}
-                  >
-                    <Col
-                      className={styles.deliveryDetails}
-                      style={{ display: isShown ? "block" : "none" }}
-                    >
-                      <Row className="p-1">
-                        <Col>
-                          <p>
-                            Customer Name: <span>{item.customer_name}</span>
-                          </p>
-                        </Col>
-                        <Col>
-                          <p>
-                            Contact Number: <span>{item.customer_mobile}</span>
-                          </p>
-                        </Col>
-                      </Row>
-                      <Row className="p-1">
-                        <p>
-                          Pick-up address:
-                          <span>{item.restaurant_address}</span>
-                        </p>
-                      </Row>
-                      <Row className="p-1">
-                        <p>
-                          Delivery Address:
-                          <span>{item.order_address}</span>
-                        </p>
-                      </Row>
-                      <Row className="p-1">
-                        <Col>
-                          <p>
-                            Order Placed Time:{" "}
-                            <span>{getTime(item.created_at)}</span>
-                          </p>
-                        </Col>
-                        <Col>
-                          <p>
-                            Order Delivered Time:{" "}
-                            <span>{getTime(item.updated_at)}</span>
-                          </p>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col
-                          className="d-none d-md-block"
-                          md={{ span: 7, offset: 5 }}
-                          onClick={() => handleClickItem(item.id)}
-                        >
-                          <CustomToggle2 eventKey={item.id}>
-                            View Details
-                          </CustomToggle2>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Accordion>
-              );
-            })}
-        {/* Received Orders from Customer end //Orders Preparing for delivery start */}
-        {search !== ""
-          ? forOtw
-              ?.filter((item) =>
-                item.id
-                  .toString()
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase())
-              )
-              .map((item, index) => {
-                return (
-                  <Accordion className={styles.test} flush key={index}>
-                    <Accordion.Item eventKey={item.id}>
-                      <div className={styles.orderDiv}>
-                        <CustomToggle eventKey={item.id}>
+                        <CustomToggle eventKey={`${item.id}`}>
                           Order ID: {item.id}
                         </CustomToggle>
                         <div className="d-md-none">
@@ -1135,7 +596,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             className="d-md-none"
                             onClick={() => handleClickItem(item.id)}
                           >
-                            <CustomToggle2 eventKey={item.id}>
+                            <CustomToggle2 eventKey={`${item.id}`}>
                               View Details
                             </CustomToggle2>
                           </div>
@@ -1277,7 +738,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </Row>
                           <div className={styles.declineAccept}>
                             {item?.order_status === "pending" ? (
-                              <Button onClick={() => handleAccept(item.id)}>
+                              <Button onClick={() => handleAccept(`${item.id}`)}>
                                 Accept
                               </Button>
                             ) : null}
@@ -1384,7 +845,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                             md={{ span: 7, offset: 5 }}
                             onClick={() => handleClickItem(item.id)}
                           >
-                            <CustomToggle2 eventKey={item.id}>
+                            <CustomToggle2 eventKey={`${item.id}`}>
                               View Details
                             </CustomToggle2>
                           </Col>
@@ -1394,12 +855,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   </Accordion>
                 );
               })
-          : forOtw.map((item, index) => {
+          : ( orders.length ? orders.map((item, index) => {
               return (
                 <Accordion className={styles.test} flush key={index}>
-                  <Accordion.Item eventKey={item.id}>
+                  <Accordion.Item eventKey={`${item.id}`}>
                     <div className={styles.orderDiv}>
-                      <CustomToggle eventKey={item.id}>
+                      <CustomToggle eventKey={`${item.id}`}>
                         Order ID: {item.id}
                       </CustomToggle>
                       <div className="d-md-none">
@@ -1549,7 +1010,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         </Row>
                         <div className={styles.declineAccept}>
                           {item?.order_status === "pending" ? (
-                            <Button onClick={() => handleAccept(item.id)}>
+                            <Button onClick={() => handleAccept(`${item.id}`)}>
                               Accept
                             </Button>
                           ) : null}
@@ -1654,7 +1115,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           md={{ span: 7, offset: 5 }}
                           onClick={() => handleClickItem(item.id)}
                         >
-                          <CustomToggle2 eventKey={item.id}>
+                          <CustomToggle2 eventKey={`${item.id}`}>
                             View Details
                           </CustomToggle2>
                         </Col>
@@ -1663,8 +1124,21 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   </Row>
                 </Accordion>
               );
-            })}
+            }) : 
+              <h5>No orders found.</h5>
+            )}
       </div>
+      {orders?.length && currentPage < lastPage && search === "" && (
+          <div className="text-center">
+            <Button
+              variant="primary"
+              className={styles.btnLoadMore}
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
+        )}
       <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">

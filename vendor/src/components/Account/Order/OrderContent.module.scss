@@ -1049,3 +1049,25 @@
   opacity: 0;
   transform: translateX(-100px);
 }
+.btnLoadMore {
+  background-color: $FM_BG_GRAY;
+  border: 0.5px solid #000000;
+  border-radius: 5px;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 10px 20px;
+
+  &:hover {
+    border-color: rgba(97, 72, 28, 0.5);
+    background-color: rgba(97, 72, 28, 0.5);
+  }
+
+  @include devices(md) {
+    font-weight: 400;
+    margin: 10px 0;
+    padding: 8px 16px;
+  }
+}
