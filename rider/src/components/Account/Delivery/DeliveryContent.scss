@@ -1,3 +1,6 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/mixins";
+
 .deliveryContainer {
   padding: 20px;
   @media (width: 320px) {
@@ -817,4 +820,158 @@
 .ReactModal__Overlay--before-close {
   opacity: 0;
   transform: translateX(-100px);
+}
+
+.innerContainer {
+  margin: 30px 0 0;
+
+  .item:not(:last-child) {
+    margin-bottom: 60px;
+  }
+
+  button.btnLoadMore {
+    background-color: $FM_BG_GRAY;
+    border: 0.5px solid #000000;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 10px 20px;
+
+    &:hover {
+      border-color: rgba(97, 72, 28, 0.5);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    @include devices(md) {
+      font-weight: 400;
+      margin: 10px 0;
+      padding: 8px 16px;
+    }
+  }
+
+  .btnBack {
+    background-color: $FM_BG_GRAY;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    border-radius: 5px;
+    box-shadow: $FM_BUTTON_SHADOW;
+    color: #000000;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    min-width: 150px;
+    padding: 8px;
+  }
+
+  .btnView {
+    text-align: center;
+
+    a {
+      background-color: $FM_BG_YELLOW;
+      border: 0.5px solid $FM_TEXT_BROWN;
+      border-radius: 3px;
+      color: #ffffff;
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      height: 30px;
+      line-height: 30px;
+      padding: 0;
+      text-decoration: none;
+      text-shadow: $FM_TEXT_SHADOW;
+      text-transform: uppercase;
+      width: 100px;
+      transition: $FM_TRANSITION;
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+
+  @include devices(md) {
+    .item:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
+
+  @include devices(sm) {
+    .item:not(:last-child) {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.orderId {
+  background-color: #a47e3b;
+  border: 0.5px solid $FM_TEXT_BROWN;
+  border-radius: 2px;
+
+  h6 {
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+    padding: 10px 5px;
+    text-shadow: $FM_TEXT_SHADOW;
+  }
+
+  @include devices(sm) {
+    h6 {
+      padding: 8px;
+    }
+  }
+}
+
+.orderDetails {
+  background-color: $FM_BG_GRAY3;
+  border: 1px solid $FM_TEXT_BROWN;
+  border-radius: 0px 5px 5px 5px;
+  font-size: 14px;
+  padding: 25px 30px 10px;
+
+  .value,
+  .label {
+    font-weight: 500;
+  }
+
+  @include devices(sm) {
+    padding: 10px 10px 15px;
+  }
+
+  @include devices(xs) {
+  }
+}
+
+.flexOnMobile {
+  .btnView {
+    display: none;
+  }
+
+  @include devices(sm) {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .orderId {
+      border-radius: 3px;
+      width: 180px;
+    }
+
+    .btnView {
+      display: block;
+
+      a {
+        border-radius: 3px;
+        font-size: 11px;
+        height: 34px;
+        line-height: 34px;
+        width: 110px;
+      }
+    }
+  }
 }

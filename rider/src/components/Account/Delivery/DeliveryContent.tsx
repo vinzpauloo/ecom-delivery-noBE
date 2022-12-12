@@ -172,6 +172,11 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     []
   );
 
+  const [orders, setOrders] = useState<ForDeliveryItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
   //Original
   // const loadOrderForDelivery = async (status: string) => {
   //   const params = { status: status };
@@ -181,12 +186,29 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   // };
 
   //with Paginate
-  const loadOrderForDelivery = async (status: string) => {
-    const params = { paginate: 49, status: status };
-    const response = await getForDeliveryOTW(params);
+  // const loadOrderForDelivery = async (status: string) => {
+  //   const params = { paginate: 49, status: status };
+  //   const response = await getForDeliveryOTW(params);
+  //   console.log("getForDelivery", response);
+  //   setForDelivery(response.data);
+  //   console.log(response.data);
+  // };
+
+  const loadOrderForDelivery = async (page: number) => {
+    setIsLoading(true);
+
+    const response = await getForDeliveryOTW({ page });
     console.log("getForDelivery", response);
-    setForDelivery(response.data);
-    console.log(response.data);
+
+    setOrders((current) => [...current, ...response.data]);
+    setLastPage(response.last_page);
+    setIsLoading(false);
+  };
+
+  const handleLoadMore = () => {
+    console.log("load more ...");
+    loadOrderForDelivery(currentPage + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   const loadOrderCompleted = async (status: string) => {
@@ -221,7 +243,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     // handleGetForDelivery();
-    loadOrderForDelivery("preparing");
+    // loadOrderForDelivery("preparing");
+    loadOrderForDelivery(1);
     // loadOrderForDelivery("pending");
     loadOrderCompleted("delivered, canceled");
     loadOrderCanceled("canceled");
@@ -465,7 +488,432 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const handleChange = (e: { target: { value: string } }) => {
     setSearch(e.target.value);
   };
-  //
+
+  const OrderItem = (item: ForDeliveryItem, index: number) => {
+    console.log(search);
+    const stringID = String(item.id);
+    if (search && stringID.includes(search)) {
+      return (
+        <Accordion className="test" flush key={index}>
+          <Accordion.Item eventKey={item.id}>
+            <div className="orderDiv">
+              <CustomToggle eventKey={item.id}>
+                Order ID: {item.id}
+              </CustomToggle>
+              <div
+                className="d-md-none"
+                onClick={() => handleClickItem(item.id)}
+              >
+                <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+              </div>
+            </div>
+            <Accordion.Body className="deliveryDetails2">
+              <div>
+                <Row>
+                  <Col>
+                    <p>
+                      Customer Name: <span>{item.customer_name}</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Contact Number: <span>{item.customer_mobile}</span>
+                    </p>
+                  </Col>
+                </Row>
+                <Row>
+                  <p>
+                    Pick-up address:
+                    <span> {item.restaurant_address}</span>
+                  </p>
+                </Row>
+                <Row>
+                  <p>
+                    Delivery Address:
+                    <span> {item.order_address}</span>
+                  </p>
+                </Row>
+                <Row>
+                  <Col>
+                    <p>
+                      Order Placed Time:{" "}
+                      <span>{item && getTime(item.created_at)}</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Order Delivered Time: <span>{item.delivered_at} </span>
+                    </p>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    Order Details:
+                    <ul>
+                      {productItem?.products.map((item) => (
+                        <li key={index}>
+                          {item.quantity}x {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </Col>
+                  <Col>
+                    <div className="resto">
+                      <p style={{ fontWeight: "600" }}>
+                        {item.restaurant_name}
+                      </p>
+                      <img src={item.restaurant_photo} alt="resto" />
+                    </div>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <p>
+                      Sub Total: <span></span>
+                    </p>
+                    <p>
+                      Delivery Fee: <span></span>
+                    </p>
+                    <p>
+                      Total: <span> ₱{item.total_amount}.00</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <div className="status">
+                      <p>Order Status</p>
+                      {item?.order_status === "preparing" && (
+                        <>
+                          <img src={OrderPreparing} />
+                          <span>Kitchen Preparing...</span>
+                        </>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+                <div className="declineAccept">
+                  <button onClick={() => handleAccept(item.id)}>Accept</button>
+                </div>
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Row className="forDeliveryMobile">
+            <Col
+              xs={1}
+              className="deliveryDetails d-md-none"
+              style={{ display: isShown ? "block" : "none" }}
+            >
+              <Row>
+                <Col>
+                  <p>
+                    Customer Name: <span> {item.customer_name} </span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Contact Number: <span>{item.customer_mobile}</span>
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <p>
+                  Pick-up address:
+                  <span> {item.restaurant_address}</span>
+                </p>
+              </Row>
+              <Row>
+                <p>
+                  Delivery Address:
+                  <span> {item.order_address}</span>
+                </p>
+              </Row>
+              <Row>
+                <Col>
+                  <p>
+                    Order Placed Time:{" "}
+                    <span>{item && getTime(item.created_at)}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Order Delivered Time: <span></span>
+                  </p>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="forDeliveryDesktop d-none d-md-block">
+            <Col
+              className="deliveryDetails"
+              style={{ display: isShown ? "block" : "none" }}
+            >
+              <Row className="p-1">
+                <Col>
+                  <p>
+                    Customer Name: <span>{item.customer_name}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Contact Number: <span>{item.customer_mobile}</span>
+                  </p>
+                </Col>
+              </Row>
+              <Row className="p-1">
+                <p>
+                  Pick-up address:
+                  <span> {item.restaurant_address}</span>
+                </p>
+              </Row>
+              <Row className="p-1">
+                <p>
+                  Delivery Address:
+                  <span> {item.order_address}</span>
+                </p>
+              </Row>
+              <Row className="p-1">
+                <Col>
+                  <p>
+                    Order Placed Time:{" "}
+                    <span>{item && getTime(item.created_at)}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Order Delivered Time: <span></span>
+                  </p>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className="d-none d-md-block" md={{ span: 7, offset: 5 }}>
+                  <div
+                    className="d-md-none"
+                    onClick={() => handleClickItem(item.id)}
+                  >
+                    <CustomToggle2 eventKey={item.id}>
+                      View Details
+                    </CustomToggle2>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Accordion>
+      );
+    }
+    if (search.length === 0) {
+      return (
+        <Accordion className="test" flush key={index}>
+          <Accordion.Item eventKey={item.id}>
+            <div className="orderDiv">
+              <CustomToggle eventKey={item.id}>
+                Order ID: {item.id}
+              </CustomToggle>
+              <div
+                className="d-md-none"
+                onClick={() => handleClickItem(item.id)}
+              >
+                <CustomToggle2 eventKey={item.id}>View Details</CustomToggle2>
+              </div>
+            </div>
+            <Accordion.Body className="deliveryDetails2">
+              <div>
+                <Row>
+                  <Col>
+                    <p>
+                      Customer Name: <span>{item.customer_name}</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Contact Number: <span>{item.customer_mobile}</span>
+                    </p>
+                  </Col>
+                </Row>
+                <Row>
+                  <p>
+                    Pick-up address:
+                    <span> {item.restaurant_address}</span>
+                  </p>
+                </Row>
+                <Row>
+                  <p>
+                    Delivery Address:
+                    <span> {item.order_address}</span>
+                  </p>
+                </Row>
+                <Row>
+                  <Col>
+                    <p>
+                      Order Placed Time:{" "}
+                      <span>{item && getTime(item.created_at)}</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p>
+                      Order Delivered Time: <span></span>
+                    </p>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <p>Order Details:</p>
+                    <ul>
+                      {productItem?.products.map((item) => (
+                        <li key={index}>
+                          {item.quantity}x {item.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </Col>
+                  <Col>
+                    <div className="resto">
+                      <p style={{ fontWeight: "600" }}>
+                        {item.restaurant_name}
+                      </p>
+                      <img src={item.restaurant_photo} alt="resto" />
+                    </div>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col>
+                    <p>
+                      Sub Total: <span></span>
+                    </p>
+                    <p>
+                      Delivery Fee: <span></span>
+                    </p>
+                    <p>
+                      Total: <span> ₱{item.total_amount}.00</span>
+                    </p>
+                  </Col>
+                  <Col>
+                    <div className="status">
+                      <p>Order Status</p>
+                      {item?.order_status === "preparing" && (
+                        <>
+                          <img src={OrderPreparing} />
+                          <span>Kitchen Preparing...</span>
+                        </>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+                <div className="declineAccept">
+                  <button onClick={() => handleAccept(item.id)}>Accept</button>
+                </div>
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
+          <Row className="forDeliveryMobile">
+            <Col
+              xs={1}
+              className="deliveryDetails d-md-none"
+              style={{ display: isShown ? "block" : "none" }}
+            >
+              <Row>
+                <Col>
+                  <p>
+                    Customer Name: <span> {item.customer_name} </span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Contact Number: <span>{item.customer_mobile}</span>
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <p>
+                  Pick-up address:
+                  <span> {item.restaurant_address}</span>
+                </p>
+              </Row>
+              <Row>
+                <p>
+                  Delivery Address:
+                  <span> {item.order_address}</span>
+                </p>
+              </Row>
+              <Row>
+                <Col>
+                  <p>
+                    Order Placed Time:{" "}
+                    <span>{item && getTime(item.created_at)}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Order Delivered Time: <span></span>
+                  </p>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="forDeliveryDesktop d-none d-md-block">
+            <Col
+              className="deliveryDetails"
+              style={{ display: isShown ? "block" : "none" }}
+            >
+              <Row className="p-1">
+                <Col>
+                  <p>
+                    Customer Name: <span>{item.customer_name}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Contact Number: <span>{item.customer_mobile}</span>
+                  </p>
+                </Col>
+              </Row>
+              <Row className="p-1">
+                <p>
+                  Pick-up address:
+                  <span> {item.restaurant_address}</span>
+                </p>
+              </Row>
+              <Row className="p-1">
+                <p>
+                  Delivery Address:
+                  <span> {item.order_address}</span>
+                </p>
+              </Row>
+              <Row className="p-1">
+                <Col>
+                  <p>
+                    Order Placed Time:{" "}
+                    <span>{item && getTime(item.created_at)}</span>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Order Delivered Time: <span></span>
+                  </p>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className="d-none d-md-block" md={{ span: 7, offset: 5 }}>
+                  <div className="" onClick={() => handleClickItem(item.id)}>
+                    <CustomToggle2 eventKey={item.id}>
+                      View Details
+                    </CustomToggle2>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Accordion>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="deliveryContainer">
       <div className="tableContainerHistory">
@@ -484,7 +932,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           </div>
         </div>
       </div>
-      {forDelivery.map((item, index) => {
+      {/* {forDelivery.map((item, index) => {
         console.log(search);
         const stringID = String(item.id);
         if (search && stringID.includes(search)) {
@@ -493,8 +941,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
               <Accordion.Item eventKey={item.id}>
                 <div className="orderDiv">
                   <CustomToggle eventKey={item.id}>
-                    {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                <Button className="viewDetailsBtn">View Details</Button> */}
                     Order ID: {item.id}
                   </CustomToggle>
                   <div
@@ -593,9 +1039,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                     </Row>
                     <div className="declineAccept">
-                      {/* <button>Decline</button> */}
-                      {/* <Link to={`/account/for-delivery/order/${item.id}`}>                    
-                    </Link> */}
                       <button onClick={() => handleAccept(item.id)}>
                         Accept
                       </button>
@@ -689,22 +1132,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                         Order Delivered Time: <span></span>
                       </p>
                     </Col>
-
-                    {/* <Row>
-                    <Col md={{ span: 4, offset: 5 }}>
-                      <Button
-                        className="detailsBtn"
-                        onClick={(event) => {
-                          handleClick(event);
-                          setOpen(!open);
-                          changeState();
-                        }}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        View Details
-                      </Button>
-                    </Col>
-                  </Row> */}
                   </Row>
 
                   <Row>
@@ -733,8 +1160,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
               <Accordion.Item eventKey={item.id}>
                 <div className="orderDiv">
                   <CustomToggle eventKey={item.id}>
-                    {/* <Button className="orderIdBtn">Order ID : {item.id}</Button>
-                <Button className="viewDetailsBtn">View Details</Button> */}
                     Order ID: {item.id}
                   </CustomToggle>
                   <div
@@ -832,9 +1257,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       </Col>
                     </Row>
                     <div className="declineAccept">
-                      {/* <button>Decline</button> */}
-                      {/* <Link to={`/account/for-delivery/order/${item.id}`}>                    
-                    </Link> */}
                       <button onClick={() => handleAccept(item.id)}>
                         Accept
                       </button>
@@ -928,22 +1350,6 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                         Order Delivered Time: <span></span>
                       </p>
                     </Col>
-
-                    {/* <Row>
-                    <Col md={{ span: 4, offset: 5 }}>
-                      <Button
-                        className="detailsBtn"
-                        onClick={(event) => {
-                          handleClick(event);
-                          setOpen(!open);
-                          changeState();
-                        }}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        View Details
-                      </Button>
-                    </Col>
-                  </Row> */}
                   </Row>
 
                   <Row>
@@ -967,7 +1373,29 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
           );
         }
         return null;
-      })}
+      })} */}
+
+      <div className="innerContainer">
+        {" "}
+        {orders?.length ? (
+          orders?.map((item, index) => {
+            return OrderItem(item, index);
+          })
+        ) : (
+          <h5>No orders found.</h5>
+        )}
+        {orders?.length && currentPage < lastPage && (
+          <div className="text-center">
+            <Button
+              variant="primary"
+              className="btnLoadMore"
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
+        )}
+      </div>
 
       {/* <div className={styles.bottomButtons}>
         <button onClick={navigateToHistory}>History</button>
