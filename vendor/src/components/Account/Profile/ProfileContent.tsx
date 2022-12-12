@@ -190,16 +190,17 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   ) => {
     // data for submit
     setImages(imageList as never[]);
+    setDefaultImg((prev) => !prev);
   };
 
   const handleClick = (onImageUpload: any) => {
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
     onImageUpload();
   };
 
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
   };
 
   const navigate = useNavigate();
