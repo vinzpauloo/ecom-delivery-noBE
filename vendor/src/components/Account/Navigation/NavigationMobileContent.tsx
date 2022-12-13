@@ -12,44 +12,63 @@ import variant05 from "../../../assets/images/variant05.png";
 import variant06 from "../../../assets/images/variant06.png";
 import variant07 from "../../../assets/images/variant07.png";
 import variant08 from "../../../assets/images/variant08.png";
+import variant09 from "../../../assets/images/variant09.png";
+import variant10 from "../../../assets/images/variant10.png";
 
 interface ContainerProps {}
 
 const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
   console.log(window.location.pathname);
   const [active, setActive] = useState(window.location.pathname);
-  
+
   return (
     <div className="d-md-none fixed-bottom">
       <div className={styles.container}>
-        <Link to="/account/for-delivery">
-          {"/account/for-delivery" === active ? (
-            <img src={variant02} alt="" className="img-fluid" />
-          ) : (
-            <img src={variant01} alt="" className="img-fluid" />
-          )}
-        </Link>
-        <Link to="/account/my-restaurant-menu">
-        {"/account/my-restaurant-menu" === active ? (
-            <img src={variant04} alt="" className="img-fluid" />
-          ) : (
-            <img src={variant03} alt="" className="img-fluid" />
-          )}
-        </Link>
-        <Link to="/account/order-history">
-        {"/account/order-history" === active ? (
-            <img src={variant06} alt="" className="img-fluid" />
-          ) : (
-            <img src={variant05} alt="" className="img-fluid" />
-          )}
-        </Link>
-        <Link to="/account">
-        {"/account" === active ? (
-            <img src={variant08} alt="" className="img-fluid" />
-          ) : (
-            <img src={variant07} alt="" className="img-fluid" />
-          )}
-        </Link>
+        <div>
+          <Link to="/account/for-delivery">
+            {"/account/for-delivery" === active ? (
+              <img src={variant02} alt="" className="img-fluid" />
+            ) : (
+              <img src={variant01} alt="" className="img-fluid" />
+            )}
+          </Link>
+        </div>
+        <div>
+          <Link to="/account/my-restaurant-menu">
+            {"/account/my-restaurant-menu" === active ? (
+              <img src={variant04} alt="" className="img-fluid" />
+            ) : (
+              <img src={variant03} alt="" className="img-fluid" />
+            )}
+          </Link>
+        </div>
+        <div>
+          <Link to="/account/flavors">
+            {"/account/flavors" === active ? (
+              <img src={variant06} alt="" className="img-fluid" />
+            ) : (
+              <img src={variant05} alt="" className="img-fluid" />
+            )}
+          </Link>
+        </div>
+        <div>
+          <Link to="/account/order-history">
+            {"/account/order-history" === active ? (
+              <img src={variant08} alt="" className="img-fluid" />
+            ) : (
+              <img src={variant07} alt="" className="img-fluid" />
+            )}
+          </Link>
+        </div>
+        <div>
+          <Link to="/account">
+            {"/account" === active ? (
+              <img src={variant10} alt="" className="img-fluid" />
+            ) : (
+              <img src={variant09} alt="" className="img-fluid" />
+            )}
+          </Link>
+        </div>
       </div>
     </div>
   );
