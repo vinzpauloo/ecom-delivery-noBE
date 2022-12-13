@@ -202,9 +202,8 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
             return OrderItem(item, index);
           })
         ) : (
-          <h5>No orders found.</h5>
+          <h5 className="text-center">No orders found.</h5>
         )}
-
         {orders?.length && currentPage < lastPage && (
           <div className="text-center">
             <Button
@@ -215,6 +214,12 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
               {!isLoading ? "Load more" : "Loading ..."}
             </Button>
           </div>
+        )}
+
+        {currentPage === lastPage && (
+          <h5 className="text-center bg-white">
+            You have reached your last order.
+          </h5>
         )}
       </div>
     </div>

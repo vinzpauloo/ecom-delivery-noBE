@@ -275,15 +275,25 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                   </Row>
 
-                  <div className="d-flex justify-content-between mx-lg-5 mx-md-4">
-                    <div className={styles.btnBlack}>
-                      <Link to={`/order/${order?.id}`}>Check order status</Link>
+                  {order?.order_status === "delivered" ? (
+                    <div className="d-flex justify-content-center mx-lg-5 mx-md-4">
+                      <div className={styles.btnBlack}>
+                        <Link to="/account/orders">Back</Link>
+                      </div>
                     </div>
+                  ) : (
+                    <div className="d-flex justify-content-between mx-lg-5 mx-md-4">
+                      <div className={styles.btnBlack}>
+                        <Link to={`/order/${order?.id}`}>
+                          Check order status
+                        </Link>
+                      </div>
 
-                    <div className={styles.btnBlack}>
-                      <Link to="/account/orders">Back</Link>
+                      <div className={styles.btnBlack}>
+                        <Link to="/account/orders">Back</Link>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </Col>
             </Row>
