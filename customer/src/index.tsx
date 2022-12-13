@@ -23,6 +23,7 @@ import RestaurantFeedback from "./pages/RestaurantFeedback";
 import ChangePassword from "./pages/Account/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ForgotPassword2 from "./pages/ForgotPassword2";
+import PrivateRoute from "./pages/Account/PrivateRoute";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "react-auth-kit";
 
@@ -71,7 +72,7 @@ root.render(
             </Route>
 
             {/* Account dashboard routes */}
-            <Route path="account">
+            <Route path="account" element={<PrivateRoute />}>
               <Route index element={<Profile />} />
               <Route path="change-password" element={<ChangePassword />} />
               <Route path="orders" element={<Orders />} />
