@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import styles from "./HistoryStatusCompletedContent.module.scss";
 import { useOrder } from "../../../../hooks/useOrder";
 import imgs from "../../../../assets/images/kitchen-prep.png";
-import delivered from "../../../../assets/images/delivered.png";
+import delivered from "../../../../assets/images/order-delivered.png";
+import deliveredAlt from "../../../../assets/images/order-delivered-alt.png";
 
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, Grid } from "swiper";
@@ -165,10 +166,21 @@ const HistoryStatusContent = (props: any) => {
                   </Col>
                   <Col className={styles.topContentOrderRight}>
                     <h6 className={styles.status}>Order Status</h6>
-                    <img src={delivered} alt="" />
-                    <h6 className={styles.orderReceived}>
+                    <div className={styles.status2}>
+                      <div className={styles.imgContainer2}>
+                        <img src={delivered} alt="" />
+                        {deliveredItem?.order_status === "delivered" && (
+                          <img
+                            src={deliveredAlt}
+                            alt=""
+                            className={styles.altImg2}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    {/* <h6 className={styles.orderReceived}>
                       {deliveredItem?.order_status}
-                    </h6>
+                    </h6> */}
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
                       <p>{deliveredItem?.total_amount} php</p>
