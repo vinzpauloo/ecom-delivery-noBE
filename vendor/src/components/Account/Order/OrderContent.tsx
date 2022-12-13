@@ -111,18 +111,16 @@ type GetDeliveredItem = {
 };
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
-  const [orders, setOrders] = useState<TOrder[]>([]);
-  const [productItem, setProductItem] = useState<TOrder>();
-
   const {
     // getCurrentOrder,
     getForDeliveryOTW,
     // getOrderCompleted,
     // getOrderCanceled,
   } = useGetOrderStatus();
-
   const { updateOrder, cancelOrder, getOrdersById } = useOrder();
 
+  const [orders, setOrders] = useState<TOrder[]>([]);
+  const [productItem, setProductItem] = useState<TOrder>();
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
   const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
   const [modalShow1, setModalShow1] = React.useState(false);
@@ -139,7 +137,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLoadMore = () => {
-    loadOrderForDelivery("preparing, otw, pending, received", currentPage + 1)
+    loadOrderForDelivery("preparing, otw, pending, received", currentPage + 1);
     setCurrentPage(currentPage + 1);
   };
 
@@ -165,13 +163,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   // Get the params from the url
   const { id } = useParams();
 
-  const handleCancel = async (id: any) => {
-    const response = await cancelOrder(id, "cancel");
-    alert("declined order");
-    window.location.reload();
-    navigate("/account/for-delivery");
-  };
-
   const handleAccept = async (id: string) => {
     setUpdateModalShow({ status: true, ID: id });
     const response = await updateOrder(id, "received");
@@ -186,7 +177,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   //   const params = { status: status };
   //   const response = await getOrderCompleted(params);
   //   console.log("getOrderCompleted", response);
-    
+
   //   setDeliveredItem(response.data);
   // };
 
@@ -248,10 +239,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   }
 
   const loadOrderForDelivery = async (status: string, page) => {
-    const params = { status: status, page: page};
+    const params = { status: status, page: page };
     const response = await getForDeliveryOTW(params);
-    const data = response.data.filter(item => (item.order_status !== "delivered"))
-    setOrders((current:any) => [...current, ...data]);
+    const data = response.data.filter(
+      (item) => item.order_status !== "delivered"
+    );
+    setOrders((current: any) => [...current, ...data]);
     setLastPage(response.last_page);
     setIsLoading(false);
   };
@@ -573,289 +566,17 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               </Col>
             </Row>
           </div>
-        </div>   
+        </div>
         {/* Mapping of Orders*/}
-        {search !== ""
-          ? orders
-              ?.filter((item) =>
-                item.id
-                  .toString()
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase())
-              )
-              .map((item, index) => {
-                return (
-                  <Accordion className={styles.test} flush key={index}>
-                    <Accordion.Item eventKey={`${item.id}`}>
-                      <div className={styles.orderDiv}>
-                        <CustomToggle eventKey={`${item.id}`}>
-                          Order ID: {item.id}
-                        </CustomToggle>
-                        <div className="d-md-none">
-                          <div
-                            className="d-md-none"
-                            onClick={() => handleClickItem(item.id)}
-                          >
-                            <CustomToggle2 eventKey={`${item.id}`}>
-                              View Details
-                            </CustomToggle2>
-                          </div>
-                        </div>
-                      </div>
-                      <Accordion.Body className={styles.deliveryDetails2}>
-                        <div>
-                          <Row>
-                            <Col>
-                              <p>
-                                Customer Name: <span>{item.customer_name}</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <p>
-                                Contact Number:{" "}
-                                <span>{item.customer_mobile} </span>
-                              </p>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <p>
-                              Pick-up address:
-                              <span>{item.restaurant_address}</span>
-                            </p>
-                          </Row>
-                          <Row>
-                            <p>
-                              Delivery Address:
-                              <span>{item.order_address}</span>
-                            </p>
-                          </Row>
-                          <Row>
-                            <Col>
-                              <p>
-                                Order Placed Time:{" "}
-                                <span>{getTime(item.created_at)}</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <p>
-                                Order Delivered Time:{" "}
-                                <span>{getTime(item.updated_at)}</span>
-                              </p>
-                            </Col>
-                          </Row>
-                          <hr />
-                          <Row>
-                            <Col>
-                              <p>Order Details:</p>
-                              <ul>
-                                {productItem?.products.map((item, index) => (
-                                  <li key={index}>
-                                    {item.quantity}x {item.name}
-                                  </li>
-                                ))}
-                              </ul>
-                            </Col>
-                            <Col>
-                              <div className={styles.resto}>
-                                <p>{item.restaurant_name}</p>
-                                <img
-                                  src={productItem?.restaurant_photo}
-                                  alt="resto"
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                          <hr />
-                          <Row>
-                            <Col>
-                              <p>
-                                Sub Total: <span>1,350 php</span>
-                              </p>
-                              <p>
-                                Delivery Fee: <span>85 php</span>
-                              </p>
-                              <p>
-                                Total: <span>1,435 php</span>
-                              </p>
-                            </Col>
-                            <Col>
-                              <div className={styles.status}>
-                                <p>Order Status</p>
-                                {item?.order_status === "pending" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={orderReceived} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Pending
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "preparing" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={kitchenPrep} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Kitchen Preparing...
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "otw" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={riderOTW} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Rider On Its Way
-                                    </p>
-                                  </div>
-                                )}
-                                {item?.order_status === "delivered" && (
-                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                    <img src={riderDelivered} />
-                                    <p
-                                      style={{
-                                        textTransform: "uppercase",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      Order Delivered
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                          <div className={styles.declineAccept}>
-                            {item?.order_status === "pending" ? (
-                              <Button onClick={() => handleAccept(`${item.id}`)}>
-                                Accept
-                              </Button>
-                            ) : null}
-                          </div>
-                        </div>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                    <Row className={styles.forDeliveryMobile}>
-                      <Col
-                        xs={1}
-                        className={`${styles.deliveryDetails} d-md-none`}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        <Row>
-                          <Col>
-                            <p>
-                              Customer Name: <span> {item.customer_name} </span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <p>
-                            Pick-up address:
-                            <span>{item.restaurant_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
-                          </p>
-                        </Row>
-                        <Row>
-                          <Col>
-                            <p>
-                              Order Placed Time:{" "}
-                              <span>{getTime(item.created_at)}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Order Delivered Time:{" "}
-                              <span>{getTime(item.updated_at)}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row
-                      className={`${styles.forDeliveryDesktop} d-none d-md-block`}
-                    >
-                      <Col
-                        className={styles.deliveryDetails}
-                        style={{ display: isShown ? "block" : "none" }}
-                      >
-                        <Row className="p-1">
-                          <Col>
-                            <p>
-                              Customer Name: <span>{item.customer_name}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row className="p-1">
-                          <p>
-                            Pick-up address:
-                            <span>{item.restaurant_address}</span>
-                          </p>
-                        </Row>
-                        <Row className="p-1">
-                          <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
-                          </p>
-                        </Row>
-                        <Row className="p-1">
-                          <Col>
-                            <p>
-                              Order Placed Time:{" "}
-                              <span>{getTime(item.created_at)}</span>
-                            </p>
-                          </Col>
-                          <Col>
-                            <p>
-                              Order Delivered Time:{" "}
-                              <span>{getTime(item.updated_at)}</span>
-                            </p>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col
-                            className="d-none d-md-block"
-                            md={{ span: 7, offset: 5 }}
-                            onClick={() => handleClickItem(item.id)}
-                          >
-                            <CustomToggle2 eventKey={`${item.id}`}>
-                              View Details
-                            </CustomToggle2>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Accordion>
-                );
-              })
-          : ( orders.length ? orders.map((item, index) => {
+        {search !== "" ? (
+          orders
+            ?.filter((item) =>
+              item.id
+                .toString()
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase())
+            )
+            .map((item, index) => {
               return (
                 <Accordion className={styles.test} flush key={index}>
                   <Accordion.Item eventKey={`${item.id}`}>
@@ -868,7 +589,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           className="d-md-none"
                           onClick={() => handleClickItem(item.id)}
                         >
-                          <CustomToggle2 eventKey={item.id}>
+                          <CustomToggle2 eventKey={`${item.id}`}>
                             View Details
                           </CustomToggle2>
                         </div>
@@ -885,20 +606,19 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <p>
                               Contact Number:{" "}
-                              <span>{item.customer_mobile}</span>
+                              <span>{item.customer_mobile} </span>
                             </p>
                           </Col>
                         </Row>
                         <Row>
                           <p>
-                            Pick-up address:
+                            Pick-up address:{" "}
                             <span>{item.restaurant_address}</span>
                           </p>
                         </Row>
                         <Row>
                           <p>
-                            Delivery Address:
-                            <span>{item.order_address}</span>
+                            Delivery Address: <span>{item.order_address}</span>
                           </p>
                         </Row>
                         <Row>
@@ -941,13 +661,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Row>
                           <Col>
                             <p>
-                              Sub Total: <span>1,350 php</span>
+                              Sub Total: <span>{item.total_amount} php</span>
                             </p>
                             <p>
                               Delivery Fee: <span>85 php</span>
                             </p>
                             <p>
-                              Total: <span>1,435 php</span>
+                              Total: <span>{item.total_amount} php</span>
                             </p>
                           </Col>
                           <Col>
@@ -955,7 +675,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               <p>Order Status</p>
                               {item?.order_status === "pending" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={orderReceived} />
+                                  <img src={orderReceived} alt="" />
                                   <p
                                     style={{
                                       textTransform: "uppercase",
@@ -968,7 +688,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               )}
                               {item?.order_status === "preparing" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={kitchenPrep} />
+                                  <img src={kitchenPrep} alt="" />
                                   <p
                                     style={{
                                       textTransform: "uppercase",
@@ -981,7 +701,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               )}
                               {item?.order_status === "otw" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderOTW} />
+                                  <img src={riderOTW} alt="" />
                                   <p
                                     style={{
                                       textTransform: "uppercase",
@@ -994,7 +714,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                               )}
                               {item?.order_status === "delivered" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderDelivered} />
+                                  <img src={riderDelivered} alt="" />
                                   <p
                                     style={{
                                       textTransform: "uppercase",
@@ -1027,7 +747,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <Row>
                         <Col>
                           <p>
-                            Customer Name: <span> {item.customer_name} </span>
+                            Customer Name: <span>{item.customer_name}</span>
                           </p>
                         </Col>
                         <Col>
@@ -1038,14 +758,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       </Row>
                       <Row>
                         <p>
-                          Pick-up address:
+                          Pick-up address:{" "}
                           <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row>
                         <p>
-                          Delivery Address:
-                          <span>{item.order_address}</span>
+                          Delivery Address: <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row>
@@ -1085,14 +804,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       </Row>
                       <Row className="p-1">
                         <p>
-                          Pick-up address:
+                          Pick-up address:{" "}
                           <span>{item.restaurant_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
                         <p>
-                          Delivery Address:
-                          <span>{item.order_address}</span>
+                          Delivery Address: <span>{item.order_address}</span>
                         </p>
                       </Row>
                       <Row className="p-1">
@@ -1124,21 +842,287 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                   </Row>
                 </Accordion>
               );
-            }) : 
-              <h5>No orders found.</h5>
-            )}
+            })
+        ) : orders.length ? (
+          orders.map((item, index) => {
+            return (
+              <Accordion className={styles.test} flush key={index}>
+                <Accordion.Item eventKey={`${item.id}`}>
+                  <div className={styles.orderDiv}>
+                    <CustomToggle eventKey={`${item.id}`}>
+                      Order ID: {item.id}
+                    </CustomToggle>
+                    <div className="d-md-none">
+                      <div
+                        className="d-md-none"
+                        onClick={() => handleClickItem(item.id)}
+                      >
+                        <CustomToggle2 eventKey={`${item.id}`}>
+                          View Details
+                        </CustomToggle2>
+                      </div>
+                    </div>
+                  </div>
+                  <Accordion.Body className={styles.deliveryDetails2}>
+                    <div>
+                      <Row>
+                        <Col>
+                          <p>
+                            Customer Name: <span>{item.customer_name}</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Contact Number: <span>{item.customer_mobile}</span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <p>
+                          Pick-up address:{" "}
+                          <span>{item.restaurant_address}</span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <p>
+                          Delivery Address: <span>{item.order_address}</span>
+                        </p>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <p>
+                            Order Placed Time:{" "}
+                            <span>{getTime(item.created_at)}</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <p>
+                            Order Delivered Time:{" "}
+                            <span>{getTime(item.updated_at)}</span>
+                          </p>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>Order Details:</p>
+                          <ul>
+                            {productItem?.products.map((item, index) => (
+                              <li key={index}>
+                                {item.quantity}x {item.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </Col>
+                        <Col>
+                          <div className={styles.resto}>
+                            <p>{item.restaurant_name}</p>
+                            <img
+                              src={productItem?.restaurant_photo}
+                              alt="resto"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                      <hr />
+                      <Row>
+                        <Col>
+                          <p>
+                            Sub Total: <span>{item.total_amount} php</span>
+                          </p>
+                          <p>
+                            Delivery Fee: <span>85 php</span>
+                          </p>
+                          <p>
+                            Total: <span>{item.total_amount} php</span>
+                          </p>
+                        </Col>
+                        <Col>
+                          <div className={styles.status}>
+                            <p>Order Status</p>
+                            {item?.order_status === "pending" && (
+                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                <img src={orderReceived} alt="" />
+                                <p
+                                  style={{
+                                    textTransform: "uppercase",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  Pending
+                                </p>
+                              </div>
+                            )}
+                            {item?.order_status === "preparing" && (
+                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                <img src={kitchenPrep} alt="" />
+                                <p
+                                  style={{
+                                    textTransform: "uppercase",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  Kitchen Preparing...
+                                </p>
+                              </div>
+                            )}
+                            {item?.order_status === "otw" && (
+                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                <img src={riderOTW} alt="" />
+                                <p
+                                  style={{
+                                    textTransform: "uppercase",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  Rider On Its Way
+                                </p>
+                              </div>
+                            )}
+                            {item?.order_status === "delivered" && (
+                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                <img src={riderDelivered} alt="" />
+                                <p
+                                  style={{
+                                    textTransform: "uppercase",
+                                    fontWeight: "600",
+                                  }}
+                                >
+                                  Order Delivered
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className={styles.declineAccept}>
+                        {item?.order_status === "pending" ? (
+                          <Button onClick={() => handleAccept(`${item.id}`)}>
+                            Accept
+                          </Button>
+                        ) : null}
+                      </div>
+                    </div>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Row className={styles.forDeliveryMobile}>
+                  <Col
+                    xs={1}
+                    className={`${styles.deliveryDetails} d-md-none`}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row>
+                      <Col>
+                        <p>
+                          Customer Name: <span>{item.customer_name}</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>{item.customer_mobile}</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <p>
+                        Pick-up address: <span>{item.restaurant_address}</span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <p>
+                        Delivery Address: <span>{item.order_address}</span>
+                      </p>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>
+                          Order Placed Time:{" "}
+                          <span>{getTime(item.created_at)}</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time:{" "}
+                          <span>{getTime(item.updated_at)}</span>
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+                <Row
+                  className={`${styles.forDeliveryDesktop} d-none d-md-block`}
+                >
+                  <Col
+                    className={styles.deliveryDetails}
+                    style={{ display: isShown ? "block" : "none" }}
+                  >
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Customer Name: <span>{item.customer_name}</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Contact Number: <span>{item.customer_mobile}</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Pick-up address: <span>{item.restaurant_address}</span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <p>
+                        Delivery Address: <span>{item.order_address}</span>
+                      </p>
+                    </Row>
+                    <Row className="p-1">
+                      <Col>
+                        <p>
+                          Order Placed Time:{" "}
+                          <span>{getTime(item.created_at)}</span>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p>
+                          Order Delivered Time:{" "}
+                          <span>{getTime(item.updated_at)}</span>
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col
+                        className="d-none d-md-block"
+                        md={{ span: 7, offset: 5 }}
+                        onClick={() => handleClickItem(item.id)}
+                      >
+                        <CustomToggle2 eventKey={`${item.id}`}>
+                          View Details
+                        </CustomToggle2>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Accordion>
+            );
+          })
+        ) : (
+          <h5>No orders found.</h5>
+        )}
       </div>
       {orders?.length && currentPage < lastPage && search === "" && (
-          <div className="text-center">
-            <Button
-              variant="primary"
-              className={styles.btnLoadMore}
-              onClick={handleLoadMore}
-            >
-              {!isLoading ? "Load more" : "Loading ..."}
-            </Button>
-          </div>
-        )}
+        <div className="text-center">
+          <Button
+            variant="primary"
+            className={styles.btnLoadMore}
+            onClick={handleLoadMore}
+          >
+            {!isLoading ? "Load more" : "Loading ..."}
+          </Button>
+        </div>
+      )}
       <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">
@@ -1179,10 +1163,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
 const UpdateSuccessModal = (props: any) => {
   const { setUpdateModalShow, updateModalShow } = props;
-  const { updateOrder } = useOrder();
 
   const handleClick = async () => {
-    // const response = await updateOrder(updateModalShow.ID, "received");
     setUpdateModalShow({ status: false, ID: "" });
   };
   return (
