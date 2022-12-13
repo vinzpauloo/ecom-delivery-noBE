@@ -73,7 +73,7 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
         setNotification(true);
         const timer = setTimeout(() => {
           setNotification(false);
-        }, 5000);
+        }, 3000);
         return () => clearTimeout(timer);
       },
       []
