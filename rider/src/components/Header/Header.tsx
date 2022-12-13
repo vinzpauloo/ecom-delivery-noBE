@@ -27,7 +27,7 @@ interface ContainerProps {
   setNotification: (props: boolean) => void;
 }
 
-const Header: React.FC<ContainerProps> = ({setNotification}) => {
+const Header: React.FC<ContainerProps> = ({ setNotification }) => {
   const { logout } = useLogout();
   const isAuthenticated = useIsAuthenticated();
 
@@ -66,10 +66,18 @@ const Header: React.FC<ContainerProps> = ({setNotification}) => {
 
     const channel = pusher.subscribe("Order-Preparing-Channel");
 
-    channel.bind("Order-Updated-Event", () => {
-      // alert(`You have received a new order for delivery.`);
-      setNotification(true);
-    });
+    channel.bind(
+      "Order-Updated-Event",
+      () => {
+        // alert(`You have received a new order for delivery.`);
+        setNotification(true);
+        const timer = setTimeout(() => {
+          setNotification(false);
+        }, 5000);
+        return () => clearTimeout(timer);
+      },
+      []
+    );
 
     // channel.bind("Order-Updated-Event", () => {
     //   alert(`Order status updated`);
