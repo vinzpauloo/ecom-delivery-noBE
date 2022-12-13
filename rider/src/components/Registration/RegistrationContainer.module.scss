@@ -18,7 +18,7 @@ html {
 
   @include devices(md) {
     // min-height: auto;
-    height: 125vh;
+    height: 145vh;
     padding: 60px 0;
     margin-bottom: 0px - $FM_FOOTER_HEIGHT_MD;
   }
