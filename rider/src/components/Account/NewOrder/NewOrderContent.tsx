@@ -193,12 +193,12 @@ const NewOrderContent = (props: any) => {
                       </div>
                     </div>
                     {/* <img src={kitchenPrep} alt="" /> */}
-                    <h6 className={styles.orderReceived}>
+                    {/* <h6 className={styles.orderReceived}>
                       {deliveredItem?.order_status === "preparing"
                         ? "PREPARING"
                         : "PREPARING"}
-                      {/* {deliveredItem?.order_status} */}
-                    </h6>
+                    
+                    </h6> */}
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
                       <p>{deliveredItem?.total_amount} php</p>

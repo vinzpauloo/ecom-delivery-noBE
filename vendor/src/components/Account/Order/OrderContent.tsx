@@ -249,17 +249,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    // loadPendingOrder("pending");
-    loadOrderForDelivery("preparing, otw, pending, received", 1);
-    // loadDeliveredItem("delivered");
-    // loadOrders(1);
-  }, []);
-
   const handleClickItem = async (props) => {
     const response = await getOrdersById(props);
     console.log("getOrdersById response", response);
     setProductItem(response);
+  };
+
+  const handleClickStatus = (id: number) => {
+    navigate(`/account/order/status/${id}`);
   };
 
   const handleClickComplete = (id) => {
@@ -500,6 +497,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     );
   }
 
+  useEffect(() => {
+    // loadPendingOrder("pending");
+    loadOrderForDelivery("preparing, otw, pending, received", 1);
+    // loadDeliveredItem("delivered");
+    // loadOrders(1);
+  }, []);
+
   return (
     <>
       <div className={styles.deliveryContainer}>
@@ -584,7 +588,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                       <CustomToggle eventKey={`${item.id}`}>
                         Order ID: {item.id}
                       </CustomToggle>
-                      <div className="d-md-none">
+                      <div className="d-md-none" style={{ display: "flex" }}>
                         <div
                           className="d-md-none"
                           onClick={() => handleClickItem(item.id)}
@@ -592,6 +596,27 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <CustomToggle2 eventKey={`${item.id}`}>
                             View Details
                           </CustomToggle2>
+                        </div>
+                        <div
+                          className="d-md-none"
+                          onClick={() => handleClickStatus(item.id)}
+                          style={{ marginLeft: "5px" }}
+                        >
+                          <button
+                            style={{
+                              backgroundColor: "#e6b325",
+                              border: "none",
+                              color: "white",
+                              fontWeight: "700",
+                              fontSize: "8px",
+                              lineHeight: "8px",
+                              width: "82px",
+                              height: "26px",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            Status
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -827,15 +852,43 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           </p>
                         </Col>
                       </Row>
-                      <Row>
+                      <Row
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         <Col
-                          className="d-none d-md-block"
-                          md={{ span: 7, offset: 5 }}
+                          className="d-none d-md-flex"
+                          // md={{ span: 5, offset: 5 }}
+                          style={{ justifyContent: "flex-end" }}
                           onClick={() => handleClickItem(item.id)}
                         >
                           <CustomToggle2 eventKey={`${item.id}`}>
                             View Details
                           </CustomToggle2>
+                        </Col>
+                        <Col
+                          className="d-none d-md-flex"
+                          // md={{ span: 7, offset: 5 }}
+                          onClick={() => handleClickStatus(item.id)}
+                        >
+                          <button
+                            style={{
+                              backgroundColor: "#e6b325",
+                              border: "none",
+                              color: "white",
+                              fontWeight: "700",
+                              fontSize: "8px",
+                              lineHeight: "8px",
+                              width: "82px",
+                              height: "26px",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            Status
+                          </button>
                         </Col>
                       </Row>
                     </Col>
@@ -852,7 +905,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                     <CustomToggle eventKey={`${item.id}`}>
                       Order ID: {item.id}
                     </CustomToggle>
-                    <div className="d-md-none">
+                    <div className="d-md-none" style={{ display: "flex" }}>
                       <div
                         className="d-md-none"
                         onClick={() => handleClickItem(item.id)}
@@ -860,6 +913,27 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <CustomToggle2 eventKey={`${item.id}`}>
                           View Details
                         </CustomToggle2>
+                      </div>
+                      <div
+                        className="d-md-none"
+                        onClick={() => handleClickStatus(item.id)}
+                        style={{ marginLeft: "5px" }}
+                      >
+                        <button
+                          style={{
+                            backgroundColor: "#e6b325",
+                            border: "none",
+                            color: "white",
+                            fontWeight: "700",
+                            fontSize: "8px",
+                            lineHeight: "8px",
+                            width: "82px",
+                            height: "26px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Status
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1092,15 +1166,43 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         </p>
                       </Col>
                     </Row>
-                    <Row>
+                    <Row
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <Col
-                        className="d-none d-md-block"
-                        md={{ span: 7, offset: 5 }}
+                        className="d-none d-md-flex"
+                        // md={{ span: 5, offset: 5 }}
+                        style={{ justifyContent: "flex-end" }}
                         onClick={() => handleClickItem(item.id)}
                       >
                         <CustomToggle2 eventKey={`${item.id}`}>
                           View Details
                         </CustomToggle2>
+                      </Col>
+                      <Col
+                        className="d-none d-md-flex"
+                        // md={{ span: 7, offset: 5 }}
+                        onClick={() => handleClickStatus(item.id)}
+                      >
+                        <button
+                          style={{
+                            backgroundColor: "#e6b325",
+                            border: "none",
+                            color: "white",
+                            fontWeight: "700",
+                            fontSize: "8px",
+                            lineHeight: "8px",
+                            width: "82px",
+                            height: "26px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Status
+                        </button>
                       </Col>
                     </Row>
                   </Col>
@@ -1112,7 +1214,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <h5>No orders found.</h5>
         )}
       </div>
-      {orders?.length && currentPage < lastPage && search === "" && (
+      {orders?.length !== 0 && currentPage < lastPage && search === "" && (
         <div className="text-center">
           <Button
             variant="primary"
