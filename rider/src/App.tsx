@@ -29,7 +29,7 @@ const App: React.FC = (props: Props) => {
   // const customHeaderPages = ["/registration", "/registration2", "/otp"];
   const customHeaderPages = ["/registration", "/registration2", "/otp"];
 
-  const customHeaderPages2 = ["/"];
+  const customHeaderPages2 = ["/", "/forgot-password", "/forgot-password2"];
 
   // Pages with custom footer
   const customFooterPages = [
