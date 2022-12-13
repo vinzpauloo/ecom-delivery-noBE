@@ -96,12 +96,17 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   // const [preparingItem, setPreparingItem] = useState<GetPreparingItem[]>([]);
   // const [otwItem, setOtwItem] = useState<GetOTWItem[]>([]);
   const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const loadAllOrderItem = async (except_status: string) => {
-    const params = { except_status: except_status };
+  const loadAllOrderItem = async (except_status: string, page: number) => {
+    const params = { except_status: except_status, page: page };
     const response = await getAllOrders(params);
     console.log("getAllOrders", response);
-    setAllOrderItem(response.data);
+    setAllOrderItem((current: any) => [...current, ...response.data]);
+    setLastPage(response.last_page);
+    setIsLoading(false);
   };
 
   const loadCanceledItem = async (status: string) => {
@@ -121,20 +126,23 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   const handleClickComplete = (id) => {
     navigate("completed/" + id);
   };
+
   const handleClickCancel = (id) => {
     navigate("cancelled/" + id);
   };
 
+  const handleLoadMore = () => {
+    loadAllOrderItem("pending", currentPage + 1);
+    setCurrentPage(currentPage + 1);
+  };
+
   useEffect(() => {
-    loadAllOrderItem("pending");
+    loadAllOrderItem("pending", 1);
     // loadOrderForDelivery("otw");
     // loadPreparingItem("preparing");
     loadCanceledItem("canceled");
     loadDeliveredItem("delivered");
   }, []);
-
-  console.log("!!!",deliveredItem, canceledItem);
-  
 
   function CompletedModal(props: any) {
     return (
@@ -835,6 +843,19 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               })}
         </div>
       </div>
+      {allOrderItem?.length !== 0 &&
+        currentPage < lastPage &&
+        search === "" && (
+          <div className="text-center" style={{ margin: "10px 0 0" }}>
+            <Button
+              variant="primary"
+              className={styles.btnLoadMore}
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
+        )}
       <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">
