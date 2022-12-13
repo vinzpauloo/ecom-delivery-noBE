@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 import styles from "./Navigation.module.scss";
 
@@ -16,6 +16,9 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
         </li>
         <li>
           <Link to="/account/my-restaurant-menu">Menu</Link>
+        </li>
+        <li>
+          <Link to="/account/flavors">Flavors</Link>
         </li>
         <li>
           <Link to="/account/order-history">Order History</Link>

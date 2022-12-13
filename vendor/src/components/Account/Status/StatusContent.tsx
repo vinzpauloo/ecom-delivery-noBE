@@ -6,8 +6,11 @@ import { useOrder } from "../../../hooks/useOrder";
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsReceivedAlt from "../../../assets/images/order-received-alt.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
+import statusIsPreparingAlt from "../../../assets/images/order-preparing-alt.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
+import statusIsOtwAlt from "../../../assets/images/order-otw-alt.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
+import statusIsDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
 
 import styles from "./StatusContent.module.scss";
 import Lottie from "lottie-react";
@@ -18,7 +21,6 @@ import Pusher from "pusher-js";
 import * as PusherTypes from "pusher-js";
 
 var presenceChannel: PusherTypes.PresenceChannel;
-
 const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 
 const pusher = new Pusher(PUSHER_KEY, {
@@ -67,9 +69,26 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
 
   const [order, setOrder] = useState<ForPreparingItem | null>(null);
+  // const [orderStatus, setOrderStatus] = useState<string>("");
 
   // Get the params from the url
   const { id } = useParams();
+
+  // const initializeOrderChannel = (orderRoom: string) => {
+  //   console.log("jejejeje");
+  //   const channel = pusher.subscribe(orderRoom);
+  //   channel.bind("Order-Updated-Event", (data: any) => {
+  //     const parsedData = JSON.parse(data.message);
+  //     const status = parsedData.status;
+
+  //     // setOrder({ ...parsedData, order_status: status });
+  //     setOrderStatus(status);
+
+  //     if (status == "canceled" || status == "delivered") {
+  //       pusher.unsubscribe(orderRoom);
+  //     }
+  //   });
+  // };
 
   const loadReceivedOrder = async () => {
     const response = await getOrdersById(id);
@@ -77,19 +96,40 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     setStatus(response);
     setOrder(response);
     setIsGuest(!!response.guest_id);
-    if(!!!response.guest_id){
+    console.log("@@@", response);
+
+    // if (
+    //   response.order_status != "canceled" &&
+    //   response.order_status != "delivered"
+    // ) {
+    //   const orderRoom = `Order-Channel-${response.id}`;
+    //   initializeOrderChannel(orderRoom);
+    // }
+
+    if (!!!response.guest_id) {
       // Initialize chat channel for merchant
       const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
-    initializeChatChannel(merchantChatRoom, setRestaurantChat, setRestaurantChatroom);
-    }else{
+      initializeChatChannel(
+        merchantChatRoom,
+        setRestaurantChat,
+        setRestaurantChatroom
+      );
+    } else {
       // Initialize chat channel for merchant
       const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
-      initializeChatChannel(merchantChatRoom, setRestaurantChat, setRestaurantChatroom);
+      initializeChatChannel(
+        merchantChatRoom,
+        setRestaurantChat,
+        setRestaurantChatroom
+      );
     }
-
   };
 
-  const initializeChatChannel = (chatRoom: string, setChat: any, setChatroom: any) => {
+  const initializeChatChannel = (
+    chatRoom: string,
+    setChat: any,
+    setChatroom: any
+  ) => {
     setChatroom(chatRoom);
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
@@ -106,7 +146,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 
   const handleAccept = async (id: any) => {
     console.log(id);
-    setUpdateModalShow(true)
+    setUpdateModalShow(true);
     const response = await updateOrder(id, "preparing");
     // alert("updated status preparing successfully");
     // navigate("/account/for-delivery");
@@ -115,6 +155,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   useEffect(() => {
     loadReceivedOrder();
   }, []);
+
   return (
     <div className={styles.container}>
       <div className="text-center">
@@ -142,27 +183,52 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
           </Col>
           <Col className={styles.statusContent}>
             <div className={styles.status}>
-              <img src={statusIsPreparing} alt="" />
-              <p>Kitchen Preparing ...</p>
+              <div className={styles.imgContainer}>
+                <img src={statusIsPreparing} alt="" />
+                {order?.order_status === "preparing" && (
+                  <img
+                    src={statusIsPreparingAlt}
+                    alt=""
+                    className={styles.altImg}
+                  />
+                )}
+                <p>Kitchen Preparing ...</p>
+              </div>
             </div>
-            <Button
-              type="submit"
-              onClick={() => handleAccept(status?.id)}
-              className={styles.activateBtn}
-            >
-              Activate
-            </Button>
+            {order?.order_status === "received" ? (
+              <Button
+                type="submit"
+                onClick={() => handleAccept(status?.id)}
+                className={styles.activateBtn}
+              >
+                Activate
+              </Button>
+            ) : null}
           </Col>
           <Col className={styles.statusContent}>
             <div className={styles.status}>
-              <img src={statusIsOtw} alt="" />
-              <p>Rider on its way</p>
+              <div className={styles.imgContainer}>
+                <img src={statusIsOtw} alt="" />
+                {order?.order_status === "otw" && (
+                  <img src={statusIsOtwAlt} alt="" className={styles.altImg} />
+                )}
+                <p>Rider on its way</p>
+              </div>
             </div>
           </Col>
           <Col className={styles.statusContent}>
             <div className={styles.status}>
-              <img src={statusIsDelivered} alt="" />
-              <p>Delivered</p>
+              <div className={styles.imgContainer}>
+                <img src={statusIsDelivered} alt="" />
+                {order?.order_status === "delivered" && (
+                  <img
+                    src={statusIsDeliveredAlt}
+                    alt=""
+                    className={styles.altImg}
+                  />
+                )}
+                <p>Delivered</p>
+              </div>
             </div>
           </Col>
         </Row>
@@ -187,17 +253,13 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 };
 
 const UpdateSuccessModal = (props: any) => {
-  const {setUpdateModalShow} = props;
+  const { setUpdateModalShow } = props;
 
   const handleClick = () => {
-    setUpdateModalShow(false)
-  }
+    setUpdateModalShow(false);
+  };
   return (
-    <Modal
-      {...props}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
         <div className={`text-center p-4`}>
           <Lottie animationData={updateSuccess} loop={true} />

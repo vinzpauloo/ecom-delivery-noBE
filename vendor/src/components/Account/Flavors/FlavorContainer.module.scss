@@ -1,0 +1,58 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.container {
+  min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
+  padding: 40px 0;
+
+  @include devices(md) {
+    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
+    padding: 15px 0;
+
+    h3 {
+      padding-left: 10px;
+    }
+
+    .mobileNav {
+      position: absolute;
+    }
+
+    .navigationContainer {
+      background: none;
+      border: none;
+      height: none;
+      padding: 0px;
+    }
+  }
+
+  @include devices(xs) {
+    min-height: calc(109vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
+    padding: 15px 0;
+
+    h3 {
+      padding-left: 10px;
+    }
+
+    .mobileNav {
+      position: absolute;
+    }
+    .navigationContainer {
+      background: none;
+      border: none;
+      height: none;
+      padding: 0px;
+    }
+  }
+}
+
+.navigationContainer {
+  background: #f2f2f2;
+  border: 1px solid #000000;
+  height: 100%;
+  padding: 30px 20px;
+}
+
+.contentContainer {
+  padding: 50px 10px 30px;
+  height: 100%;
+}

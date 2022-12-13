@@ -27,7 +27,7 @@ interface ContainerProps {
   setNotification: any;
 }
 
-const Header: React.FC<ContainerProps> = ({setNotification}) => {
+const Header: React.FC<ContainerProps> = ({ setNotification }) => {
   const { logout } = useLogout();
   const isAuthenticated = useIsAuthenticated();
 
@@ -69,8 +69,10 @@ const Header: React.FC<ContainerProps> = ({setNotification}) => {
     channel.bind("Order-Created-Event", (data) => {
       // alert(`You have received a new order.`);
       const parsedData = JSON.parse(data.message);
-      // console.log("!!!", parsedData)
-      setNotification({status: true, id: parsedData.id});
+      setNotification({ status: true, id: parsedData.id });
+      window.setTimeout(() => {
+        setNotification({ status: false, id: parsedData.id });
+      }, 5000);
     });
 
     channel.bind("Order-Updated-Event", () => {
