@@ -41,6 +41,9 @@ type ForDeliveryItem = {
   rider_id: string;
   rider_vehicle_model: string;
   id: string;
+  rider_name: string;
+  delivered_at: string;
+  received_at: string;
 };
 
 type ForCompletedItem = {
@@ -134,6 +137,11 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     []
   );
 
+  const [orders, setOrders] = useState<ForDeliveryItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
@@ -141,11 +149,31 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     setForDelivery(response.data);
   };
 
-  const loadOrderCompleted = async (status: string) => {
-    const params = { status: status };
+  // const loadOrderCompleted = async (status: string) => {
+  //   const params = { status: status };
+  //   const response = await getOrderCompleted(params);
+  //   console.log("getOrderCompleted", response);
+  //   setForOrderCompleted(response.data);
+  // };
+
+  const loadOrderCompleted = async (status: string, page: any) => {
+    const params = { status: status, page: page };
     const response = await getOrderCompleted(params);
+    const data = response.data.filter(
+      (item: any) => item.order_status === "delivered"
+    );
     console.log("getOrderCompleted", response);
+
+    setOrders((current: any) => [...current, ...data]);
+    setLastPage(response.last_page);
+    setIsLoading(false);
     setForOrderCompleted(response.data);
+  };
+
+  const handleLoadMore = () => {
+    console.log("load more ...");
+    loadOrderCompleted("delivered, canceled", currentPage + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   const loadOrderCanceled = async (status: string) => {
@@ -157,13 +185,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
 
   useEffect(() => {
     // handleGetForDelivery();
-    loadOrderForDelivery("preparing");
+    // loadOrderForDelivery("preparing");
     // loadOrderForDelivery("pending");
-    loadOrderCompleted("delivered, canceled");
+    loadOrderCompleted("delivered, canceled", 1);
     loadOrderCanceled("canceled");
   }, []);
 
   const [inputText, setInputText] = useState("");
+
   let inputHandler = (e: any) => {
     //convert input text to lower case
     var lowerCase = e.target.value.toLowerCase();
@@ -307,6 +336,289 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
     setSearch(e.target.value);
   };
   //
+
+  const OrderItem = (item: ForCompletedItem, index: number) => {
+    console.log(search);
+    const stringID = String(item.id);
+    if (search && stringID.includes(search)) {
+      return (
+        <div className={styles.item} key={index}>
+          <Row>
+            <Col lg={{ span: 12 }}>
+              <Row>
+                <Col md={3}>
+                  <div className={styles.flexOnMobile}>
+                    <div className={styles.orderId}>
+                      <h6 className="text-center text-uppercase">
+                        Order ID : {item.id}
+                      </h6>
+                    </div>
+
+                    <div className={styles.btnView}>
+                      <Link to={`/account/order-history/${item.id}`}>
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+
+                <Col md={9}>
+                  <div className={styles.orderDetails}>
+                    <Row>
+                      <Col>
+                        <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Customer Name :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.customer_name}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Contact Number :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.customer_mobile}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+
+                        <Row className="mb-2 mb-sm-3">
+                          <Col sm={3} xs={5}>
+                            <p>Pick up Address :</p>
+                          </Col>
+                          <Col sm={9} xs={7}>
+                            <p className={styles.value}>
+                              {item.restaurant_address}
+                            </p>
+                          </Col>
+                        </Row>
+
+                        <Row className="mb-2 mb-sm-3">
+                          <Col sm={3} xs={5}>
+                            <p>Delivery Address :</p>
+                          </Col>
+                          <Col sm={9} xs={7}>
+                            <p className={styles.value}>{item.order_address}</p>
+                          </Col>
+                        </Row>
+
+                        <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Order Placed Time: </p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item && getTime(item?.created_at)}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Order Delivered Time :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.delivered_at}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+
+                        <Row sm={2} xs={1}>
+                          <Col>
+                            <Row>
+                              <Col xs={5} sm={6}>
+                                <p>Date Ordered :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item && getTime(item?.created_at)}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+
+                          <Col className="d-none d-md-block">
+                            <Row>
+                              <Col>
+                                <div className={styles.btnView}>
+                                  <Link
+                                    to={`/account/order-history/${item.id}`}
+                                  >
+                                    View Details
+                                  </Link>
+                                </div>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      );
+    }
+    if (search.length === 0) {
+      return (
+        <div className={styles.item} key={index}>
+          <Row>
+            <Col lg={{ span: 12 }}>
+              <Row>
+                <Col md={3}>
+                  <div className={styles.flexOnMobile}>
+                    <div className={styles.orderId}>
+                      <h6 className="text-center text-uppercase">
+                        Order ID : {item.id}
+                      </h6>
+                    </div>
+
+                    <div className={styles.btnView}>
+                      <Link to={`/account/order-history/${item.id}`}>
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
+                </Col>
+
+                <Col md={9}>
+                  <div className={styles.orderDetails}>
+                    <Row>
+                      <Col>
+                        <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Customer Name :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.customer_name}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Contact Number :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.customer_mobile}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+
+                        <Row className="mb-2 mb-sm-3">
+                          <Col sm={3} xs={5}>
+                            <p>Pick up Address :</p>
+                          </Col>
+                          <Col sm={9} xs={7}>
+                            <p className={styles.value}>
+                              {item.restaurant_address}
+                            </p>
+                          </Col>
+                        </Row>
+
+                        <Row className="mb-2 mb-sm-3">
+                          <Col sm={3} xs={5}>
+                            <p>Delivery Address :</p>
+                          </Col>
+                          <Col sm={9} xs={7}>
+                            <p className={styles.value}>{item.order_address}</p>
+                          </Col>
+                        </Row>
+
+                        <Row sm={2} xs={1} className="mb-0 mb-sm-3">
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Order Placed Time: </p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item && getTime(item?.created_at)}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col>
+                            <Row className="mb-2 mb-sm-0">
+                              <Col xs={5} sm={6}>
+                                <p>Order Delivered Time :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item.delivered_at}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+
+                        <Row sm={2} xs={1}>
+                          <Col>
+                            <Row>
+                              <Col xs={5} sm={6}>
+                                <p>Date Ordered :</p>
+                              </Col>
+                              <Col xs={7} sm={6}>
+                                <p className={styles.value}>
+                                  {item?.received_at}
+                                </p>
+                              </Col>
+                            </Row>
+                          </Col>
+
+                          <Col className="d-none d-md-block">
+                            <Row>
+                              <Col>
+                                <div className={styles.btnView}>
+                                  <Link
+                                    to={`/account/order-history/${item.id}`}
+                                  >
+                                    View Details
+                                  </Link>
+                                </div>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.historyContainerHistory}>
@@ -326,17 +638,17 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
         </div>
       </div>
       <div className={styles.innerContainer}>
-        {forOrderCompleted.map((item, index) => {
+        {/* {forOrderCompleted.map((item, index) => {
           console.log(search);
           const stringID = String(item.id);
           if (search && stringID.includes(search)) {
             return (
               <div className={styles.item} key={index}>
                 <Row>
-                  {/* Main content */}
+                 
                   <Col lg={{ span: 12 }}>
                     <Row>
-                      {/* Order ID */}
+                     
                       <Col md={3}>
                         <div className={styles.flexOnMobile}>
                           <div className={styles.orderId}>
@@ -353,12 +665,12 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                         </div>
                       </Col>
 
-                      {/* Order information */}
+                     
                       <Col md={9}>
                         <div className={styles.orderDetails}>
                           <Row>
                             <Col>
-                              {/* Customer name & contact number */}
+                             
                               <Row sm={2} xs={1} className="mb-0 mb-sm-3">
                                 <Col>
                                   <Row className="mb-2 mb-sm-0">
@@ -386,7 +698,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Pick up address */}
+                            
                               <Row className="mb-2 mb-sm-3">
                                 <Col sm={3} xs={5}>
                                   <p>Pick up Address :</p>
@@ -398,7 +710,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Delivery address */}
+                            
                               <Row className="mb-2 mb-sm-3">
                                 <Col sm={3} xs={5}>
                                   <p>Delivery Address :</p>
@@ -410,7 +722,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Order placed & delivered time */}
+                              
                               <Row sm={2} xs={1} className="mb-0 mb-sm-3">
                                 <Col>
                                   <Row className="mb-2 mb-sm-0">
@@ -419,10 +731,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {getTime(item.created_at)} */}
-                                        {/* {item.created_at
-                                          .split(".")[0]
-                                          .slice(0, -3)} */}
+                                     
                                         {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
@@ -435,9 +744,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {item.delivered_at
-                                        ? getTime(item.delivered_at)
-                                        : "Waiting ..."} */}
+                                       
                                         {item.delivered_at}
                                       </p>
                                     </Col>
@@ -445,7 +752,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Date ordered & View details */}
+                             
                               <Row sm={2} xs={1}>
                                 <Col>
                                   <Row>
@@ -454,14 +761,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {getDate(item.created_at)} */}
+                                       
                                         {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
                                   </Row>
                                 </Col>
 
-                                {/* View details - medium screens up */}
+                                
                                 <Col className="d-none d-md-block">
                                   <Row>
                                     <Col>
@@ -490,10 +797,10 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
             return (
               <div className={styles.item} key={index}>
                 <Row>
-                  {/* Main content */}
+                 
                   <Col lg={{ span: 12 }}>
                     <Row>
-                      {/* Order ID */}
+                     
                       <Col md={3}>
                         <div className={styles.flexOnMobile}>
                           <div className={styles.orderId}>
@@ -510,12 +817,12 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                         </div>
                       </Col>
 
-                      {/* Order information */}
+                     
                       <Col md={9}>
                         <div className={styles.orderDetails}>
                           <Row>
                             <Col>
-                              {/* Customer name & contact number */}
+                             
                               <Row sm={2} xs={1} className="mb-0 mb-sm-3">
                                 <Col>
                                   <Row className="mb-2 mb-sm-0">
@@ -543,7 +850,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Pick up address */}
+                              
                               <Row className="mb-2 mb-sm-3">
                                 <Col sm={3} xs={5}>
                                   <p>Pick up Address :</p>
@@ -555,7 +862,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Delivery address */}
+                              
                               <Row className="mb-2 mb-sm-3">
                                 <Col sm={3} xs={5}>
                                   <p>Delivery Address :</p>
@@ -567,7 +874,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Order placed & delivered time */}
+                             
                               <Row sm={2} xs={1} className="mb-0 mb-sm-3">
                                 <Col>
                                   <Row className="mb-2 mb-sm-0">
@@ -576,7 +883,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {getTime(item.created_at)} */}
+                                       
                                         {item && getTime(item?.created_at)}
                                       </p>
                                     </Col>
@@ -589,9 +896,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {item.delivered_at
-                                        ? getTime(item.delivered_at)
-                                        : "Waiting ..."} */}
+                                      
                                         {item.delivered_at}
                                       </p>
                                     </Col>
@@ -599,7 +904,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                 </Col>
                               </Row>
 
-                              {/* Date ordered & View details */}
+                             
                               <Row sm={2} xs={1}>
                                 <Col>
                                   <Row>
@@ -608,14 +913,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
                                     </Col>
                                     <Col xs={7} sm={6}>
                                       <p className={styles.value}>
-                                        {/* {getDate(item.created_at)} */}
+                                       
                                         {item?.received_at}
                                       </p>
                                     </Col>
                                   </Row>
                                 </Col>
 
-                                {/* View details - medium screens up */}
+                               
                                 <Col className="d-none d-md-block">
                                   <Row>
                                     <Col>
@@ -641,7 +946,30 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
             );
           }
           return null;
-        })}
+        })} */}
+
+        <div className={styles.innerContainer2}>
+          {" "}
+          {orders?.length ? (
+            orders?.map((item, index) => {
+              return OrderItem(item, index);
+            })
+          ) : (
+            <h5>No orders found.</h5>
+          )}
+          {orders?.length && currentPage < lastPage && (
+            <div className="text-center">
+              <Button
+                variant="primary"
+                className={styles.btnLoadMore}
+                onClick={handleLoadMore}
+              >
+                {!isLoading ? "Load more" : "Loading ..."}
+              </Button>
+            </div>
+          )}
+        </div>
+
         <div className={styles.bottomBtn}>
           <Button onClick={() => setModalShow1(true)}>Completed</Button>
           <CompletedModal

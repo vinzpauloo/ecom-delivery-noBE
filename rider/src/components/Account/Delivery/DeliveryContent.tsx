@@ -195,7 +195,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   // };
 
   const loadOrderForDelivery = async (status: string, page: any) => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
     const params = { status: status, page: page };
     const response = await getForDeliveryOTW(params);
