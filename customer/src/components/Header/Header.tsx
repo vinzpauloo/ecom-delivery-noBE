@@ -28,7 +28,8 @@ const Header: React.FC<ContainerProps> = () => {
   };
 
   const handleSearch = () => {
-    navigate(`search/${searchTxt}`);
+    setSearchTxt(searchTxt.trim());
+    navigate(`search/${searchTxt.trim()}`);
   };
 
   const handleLogout = (
