@@ -17,6 +17,7 @@ import { useHelper } from "../../../hooks/useHelper";
 import { useProduct } from "../../../hooks/useProduct";
 import { useCategories } from "../../../hooks/useCategories";
 import { useCuisines } from "../../../hooks/useCuisines";
+import { useFlavors } from "../../../hooks/useFlavor";
 import searchIcon from "../../../assets/images/searchIcon.png";
 
 import ImageUploading, { ImageListType } from "react-images-uploading";
@@ -30,6 +31,7 @@ import updateSuccess from "../../../assets/update-success.json";
 
 import SearchIcon from "../../../assets/images/search.png";
 import DefaultThumbnail from "../../../assets/images/default-thumbnail.jpg";
+import FlavorsList from "./FlavorsList";
 
 //Image Compressor
 // import Compressor from "compressorjs";
@@ -65,6 +67,14 @@ type Cuisines = {
   id: number;
   name: string;
   photo: string;
+};
+
+type TFlavor = {
+  id: number;
+  name: string;
+  description: string;
+  default_price: number;
+  is_available: boolean;
 };
 
 const schema = yup
@@ -122,6 +132,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [cuisine, setCuisine] = useState("");
   const [category, setCategory] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
+  const [defaultFlavors, setDefaultFlavors] = useState<TFlavor[]>([]);
+  const [currentFlavors, setCurrentFlavors] = useState<TFlavor[]>([]);
 
   const [file, setFile] = useState();
   const [fileDataURL, setFileDataURL] = useState("");
@@ -136,6 +148,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const { getCategories } = useCategories();
   const { getCuisines } = useCuisines();
   const { postProduct, getProduct, deleteProduct } = useProduct();
+  const { getFlavors } = useFlavors();
 
   const loadCategories = async () => {
     const response = await getCategories();
@@ -147,6 +160,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     const response = await getCuisines();
     console.log("getCuisines response", response);
     setCuisines(response);
+  };
+
+  const loadFlavors = async () => {
+    const response = await getFlavors();
+    console.log("getFlavors response", response);
+    setDefaultFlavors(response);
   };
 
   const handleEdit = (id: any) => {
@@ -206,6 +225,8 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const onSubmit = async (data: IFormInputs) => {
+    console.log("on submit ....");
+
     if (!!!images) {
       setErrorHandling(true);
     } else {
@@ -268,6 +289,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     loadCategories();
     loadCuisines();
     loadRestaurantProduct();
+    loadFlavors();
 
     let fileReader,
       isCancel = false;
@@ -706,6 +728,12 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                               </div>
                             )}
                           </ImageUploading>
+
+                          {/* Flavor list */}
+                          <FlavorsList
+                            defaultFlavors={defaultFlavors}
+                            currentFlavors={currentFlavors}
+                          />
                         </Col>
                       </Row>
                       <Row className="d-none d-lg-block ps-3 pe-3">
