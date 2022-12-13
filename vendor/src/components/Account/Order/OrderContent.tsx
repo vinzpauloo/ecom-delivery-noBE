@@ -1214,7 +1214,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <h5>No orders found.</h5>
         )}
       </div>
-      {orders?.length && currentPage < lastPage && search === "" && (
+      {orders?.length !== 0 && currentPage < lastPage && search === "" && (
         <div className="text-center">
           <Button
             variant="primary"
