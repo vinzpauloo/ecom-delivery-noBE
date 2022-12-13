@@ -4,6 +4,8 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "./NewOrderContent.module.scss";
 import { useOrder } from "../../../hooks/useOrder";
 import imgs from "../../../assets/images/kitchen-prep.png";
+import kitchenPrep from "../../../assets/images/order-preparing.png";
+import kitchenPrepAlt from "../../../assets/images/order-preparing-alt.png";
 import delivered from "../../../assets/images/delivered.png";
 import updateSuccess from "../../../assets/save-success.json";
 
@@ -178,9 +180,24 @@ const NewOrderContent = (props: any) => {
                   </Col>
                   <Col className={styles.topContentOrderRight}>
                     <h6 className={styles.status}>Order Status</h6>
-                    <img src={delivered} alt="" />
+                    <div className={styles.status2}>
+                      <div className={styles.imgContainer2}>
+                        <img src={kitchenPrep} alt="" />
+                        {deliveredItem?.order_status === "preparing" && (
+                          <img
+                            src={kitchenPrepAlt}
+                            alt=""
+                            className={styles.altImg2}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    {/* <img src={kitchenPrep} alt="" /> */}
                     <h6 className={styles.orderReceived}>
-                      {deliveredItem?.order_status}
+                      {deliveredItem?.order_status === "preparing"
+                        ? "PREPARING"
+                        : "PREPARING"}
+                      {/* {deliveredItem?.order_status} */}
                     </h6>
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
