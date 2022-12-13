@@ -4,6 +4,7 @@ import axios from "axios";
 import "./App.scss";
 
 import Header from "./components/Header/Header";
+import HeaderBasic from "./components/Header/HeaderBasic";
 import Footer from "./components/Footer";
 import FooterMobile from "./components/FooterMobile";
 import { Col, Row } from "react-bootstrap";
@@ -25,7 +26,8 @@ const App: React.FC = (props: Props) => {
   let customClassNames = "";
 
   // Pages with custom header
-  const customHeaderPages = ["/registration", "/registration2", "/otp"];
+  // const customHeaderPages = ["/registration", "/registration2", "/otp"];
+  const customHeaderPages = ["/"];
 
   // Pages with custom footer
   const customFooterPages = [
@@ -43,12 +45,9 @@ const App: React.FC = (props: Props) => {
   // Pages with no footer on mobile
   const noFooterOnMobile = ["/registration"];
 
-  if (
-    customHeaderPages.includes(location.pathname) &&
-    window.outerWidth <= 768
-  ) {
+  if (customHeaderPages.includes(location.pathname)) {
     customClassNames += "no-header";
-    RenderHeader = <></>;
+    RenderHeader = <HeaderBasic />;
   } else {
     RenderHeader = <Header setNotification={setNotification} />;
   }

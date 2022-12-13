@@ -22,6 +22,7 @@ import Order from "./pages/Account/Order";
 import RiderTracker from "./pages/Account/RiderTracker";
 import ForgotPassword from "./pages/ForgotPassword";
 import ForgotPassword2 from "./pages/ForgotPassword2";
+import PrivateRoute from "./pages/Account/PrivateRoute";
 // import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
 
@@ -43,7 +44,8 @@ root.render(
             <Route path="forgot-password2" element={<ForgotPassword2 />} />
 
             {/* Account dashboard routes */}
-            <Route path="account">
+            <Route path="account" element={<PrivateRoute />}>
+              {/* <Route path="account"> */}
               <Route index element={<Profile />} />
               <Route path="for-delivery" element={<Delivery />} />
               <Route path="for-delivery/:id" element={<NewOrder />} />
