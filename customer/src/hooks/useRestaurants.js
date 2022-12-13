@@ -107,24 +107,18 @@ export const useRestaurants = () => {
     try {
       // START: Access search by keyword API
       const endpoint = `api/search`;
-      let options = {};
 
       if (!data.keywords) {
-        options = {
-          headers: {
-            "X-Authorization": calculateHash(endpoint),
-          },
-          withCredentials: true,
-        };
-      } else {
-        options = {
-          params: data,
-          headers: {
-            "X-Authorization": calculateHash(endpoint, data),
-          },
-          withCredentials: true,
-        };
+        delete data.keywords;
       }
+
+      const options = {
+        params: data,
+        headers: {
+          "X-Authorization": calculateHash(endpoint, data),
+        },
+        withCredentials: true,
+      };
 
       const response = await axios.get(endpoint, options);
       // END: Access search by keyword API
