@@ -27,7 +27,9 @@ const App: React.FC = (props: Props) => {
 
   // Pages with custom header
   // const customHeaderPages = ["/registration", "/registration2", "/otp"];
-  const customHeaderPages = ["/"];
+  const customHeaderPages = ["/registration", "/registration2", "/otp"];
+
+  const customHeaderPages2 = ["/"];
 
   // Pages with custom footer
   const customFooterPages = [
@@ -37,17 +39,27 @@ const App: React.FC = (props: Props) => {
     "/account/reset-password",
     "/account/statistics",
     `/account/feedback/${id}`,
+    `/account/order-history/completed/${id}`,
   ];
 
   // Pages with custom background
   const customBgPages = ["/registration", "/otp", "/otp-order"];
 
+  // Pages with no header on mobile
+  const noHeaderOnMobile = ["/registration", "registration2", "otp"];
+
   // Pages with no footer on mobile
   const noFooterOnMobile = ["/registration"];
 
-  if (customHeaderPages.includes(location.pathname)) {
+  if (
+    customHeaderPages.includes(location.pathname) &&
+    window.outerWidth <= 768
+  ) {
     customClassNames += "no-header";
-    RenderHeader = <HeaderBasic />;
+    RenderHeader = <></>;
+  } else if (customHeaderPages2.includes(location.pathname)) {
+    customClassNames += "no-header2 ";
+    RenderHeader = <HeaderBasic></HeaderBasic>;
   } else {
     RenderHeader = <Header setNotification={setNotification} />;
   }
@@ -65,6 +77,10 @@ const App: React.FC = (props: Props) => {
   // if (customBgPages.includes(location.pathname)) {
   //   customClassNames += "custom-bg ";
   // }
+
+  if (noHeaderOnMobile.includes(location.pathname)) {
+    customClassNames += "no-header-on-mobile ";
+  }
 
   /* Checking if the current path is in the array of paths that have no footer on mobile. If it is, it
  adds the class `no-footer-on-mobile` to the `customClassNames` variable. */
