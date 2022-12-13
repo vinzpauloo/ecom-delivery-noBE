@@ -33,6 +33,25 @@
     p {
       font-size: 10px;
     }
+
+    .textDetails {
+      width: 50%;
+    }
+
+    .btnRating {
+      background: #000000;
+      border: 2px solid #000000;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 5px;
+      padding: 5px 10px;
+      text-transform: uppercase;
+
+      &:hover {
+        border-color: $FM_BG_YELLOW;
+      }
+    }
   }
 }
 
@@ -182,6 +201,10 @@
 
       img {
         background-color: #ffffff;
+      }
+
+      .textDetails {
+        width: 100%;
       }
     }
   }

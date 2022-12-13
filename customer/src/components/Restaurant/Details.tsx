@@ -113,8 +113,8 @@ const Details: React.FC<ContainerProps> = ({
       {/* Restaurant info */}
       <Row className={`d-flex align-items-center ${styles.top}`}>
         <Col
-          lg={{ span: 5 }}
-          md={{ span: 6, offset: 0 }}
+          lg={{ span: 7 }}
+          md={{ span: 7, offset: 0 }}
           sm={{ span: 8, offset: 2 }}
         >
           <div className={`d-flex gap-2 ${styles.details}`}>
@@ -127,7 +127,7 @@ const Details: React.FC<ContainerProps> = ({
                   : placeholder
               }
             />
-            <div>
+            <div className={styles.textDetails}>
               <h3 className="mb-0">{restaurant?.name}</h3>
               <div className={`d-md-none ${styles.rating}`}>
                 <StarFill color="#E6B325" size={12} />
@@ -139,13 +139,29 @@ const Details: React.FC<ContainerProps> = ({
               <p className="mb-1">{restaurant?.description}</p>
               <p className="mb-1">Address: {restaurant?.address}</p>
               <p className="mb-0">Contact #: {restaurant?.contact_number}</p>
+              <Button
+                variant="primary"
+                className={`d-md-none mt-2 ${styles.btnRating}`}
+                onClick={() => navigate("feedback")}
+              >
+                Check ratings
+              </Button>
+            </div>
+            <div>
+              <Button
+                variant="primary"
+                className={`d-none d-md-block ${styles.btnRating}`}
+                onClick={() => navigate("feedback")}
+              >
+                Check ratings
+              </Button>
             </div>
           </div>
         </Col>
 
         <Col
-          lg={{ span: 4, offset: 3 }}
-          md={{ span: 5, offset: 1 }}
+          lg={{ span: 4, offset: 1 }}
+          md={{ span: 5, offset: 0 }}
           className="d-none d-md-block"
         >
           <div className={`d-flex flex-column gap-2 ${styles.buttons}`}>
