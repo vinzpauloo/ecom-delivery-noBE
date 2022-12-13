@@ -18,6 +18,7 @@ import NewOrder from "./pages/Account/NewOrder";
 import OrderDetails from "./pages/Account/OrderDetails";
 import ResetPassword from "./pages/Account/ResetPassword";
 import RestaurantFeedback from "./pages/Account/RestaurantFeedback";
+import Flavor from "./pages/Account/Flavor";
 import { AuthContextProvider } from "./context/AuthContext";
 import { AuthProvider } from "react-auth-kit";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -40,7 +41,12 @@ root.render(
 
           {/* Account dashboard routes */}
           <Route path="account">
+            {/* My Account Page */}
             <Route index element={<Profile />} />
+            <Route path="feedback/:id" element={<RestaurantFeedback />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+
+            {/* For Delivery Page */}
             <Route path="for-delivery" element={<Order />} />
             <Route path="for-delivery/:id" element={<NewOrder />} />
             <Route
@@ -51,12 +57,11 @@ root.render(
               path="for-delivery/cancelled/:id"
               element={<HistoryStatusCancelled />}
             />
-            <Route path="order">
-              <Route index element={<Order />} />
-              <Route path="status/:id" element={<Status />} />
-              <Route path="order-information" element={<OrderInformation />} />
-            </Route>
+
+            {/* Menu Page */}
             <Route path="my-restaurant-menu" element={<Product />} />
+
+            {/* Order History Page */}
             <Route path="order-history" element={<History />} />
             <Route path="order-history/:id" element={<OrderDetails />} />
             <Route
@@ -67,8 +72,16 @@ root.render(
               path="order-history/cancelled/:id"
               element={<HistoryStatusCancelled />}
             />
-            <Route path="feedback/:id" element={<RestaurantFeedback />} />
-            <Route path="reset-password" element={<ResetPassword />} />
+
+            {/* Flavor Page */}
+            <Route path="flavors" element={<Flavor />} />
+
+            {/* Order Notification Page */}
+            <Route path="order">
+              <Route index element={<Order />} />
+              <Route path="status/:id" element={<Status />} />
+              <Route path="order-information" element={<OrderInformation />} />
+            </Route>
           </Route>
         </Route>
       </Routes>
