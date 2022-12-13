@@ -12,6 +12,7 @@ import OtpOrder from "./pages/OtpOrder";
 import Delivery from "./pages/Account/Delivery";
 import History from "./pages/Account/History";
 import OrderDetails from "./pages/Account/OrderDetails";
+import NewOrder from "./pages/Account/NewOrder";
 import Profile from "./pages/Account/Profile";
 import Rewards from "./pages/Account/Rewards";
 import Statistics from "./pages/Account/Statistics";
@@ -45,6 +46,7 @@ root.render(
             <Route path="account">
               <Route index element={<Profile />} />
               <Route path="for-delivery" element={<Delivery />} />
+              <Route path="for-delivery/:id" element={<NewOrder />} />
               <Route path="for-delivery/order/:id" element={<Order />} />
               <Route path="orders/:id/otw" element={<RiderTracker />} />
               <Route path="order-history" element={<History />} />

@@ -236,7 +236,8 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     // alert("You are now the rider for this order.");
     // navigate(`/account/orders/${id}/otw`);
 
-    navigate(`/account/for-delivery/order/${id}`);
+    navigate(`/account/for-delivery/${id}`);
+    // navigate(`/account/for-delivery/order/${id}`);
     console.log(response);
   };
 
