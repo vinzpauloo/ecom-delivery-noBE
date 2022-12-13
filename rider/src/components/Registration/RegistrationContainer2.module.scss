@@ -24,7 +24,7 @@ html {
   }
 
   @include devices(xs) {
-    height: 115vh;
+    height: 135vh;
     padding: 60px 0;
     margin-bottom: 0px - $FM_FOOTER_HEIGHT_XS;
   }

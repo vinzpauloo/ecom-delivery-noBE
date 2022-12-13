@@ -12,6 +12,8 @@ import OtpOrder from "./pages/OtpOrder";
 import Delivery from "./pages/Account/Delivery";
 import History from "./pages/Account/History";
 import OrderDetails from "./pages/Account/OrderDetails";
+import HistoryStatusCompleted from "./pages/Account/HistoryStatusCompleted";
+import HistoryStatusCancelled from "./pages/Account/HistoryStatusCancelled";
 import NewOrder from "./pages/Account/NewOrder";
 import Profile from "./pages/Account/Profile";
 import Rewards from "./pages/Account/Rewards";
@@ -53,6 +55,14 @@ root.render(
               <Route path="orders/:id/otw" element={<RiderTracker />} />
               <Route path="order-history" element={<History />} />
               <Route path="order-history/:id" element={<OrderDetails />} />
+              <Route
+                path="order-history/completed/:id"
+                element={<HistoryStatusCompleted />}
+              />
+              <Route
+                path="order-history/cancelled/:id"
+                element={<HistoryStatusCancelled />}
+              />
               <Route path="feedback/:id" element={<RestaurantFeedback />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="rewards" element={<Rewards />} />
