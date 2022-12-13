@@ -53,6 +53,7 @@ const Filters: React.FC<ContainerProps> = ({
         <Form.Check
           type="switch"
           onChange={() => setIsFilterEnabled(!isFilterEnabled)}
+          checked={isFilterEnabled}
           className={styles.switch}
         />
       </div>

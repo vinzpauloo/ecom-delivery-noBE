@@ -42,7 +42,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const [categories, setCategories] = useState<TCategory[]>([]);
   const [filter, setFilter] = useState(0);
   const [sort, setSort] = useState(0);
-  const [isFilterEnabled, setIsFilterEnabled] = useState(false);
+  const [isFilterEnabled, setIsFilterEnabled] = useState(true);
   const { getRestaurantsById, getRestaurantMenu, getRestaurantCategories } =
     useRestaurants();
 
