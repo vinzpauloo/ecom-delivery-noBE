@@ -218,9 +218,7 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
         )}
 
         {!isLoading && currentPage === lastPage && (
-          <h5 className="text-center bg-white">
-            You have reached your last order.
-          </h5>
+          <h5 className="text-center">You have reached your last order.</h5>
         )}
       </div>
     </div>
