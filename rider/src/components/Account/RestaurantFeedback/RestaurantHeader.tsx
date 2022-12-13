@@ -72,7 +72,7 @@ const RestaurantHeader: React.FC<ContainerProps> = ({
 
         <Col lg={{ span: 7, offset: 1 }} md={{ span: 7, offset: 0 }}>
           <div className={styles.restaurantContent}>
-            <h4>{restaurantHeader?.mobile}</h4>
+            <p>{restaurantHeader?.mobile}</p>
             <p>{restaurantHeader?.email}</p>
           </div>
         </Col>
