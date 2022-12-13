@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Row, Container, Modal } from "react-bootstrap";
 import { StarFill, Star } from "react-bootstrap-icons";
-import { useRestaurants } from "../../../hooks/useRestaurants";
+// import { useRestaurants } from "../../../hooks/useRestaurants";
 import { useReviews } from "../../../hooks/useReviews";
 import { useUser } from "../../../hooks/useUser";
-import { getDate } from "../../../utils/formatDate";
+// import { getDate } from "../../../utils/formatDate";
 
 import styles from "./RestaurantFeedbackContent.module.scss";
 import placeholder from "../../../assets/images/placeholder.png";
 import RestaurantHeader from "./RestaurantHeader";
 interface ContainerProps {}
 
-type personalFeedback = {
-  first_name: string;
-  last_name: string;
-  restaurant_rating: number;
-  restaurant_review: string;
-  restaurant_reviewed_at: string;
-};
+// type personalFeedback = {
+//   first_name: string;
+//   last_name: string;
+//   restaurant_rating: number;
+//   restaurant_review: string;
+//   restaurant_reviewed_at: string;
+// };
 
 const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
   const thisRate = Math.ceil(rating);
@@ -45,37 +45,37 @@ const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
   );
 };
 
-const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
-  const [restaurant, setRestaurant] = useState<any>();
-  const [reviews, setReviews] = useState<any[]>();
-  const { getRestaurantsById } = useRestaurants();
-  const { getRestaurantReviewsById, getRiderReviews } = useReviews();
+const RestaurantFeedbackContent: React.FC<ContainerProps> = () => {
+  // const [restaurant, setRestaurant] = useState<any>();
+  // const [reviews, setReviews] = useState<any[]>();
+  // const { getRestaurantsById } = useRestaurants();
+  const { getRiderReviews } = useReviews();
   const [showModal, setShowModal] = useState(false);
-  const [personalFeedback, setPersonalFeedback] =
-    useState<personalFeedback | null>(null);
+  // const [personalFeedback, setPersonalFeedback] =
+  //   useState<personalFeedback | null>(null);
   const [filter, setFilter] = useState(0);
   const { getUser } = useUser();
   const [rider, setRider] = useState<any>();
   const [rating, setRating] = useState<any>();
 
   // Get the params from the URL
-  const { id, order } = useParams();
+  const { id } = useParams();
 
-  const loadRestaurant = async () => {
-    const response = await getRestaurantsById(id);
-    console.log("getRestaurantsById response", response);
+  // const loadRestaurant = async () => {
+  //   const response = await getRestaurantsById(id);
+  //   console.log("getRestaurantsById response", response);
 
-    const thisRestaurant = {
-      restaurant_id: response.id,
-      restaurant_name: response.name,
-      restaurant_description: response.description,
-      restaurant_address: response.address,
-      restaurant_photo: response.photo,
-      restaurant_average_rating: response.rating,
-    };
+  //   const thisRestaurant = {
+  //     restaurant_id: response.id,
+  //     restaurant_name: response.name,
+  //     restaurant_description: response.description,
+  //     restaurant_address: response.address,
+  //     restaurant_photo: response.photo,
+  //     restaurant_average_rating: response.rating,
+  //   };
 
-    setRestaurant(thisRestaurant);
-  };
+  //   setRestaurant(thisRestaurant);
+  // };
 
   // Get user request
   const loadUser = async () => {
@@ -105,12 +105,12 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     setRider(defaultValues);
   };
 
-  const loadRestaurantReviews = async () => {
-    const response = await getRestaurantReviewsById(id, { reviews: "true" });
-    console.log("getRestaurantReviewsById response", response);
+  // const loadRestaurantReviews = async () => {
+  //   const response = await getRestaurantReviewsById(id, { reviews: "true" });
+  //   console.log("getRestaurantReviewsById response", response);
 
-    setReviews(response.reviews);
-  };
+  //   setReviews(response.reviews);
+  // };
 
   const loadRiderReviews = async () => {
     const response = await getRiderReviews(id);
@@ -137,7 +137,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     // loadRestaurantReviews();
     loadUser();
     loadRiderReviews();
-  }, []);
+  });
 
   return (
     <>
@@ -213,13 +213,13 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
         <div className={styles.listItem}>
           <hr />
           <div className="d-flex gap-2">
-            <img src={placeholder} />
+            <img src={placeholder} alt="" />
             <div className={styles.rating}>
               <h4 className="mb-0">
                 {rating?.customer_first_name} {rating?.customer_last_name}
               </h4>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <CustomerRating rating={rating?.rider_average_rating} /> {" | "}
+                <CustomerRating rating={rating?.rider_average_rating} />
                 {/* {item.restaurant_reviewed_at.split(" ")[0]} */}
               </div>
             </div>
@@ -267,14 +267,14 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Container className={styles.modalContainer}>
           <div className="d-flex gap-2">
-            <img src={placeholder} />
+            <img src={placeholder} alt="" />
             <div className={styles.rating}>
               <h4 className="mb-0">
                 {rating?.customer_first_name} {rating?.customer_last_name}
               </h4>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <CustomerRating rating={rating?.rider_average_rating} /> {" | "}
-                {personalFeedback?.restaurant_reviewed_at.split(" ")[0]}
+                {/* {personalFeedback?.restaurant_reviewed_at.split(" ")[0]} */}
               </div>
             </div>
           </div>
