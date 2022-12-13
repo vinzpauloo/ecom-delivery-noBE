@@ -277,7 +277,12 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           centered
           className="d-lg-none"
         >
-          <h4>Completed</h4>
+          <Modal.Header closeButton className="px-4">
+            <Modal.Title id="contained-modal-title-vcenter" className="ms-auto">
+              COMPLETED
+            </Modal.Title>
+          </Modal.Header>
+          {/* <h4>Completed</h4> */}
           <Modal.Body className={`${styles.modalBody} p-0`}>
             {forOrderCompleted?.map((item, index) => {
               return (
