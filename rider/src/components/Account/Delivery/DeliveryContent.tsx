@@ -38,6 +38,7 @@ import RewardsBtn from "../../../assets/images/rewardsBtn.png";
 import RestoIcon from "../../../assets/images/resto.png";
 import Delivery from "../../../pages/Account/Delivery";
 import OrderPreparing from "../../../assets/images/order-preparing.png";
+import OrderPreparingAlt from "../../../assets/images/order-preparing-alt.png";
 
 interface ContainerProps {}
 
@@ -589,12 +590,18 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Col>
                     <div className="status">
                       <p>Order Status</p>
-                      {item?.order_status === "preparing" && (
-                        <>
-                          <img src={OrderPreparing} />
-                          <span>Kitchen Preparing...</span>
-                        </>
-                      )}
+                      <div className="status2">
+                        <div className="imgContainer2">
+                          <img src={OrderPreparing} alt="" />
+                          {item?.order_status === "preparing" && (
+                            <img
+                              src={OrderPreparingAlt}
+                              alt=""
+                              className="altImg2"
+                            />
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </Col>
                 </Row>
@@ -800,12 +807,18 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   <Col>
                     <div className="status">
                       <p>Order Status</p>
-                      {item?.order_status === "preparing" && (
-                        <>
-                          <img src={OrderPreparing} />
-                          <span>Kitchen Preparing...</span>
-                        </>
-                      )}
+                      <div className="status2">
+                        <div className="imgContainer2">
+                          <img src={OrderPreparing} alt="" />
+                          {item?.order_status === "preparing" && (
+                            <img
+                              src={OrderPreparingAlt}
+                              alt=""
+                              className="altImg2"
+                            />
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </Col>
                 </Row>
