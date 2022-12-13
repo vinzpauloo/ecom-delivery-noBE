@@ -7,7 +7,8 @@ import placeholder from "../../../assets/images/placeholder.png";
 import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
-import statusIsDelivered from "../../../assets/images/delivered.png";
+import statusIsDelivered from "../../../assets/images/order-delivered.png";
+import statusIsDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
 
 import styles from "./OrderDetailsContent.module.scss";
 import { isTemplateExpression } from "typescript";
@@ -258,15 +259,18 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.orderStatus}>
                         <p>Order Status</p>
-                        {order?.order_status === "delivered" && (
-                          <>
-                            <img
-                              className="img-fluid mt-1 mb-2"
-                              src={statusIsDelivered}
-                            />
-                            <p className={styles.value}>Delivered</p>
-                          </>
-                        )}
+                        <div className={styles.status2}>
+                          <div className={styles.imgContainer2}>
+                            <img src={statusIsDelivered} alt="" />
+                            {order?.order_status === "delivered" && (
+                              <img
+                                className={`${styles.altImg2}`}
+                                src={statusIsDeliveredAlt}
+                                alt=""
+                              />
+                            )}
+                          </div>
+                        </div>
                         {/* <img
                           className="img-fluid mt-1 mb-2"
                           src={statusIsReceived}
