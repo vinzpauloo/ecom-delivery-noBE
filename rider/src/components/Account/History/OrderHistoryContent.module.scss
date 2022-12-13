@@ -642,3 +642,76 @@
     }
   }
 }
+
+@include devices(md) {
+  h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #000000;
+  }
+  .orderDeliveryContainer {
+    margin: 15px 0;
+    height: 120px !important;
+    .contentContainer {
+      padding: 0 !important;
+      .idContent {
+        text-align: center;
+        .modalHeader {
+          border-top: 1px solid #000000;
+          border-bottom: 1px solid #000000;
+        }
+        .modalHeaderLabel {
+          background: #a47e3b;
+          border-top: 1px solid #000000;
+          border-bottom: 1px solid #000000;
+          color: #fff;
+        }
+      }
+      .row {
+        text-align: center;
+        border-top: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        border-left: 1px solid #000000;
+        .lable {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+@include devices(md) {
+  .mobileButtonContent {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px 0 60px;
+    .buttons {
+      width: 92px;
+      height: 29px;
+      background: #d9d9d9;
+      border: 0.5px solid rgba(97, 72, 28, 0.5);
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 5px;
+      text-align: center;
+      padding: 0;
+      color: #000;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 15px;
+      &:hover {
+        background-color: #61481c;
+        color: #ffffff;
+      }
+    }
+  }
+}
