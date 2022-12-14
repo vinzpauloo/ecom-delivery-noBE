@@ -1281,7 +1281,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Button>
         </div>
       )}
-      <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
+      {/* <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">
             <Button
@@ -1308,7 +1308,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             />
           </Col>
         </Row>
-      </Col>
+      </Col> */}
       <UpdateSuccessModal
         show={updateModalShow.status}
         onHide={() => setUpdateModalShow({ status: false, ID: "" })}
