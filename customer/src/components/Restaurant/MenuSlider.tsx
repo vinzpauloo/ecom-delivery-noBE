@@ -267,40 +267,66 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         className={styles.modal}
         centered
       >
-        <Modal.Body>
+        <Modal.Body className={styles.modalBody}>
           <div className={styles.modalContent}>
-            <div className="d-flex justify-content-between">
-              <div>
-                <h6 className="mb-0">Choose your flavor variant</h6>
-                <span>Select one</span>
-              </div>
-              <div>
-                <span className={styles.required}>Required</span>
-              </div>
-            </div>
+            <h6 className="mb-0 text-center">Choose your desired flavor</h6>
 
             <ul className={styles.flavors}>
               <li>
                 <Form.Check
                   type="radio"
                   id="flavor-1"
-                  label="Original (Free)"
                   name="flavor"
-                  onChange={() => setFlavor(1)}
-                  checked={flavor === 1}
                   className={styles.check}
-                />
+                >
+                  <Form.Check.Input
+                    type="radio"
+                    onChange={() => setFlavor(1)}
+                    checked={flavor === 1}
+                  />
+                  <Form.Check.Label>
+                    <div>Original</div>
+                    <div>Free</div>
+                  </Form.Check.Label>
+                </Form.Check>
               </li>
               <li>
                 <Form.Check
                   type="radio"
                   id="flavor-2"
-                  label="Spicy (+P5.00)"
                   name="flavor"
-                  onChange={() => setFlavor(2)}
                   checked={flavor === 2}
                   className={styles.check}
-                />
+                >
+                  <Form.Check.Input
+                    type="radio"
+                    onChange={() => setFlavor(2)}
+                    checked={flavor === 2}
+                  />
+                  <Form.Check.Label>
+                    <div>Spicy</div>
+                    <div>P5.00</div>
+                  </Form.Check.Label>
+                </Form.Check>
+              </li>
+              <li>
+                <Form.Check
+                  type="radio"
+                  id="flavor-3"
+                  name="flavor"
+                  checked={flavor === 3}
+                  className={styles.check}
+                >
+                  <Form.Check.Input
+                    type="radio"
+                    onChange={() => setFlavor(3)}
+                    checked={flavor === 3}
+                  />
+                  <Form.Check.Label>
+                    <div>Cheese</div>
+                    <div>P8.00</div>
+                  </Form.Check.Label>
+                </Form.Check>
               </li>
             </ul>
 
@@ -310,7 +336,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
                 size="lg"
                 onClick={() => addToCartAction(selectedMenuIndex)}
               >
-                Choose this flavor
+                Confirm
               </Button>
             </div>
           </div>
