@@ -56,7 +56,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   };
 
   const loadRestaurantMenu = async () => {
-    const params = { restaurant_id: id, with: "categories" };
+    const params = { restaurant_id: id, with: "categories,productFlavors" };
     const response = await getRestaurantMenu(params);
     console.log("getRestaurantMenu response", response);
     setMenu(response);

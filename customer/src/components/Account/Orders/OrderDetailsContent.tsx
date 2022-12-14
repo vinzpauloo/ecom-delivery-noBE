@@ -32,7 +32,7 @@ type TOrder = {
   delivered_at: string;
   order_address: string;
   order_status: string;
-  products: [{ name: string; quantity: number }];
+  products: [{ name: string; quantity: number; flavor_name: string }];
   restaurant_address: string;
   restaurant_name: string;
   restaurant_photo: string;
@@ -202,9 +202,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <ul className={styles.orderList}>
                             {order?.products?.map((item, index) => {
                               return (
-                                <li
-                                  key={index}
-                                >{`${item.name} (Spicy, ${item.quantity}x)`}</li>
+                                <li key={index}>{`${item.quantity}pcs ${
+                                  item.name
+                                } ${
+                                  item.flavor_name
+                                    ? `(${item.flavor_name})`
+                                    : ""
+                                }`}</li>
                               );
                             })}
                           </ul>

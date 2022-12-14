@@ -34,6 +34,8 @@ type TCart = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_name?: string;
+  product_flavor_id?: number;
 };
 
 // Setup form schema & validation
@@ -230,7 +232,17 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
     // Cleanup cart object
     const newProducts = cart?.map((item, index) => {
-      return { id: item.id, quantity: item.quantity };
+      let productObj = {
+        id: item.id,
+        quantity: item.quantity,
+        product_flavor_id: item.product_flavor_id,
+      };
+
+      if (!item.product_flavor_id) {
+        delete productObj.product_flavor_id;
+      }
+
+      return productObj;
     });
 
     let order = {

@@ -28,6 +28,7 @@ type Slide = {
   price: number;
   photo: string;
   is_available: number;
+  flavors?: any;
 };
 
 type TCart = {
@@ -36,6 +37,8 @@ type TCart = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_name?: string;
+  product_flavor_id?: number;
 };
 
 const SwiperSlideItem = (
@@ -47,6 +50,7 @@ const SwiperSlideItem = (
   setModalShow: any,
   setItem: any,
   setSelectedMenuIndex: any,
+  setFlavor: any,
   addToCartAction: any
 ) => {
   const getThisQuantity = (index: number) => {
@@ -73,15 +77,24 @@ const SwiperSlideItem = (
   };
 
   const handleAddToCart = (index: number) => {
-    const hasFlavor = true;
+    const hasFlavor = !!item.flavors.length;
+    console.log(hasFlavor, item.flavors);
+
+    // Set selected menu item
+    setItem(item);
+    setSelectedMenuIndex(index);
 
     if (hasFlavor) {
-      // Show modal popup for flavor
-      setItem(item);
-      setSelectedMenuIndex(index);
+      // Show modal popup if item has flavors
       setModalShow(true);
+      setFlavor({
+        product_flavor_id: item.flavors[0].id,
+        name: item.flavors[0].name,
+        price: item.flavors[0].price,
+      });
     } else {
-      addToCartAction(index);
+      // Simply add to cart
+      addToCartAction(index, item);
     }
   };
 
@@ -139,19 +152,34 @@ const SwiperSlideItem = (
 const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [quantity, setQuantity] = useState<any[]>();
   const [modalShow, setModalShow] = useState(false);
-  const [flavor, setFlavor] = useState(0);
+  const [flavor, setFlavor] = useState<any>();
   const [item, setItem] = useState<Slide>();
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
 
-  const addToCartAction = (index: number) => {
-    if (item) {
-      const newItem = {
-        id: item.id,
-        name: item.name,
-        photo: item.photo,
-        price: item.price,
+  const addToCartAction = (index: number, addedItem: any) => {
+    console.log("Add to cart action");
+    console.log(addedItem, flavor);
+
+    if (addedItem) {
+      let newItem = {
+        id: addedItem.id,
+        name: addedItem.name,
+        photo: addedItem.photo,
+        price: addedItem.price,
         quantity: quantity ? (quantity[index] ? quantity[index] : 1) : 1,
+        flavor_name: flavor?.name,
+        flavor_price: flavor?.price,
+        product_flavor_id: flavor?.product_flavor_id,
       };
+
+      // Remove flavor_name & product_flavor_id key if empty/null
+      if (!flavor) {
+        delete newItem.flavor_name;
+        delete newItem.flavor_price;
+        delete newItem.product_flavor_id;
+      }
+
+      console.log("newItem", newItem);
 
       setCart((cart) => {
         const cartCopy = cart.slice();
@@ -159,11 +187,29 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
           (product) => newItem.id === product.id
         );
 
+        console.log("cartCopy", cartCopy);
+
+        // Check if flavor already exists in the cart
+        const flavorIndex = cartCopy.findIndex(
+          (product) => newItem.product_flavor_id === product.product_flavor_id
+        );
+
+        console.log("flavorIndex", flavorIndex);
+
         if (index === -1) {
           cartCopy.push({ ...newItem });
         } else {
-          const pr = cartCopy[index];
-          cartCopy[index] = { ...pr, quantity: pr.quantity + newItem.quantity };
+          if (flavorIndex === -1) {
+            console.log("product with flavor not yet exist");
+            cartCopy.push({ ...newItem });
+          } else {
+            console.log("product with flavor already exist");
+            const pr = cartCopy[flavorIndex];
+            cartCopy[flavorIndex] = {
+              ...pr,
+              quantity: pr.quantity + newItem.quantity,
+            };
+          }
         }
 
         return cartCopy;
@@ -176,6 +222,9 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
 
         return qtyCopy;
       });
+
+      // reset flavor
+      setFlavor(null);
 
       // console.log("Added new item in cart ...", newItem);
 
@@ -209,6 +258,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
             setModalShow,
             setItem,
             setSelectedMenuIndex,
+            setFlavor,
             addToCartAction
           );
         })}
@@ -242,11 +292,13 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
             setModalShow,
             setItem,
             setSelectedMenuIndex,
+            setFlavor,
             addToCartAction
           );
         })}
       </Swiper>
 
+      {/* Flavor modal */}
       <Modal
         show={modalShow}
         onHide={() => {
@@ -261,25 +313,40 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
             <h6 className="mb-0 text-center">Choose your desired flavor</h6>
 
             <ul className={styles.flavors}>
-              <li>
-                <Form.Check
-                  type="radio"
-                  id="flavor-1"
-                  name="flavor"
-                  className={styles.check}
-                >
-                  <Form.Check.Input
-                    type="radio"
-                    onChange={() => setFlavor(1)}
-                    checked={flavor === 1}
-                  />
-                  <Form.Check.Label>
-                    <div>Original</div>
-                    <div>Free</div>
-                  </Form.Check.Label>
-                </Form.Check>
-              </li>
-              <li>
+              {item?.flavors?.map((current: any, index: number) => {
+                return (
+                  <li key={index}>
+                    <Form.Check
+                      type="radio"
+                      id={`flavor-${current.id}`}
+                      name="flavor"
+                      className={styles.check}
+                    >
+                      <Form.Check.Input
+                        type="radio"
+                        onChange={() =>
+                          setFlavor({
+                            product_flavor_id: current.id,
+                            name: current.name,
+                            price: current.price,
+                          })
+                        }
+                        checked={
+                          flavor
+                            ? flavor.product_flavor_id === current.id
+                            : false
+                        }
+                      />
+                      <Form.Check.Label>
+                        <div>{current.name}</div>
+                        <div>{current.price}</div>
+                      </Form.Check.Label>
+                    </Form.Check>
+                  </li>
+                );
+              })}
+
+              {/* <li>
                 <Form.Check
                   type="radio"
                   id="flavor-2"
@@ -316,14 +383,14 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
                     <div>P8.00</div>
                   </Form.Check.Label>
                 </Form.Check>
-              </li>
+              </li> */}
             </ul>
 
             <div className="text-center">
               <Button
                 variant="primary"
                 size="lg"
-                onClick={() => addToCartAction(selectedMenuIndex)}
+                onClick={() => addToCartAction(selectedMenuIndex, item)}
               >
                 Confirm
               </Button>

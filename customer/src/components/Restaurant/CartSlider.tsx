@@ -28,6 +28,8 @@ type Slide = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_name?: string;
+  product_flavor_id?: number;
 };
 
 type TCart = {
@@ -36,6 +38,8 @@ type TCart = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_name?: string;
+  product_flavor_id?: number;
 };
 
 const SwiperSlideItem = (
@@ -141,7 +145,10 @@ const SwiperSlideItem = (
         </div> */}
 
         <div className={styles.cartLabel}>
-          <p>{`${item.quantity}pc ${item.name}`} (Spicy)</p>
+          <p>
+            {`${item.quantity}pc ${item.name}`}{" "}
+            {item.flavor_name && `(${item.flavor_name})`}
+          </p>
         </div>
       </div>
     </SwiperSlide>
@@ -153,9 +160,15 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [itemToDelete, setItemToDelete] = useState<TCart>();
 
   const handleDelete = (item: any) => {
+    console.log(item);
+
     setCart((current) =>
       current.filter((obj) => {
-        return obj.id !== item.id;
+        if (obj.product_flavor_id) {
+          return obj.product_flavor_id !== item.product_flavor_id;
+        } else {
+          return obj.id !== item.id;
+        }
       })
     );
 

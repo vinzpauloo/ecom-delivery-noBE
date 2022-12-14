@@ -26,6 +26,8 @@ type TCart = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_name?: string;
+  product_flavor_id?: number;
 };
 
 const SwiperSlideItem = (
@@ -113,7 +115,10 @@ const SwiperSlideItem = (
         </div> */}
 
         <div className={styles.cartLabel}>
-          <p>{`${item.quantity}pc ${item.name}`} (Spicy)</p>
+          <p>
+            {`${item.quantity}pc ${item.name}`}{" "}
+            {item.flavor_name && `(${item.flavor_name})`}
+          </p>
         </div>
       </div>
     </SwiperSlide>

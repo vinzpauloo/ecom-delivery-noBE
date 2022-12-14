@@ -16,6 +16,7 @@ type TCart = {
   price: number;
   photo: string;
   quantity: number;
+  flavor_price?: number;
 };
 
 type TSummaryDetails = {
@@ -55,7 +56,8 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const getSubtotal = () => {
     const initialValue = 0;
     return cart.reduce(
-      (prev, cur) => prev + cur.quantity * cur.price,
+      (prev, cur) => prev + cur.quantity * cur.price + (cur.flavor_price || 0),
+      // (prev, cur) => prev + cur.quantity * cur.price,
       initialValue
     );
   };
@@ -73,6 +75,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
     if (!checkoutDetails) navigate("/");
     else {
       let checkoutDetailsObj = JSON.parse(checkoutDetails);
+      console.log("checkoutDetailsObj", checkoutDetailsObj);
       setLocalStorageObj(checkoutDetailsObj);
       setCart(checkoutDetailsObj.products);
     }
