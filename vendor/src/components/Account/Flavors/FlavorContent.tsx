@@ -258,6 +258,7 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
               show={menuModal}
               onHide={() => setMenuModal(false)}
               size="lg"
+              className="mt-5"
             >
               <Modal.Body className={styles.modalBody}>
                 <Form>
@@ -538,7 +539,7 @@ function EditModal(props: any) {
   }, []);
 
   return (
-    <Modal {...props} size="lg">
+    <Modal {...props} size="lg" className="mt-5">
       <Modal.Body className={styles.modalBody}>
         <Form>
           {/* onSubmit={handleSubmit(onSubmit)} */}
