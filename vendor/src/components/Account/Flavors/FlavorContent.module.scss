@@ -246,10 +246,12 @@
 }
 
 .modalBody {
-  background: #e3d7c2;
+  background-color: #fff;
   border-color: black;
-  padding: 0 2rem;
+  padding: 0;
   .tableHeader {
+    background-color: #d9d9d9;
+    border-bottom: 2px solid #000;
     p {
       font-size: 20px;
       font-weight: 500;
@@ -262,6 +264,11 @@
       font-size: 20px;
       font-weight: 400;
       margin: 10px 0;
+    }
+    input {
+      outline: none;
+      border: none;
+      border-bottom: 1px solid #000;
     }
   }
   .buttonsContent {
@@ -306,6 +313,52 @@
     flex-direction: column;
     .thumbNail {
       margin-left: 0;
+    }
+  }
+  .modalBody {
+    background-color: #fff;
+    padding: 0;
+    .table {
+      display: flex;
+      flex-direction: column;
+      .tableHeader {
+        background-color: #d9d9d9;
+        border-bottom: 2px solid #000;
+        > div {
+          display: flex;
+          align-items: center;
+          p {
+            white-space: nowrap;
+            font-size: 15px;
+          }
+        }
+      }
+      .tableBody {
+        padding: 10px 4px 0;
+        > div {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          padding: 0;
+          div {
+            padding: 0;
+            input {
+              width: 80%;
+              outline: none;
+              border: none;
+              border-bottom: 1px solid #000;
+            }
+          }
+        }
+        .buttonsContent {
+          display: flex;
+          button {
+            padding: 0;
+            font-size: 13px;
+            width: 80%;
+          }
+        }
+      }
     }
   }
 }
