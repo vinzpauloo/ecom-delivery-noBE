@@ -5,6 +5,7 @@ import styles from "./HistoryStatusCompletedContent.module.scss";
 import { useOrder } from "../../../../hooks/useOrder";
 import imgs from "../../../../assets/images/kitchen-prep.png";
 import delivered from "../../../../assets/images/delivered.png";
+import deliveredAlt from "../../../../assets/images/order-delivered-alt.png";
 
 // import Swiper core and required modules
 import { Navigation, Pagination, Scrollbar, Grid } from "swiper";
@@ -70,17 +71,17 @@ const HistoryStatusContent = (props) => {
     const response = await getOrdersById(id);
     console.log("getOrderCompleted", response);
     setDeliveredItem(response);
-    setQuantity(prev => {
+    setQuantity((prev) => {
       let value = prev;
-      response?.products.map((item) => value += item.quantity)
+      response?.products.map((item) => (value += item.quantity));
       return value;
-    })
+    });
   };
 
   useEffect(() => {
     loadDeliveredItem();
   }, []);
-  console.log("!!!", deliveredItem)
+  console.log("!!!", deliveredItem);
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>
@@ -96,7 +97,9 @@ const HistoryStatusContent = (props) => {
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={`d-none d-lg-block ${styles.id}`}>Order ID : {deliveredItem?.id}</h1>
+                <h1 className={`d-none d-lg-block ${styles.id}`}>
+                  Order ID : {deliveredItem?.id}
+                </h1>
                 <h1 className={`d-lg-none ${styles.id}`}>Ordered Items</h1>
                 <Swiper
                   modules={[Grid]}
@@ -128,9 +131,7 @@ const HistoryStatusContent = (props) => {
                 >
                   {deliveredItem?.products.map((item, index) => (
                     <SwiperSlide className={styles.imageContainer} key={index}>
-                      <img src={item.photo} 
-                        style={{ width: "100%" }}
-                        alt="" />
+                      <img src={item.photo} style={{ width: "100%" }} alt="" />
                       <p>{item.name}</p>
                       <p>{item.price} php</p>
                     </SwiperSlide>
@@ -165,10 +166,21 @@ const HistoryStatusContent = (props) => {
                   </Col>
                   <Col className={styles.topContentOrderRight}>
                     <h6 className={styles.status}>Order Status</h6>
-                    <img src={delivered} alt="" />
-                    <h6 className={styles.orderReceived}>
+                    <div className={styles.status2}>
+                      <div className={styles.imgContainer2}>
+                        <img src={delivered} alt="" />
+                        {deliveredItem?.order_status === "delivered" && (
+                          <img
+                            src={deliveredAlt}
+                            alt=""
+                            className={styles.altImg2}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    {/* <h6 className={styles.orderReceived}>
                       {deliveredItem?.order_status}
-                    </h6>
+                    </h6> */}
                     <div className={styles.grandTotalContainer}>
                       <p className={styles.grand}>Grand Total</p>
                       <p>{deliveredItem?.total_amount} php</p>
