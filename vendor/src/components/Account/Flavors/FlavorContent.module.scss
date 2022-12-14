@@ -296,6 +296,10 @@
       white-space: nowrap;
     }
   }
+  .btnDelete,
+  .btnEdit {
+    border-radius: 2px;
+  }
   .btnUploadContent {
     justify-content: center !important;
     .btnUpload {
