@@ -90,7 +90,8 @@ const App: React.FC = (props: Props) => {
 
   const handleClick = () => {
     setNotification(false);
-    navigate(`/account/for-delivery`);
+    // navigate(`/account/for-delivery`);
+    window.location.reload();
   };
 
   return (

@@ -73,6 +73,7 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
         setNotification(true);
         const timer = setTimeout(() => {
           setNotification(false);
+          window.location.reload();
         }, 3000);
         return () => clearTimeout(timer);
       },
