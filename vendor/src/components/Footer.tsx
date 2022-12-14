@@ -76,7 +76,7 @@ const Footer: React.FC<ContainerProps> = () => {
           xs={1}
           className={`justify-content-center align-items-center ${styles.container}`}
         >
-          { location.pathname !== "/" && (
+          {location.pathname !== "/" && (
             <>
               <Col className={`d-none d-md-block`}>
                 <div className={styles.logo}>
@@ -126,7 +126,7 @@ const Footer: React.FC<ContainerProps> = () => {
                 </Row>
               </Col>
             </>
-        )}
+          )}
 
           <Col>
             <div className="text-center">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 
@@ -15,21 +15,102 @@ import variant08 from "../../../assets/images/variant08.png";
 import variant09 from "../../../assets/images/variant09.png";
 import variant10 from "../../../assets/images/variant10.png";
 
+import { useGetOrderStatus } from "../../../hooks/useGetOrderStatus";
+
+type ForDeliveryItem = {
+  created_at: string;
+  customer_id: string;
+  customer_mobile: string;
+  customer_name: string;
+  order_address: string;
+  order_email: string;
+  order_mobile: string;
+  order_status: string;
+  otw_at: string;
+  payment_type: string;
+  plate_number: string;
+  restaurant_name: string;
+  restaurant_id: string;
+  updated_at: string;
+  rider_id: string;
+  rider_vehicle_model: string;
+  id: string;
+  restaurant_address: string;
+  total_amount: number;
+};
+
 interface ContainerProps {}
 
 const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
   console.log(window.location.pathname);
   const [active, setActive] = useState(window.location.pathname);
 
+  const { getForDeliveryOTW } = useGetOrderStatus();
+
+  const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
+
+  const loadOrderForDelivery = async (status: string) => {
+    const params = { status: status };
+    const response = await getForDeliveryOTW(params);
+    console.log("getForDelivery", response);
+    setForDelivery(response.data);
+  };
+
+  useEffect(() => {
+    loadOrderForDelivery("preparing, otw, pending, received");
+  }, []);
+
   return (
     <div className="d-md-none fixed-bottom">
       <div className={styles.container}>
-        <div>
+        <div style={{ position: "relative" }}>
           <Link to="/account/for-delivery">
             {"/account/for-delivery" === active ? (
-              <img src={variant02} alt="" className="img-fluid" />
+              // <img src={variant02} alt="" className="img-fluid" />
+              // <div style={{ position: "relative" }}>
+              <>
+                <img src={variant02} alt="" className="img-fluid" />
+                <span
+                  style={{
+                    display: "inline-block",
+                    position: "absolute",
+                    left: "40px",
+                    top: "2px",
+                    background: "red",
+                    borderRadius: "20px",
+                    border: "1px solid white",
+                    width: "28px",
+                    height: "27px",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  {forDelivery.length}
+                </span>
+              </>
             ) : (
-              <img src={variant01} alt="" className="img-fluid" />
+              <>
+                <img src={variant01} alt="" className="img-fluid" />
+                <span
+                  style={{
+                    display: "inline-block",
+                    position: "absolute",
+                    left: "40px",
+                    top: "2px",
+                    background: "red",
+                    borderRadius: "20px",
+                    border: "1px solid white",
+                    width: "28px",
+                    height: "27px",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  {forDelivery.length}
+                </span>
+              </>
             )}
           </Link>
         </div>
