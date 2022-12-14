@@ -70,9 +70,10 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
       // alert(`You have received a new order.`);
       const parsedData = JSON.parse(data.message);
       setNotification({ status: true, id: parsedData.id });
-      window.setTimeout(() => {
+      const timer = window.setTimeout(() => {
         setNotification({ status: false, id: parsedData.id });
-      }, 5000);
+      }, 3000);
+      return () => clearTimeout(timer);
     });
 
     channel.bind("Order-Updated-Event", () => {
