@@ -463,7 +463,14 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           </Form.Select>
                         </Col>
                       </Row>
-                      <Row className="d-lg-none">
+                      <Row
+                        className="d-lg-none"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         <ImageUploading
                           multiple
                           value={images}
@@ -575,6 +582,13 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             </div>
                           )}
                         </ImageUploading>
+
+                        {/* Flavor list for Mobile*/}
+                        <FlavorsList
+                          defaultFlavors={defaultFlavors}
+                          currentFlavors={currentFlavors}
+                          setCurrentFlavors={setCurrentFlavors}
+                        />
                       </Row>
                     </>
                   ) : (

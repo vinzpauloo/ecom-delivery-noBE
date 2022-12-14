@@ -83,3 +83,9 @@
     }
   }
 }
+
+@include devices(md) {
+  .flavorContainer {
+    margin: 10px 0;
+  }
+}
