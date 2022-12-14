@@ -67,6 +67,7 @@ const ResetPasswordSuccessModal = (props: any) => {
 
 const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const { calculateHash } = useCalculateHash();
 
   const { resetPassword } = useChangePass();
@@ -89,6 +90,19 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
       const response = await resetPassword(data);
       console.log("reset PW", response);
       // END: Access password API
+
+      if (response === undefined) {
+        setModal(true);
+      }
+
+      if (response.error) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.error)) {
+          arrErrors.push("" + value);
+        }
+        setApiErrors(arrErrors);
+      }
     } catch (err) {
       if (err && err instanceof AxiosError)
         setError("*" + err.response?.data.message);
@@ -178,6 +192,19 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
     <div className={styles.container}>
       <h4 className="mb-4">Reset Password</h4>
 
+      {/* Error messages */}
+      <div className={styles.errors}>
+        {/* {apiErrors.map((item, index) => {
+              return <p key={index}>{item}</p>;
+            })} */}
+        <p>{apiErrors} </p>
+        <p>{error} </p>
+        <p>{errors.password?.message}</p>
+        <p>{errors.password_confirmation?.message} </p>
+        {/* <p>{errors.current_password?.message}</p> */}
+        <p id="imageError"></p>
+      </div>
+
       <Form
         className={`text-center ${styles.form}`}
         onSubmit={handleSubmit(onSubmit)}
@@ -231,7 +258,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
           size="lg"
           type="submit"
           className="d-block w-100"
-          onClick={() => setModal(true)}
+          // onClick={() => setModal(true)}
         >
           Reset Password
         </Button>
