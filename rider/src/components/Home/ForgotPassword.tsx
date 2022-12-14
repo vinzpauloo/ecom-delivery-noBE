@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Modal, Container } from "react-bootstrap";
+import { Button, Form, Modal, Container, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -31,6 +31,8 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
   const { forgotPassword } = useChangePass();
 
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
 
   const {
@@ -42,12 +44,14 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
+    setShowModal(true);
     try {
       // START: Forgot password API
       console.log("forgotPassword", data);
 
       const response = await forgotPassword(data);
       console.log("reset PW", response);
+
       // END: Access password API
       navigate("/forgot-password2");
     } catch (err) {
@@ -137,6 +141,25 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
   return (
     <div className={styles.container}>
+      <>
+        <Modal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Button className={styles.spinnerBtn} variant="warning">
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            Please Wait...
+          </Button>
+        </Modal>
+      </>
       <h4 className="mb-4">Reset Password</h4>
 
       <Form
