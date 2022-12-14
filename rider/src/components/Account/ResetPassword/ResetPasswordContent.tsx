@@ -82,6 +82,10 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
     const response = await updatePassword(data);
     console.log("updateUser response", response);
 
+    if (response === undefined) {
+      setModalShow(true);
+    }
+
     if (response.error) {
       // Prepare errors
       let arrErrors: string[] = [];
