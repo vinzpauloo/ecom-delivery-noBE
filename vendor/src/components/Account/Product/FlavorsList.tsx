@@ -32,10 +32,8 @@ const FlavorItem = ({
   currentFlavors: TCurrentFlavor[];
   setCurrentFlavors: any;
 }) => {
-  const flavor = currentFlavors.filter((val) => val.flavor_id === item.id);
-  const value = flavor.length === 0 ? item.default_price : flavor[0].price;
-  const [price, setPrice] = useState(value);
-  const [button, seButton] = useState(!!flavor.length);
+  const [price, setPrice] = useState(0);
+  const [button, setButton] = useState(false);
 
   const isFlavorExist = (flavor_id: number) => {
     let isExist = false;
@@ -50,6 +48,17 @@ const FlavorItem = ({
 
     return isExist;
   };
+
+  useEffect(() => {
+    const flavor = currentFlavors.filter((val) => val.flavor_id === item.id);
+    const value = flavor.length === 0 ? item.default_price : flavor[0].price;
+    setButton(!!flavor.length);
+    setPrice(value);
+    return () => {
+      setPrice(0);
+      setButton(false);
+    };
+  }, [price, item.default_price, currentFlavors, item.id]);
 
   const handleOnPriceChange = (e: any, price: number) => {
     console.log("handleOnPriceChange", price);
@@ -71,7 +80,7 @@ const FlavorItem = ({
 
   const handleToggle = (item: TFlavor) => {
     console.log("toggle availability", item);
-    seButton((prev) => !prev);
+    setButton((prev) => !prev);
     const thisFlavor = {
       flavor_id: item.id,
       flavor_price: price,
