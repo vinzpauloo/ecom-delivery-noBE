@@ -120,7 +120,7 @@ const FlavorsList: React.FC<ContainerProps> = ({
   return (
     <>
       <Row className={styles.flavorContainer}>
-        <Col lg={7}>
+        <Col>
           <div className={styles.flavorsList}>
             {defaultFlavors.map((item, index) => (
               <FlavorItem

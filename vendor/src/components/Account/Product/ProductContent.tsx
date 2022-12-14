@@ -492,10 +492,25 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           }) => (
                             <div className={styles.imageUploadContent}>
                               {imageList.length === 0 ? (
-                                <img
-                                  src={DefaultThumbnail}
-                                  style={{ width: "100px" }}
-                                />
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <img
+                                    src={DefaultThumbnail}
+                                    style={{ width: "100px" }}
+                                    alt=""
+                                  />
+                                  <Row className={styles.btnUploadContent}>
+                                    <Form.Control
+                                      value="Upload"
+                                      className={styles.btnUpload}
+                                      onClick={() => handleClick(onImageUpload)}
+                                    />
+                                  </Row>
+                                </div>
                               ) : (
                                 imageList.map((image, index) => (
                                   <div key={index} className={styles.imageItem}>
@@ -504,26 +519,30 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                       className={styles.thumbNail}
                                       alt="ad-img"
                                     />
-                                    <Row className={styles.btnUploadContent}>
-                                      <Form.Control
-                                        value="Remove"
-                                        type="button"
-                                        className={styles.btnUpload}
-                                        onClick={() =>
-                                          handleRemove(onImageRemove, index)
-                                        }
-                                      />
-                                    </Row>
+                                    <div>
+                                      <Row className={styles.btnUploadContent}>
+                                        <Form.Control
+                                          value="Remove"
+                                          type="button"
+                                          className={styles.btnUpload}
+                                          onClick={() =>
+                                            handleRemove(onImageRemove, index)
+                                          }
+                                        />
+                                      </Row>
+                                      <Row className={styles.btnUploadContent}>
+                                        <Form.Control
+                                          value="Upload"
+                                          className={styles.btnUpload}
+                                          onClick={() =>
+                                            handleClick(onImageUpload)
+                                          }
+                                        />
+                                      </Row>
+                                    </div>
                                   </div>
                                 ))
                               )}
-                              <Row className={styles.btnUploadContent}>
-                                <Form.Control
-                                  value="Upload"
-                                  className={styles.btnUpload}
-                                  onClick={() => handleClick(onImageUpload)}
-                                />
-                              </Row>
                               {errors && (
                                 <div>
                                   {errors.maxNumber && (
@@ -655,41 +674,72 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                             }) => (
                               <div className={styles.imageUploadContent}>
                                 {imageList.length === 0 ? (
-                                  <img
-                                    src={DefaultThumbnail}
-                                    style={{ width: "100px" }}
-                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                    }}
+                                  >
+                                    <img
+                                      src={DefaultThumbnail}
+                                      style={{ width: "100px" }}
+                                      alt=""
+                                    />
+                                    <Row className={styles.btnUploadContent}>
+                                      <Form.Control
+                                        value="Upload"
+                                        className={styles.btnUpload}
+                                        onClick={() =>
+                                          handleClick(onImageUpload)
+                                        }
+                                      />
+                                    </Row>
+                                  </div>
                                 ) : (
                                   imageList.map((image, index) => (
                                     <div
                                       key={index}
                                       className={styles.imageItem}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
                                     >
                                       <img
                                         src={image.photo}
                                         className={styles.thumbNail}
                                         alt="ad-img"
                                       />
-                                      <Row className={styles.btnUploadContent}>
-                                        <Form.Control
-                                          value="Remove"
-                                          type="button"
-                                          className={styles.btnUpload}
-                                          onClick={() =>
-                                            handleRemove(onImageRemove, index)
-                                          }
-                                        />
-                                      </Row>
+                                      <div>
+                                        <Row
+                                          className={styles.btnUploadContent}
+                                        >
+                                          <Form.Control
+                                            value="Remove"
+                                            type="button"
+                                            className={styles.btnUpload}
+                                            onClick={() =>
+                                              handleRemove(onImageRemove, index)
+                                            }
+                                          />
+                                        </Row>
+                                        <Row
+                                          className={styles.btnUploadContent}
+                                        >
+                                          <Form.Control
+                                            value="Upload"
+                                            className={styles.btnUpload}
+                                            onClick={() =>
+                                              handleClick(onImageUpload)
+                                            }
+                                          />
+                                        </Row>
+                                      </div>
                                     </div>
                                   ))
                                 )}
-                                <Row className={styles.btnUploadContent}>
-                                  <Form.Control
-                                    value="Upload"
-                                    className={styles.btnUpload}
-                                    onClick={() => handleClick(onImageUpload)}
-                                  />
-                                </Row>
                                 {errors && (
                                   <div>
                                     {errors.maxNumber && (
@@ -750,28 +800,32 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           </ImageUploading>
 
                           {/* Flavor list */}
-                          <FlavorsList
-                            defaultFlavors={defaultFlavors}
-                            currentFlavors={currentFlavors}
-                            setCurrentFlavors={setCurrentFlavors}
-                          />
-                        </Col>
-                      </Row>
-                      <Row className="d-none d-lg-block ps-3 pe-3">
-                        <Col className={styles.availabilityContent}>
-                          <Row>
-                            <Form.Label>Availability</Form.Label>
-                          </Row>
-                          <Row className={styles.availability}>
-                            <Col>No</Col>
-                            <Col className={styles.switch}>
-                              <Form.Check
-                                type="switch"
-                                defaultChecked={checked}
-                                onChange={() => setChecked(!checked)}
+                          <Row className="mt-3">
+                            <Col className="col-9">
+                              <FlavorsList
+                                defaultFlavors={defaultFlavors}
+                                currentFlavors={currentFlavors}
+                                setCurrentFlavors={setCurrentFlavors}
                               />
                             </Col>
-                            <Col>Yes</Col>
+                            <Col className="d-none d-lg-block ps-3 pe-3 col-3">
+                              <Col className={styles.availabilityContent}>
+                                <Row>
+                                  <Form.Label>Availability</Form.Label>
+                                </Row>
+                                <Row className={styles.availability}>
+                                  <Col>No</Col>
+                                  <Col className={styles.switch}>
+                                    <Form.Check
+                                      type="switch"
+                                      defaultChecked={checked}
+                                      onChange={() => setChecked(!checked)}
+                                    />
+                                  </Col>
+                                  <Col>Yes</Col>
+                                </Row>
+                              </Col>
+                            </Col>
                           </Row>
                         </Col>
                       </Row>
@@ -966,6 +1020,8 @@ function EditModal(props: any) {
   const [product, setProduct] = useState<TMenu | null>(null);
   const [defaultImg, setDefaultImg] = useState(true);
   const [images, setImages] = React.useState<any>();
+  const [defaultFlavors, setDefaultFlavors] = useState<TFlavor[]>([]);
+  const [currentFlavors, setCurrentFlavors] = useState<TCurrentFlavor[]>([]);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -975,6 +1031,13 @@ function EditModal(props: any) {
   const maxNumber = 1;
 
   const { getProductInformation, editProduct } = useProduct();
+  const { getFlavors } = useFlavors();
+
+  const loadFlavors = async () => {
+    const response = await getFlavors();
+    console.log("getFlavors response", response);
+    setDefaultFlavors(response);
+  };
 
   const loadRestaurantByProductId = async () => {
     const response = await getProductInformation(props.id);
@@ -1041,6 +1104,7 @@ function EditModal(props: any) {
         categories: [+category],
         cuisines: [+cuisine],
         restaurant_id: props.product[0].restaurant_id,
+        flavors: currentFlavors,
       };
     } else {
       data = {
@@ -1052,6 +1116,7 @@ function EditModal(props: any) {
         categories: [+category],
         cuisines: [+cuisine],
         restaurant_id: props.product[0].restaurant_id,
+        flavors: currentFlavors,
       };
     }
 
@@ -1063,9 +1128,10 @@ function EditModal(props: any) {
     loadCategories();
     loadCuisines();
     loadRestaurantByProductId();
+    loadFlavors();
   }, []);
   return (
-    <Modal {...props} size="lg">
+    <Modal {...props} size="xl">
       <Modal.Body className={styles.modalBody}>
         <Form>
           <Row>
@@ -1172,11 +1238,38 @@ function EditModal(props: any) {
                   errors,
                 }) => (
                   <div className={styles.imageUploadContent}>
-                    {defaultImg ? (
-                      <img src={product?.photo} style={{ width: "100px" }} />
+                    {imageList.length === 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          src={product?.photo}
+                          style={{ width: "100px" }}
+                          alt=""
+                        />
+                        <Row className={styles.btnUploadContent}>
+                          <Form.Control
+                            value="Upload"
+                            className={styles.btnUpload}
+                            onClick={() => handleClick(onImageUpload)}
+                          />
+                        </Row>
+                      </div>
                     ) : (
                       imageList.map((image, index) => (
-                        <div key={index} className="image-item">
+                        <div
+                          key={index}
+                          className={styles.imageItem}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <img
                             src={image.photo}
                             className={styles.thumbNail}
@@ -1193,13 +1286,6 @@ function EditModal(props: any) {
                         </div>
                       ))
                     )}
-                    <Row className={styles.btnUploadContent}>
-                      <Form.Control
-                        value="Upload"
-                        className={styles.btnUpload}
-                        onClick={() => handleClick(onImageUpload)}
-                      />
-                    </Row>
                     {errors && (
                       <div>
                         {errors.maxNumber && (
@@ -1247,24 +1333,32 @@ function EditModal(props: any) {
                   </div>
                 )}
               </ImageUploading>
-            </Col>
-          </Row>
-          {/* FOR DESKTOP */}
-          <Row className="d-none d-lg-block ps-3 pe-3">
-            <Col className={styles.availabilityContent}>
-              <Row>
-                <Form.Label>Availability</Form.Label>
-              </Row>
-              <Row className={styles.availability}>
-                <Col>No</Col>
-                <Col className={styles.switch}>
-                  <Form.Check
-                    type="switch"
-                    checked={availability}
-                    onChange={() => setAvailability(!availability)}
+              <Row className="mt-3">
+                <Col className="col-9">
+                  <FlavorsList
+                    defaultFlavors={defaultFlavors}
+                    currentFlavors={currentFlavors}
+                    setCurrentFlavors={setCurrentFlavors}
                   />
                 </Col>
-                <Col>Yes</Col>
+                <Col className="d-none d-lg-block ps-3 pe-3">
+                  <Col className={styles.availabilityContent}>
+                    <Row>
+                      <Form.Label>Availability</Form.Label>
+                    </Row>
+                    <Row className={styles.availability}>
+                      <Col>No</Col>
+                      <Col className={styles.switch}>
+                        <Form.Check
+                          type="switch"
+                          checked={availability}
+                          onChange={() => setAvailability(!availability)}
+                        />
+                      </Col>
+                      <Col>Yes</Col>
+                    </Row>
+                  </Col>
+                </Col>
               </Row>
             </Col>
           </Row>
@@ -1356,11 +1450,38 @@ function EditModal(props: any) {
                 errors,
               }) => (
                 <div className={styles.imageUploadContent}>
-                  {defaultImg ? (
-                    <img src={product?.photo} style={{ width: "100px" }} />
+                  {imageList.length === 0 ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <img
+                        src={product?.photo}
+                        style={{ width: "100px" }}
+                        alt=""
+                      />
+                      <Row className={styles.btnUploadContent}>
+                        <Form.Control
+                          value="Upload"
+                          className={styles.btnUpload}
+                          onClick={() => handleClick(onImageUpload)}
+                        />
+                      </Row>
+                    </div>
                   ) : (
                     imageList.map((image, index) => (
-                      <div key={index} className={styles.imageItem}>
+                      <div
+                        key={index}
+                        className={styles.imageItem}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         <img
                           src={image.photo}
                           className={styles.thumbNail}
@@ -1377,13 +1498,6 @@ function EditModal(props: any) {
                       </div>
                     ))
                   )}
-                  <Row className={styles.btnUploadContent}>
-                    <Form.Control
-                      value="Upload"
-                      className={styles.btnUpload}
-                      onClick={() => handleClick(onImageUpload)}
-                    />
-                  </Row>
                   {errors && (
                     <div>
                       {errors.maxNumber && (
@@ -1431,6 +1545,11 @@ function EditModal(props: any) {
                 </div>
               )}
             </ImageUploading>
+            <FlavorsList
+              defaultFlavors={defaultFlavors}
+              currentFlavors={currentFlavors}
+              setCurrentFlavors={setCurrentFlavors}
+            />
           </Row>
           <Row className="ps-3 pe-3">
             <Col className="d-flex justify-content-center gap-2 mt-4">
