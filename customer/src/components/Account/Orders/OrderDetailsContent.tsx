@@ -243,7 +243,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <p>Delivery Fee :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>85 php</p>
+                          <p className={styles.value}>86 php</p>
                         </Col>
                       </Row>
                       <Row>
