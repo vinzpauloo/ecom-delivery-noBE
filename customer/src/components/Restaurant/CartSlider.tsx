@@ -1,6 +1,9 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import { Dash, Plus } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import { Dash, Plus, XCircle } from "react-bootstrap-icons";
+
+import Lottie from "lottie-react";
+import otpSuccess from "../../assets/otp-success.json";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -38,51 +41,69 @@ type TCart = {
 const SwiperSlideItem = (
   item: Slide,
   index: number,
-  setCart: ContainerProps["setCart"]
+  setCart: ContainerProps["setCart"],
+  setModalShow: React.Dispatch<React.SetStateAction<boolean>>,
+  setItemToDelete: any
 ) => {
-  const updateCart = (item: TCart) => {
-    setCart((current) =>
-      current.map((obj) => {
-        if (obj.id === item.id) {
-          return item;
-        }
+  // const updateCart = (item: TCart) => {
+  //   setCart((current) =>
+  //     current.map((obj) => {
+  //       if (obj.id === item.id) {
+  //         return item;
+  //       }
 
-        return obj;
-      })
-    );
-  };
+  //       return obj;
+  //     })
+  //   );
+  // };
 
-  const handleIncrement = (item: TCart) => {
-    // Prepare new cart item
-    const newItem = { ...item, quantity: item.quantity + 1 };
+  // const handleIncrement = (item: TCart) => {
+  //   // Prepare new cart item
+  //   const newItem = { ...item, quantity: item.quantity + 1 };
 
-    // Update cart state
-    updateCart(newItem);
-  };
+  //   // Update cart state
+  //   updateCart(newItem);
+  // };
 
-  const handleDecrement = (item: TCart) => {
-    if (item.quantity > 1) {
-      // Prepare new cart item
-      const newItem = { ...item, quantity: item.quantity - 1 };
+  // const handleDecrement = (item: TCart) => {
+  //   if (item.quantity > 1) {
+  //     // Prepare new cart item
+  //     const newItem = { ...item, quantity: item.quantity - 1 };
 
-      // Update cart state
-      updateCart(newItem);
-    } else {
-      // Remove item from the cart
-      setCart((current) =>
-        current.filter((obj) => {
-          return obj.id !== item.id;
-        })
-      );
+  //     // Update cart state
+  //     updateCart(newItem);
+  //   } else {
+  //     // Remove item from the cart
+  //     setCart((current) =>
+  //       current.filter((obj) => {
+  //         return obj.id !== item.id;
+  //       })
+  //     );
 
-      console.log("removing item from the cart ...", item.id);
-    }
+  //     console.log("removing item from the cart ...", item.id);
+  //   }
+  // };
+
+  const handleDelete = (item: TCart) => {
+    // Set selected item
+    setItemToDelete(item);
+
+    // Show delete modal
+    setModalShow(true);
   };
 
   return (
     <SwiperSlide key={index} className={styles.swiperSlide}>
       <div className={styles.slideItem}>
         <div className={styles.slideImageContainer}>
+          <div className={styles.close}>
+            <XCircle
+              color="#FFFFFF"
+              size={16}
+              onClick={() => handleDelete(item)}
+              className={styles.btnClose}
+            />
+          </div>
           <img
             src={
               item.photo == "no-images.jpg"
@@ -97,7 +118,7 @@ const SwiperSlideItem = (
           </div>
         </div>
 
-        <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
+        {/* <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
           <div
             className={`d-flex justify-content-center align-items-center ${styles.quantity}`}
           >
@@ -117,15 +138,30 @@ const SwiperSlideItem = (
               />
             </Button>
           </div>
-        </div>
+        </div> */}
 
-        <div className={styles.flavor}>Spicy</div>
+        <div className={styles.cartLabel}>
+          <p>{`${item.quantity}pc ${item.name}`} (Spicy)</p>
+        </div>
       </div>
     </SwiperSlide>
   );
 };
 
 const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
+  const [modalShow, setModalShow] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<TCart>();
+
+  const handleDelete = (item: any) => {
+    setCart((current) =>
+      current.filter((obj) => {
+        return obj.id !== item.id;
+      })
+    );
+
+    setModalShow(false);
+  };
+
   return (
     <>
       {/* Desktop version */}
@@ -135,7 +171,13 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         className={`d-none d-md-block ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return SwiperSlideItem(item, index, setCart);
+          return SwiperSlideItem(
+            item,
+            index,
+            setCart,
+            setModalShow,
+            setItemToDelete
+          );
         })}
       </Swiper>
 
@@ -158,9 +200,43 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         className={`d-md-none ${styles.sliderContainer}`}
       >
         {slides.map((item, index) => {
-          return SwiperSlideItem(item, index, setCart);
+          return SwiperSlideItem(
+            item,
+            index,
+            setCart,
+            setModalShow,
+            setItemToDelete
+          );
         })}
       </Swiper>
+
+      {/* Delete modal confirmation */}
+      <Modal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        onExiting={() => console.log("on exiting ...")}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-2 ${styles.lottie}`}>
+            {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+            <p className="">Are you sure you want to remove this item?</p>
+
+            <div className="d-flex justify-content-between mx-lg-5 mx-md-4">
+              <div className={styles.btnBlack}>
+                <Button onClick={() => setModalShow(false)}>Cancel</Button>
+              </div>
+
+              <div className={styles.btnBlack}>
+                <Button onClick={() => handleDelete(itemToDelete)}>
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

@@ -90,7 +90,7 @@ const SwiperSlideItem = (
           </div>
         </div>
 
-        <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
+        {/* <div className={`d-flex justify-content-center ${styles.slideOptions}`}>
           <div
             className={`d-flex justify-content-center align-items-center ${styles.quantity}`}
           >
@@ -110,9 +110,11 @@ const SwiperSlideItem = (
               />
             </Button>
           </div>
-        </div>
+        </div> */}
 
-        <div className={styles.flavor}>Spicy</div>
+        <div className={styles.cartLabel}>
+          <p>{`${item.quantity}pc ${item.name}`} (Spicy)</p>
+        </div>
       </div>
     </SwiperSlide>
   );

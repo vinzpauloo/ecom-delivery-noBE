@@ -72,9 +72,57 @@
   }
 }
 
-.flavor {
-  font-size: 14px;
-  text-align: center;
+.close {
+  .btnClose {
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.75));
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+  }
+}
+
+.cartLabel {
+  p {
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0;
+
+    /* Line clamp style for 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.lottie {
+}
+
+.btnBlack {
+  button {
+    background-color: #000000;
+    border: 0.5px solid rgba(97, 72, 28, 0.5);
+    border-radius: 5px;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    min-width: 120px;
+    margin-top: 20px;
+    padding: 10px;
+    transition: $FM_TRANSITION;
+
+    &:hover {
+      border-color: $FM_TEXT_BROWN;
+      background-color: $FM_TEXT_BROWN;
+    }
+  }
 }
 
 @include devices(sm) {
