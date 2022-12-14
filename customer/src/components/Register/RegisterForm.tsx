@@ -120,7 +120,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     setAddress(address);
     clearSuggestions();
-    console.log(address);
+    console.log("handleSelect", address);
 
     // Address to Geocode conversion
     const results = await getGeocode({ address });
@@ -201,7 +201,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
     } else {
       // Validate fields
       const response = await validateFields(newFormData);
-      console.log(response);
+      console.log("validateFields response", response);
 
       if (response.errors) {
         // Prepare errors

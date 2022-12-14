@@ -57,9 +57,6 @@ const SwiperSlideItem = (
   };
 
   const handleUpdateQuantity = (index: number, value: number) => {
-    console.log("handleUpdateQuantity");
-    console.log(index, value);
-
     setQuantity((qty: any) => {
       let qtyCopy = qty.slice();
 
@@ -70,8 +67,6 @@ const SwiperSlideItem = (
           qtyCopy[index] = qtyCopy[index] + value;
         }
       }
-
-      console.log(qtyCopy);
 
       return qtyCopy;
     });
@@ -149,9 +144,6 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
 
   const addToCartAction = (index: number) => {
-    console.log(index, item);
-    console.log(quantity);
-
     if (item) {
       const newItem = {
         id: item.id,
@@ -160,8 +152,6 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         price: item.price,
         quantity: quantity ? (quantity[index] ? quantity[index] : 1) : 1,
       };
-
-      console.log("add to cart", newItem);
 
       setCart((cart) => {
         const cartCopy = cart.slice();
@@ -187,8 +177,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         return qtyCopy;
       });
 
-      console.log("Added new item in cart ...");
-      console.log(newItem);
+      // console.log("Added new item in cart ...", newItem);
 
       setModalShow(false);
     }

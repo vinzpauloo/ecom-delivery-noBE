@@ -81,19 +81,19 @@ const HomeContainer: React.FC<ContainerProps> = ({}) => {
 
   const loadCategories = async () => {
     const response = await getCategories();
-    console.log("getCategories response", response);
+    // console.log("getCategories response", response);
     setCategories(response);
   };
 
   const loadCuisines = async () => {
     const response = await getCuisines();
-    console.log("getCuisines response", response);
+    // console.log("getCuisines response", response);
     setCuisines(response);
   };
 
   const loadRestaurants = async () => {
     const response = await getRestaurants();
-    console.log("getRestaurants response", response);
+    // console.log("getRestaurants response", response);
     setRestaurants(response.data);
   };
 

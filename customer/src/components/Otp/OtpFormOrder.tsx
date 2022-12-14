@@ -35,7 +35,6 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
   const [otp, setOtp] = useState("");
   const onChange = (value: string) => {
-    console.log(otp);
     setOtp(value);
   };
 
@@ -60,10 +59,8 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
   });
 
   useEffect(() => {
-    console.log("OtpFormOrder");
-
     if (!order || !getMobile()) {
-      console.log("Missing required details!");
+      // console.log("Missing required details!");
       navigate("/register");
       return;
     }
@@ -84,7 +81,7 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
     setOtpErrorCount(0);
 
     const response = await requestOTP(otpRequestData);
-    console.log("handleSendOTP response", response);
+    // console.log("handleSendOTP response", response);
 
     // OTP request limit error
     if (response.status === 429) {
@@ -110,10 +107,10 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
       guest: !isAuthenticated(),
     };
 
-    console.log("onSubmit", otpVerifyData);
+    // console.log("onSubmit", otpVerifyData);
 
     const response = await verifyOTP(otpVerifyData);
-    console.log("response", response);
+    // console.log("response", response);
 
     if (response.error) {
       // OTP Verification error
@@ -123,25 +120,24 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
       // Check if error count is 3, reset counter to request new OTP
       if (otpErrorCount >= 3) {
-        console.log("Error count = ", otpErrorCount);
+        // console.log("Error count = ", otpErrorCount);
         setCounter(0);
         setOtp("");
       }
     } else {
       // OTP Verification success
-      console.log("OTP Verification success");
-      console.log("Creating order ...", orderObject);
+      // console.log("Creating order ...", orderObject);
 
       if (isAuthenticated()) {
         /* Create order as logged in user */
         const responseOrder = await createOrder(orderObject);
-        console.log("/api/orders", responseOrder);
+        // console.log("/api/orders", responseOrder);
 
         if (responseOrder.error) {
           setModalError(responseOrder.error);
           setModalErrorShow(true);
         } else {
-          console.log("Create order success!", responseOrder);
+          // console.log("Create order success!", responseOrder);
 
           // Reset localStorage values
           localStorage.removeItem("checkout");
@@ -161,13 +157,13 @@ const OtpFormOrder: React.FC<ContainerProps> = () => {
 
         /* Create order as guest */
         const responseOrder = await createOrderGuest(orderObject, guestSession);
-        console.log("/api/orders", responseOrder);
+        // console.log("/api/orders", responseOrder);
 
         if (responseOrder.error) {
           setModalError(responseOrder.error);
           setModalErrorShow(true);
         } else {
-          console.log("Create order success!", responseOrder);
+          // console.log("Create order success!", responseOrder);
 
           // Reset localStorage values
           localStorage.removeItem("checkout");

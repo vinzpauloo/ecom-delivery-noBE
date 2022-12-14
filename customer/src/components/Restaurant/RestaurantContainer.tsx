@@ -71,7 +71,6 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleFilter = (menu: TMenu[], category: number) => {
-    console.log("filtering menu ...", category);
     const filteredMenu = menu.filter((singleMenu) => {
       return singleMenu.categories[0]?.id === category;
     });
@@ -80,7 +79,6 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleSort = (menu: TMenu[], sortId: number) => {
-    console.log("sorting menu ...");
     let sortedMenu = [...menu];
 
     if (sortId === 1) {
@@ -103,7 +101,6 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
     category: number,
     sortId: number
   ) => {
-    console.log("filter + sort menu ....");
     let menuCopy = [...menu];
     menuCopy = menuCopy.filter((singleMenu) => {
       return singleMenu.categories[0].id === category;

@@ -214,7 +214,6 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
       <Modal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        onExiting={() => console.log("on exiting ...")}
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
