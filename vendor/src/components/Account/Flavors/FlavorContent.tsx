@@ -29,68 +29,18 @@ type TMenu = {
 };
 
 // Setup form schema & validation
-interface IFormInputs {
-  name: string;
-  description: string;
-  price: string;
-  photo: string;
-  categories: string;
-  cuisines: string;
-}
-
-type Categories = {
-  id: number;
-  name: string;
-  photo: string;
-};
-
-type Cuisines = {
-  id: number;
-  name: string;
-  photo: string;
-};
-
 const schema = yup
   .object({
     name: yup.string().required(),
-    description: yup.string().required(),
-    price: yup.string().required(),
+    default_price: yup.string().required(),
   })
   .required();
-
-const imageMimeType = /image\/(png|jpg|jpeg)/i;
-
-const ProductAvailability = ({ availability, id }) => {
-  const { updateProductAvailability } = useProduct();
-  const [check, setCheck] = useState(!!availability);
-
-  const handleClick = async (bol) => {
-    const response = await updateProductAvailability(id, {
-      is_available: bol,
-    });
-
-    console.log(response);
-  };
-  return (
-    <td>
-      <Form.Check
-        className={styles.checkInput}
-        type="switch"
-        checked={check}
-        onChange={() => setCheck(!check)}
-        onClick={() => handleClick(!check)}
-      />
-    </td>
-  );
-};
 
 const FlavorContent: React.FC<ContainerProps> = ({}) => {
   const navigate = useNavigate();
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [flavors, setFlavors] = useState<TMenu[] | null>(null);
-  const [addFlavor, setAddFlavor] = useState<string>("");
-  const [addPrice, setAddPrice] = useState<string>("");
   const [search, setSearch] = useState("");
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
@@ -98,17 +48,15 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
   const [pageLength, setPageLength] = useState(0);
   const [editItemId, setEditItemId] = useState(0);
   const [updateModalShow, setUpdateModalShow] = useState(false);
-  const [price, setPrice] = useState("");
-  const { getFlavors, updateFlavor, postFlavor, deleteFlavor } = useFlavors();
+  const { getFlavors, postFlavor, deleteFlavor } = useFlavors();
+
+  const { handleSubmit, register, reset } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const handleEdit = (id: any) => {
     setEditModal(true);
     setEditItemId(id);
-  };
-
-  const discardMenu = async () => {
-    window.location.reload();
-    navigate("/account/my-restaurant-menu");
   };
 
   const handleDelete = async (id: any) => {
@@ -118,8 +66,6 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
     navigate("/account/my-restaurant-menu");
   };
 
-  const auth = useAuthUser();
-
   const loadFlavors = async () => {
     const response = await getFlavors();
     console.log("@@@", response);
@@ -127,25 +73,12 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
     setPageLength(Math.ceil(response.length / 10));
   };
 
-  // const onSubmit = async (data: IFormInputs) => {
-  //   const menu = {
-  //     ...data,
-  //     restaurant_id: auth()?.restaurant[0].id,
-  //     categories: [parseInt(data.categories)],
-  //     cuisines: [parseInt(data.cuisines)],
-  //   };
-
-  //   console.log("onSubmit", menu);
-
-  //   const response = await postProduct(menu);
-  //   console.log("add product response", response);
-  // };
-
   const handlePrev = () => {
     setPage((prev) => prev - 1);
     setStart((prev) => prev - 10);
     setEnd((prev) => prev - 10);
   };
+
   const handleNext = () => {
     setPage((prev) => prev + 1);
     setStart((prev) => prev + 10);
@@ -153,22 +86,18 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const closeModalFlavor = () => {
+    reset();
     setMenuModal(false);
-    setAddFlavor("");
-    setAddPrice("");
   };
 
-  const saveModalFlavor = async () => {
-    const data = { name: addFlavor, default_price: +addPrice };
-    if (addFlavor !== "" && addPrice !== "") {
-      const response = await postFlavor(data);
-      window.location.reload();
-      setMenuModal(false);
-    }
+  const saveModalFlavor = async (data: any) => {
+    const datas = { ...data, default_price: +data.default_price };
+    const response = await postFlavor(datas);
+    window.location.reload();
+    setMenuModal(false);
   };
 
   useEffect(() => {
-    // loadRestaurantProduct();
     loadFlavors();
   }, []);
 
@@ -214,7 +143,7 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
   return (
     <div className={styles.tableContainer}>
       <div>
-        <Form>
+        <Form onSubmit={handleSubmit(saveModalFlavor)}>
           <Row>
             <h3 className="d-none d-lg-block">Available Flavors</h3>
             <Row>
@@ -290,8 +219,9 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                             style={{ height: "100%" }}
                             type="text"
                             placeholder="Flavor Name"
-                            value={addFlavor}
-                            onChange={(e) => setAddFlavor(e.target.value)}
+                            // value={addFlavor}
+                            // onChange={(e) => setAddFlavor(e.target.value)}
+                            {...register("name")}
                             required
                           />
                         </Col>
@@ -306,8 +236,9 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                             style={{ height: "100%" }}
                             type="text"
                             placeholder="0.00"
-                            value={addPrice}
-                            onChange={(e) => setAddPrice(e.target.value)}
+                            // value={addPrice}
+                            // onChange={(e) => setAddPrice(e.target.value)}
+                            {...register("default_price")}
                             required
                           />
                         </Col>
@@ -328,10 +259,7 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                               </Button>
                             </Col>
                             <Col>
-                              <Button
-                                className={styles.buttons}
-                                onClick={saveModalFlavor}
-                              >
+                              <Button className={styles.buttons} type="submit">
                                 Save
                               </Button>
                             </Col>

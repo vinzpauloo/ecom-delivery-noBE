@@ -169,10 +169,12 @@ export const useProduct = () => {
       // START: Access user API
       const endpoint = `api/products/${id}`;
       const options = {
-        params: {with: "categories,cuisines,restaurant"},
+        params: { with: "categories,cuisines,restaurant,productFlavors" },
         headers: {
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, {with: "categories,cuisines,restaurant"}),
+          "X-Authorization": calculateHash(endpoint, {
+            with: "categories,cuisines,restaurant,productFlavors",
+          }),
         },
       };
 
@@ -225,5 +227,12 @@ export const useProduct = () => {
     }
   };
 
-  return { postProduct, getProduct, deleteProduct, updateProductAvailability, getProductInformation, editProduct };
+  return {
+    postProduct,
+    getProduct,
+    deleteProduct,
+    updateProductAvailability,
+    getProductInformation,
+    editProduct,
+  };
 };

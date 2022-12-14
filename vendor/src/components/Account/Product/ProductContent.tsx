@@ -74,11 +74,13 @@ type TFlavor = {
   name: string;
   description: string;
   default_price: number;
+  price: number;
 };
 
 type TCurrentFlavor = {
   flavor_id: number;
   flavor_price: number;
+  price: number;
 };
 
 const schema = yup
@@ -1045,14 +1047,12 @@ function EditModal(props: any) {
   const loadRestaurantByProductId = async () => {
     const response = await getProductInformation(props.id);
     console.log("getRestaurantProduct response", response);
+    setCurrentFlavors(response.flavors);
     setProduct(response);
     setName(response.name);
     setDescription(response.description);
     setPrice(response.price);
     setAvailability(!!response.is_available);
-    // setImages(response.photo);
-    console.log("@@@", response.categories[0].id);
-    console.log("@@@", response.cuisines[0].id);
     if (response.categories.length > 0) {
       setCategory(response.categories[0].id);
     }
@@ -1096,6 +1096,13 @@ function EditModal(props: any) {
 
   const handleSave = async () => {
     props.setEditModal(false);
+    console.log("!!!", currentFlavors);
+    const flavors = currentFlavors.map((item) => {
+      return {
+        flavor_id: item.flavor_id,
+        flavor_price: item.price ?? item.flavor_price,
+      };
+    });
     let data = {};
     if (!!images) {
       data = {
@@ -1107,7 +1114,7 @@ function EditModal(props: any) {
         categories: [+category],
         cuisines: [+cuisine],
         restaurant_id: props.product[0].restaurant_id,
-        flavors: currentFlavors,
+        flavors: flavors,
       };
     } else {
       data = {
@@ -1119,7 +1126,7 @@ function EditModal(props: any) {
         categories: [+category],
         cuisines: [+cuisine],
         restaurant_id: props.product[0].restaurant_id,
-        flavors: currentFlavors,
+        flavors: flavors,
       };
     }
 

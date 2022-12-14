@@ -14,6 +14,7 @@ type TFlavor = {
 type TCurrentFlavor = {
   flavor_id: number;
   flavor_price: number;
+  price: number;
 };
 
 interface ContainerProps {
@@ -31,7 +32,10 @@ const FlavorItem = ({
   currentFlavors: TCurrentFlavor[];
   setCurrentFlavors: any;
 }) => {
-  const [price, setPrice] = useState(item.default_price);
+  const flavor = currentFlavors.filter((val) => val.flavor_id === item.id);
+  const value = flavor.length === 0 ? item.default_price : flavor[0].price;
+  const [price, setPrice] = useState(value);
+  const [button, seButton] = useState(!!flavor.length);
 
   const isFlavorExist = (flavor_id: number) => {
     let isExist = false;
@@ -47,26 +51,27 @@ const FlavorItem = ({
     return isExist;
   };
 
-  const handleOnPriceChange = (price: number) => {
+  const handleOnPriceChange = (e: any, price: number) => {
     console.log("handleOnPriceChange", price);
-    setPrice(price);
 
     const newCurrentFlavors = currentFlavors.map((obj) => {
       // 👇️ if same flavor id
       if (obj.flavor_id === item.id) {
-        return { ...obj, flavor_price: price };
+        return { ...obj, price: parseInt(e.target.value) };
+      } else {
+        // 👇️ otherwise return object as is
+        return obj;
       }
-
-      // 👇️ otherwise return object as is
-      return obj;
     });
 
+    console.log("%%%!!!", newCurrentFlavors);
+    setPrice(price);
     setCurrentFlavors(newCurrentFlavors);
   };
 
   const handleToggle = (item: TFlavor) => {
     console.log("toggle availability", item);
-
+    seButton((prev) => !prev);
     const thisFlavor = {
       flavor_id: item.id,
       flavor_price: price,
@@ -103,7 +108,7 @@ const FlavorItem = ({
           <Form.Control
             type="text"
             value={price}
-            onChange={(e) => handleOnPriceChange(parseInt(e.target.value))}
+            onChange={(e) => handleOnPriceChange(e, parseInt(e.target.value))}
             disabled={!isFlavorExist(item.id)}
           />
           <span>Php</span>
@@ -118,6 +123,7 @@ const FlavorItem = ({
         }}
       >
         <Form.Check
+          checked={button}
           className={styles.checkInput}
           type="switch"
           onChange={() => handleToggle(item)}
@@ -132,6 +138,21 @@ const FlavorsList: React.FC<ContainerProps> = ({
   currentFlavors,
   setCurrentFlavors,
 }) => {
+  // let ids: any = [];
+  // let mergeArray: any = [];
+  // for (let i of defaultFlavors) {
+  //   for (let j of currentFlavors) {
+  //     if (!ids.includes(j.flavor_id)) {
+  //       mergeArray.push(j);
+  //       ids.push(j.flavor_id);
+  //     } else if (!ids.includes(i.id)) {
+  //       mergeArray.push(i);
+  //       ids.push(i.id);
+  //     }
+  //   }
+  // }
+  // console.log("@@@", mergeArray);
+
   return (
     <>
       <Row className={styles.flavorContainer}>
