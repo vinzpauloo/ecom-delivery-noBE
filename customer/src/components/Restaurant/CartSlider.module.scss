@@ -101,6 +101,10 @@
 .lottie {
   svg {
     width: 400px !important;
+
+    @include devices(md) {
+      width: 250px !important;
+    }
   }
 }
 
