@@ -1401,9 +1401,9 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
             return OrderItem(item, index);
           })
         ) : (
-          <h5>No orders found.</h5>
+          <h5 className="text-center">You have no orders for delivery.</h5>
         )}
-        {orders?.length && currentPage < lastPage && (
+        {orders?.length !== 0 && currentPage < lastPage && (
           <div className="text-center">
             <Button
               variant="primary"

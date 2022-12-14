@@ -1100,9 +1100,9 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
               return OrderItem(item, index);
             })
           ) : (
-            <h5>No orders found.</h5>
+            <h5 className="text-center">No orders found.</h5>
           )}
-          {orders?.length && currentPage < lastPage && (
+          {orders?.length !== 0 && currentPage < lastPage && (
             <div className="text-center">
               <Button
                 variant="primary"
