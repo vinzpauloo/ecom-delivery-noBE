@@ -17,9 +17,13 @@ import { useOrder } from "../../../hooks/useOrder";
 import updateSuccess from "../../../assets/update-success.json";
 import searchIcon from "../../../assets/images/searchIcon.png";
 import orderReceived from "../../../assets/images/order-received.png";
+import orderReceivedAlt from "../../../assets/images/order-received-alt.png";
 import kitchenPrep from "../../../assets/images/kitchen-prep.png";
+import kitchenPrepAlt from "../../../assets/images/order-preparing-alt.png";
 import riderOTW from "../../../assets/images/rider-on-the-way.png";
+import riderOtwAlt from "../../../assets/images/order-otw-alt.png";
 import riderDelivered from "../../../assets/images/delivered.png";
+import riderDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
 
 import { getDate, getTime } from "../../../utils/formatDate";
 
@@ -698,45 +702,70 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <div className={styles.status}>
                               <p>Order Status</p>
-                              {item?.order_status === "pending" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={orderReceived} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Pending
-                                  </p>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "pending" && (
+                                    <img src={orderReceived} alt="" />
+                                  )}
+                                  {item?.order_status === "pending" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={orderReceivedAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                      {/* <p
+                                        style={{
+                                          textTransform: "uppercase",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Pending
+                                      </p> */}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                              {item?.order_status === "preparing" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={kitchenPrep} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Kitchen Preparing...
-                                  </p>
+                              </div>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "preparing" && (
+                                    <img src={kitchenPrep} alt="" />
+                                  )}
+                                  {item?.order_status === "preparing" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={kitchenPrepAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                      {/* <p
+                                        style={{
+                                          textTransform: "uppercase",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Kitchen Preparing...
+                                      </p> */}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                              {item?.order_status === "otw" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderOTW} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Rider On Its Way
-                                  </p>
+                              </div>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "otw" && (
+                                    <img src={riderOTW} alt="" />
+                                  )}
+                                  {item?.order_status === "otw" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={riderOtwAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
-                              )}
+                              </div>
                               {item?.order_status === "delivered" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
                                   <img src={riderDelivered} alt="" />
@@ -1014,45 +1043,70 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Col>
                           <div className={styles.status}>
                             <p>Order Status</p>
-                            {item?.order_status === "pending" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={orderReceived} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Pending
-                                </p>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "pending" && (
+                                  <img src={orderReceived} alt="" />
+                                )}
+                                {item?.order_status === "pending" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={orderReceivedAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                    {/* <p
+                                      style={{
+                                        textTransform: "uppercase",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Pending
+                                    </p> */}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            {item?.order_status === "preparing" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={kitchenPrep} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Kitchen Preparing...
-                                </p>
+                            </div>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "preparing" && (
+                                  <img src={kitchenPrep} alt="" />
+                                )}
+                                {item?.order_status === "preparing" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={kitchenPrepAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                    {/* <p
+                                      style={{
+                                        textTransform: "uppercase",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Kitchen Preparing...
+                                    </p> */}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            {item?.order_status === "otw" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={riderOTW} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Rider On Its Way
-                                </p>
+                            </div>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "otw" && (
+                                  <img src={riderOTW} alt="" />
+                                )}
+                                {item?.order_status === "otw" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={riderOtwAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                  </div>
+                                )}
                               </div>
-                            )}
+                            </div>
                             {item?.order_status === "delivered" && (
                               <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
                                 <img src={riderDelivered} alt="" />
