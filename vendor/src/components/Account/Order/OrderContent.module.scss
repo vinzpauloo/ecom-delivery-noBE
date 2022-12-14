@@ -1071,3 +1071,37 @@
     padding: 8px 16px;
   }
 }
+
+.status2 {
+  .imgContainer2 {
+    position: relative;
+
+    .altImg2 {
+      animation: fadeIn 1.5s infinite alternate;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @include devices(md) {
+    .imgContainer2 {
+      .altImg2 {
+        left: 50%;
+        transform: translate(-50%);
+      }
+    }
+  }
+
+  @include devices(sm) {
+    img {
+      max-width: 200px;
+    }
+  }
+}

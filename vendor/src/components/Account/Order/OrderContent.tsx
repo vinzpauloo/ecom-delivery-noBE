@@ -17,9 +17,13 @@ import { useOrder } from "../../../hooks/useOrder";
 import updateSuccess from "../../../assets/update-success.json";
 import searchIcon from "../../../assets/images/searchIcon.png";
 import orderReceived from "../../../assets/images/order-received.png";
+import orderReceivedAlt from "../../../assets/images/order-received-alt.png";
 import kitchenPrep from "../../../assets/images/kitchen-prep.png";
+import kitchenPrepAlt from "../../../assets/images/order-preparing-alt.png";
 import riderOTW from "../../../assets/images/rider-on-the-way.png";
+import riderOtwAlt from "../../../assets/images/order-otw-alt.png";
 import riderDelivered from "../../../assets/images/delivered.png";
+import riderDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
 
 import { getDate, getTime } from "../../../utils/formatDate";
 
@@ -259,243 +263,243 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     navigate(`/account/order/status/${id}`);
   };
 
-  const handleClickComplete = (id) => {
-    navigate("completed/" + id);
-  };
-  const handleClickCancel = (id) => {
-    console.log("ajajaj");
-    navigate("cancelled/" + id);
-  };
+  // const handleClickComplete = (id) => {
+  //   navigate("completed/" + id);
+  // };
+  // const handleClickCancel = (id) => {
+  //   console.log("ajajaj");
+  //   navigate("cancelled/" + id);
+  // };
 
-  function CompletedModal(props: any) {
-    return (
-      <>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          className="d-none d-lg-block"
-        >
-          <Modal.Body className={`${styles.modalBody} p-0`}>
-            <Container>
-              <Row className={styles.modalHeaderContent}>
-                <Col className={styles.modalHeader}>Order ID</Col>
-                <Col className={styles.modalHeader}>Date</Col>
-                <Col className={styles.modalHeader}>Order Placed Time</Col>
-                <Col className={styles.modalHeader}>Order Delivered</Col>
-                <Col className={styles.modalHeader}>Rider Name</Col>
-              </Row>
-            </Container>
-            {deliveredItem?.map((item, index) => {
-              return (
-                <Container
-                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
-                  // className="order-delivery-container d-flex flex-column gap-2"
-                  fluid
-                  key={index}
-                >
-                  <Row
-                    className={styles.modalRow}
-                    onClick={() => handleClickComplete(item.id)}
-                  >
-                    <Col className={styles.modalHeader}>{item.id}</Col>
-                    <Col className={styles.modalHeader}>
-                      {item.created_at.slice(0, 10)}
-                    </Col>
-                    <Col className={styles.modalHeader}>
-                      {item.created_at.slice(12, 19)}
-                    </Col>
-                    <Col className={styles.modalHeader}>
-                      {item.updated_at.slice(0, 10)}
-                    </Col>
-                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
-                  </Row>
-                </Container>
-              );
-            })}
-          </Modal.Body>
-        </Modal>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          className="d-lg-none"
-        >
-          <h4>Completed</h4>
-          <Modal.Body className={`${styles.modalBody} p-0`}>
-            {deliveredItem?.map((item, index) => {
-              return (
-                <Container
-                  className={styles.orderDeliveryContainer}
-                  fluid
-                  key={index}
-                >
-                  <Row
-                    className={styles.contentContainer}
-                    onClick={() => handleClickComplete(item.id)}
-                  >
-                    <Col className={`col-3 ${styles.idContent}`}>
-                      <Row>
-                        <Col className={styles.modalHeader}>Order ID</Col>
-                      </Row>
-                      <Row>
-                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
-                      </Row>
-                    </Col>
-                    <Col className="col-9">
-                      <Row className={styles.row}>
-                        <Col>
-                          <Row className={styles.lable}>Date</Row>
-                          <Row className={styles.lable}>
-                            {item.created_at.slice(0, 10)}
-                          </Row>
-                        </Col>
-                        <Col>
-                          <Row className={styles.lable}>Order Placed Time</Row>
-                          <Row className={styles.lable}>
-                            {item.created_at.slice(12, 19)}
-                          </Row>
-                        </Col>
-                      </Row>
-                      <Row className={styles.row}>
-                        <Col>
-                          <Row className={styles.lable}>Rider Name</Row>
-                          <Row className={styles.lable}>{item.rider_name}</Row>
-                        </Col>
-                        <Col>
-                          <Row className={styles.lable}>Order Delivered</Row>
-                          <Row className={styles.lable}>
-                            {item.updated_at.slice(0, 10)}
-                          </Row>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              );
-            })}
-          </Modal.Body>
-        </Modal>
-      </>
-    );
-  }
+  // function CompletedModal(props: any) {
+  //   return (
+  //     <>
+  //       <Modal
+  //         {...props}
+  //         size="lg"
+  //         aria-labelledby="contained-modal-title-vcenter"
+  //         centered
+  //         className="d-none d-lg-block"
+  //       >
+  //         <Modal.Body className={`${styles.modalBody} p-0`}>
+  //           <Container>
+  //             <Row className={styles.modalHeaderContent}>
+  //               <Col className={styles.modalHeader}>Order ID</Col>
+  //               <Col className={styles.modalHeader}>Date</Col>
+  //               <Col className={styles.modalHeader}>Order Placed Time</Col>
+  //               <Col className={styles.modalHeader}>Order Delivered</Col>
+  //               <Col className={styles.modalHeader}>Rider Name</Col>
+  //             </Row>
+  //           </Container>
+  //           {deliveredItem?.map((item, index) => {
+  //             return (
+  //               <Container
+  //                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+  //                 // className="order-delivery-container d-flex flex-column gap-2"
+  //                 fluid
+  //                 key={index}
+  //               >
+  //                 <Row
+  //                   className={styles.modalRow}
+  //                   onClick={() => handleClickComplete(item.id)}
+  //                 >
+  //                   <Col className={styles.modalHeader}>{item.id}</Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.created_at.slice(0, 10)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.created_at.slice(12, 19)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.updated_at.slice(0, 10)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>{item.rider_name}</Col>
+  //                 </Row>
+  //               </Container>
+  //             );
+  //           })}
+  //         </Modal.Body>
+  //       </Modal>
+  //       <Modal
+  //         {...props}
+  //         size="lg"
+  //         aria-labelledby="contained-modal-title-vcenter"
+  //         centered
+  //         className="d-lg-none"
+  //       >
+  //         <h4>Completed</h4>
+  //         <Modal.Body className={`${styles.modalBody} p-0`}>
+  //           {deliveredItem?.map((item, index) => {
+  //             return (
+  //               <Container
+  //                 className={styles.orderDeliveryContainer}
+  //                 fluid
+  //                 key={index}
+  //               >
+  //                 <Row
+  //                   className={styles.contentContainer}
+  //                   onClick={() => handleClickComplete(item.id)}
+  //                 >
+  //                   <Col className={`col-3 ${styles.idContent}`}>
+  //                     <Row>
+  //                       <Col className={styles.modalHeader}>Order ID</Col>
+  //                     </Row>
+  //                     <Row>
+  //                       <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+  //                     </Row>
+  //                   </Col>
+  //                   <Col className="col-9">
+  //                     <Row className={styles.row}>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Date</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.created_at.slice(0, 10)}
+  //                         </Row>
+  //                       </Col>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Order Placed Time</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.created_at.slice(12, 19)}
+  //                         </Row>
+  //                       </Col>
+  //                     </Row>
+  //                     <Row className={styles.row}>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Rider Name</Row>
+  //                         <Row className={styles.lable}>{item.rider_name}</Row>
+  //                       </Col>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Order Delivered</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.updated_at.slice(0, 10)}
+  //                         </Row>
+  //                       </Col>
+  //                     </Row>
+  //                   </Col>
+  //                 </Row>
+  //               </Container>
+  //             );
+  //           })}
+  //         </Modal.Body>
+  //       </Modal>
+  //     </>
+  //   );
+  // }
 
-  function CancelledModal(props: any) {
-    return (
-      <>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          className="d-none d-lg-block"
-        >
-          <Modal.Body className={`${styles.modalBody} p-0`}>
-            <Container>
-              <Row className={styles.modalHeaderContent}>
-                <Col className={styles.modalHeader}>Order ID</Col>
-                <Col className={styles.modalHeader}>Date</Col>
-                <Col className={styles.modalHeader}>Order Placed Time</Col>
-                <Col className={styles.modalHeader}>Time Cancelled</Col>
-                <Col className={styles.modalHeader}>Rider Name</Col>
-              </Row>
-            </Container>
-            {deliveredItem?.map((item, index) => {
-              return (
-                <Container
-                  className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
-                  // className="order-delivery-container d-flex flex-column gap-2"
-                  fluid
-                  key={index}
-                >
-                  <Row
-                    className={styles.modalRow}
-                    onClick={() => handleClickCancel(item.id)}
-                  >
-                    <Col className={styles.modalHeader}>{item.id}</Col>
-                    <Col className={styles.modalHeader}>
-                      {item.created_at.slice(0, 10)}
-                    </Col>
-                    <Col className={styles.modalHeader}>
-                      {item.created_at.slice(12, 19)}
-                    </Col>
-                    <Col className={styles.modalHeader}>
-                      {item.updated_at.slice(0, 10)}
-                    </Col>
-                    <Col className={styles.modalHeader}>{item.rider_name}</Col>
-                  </Row>
-                </Container>
-              );
-            })}
-          </Modal.Body>
-        </Modal>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          className="d-lg-none"
-        >
-          <h4>Cancelled</h4>
-          <Modal.Body className={`${styles.modalBody} p-0`}>
-            {deliveredItem?.map((item, index) => {
-              return (
-                <Container
-                  className={styles.orderDeliveryContainer}
-                  fluid
-                  key={index}
-                >
-                  <Row
-                    className={styles.contentContainer}
-                    onClick={() => handleClickCancel(item.id)}
-                  >
-                    <Col className={`col-3 ${styles.idContent}`}>
-                      <Row>
-                        <Col className={styles.modalHeader}>Order ID</Col>
-                      </Row>
-                      <Row>
-                        <Col className={styles.modalHeaderLabel}>{item.id}</Col>
-                      </Row>
-                    </Col>
-                    <Col className="col-9">
-                      <Row className={styles.row}>
-                        <Col>
-                          <Row className={styles.lable}>Date</Row>
-                          <Row className={styles.lable}>
-                            {item.created_at.slice(0, 10)}
-                          </Row>
-                        </Col>
-                        <Col>
-                          <Row className={styles.lable}>Order Placed Time</Row>
-                          <Row className={styles.lable}>
-                            {item.created_at.slice(12, 19)}
-                          </Row>
-                        </Col>
-                      </Row>
-                      <Row className={styles.row}>
-                        <Col>
-                          <Row className={styles.lable}>Rider Name</Row>
-                          <Row className={styles.lable}>{item.rider_name}</Row>
-                        </Col>
-                        <Col>
-                          <Row className={styles.lable}>Order Delivered</Row>
-                          <Row className={styles.lable}>
-                            {item.updated_at.slice(0, 10)}
-                          </Row>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Container>
-              );
-            })}
-          </Modal.Body>
-        </Modal>
-      </>
-    );
-  }
+  // function CancelledModal(props: any) {
+  //   return (
+  //     <>
+  //       <Modal
+  //         {...props}
+  //         size="lg"
+  //         aria-labelledby="contained-modal-title-vcenter"
+  //         centered
+  //         className="d-none d-lg-block"
+  //       >
+  //         <Modal.Body className={`${styles.modalBody} p-0`}>
+  //           <Container>
+  //             <Row className={styles.modalHeaderContent}>
+  //               <Col className={styles.modalHeader}>Order ID</Col>
+  //               <Col className={styles.modalHeader}>Date</Col>
+  //               <Col className={styles.modalHeader}>Order Placed Time</Col>
+  //               <Col className={styles.modalHeader}>Time Cancelled</Col>
+  //               <Col className={styles.modalHeader}>Rider Name</Col>
+  //             </Row>
+  //           </Container>
+  //           {deliveredItem?.map((item, index) => {
+  //             return (
+  //               <Container
+  //                 className={`${styles.orderDeliveryContainer} d-flex flex-column gap-2`}
+  //                 // className="order-delivery-container d-flex flex-column gap-2"
+  //                 fluid
+  //                 key={index}
+  //               >
+  //                 <Row
+  //                   className={styles.modalRow}
+  //                   onClick={() => handleClickCancel(item.id)}
+  //                 >
+  //                   <Col className={styles.modalHeader}>{item.id}</Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.created_at.slice(0, 10)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.created_at.slice(12, 19)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>
+  //                     {item.updated_at.slice(0, 10)}
+  //                   </Col>
+  //                   <Col className={styles.modalHeader}>{item.rider_name}</Col>
+  //                 </Row>
+  //               </Container>
+  //             );
+  //           })}
+  //         </Modal.Body>
+  //       </Modal>
+  //       <Modal
+  //         {...props}
+  //         size="lg"
+  //         aria-labelledby="contained-modal-title-vcenter"
+  //         centered
+  //         className="d-lg-none"
+  //       >
+  //         <h4>Cancelled</h4>
+  //         <Modal.Body className={`${styles.modalBody} p-0`}>
+  //           {deliveredItem?.map((item, index) => {
+  //             return (
+  //               <Container
+  //                 className={styles.orderDeliveryContainer}
+  //                 fluid
+  //                 key={index}
+  //               >
+  //                 <Row
+  //                   className={styles.contentContainer}
+  //                   onClick={() => handleClickCancel(item.id)}
+  //                 >
+  //                   <Col className={`col-3 ${styles.idContent}`}>
+  //                     <Row>
+  //                       <Col className={styles.modalHeader}>Order ID</Col>
+  //                     </Row>
+  //                     <Row>
+  //                       <Col className={styles.modalHeaderLabel}>{item.id}</Col>
+  //                     </Row>
+  //                   </Col>
+  //                   <Col className="col-9">
+  //                     <Row className={styles.row}>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Date</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.created_at.slice(0, 10)}
+  //                         </Row>
+  //                       </Col>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Order Placed Time</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.created_at.slice(12, 19)}
+  //                         </Row>
+  //                       </Col>
+  //                     </Row>
+  //                     <Row className={styles.row}>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Rider Name</Row>
+  //                         <Row className={styles.lable}>{item.rider_name}</Row>
+  //                       </Col>
+  //                       <Col>
+  //                         <Row className={styles.lable}>Order Delivered</Row>
+  //                         <Row className={styles.lable}>
+  //                           {item.updated_at.slice(0, 10)}
+  //                         </Row>
+  //                       </Col>
+  //                     </Row>
+  //                   </Col>
+  //                 </Row>
+  //               </Container>
+  //             );
+  //           })}
+  //         </Modal.Body>
+  //       </Modal>
+  //     </>
+  //   );
+  // }
 
   useEffect(() => {
     // loadPendingOrder("pending");
@@ -524,7 +528,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 />
                 <img className={styles.searchIcon} src={searchIcon} alt="" />
               </Col>
-              <Col className={styles.buttonContent}>
+              {/* <Col className={styles.buttonContent}>
                 <Row>
                   <Col className="col-6">
                     <Button
@@ -551,7 +555,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                     />
                   </Col>
                 </Row>
-              </Col>
+              </Col> */}
             </Row>
           </div>
           <div className={`${styles.mobileHeader} d-lg-none`}>
@@ -698,45 +702,70 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                           <Col>
                             <div className={styles.status}>
                               <p>Order Status</p>
-                              {item?.order_status === "pending" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={orderReceived} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Pending
-                                  </p>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "pending" && (
+                                    <img src={orderReceived} alt="" />
+                                  )}
+                                  {item?.order_status === "pending" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={orderReceivedAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                      {/* <p
+                                        style={{
+                                          textTransform: "uppercase",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Pending
+                                      </p> */}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                              {item?.order_status === "preparing" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={kitchenPrep} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Kitchen Preparing...
-                                  </p>
+                              </div>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "preparing" && (
+                                    <img src={kitchenPrep} alt="" />
+                                  )}
+                                  {item?.order_status === "preparing" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={kitchenPrepAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                      {/* <p
+                                        style={{
+                                          textTransform: "uppercase",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Kitchen Preparing...
+                                      </p> */}
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                              {item?.order_status === "otw" && (
-                                <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                  <img src={riderOTW} alt="" />
-                                  <p
-                                    style={{
-                                      textTransform: "uppercase",
-                                      fontWeight: "600",
-                                    }}
-                                  >
-                                    Rider On Its Way
-                                  </p>
+                              </div>
+                              <div className={styles.status2}>
+                                <div className={styles.imgContainer2}>
+                                  {item?.order_status === "otw" && (
+                                    <img src={riderOTW} alt="" />
+                                  )}
+                                  {item?.order_status === "otw" && (
+                                    <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                      <img
+                                        src={riderOtwAlt}
+                                        alt=""
+                                        className={styles.altImg2}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
-                              )}
+                              </div>
                               {item?.order_status === "delivered" && (
                                 <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
                                   <img src={riderDelivered} alt="" />
@@ -1014,45 +1043,70 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                         <Col>
                           <div className={styles.status}>
                             <p>Order Status</p>
-                            {item?.order_status === "pending" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={orderReceived} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Pending
-                                </p>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "pending" && (
+                                  <img src={orderReceived} alt="" />
+                                )}
+                                {item?.order_status === "pending" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={orderReceivedAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                    {/* <p
+                                      style={{
+                                        textTransform: "uppercase",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Pending
+                                    </p> */}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            {item?.order_status === "preparing" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={kitchenPrep} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Kitchen Preparing...
-                                </p>
+                            </div>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "preparing" && (
+                                  <img src={kitchenPrep} alt="" />
+                                )}
+                                {item?.order_status === "preparing" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={kitchenPrepAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                    {/* <p
+                                      style={{
+                                        textTransform: "uppercase",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Kitchen Preparing...
+                                    </p> */}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                            {item?.order_status === "otw" && (
-                              <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
-                                <img src={riderOTW} alt="" />
-                                <p
-                                  style={{
-                                    textTransform: "uppercase",
-                                    fontWeight: "600",
-                                  }}
-                                >
-                                  Rider On Its Way
-                                </p>
+                            </div>
+                            <div className={styles.status2}>
+                              <div className={styles.imgContainer2}>
+                                {item?.order_status === "otw" && (
+                                  <img src={riderOTW} alt="" />
+                                )}
+                                {item?.order_status === "otw" && (
+                                  <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
+                                    <img
+                                      src={riderOtwAlt}
+                                      alt=""
+                                      className={styles.altImg2}
+                                    />
+                                  </div>
+                                )}
                               </div>
-                            )}
+                            </div>
                             {item?.order_status === "delivered" && (
                               <div className="d-flex flex-column justify-content-center align-content-center align-items-center text-center">
                                 <img src={riderDelivered} alt="" />
@@ -1227,7 +1281,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Button>
         </div>
       )}
-      <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
+      {/* <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">
             <Button
@@ -1254,7 +1308,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             />
           </Col>
         </Row>
-      </Col>
+      </Col> */}
       <UpdateSuccessModal
         show={updateModalShow.status}
         onHide={() => setUpdateModalShow({ status: false, ID: "" })}
