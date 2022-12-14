@@ -262,7 +262,7 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
               <Modal.Body className={styles.modalBody}>
                 <Form>
                   {/* onSubmit={handleSubmit(onSubmit)} */}
-                  <Table>
+                  <Table className={styles.table}>
                     <thead className={styles.tableHeader}>
                       <Row>
                         <Col>
@@ -276,12 +276,17 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                         </Col>
                       </Row>
                     </thead>
-                    <hr />
                     <tbody className={styles.tableBody}>
                       <Row>
-                        <Col style={{ display: "flex", alignItems: "center" }}>
+                        <Col
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <input
-                            style={{ height: "100%", width: "100%" }}
+                            style={{ height: "100%" }}
                             type="text"
                             placeholder="Flavor Name"
                             value={addFlavor}
@@ -289,9 +294,15 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                             required
                           />
                         </Col>
-                        <Col style={{ display: "flex", alignItems: "center" }}>
+                        <Col
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <input
-                            style={{ height: "100%", width: "100%" }}
+                            style={{ height: "100%" }}
                             type="text"
                             placeholder="0.00"
                             value={addPrice}
@@ -299,7 +310,13 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
                             required
                           />
                         </Col>
-                        <Col style={{ display: "flex", alignItems: "center" }}>
+                        <Col
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Row className={styles.buttonsContent}>
                             <Col>
                               <Button
@@ -525,7 +542,7 @@ function EditModal(props: any) {
       <Modal.Body className={styles.modalBody}>
         <Form>
           {/* onSubmit={handleSubmit(onSubmit)} */}
-          <Table>
+          <Table className={styles.table}>
             <thead className={styles.tableHeader}>
               <Row>
                 <Col>
@@ -534,13 +551,20 @@ function EditModal(props: any) {
                 <Col>
                   <p>Price</p>
                 </Col>
-                <Col></Col>
+                <Col>
+                  <p>Action</p>
+                </Col>
               </Row>
             </thead>
-            <hr />
             <tbody className={styles.tableBody}>
               <Row>
-                <Col style={{ display: "flex", alignItems: "center" }}>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <input
                     style={{ height: "100%" }}
                     type="text"
@@ -550,7 +574,13 @@ function EditModal(props: any) {
                     required
                   />
                 </Col>
-                <Col style={{ display: "flex", alignItems: "center" }}>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <input
                     style={{ height: "100%" }}
                     type="text"
@@ -560,7 +590,13 @@ function EditModal(props: any) {
                     required
                   />
                 </Col>
-                <Col style={{ display: "flex", alignItems: "center" }}>
+                <Col
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Row className={styles.buttonsContent}>
                     <Col>
                       <Button className={styles.buttons} onClick={props.onHide}>
