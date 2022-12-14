@@ -500,7 +500,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                 >
                                   <img
                                     src={DefaultThumbnail}
-                                    style={{ width: "100px" }}
+                                    style={{ width: "150px", height: "100px" }}
                                     alt=""
                                   />
                                   <Row className={styles.btnUploadContent}>
@@ -520,7 +520,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                       alt="ad-img"
                                     />
                                     <div>
-                                      <Row className={styles.btnUploadContent}>
+                                      {/* <Row className={styles.btnUploadContent}>
                                         <Form.Control
                                           value="Remove"
                                           type="button"
@@ -529,7 +529,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                             handleRemove(onImageRemove, index)
                                           }
                                         />
-                                      </Row>
+                                      </Row> */}
                                       <Row className={styles.btnUploadContent}>
                                         <Form.Control
                                           value="Upload"
@@ -683,7 +683,10 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                   >
                                     <img
                                       src={DefaultThumbnail}
-                                      style={{ width: "100px" }}
+                                      style={{
+                                        width: "150px",
+                                        height: "100px",
+                                      }}
                                       alt=""
                                     />
                                     <Row className={styles.btnUploadContent}>
@@ -713,7 +716,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                         alt="ad-img"
                                       />
                                       <div>
-                                        <Row
+                                        {/* <Row
                                           className={styles.btnUploadContent}
                                         >
                                           <Form.Control
@@ -724,7 +727,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                                               handleRemove(onImageRemove, index)
                                             }
                                           />
-                                        </Row>
+                                        </Row> */}
                                         <Row
                                           className={styles.btnUploadContent}
                                         >
@@ -1248,7 +1251,7 @@ function EditModal(props: any) {
                       >
                         <img
                           src={product?.photo}
-                          style={{ width: "100px" }}
+                          style={{ width: "150px", height: "100px" }}
                           alt=""
                         />
                         <Row className={styles.btnUploadContent}>
@@ -1460,7 +1463,7 @@ function EditModal(props: any) {
                     >
                       <img
                         src={product?.photo}
-                        style={{ width: "100px" }}
+                        style={{ width: "150px", height: "100px" }}
                         alt=""
                       />
                       <Row className={styles.btnUploadContent}>

@@ -44,8 +44,8 @@
     border: 1px solid black;
     border-radius: 4px;
     padding: 1px;
-    width: 125px;
-    height: 80px;
+    width: 150px;
+    height: 100px;
   }
   .buttonsContent {
     // margin-left: 50px;
@@ -288,8 +288,8 @@
     border: 1px solid black;
     border-radius: 4px;
     padding: 1px;
-    width: 125px;
-    height: 80px;
+    width: 150px;
+    height: 100px;
   }
 
   .inputForm {
@@ -346,6 +346,7 @@
     flex-direction: column;
     border: 1px solid;
     padding: 8px 0;
+    border-radius: 4px;
     .availability {
       display: flex;
       flex-direction: row;
