@@ -257,7 +257,7 @@
 }
 
 .modalBody {
-  background: #e3d7c2;
+  background: #fff;
   border-color: black;
 
   .menuListBtn {
@@ -344,6 +344,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    border: 1px solid;
+    padding: 8px 0;
     .availability {
       display: flex;
       flex-direction: row;
@@ -474,6 +476,10 @@
 }
 
 @include devices(md) {
+  .availabilityContent {
+    border: none !important;
+    padding: 0 12px;
+  }
   .menuListBtn {
     button {
       white-space: nowrap;
