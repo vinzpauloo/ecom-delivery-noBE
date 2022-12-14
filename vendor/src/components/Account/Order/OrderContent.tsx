@@ -896,7 +896,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 </Accordion>
               );
             })
-        ) : orders.length ? (
+        ) : orders.length !== 0 ? (
           orders.map((item, index) => {
             return (
               <Accordion className={styles.test} flush key={index}>
@@ -1211,7 +1211,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             );
           })
         ) : (
-          <h5>No orders found.</h5>
+          <h2 style={{ textAlign: "center", margin: "30px 0 0" }}>
+            No orders found.
+          </h2>
         )}
       </div>
       {orders?.length !== 0 && currentPage < lastPage && search === "" && (
