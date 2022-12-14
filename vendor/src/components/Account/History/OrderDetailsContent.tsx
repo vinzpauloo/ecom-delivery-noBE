@@ -5,9 +5,11 @@ import { useOrder } from "../../../hooks/useOrder";
 
 import placeholder from "../../../assets/images/placeholder.png";
 import statusIsReceived from "../../../assets/images/order-received.png";
+import statusIsReceivedAlt from "../../../assets/images/order-received-alt.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
+import statusIsDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
 
 import styles from "./OrderDetailsContent.module.scss";
 
@@ -261,10 +263,10 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           src={statusIsReceived}
                         />
                         <p className={styles.value}>{order?.order_status}</p> */}
-                        {order?.order_status === "delivered" ? (
+                        {/* {order?.order_status === "delivered" ? (
                           <div>
                             <img
-                              src={statusIsDelivered}
+                              src={statusIsDeliveredAlt}
                               className="img-fluid mt-1 mb-2"
                             />
                             <p className={styles.value}>
@@ -275,11 +277,25 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <div>
                             <img
                               className="img-fluid mt-1 mb-2"
-                              src={statusIsReceived}
+                              src={statusIsDeliveredAlt}
                             />
-                            <p className={styles.value}>{order?.order_status}</p>
+                            <p className={styles.value}>
+                              {order?.order_status}
+                            </p>
                           </div>
-                        )}
+                        )} */}
+                        <div className={styles.status2}>
+                          <div className={styles.imgContainer2}>
+                            <img src={statusIsDelivered} alt="" />
+                            {order?.order_status === "delivered" && (
+                              <img
+                                src={statusIsDeliveredAlt}
+                                alt=""
+                                className={styles.altImg2}
+                              />
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </Col>
                   </Row>

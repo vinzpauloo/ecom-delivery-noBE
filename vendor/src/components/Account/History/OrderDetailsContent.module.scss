@@ -149,12 +149,52 @@
 .orderStatus {
   text-align: center;
 
-  img {
-    object-fit: contain;
-    max-width: 80px;
-  }
+  // img {
+  //   object-fit: contain;
+  //   max-width: 80px;
+  //   margin-top: 20px;
+  // }
 
   @include devices(xs) {
     margin-top: 20px;
+  }
+}
+
+.status2 {
+  margin-top: 20px;
+  img {
+    max-width: 200px;
+  }
+  .imgContainer2 {
+    position: relative;
+
+    .altImg2 {
+      animation: fadeIn 1.5s infinite alternate;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @include devices(md) {
+    .imgContainer2 {
+      .altImg2 {
+        left: 50%;
+        transform: translate(-50%);
+      }
+    }
+  }
+
+  @include devices(sm) {
+    img {
+      margin-top: 20px;
+      max-width: 80px;
+    }
   }
 }
