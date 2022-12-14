@@ -74,7 +74,11 @@ type TFlavor = {
   name: string;
   description: string;
   default_price: number;
-  is_available: boolean;
+};
+
+type TCurrentFlavor = {
+  flavor_id: number;
+  flavor_price: number;
 };
 
 const schema = yup
@@ -133,7 +137,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [category, setCategory] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
   const [defaultFlavors, setDefaultFlavors] = useState<TFlavor[]>([]);
-  const [currentFlavors, setCurrentFlavors] = useState<TFlavor[]>([]);
+  const [currentFlavors, setCurrentFlavors] = useState<TCurrentFlavor[]>([]);
 
   const [file, setFile] = useState();
   const [fileDataURL, setFileDataURL] = useState("");
@@ -226,6 +230,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     console.log("on submit ....");
+    console.log("currentFlavors", currentFlavors);
 
     if (!!!images) {
       setErrorHandling(true);
@@ -239,6 +244,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       categories: [parseInt(data.categories)],
       cuisines: [parseInt(data.cuisines)],
       photo: images[0].photo,
+      flavors: currentFlavors,
     };
 
     console.log("onSubmit", menu);
@@ -733,6 +739,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
                           <FlavorsList
                             defaultFlavors={defaultFlavors}
                             currentFlavors={currentFlavors}
+                            setCurrentFlavors={setCurrentFlavors}
                           />
                         </Col>
                       </Row>
