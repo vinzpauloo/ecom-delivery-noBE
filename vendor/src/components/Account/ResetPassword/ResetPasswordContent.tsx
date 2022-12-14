@@ -24,8 +24,15 @@ interface IFormInputs {
 const schema = yup
   .object({
     password: yup.string().min(6, constants.form.error.passwordMin).required(),
-    password_confirmation: yup.string().required(),
-    current_password: yup.string().required(),
+    password_confirmation: yup
+      .string()
+      .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)
+      .required(),
+    current_password: yup
+      .string()
+      .min(6, constants.form.error.passwordMin)
+      .max(16, constants.form.error.passwordMax)
+      .required(),
   })
   .required();
 
@@ -83,6 +90,8 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
   const [message, setMessage] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
+
   const navigate = useNavigate();
 
   const passwordChangeAlert = () => {
@@ -107,11 +116,24 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
     const response = await updatePassword(data);
     console.log("updateUser response", response);
 
-    if (!response.error) {
-      setMessage(constants.form.success.updatePassword);
-    } else {
-      setError(response.error);
+    if (response === undefined) {
+      setModalShow(true);
     }
+
+    if (response.error) {
+      // Prepare errors
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.error)) {
+        arrErrors.push("" + value);
+      }
+      setApiErrors(arrErrors);
+    }
+
+    // if (!response.error) {
+    //   setMessage(constants.form.success.updatePassword);
+    // } else {
+    //   setError(response.error);
+    // }
   };
 
   const handleToggleCurrentPassword = () => {
@@ -152,6 +174,19 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
               </Form.Group>
             </Col>
           </Row> */}
+
+          {/* Error messages */}
+          <div className={styles.errors}>
+            {/* {apiErrors.map((item, index) => {
+              return <p key={index}>{item}</p>;
+            })} */}
+            <p>{apiErrors} </p>
+            <p>{error} </p>
+            <p>{errors.password?.message}</p>
+            <p>{errors.password_confirmation?.message} </p>
+            <p>{errors.current_password?.message}</p>
+            <p id="imageError"></p>
+          </div>
           <Row>
             <Col>
               <Form.Group className="position-relative">
@@ -202,7 +237,7 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
               <Button
                 className={styles.btnReset}
                 type="submit"
-                onClick={() => setModalShow(true)}
+                // onClick={() => setModalShow(true)}
               >
                 Reset Password
               </Button>

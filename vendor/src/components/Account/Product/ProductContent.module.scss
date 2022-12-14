@@ -44,10 +44,8 @@
     border: 1px solid black;
     border-radius: 4px;
     padding: 1px;
-    width: 125px;
-    height: 80px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+    width: 150px;
+    height: 100px;
   }
   .buttonsContent {
     // margin-left: 50px;
@@ -259,7 +257,7 @@
 }
 
 .modalBody {
-  background: #e3d7c2;
+  background: #fff;
   border-color: black;
 
   .menuListBtn {
@@ -290,10 +288,8 @@
     border: 1px solid black;
     border-radius: 4px;
     padding: 1px;
-    width: 125px;
-    height: 80px;
-    margin-bottom: 10px;
-    margin-left: 5px;
+    width: 150px;
+    height: 100px;
   }
 
   .inputForm {
@@ -348,6 +344,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    border: 1px solid;
+    padding: 8px 0;
+    border-radius: 4px;
     .availability {
       display: flex;
       flex-direction: row;
@@ -478,6 +477,10 @@
 }
 
 @include devices(md) {
+  .availabilityContent {
+    border: none !important;
+    padding: 0 12px;
+  }
   .menuListBtn {
     button {
       white-space: nowrap;
@@ -497,7 +500,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     .thumbNail {
       margin-left: 0;
     }

@@ -87,5 +87,9 @@
 @include devices(md) {
   .flavorContainer {
     margin: 10px 0;
+    input {
+      width: 60px;
+      padding: 5px;
+    }
   }
 }
