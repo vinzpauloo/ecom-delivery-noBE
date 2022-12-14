@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { Dash, Plus, XCircle } from "react-bootstrap-icons";
 
 import Lottie from "lottie-react";
-import otpSuccess from "../../assets/otp-success.json";
+import recycle from "../../assets/recycle.json";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -219,8 +219,8 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         centered
       >
         <Modal.Body>
-          <div className={`text-center p-2 ${styles.lottie}`}>
-            {/* <Lottie animationData={otpSuccess} loop={true} /> */}
+          <div className={`text-center pb-2 ${styles.lottie}`}>
+            <Lottie animationData={recycle} loop={true} />
             <p className="">Are you sure you want to remove this item?</p>
 
             <div className="d-flex justify-content-between mx-lg-5 mx-md-4">
