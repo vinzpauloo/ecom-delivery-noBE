@@ -54,7 +54,7 @@ const FlavorItem = ({
     const newCurrentFlavors = currentFlavors.map((obj) => {
       // 👇️ if same flavor id
       if (obj.flavor_id === item.id) {
-        return { ...obj, price };
+        return { ...obj, flavor_price: price };
       }
 
       // 👇️ otherwise return object as is
