@@ -51,7 +51,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const loadOrder = async () => {
     // Get user order
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
 
     setOrder(response);
 
@@ -87,11 +87,10 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
       restaurant_review: options + ". " + feedback,
     };
 
-    console.log("Submitting restaurant review ...");
-    console.log(id, data);
+    // console.log("Submitting restaurant review ...", data);
 
     const response = await reviewRestaurant(id, data);
-    console.log("reviewRestaurant response", response);
+    // console.log("reviewRestaurant response", response);
 
     if (!response.error) {
       setModalShowSuccess(true);

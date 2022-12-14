@@ -81,8 +81,6 @@ const Details: React.FC<ContainerProps> = ({
   };
 
   const handleCheckout = () => {
-    console.log("Navigating to checkout page ...");
-
     const summaryDetails = {
       itemCount,
       subtotal,

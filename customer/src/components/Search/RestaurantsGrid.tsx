@@ -32,7 +32,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
       page,
       keywords: keyword,
     });
-    console.log("getRestaurantsByKeyword response", response);
+    // console.log("getRestaurantsByKeyword response", response);
 
     setRestaurants((current) => [...current, ...response.data]);
     setLastPage(response.last_page);
@@ -40,7 +40,6 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleLoadMore = () => {
-    console.log("load more ...");
     loadRestaurants(currentPage + 1);
     setCurrentPage(currentPage + 1);
   };

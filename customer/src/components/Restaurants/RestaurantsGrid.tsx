@@ -32,7 +32,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
     const params = { [`${type}_id`]: id, page };
 
     const response = await getRestaurantsByType(params);
-    console.log("getRestaurantsByType response", response);
+    // console.log("getRestaurantsByType response", response);
 
     setRestaurants((current) => [...current, ...response.data]);
     setLastPage(response.last_page);
@@ -40,7 +40,6 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleLoadMore = () => {
-    console.log("load more ...");
     loadRestaurants(currentPage + 1);
     setCurrentPage(currentPage + 1);
   };

@@ -95,7 +95,7 @@ const Chat: React.FC<ContainerProps> = ({
         to_user_type: chatBoxClass === "right" ? "Merchant" : "Rider",
         message,
       };
-      console.log("submitting ...", data);
+      // console.log("submitting ...", data);
 
       setIsSending(true);
 
@@ -118,7 +118,7 @@ const Chat: React.FC<ContainerProps> = ({
       ? await getMessages(data)
       : await getMessagesGuest(data);
 
-    console.log("getMessages|restaurant response", response);
+    // console.log("getMessages|restaurant response", response);
     setRestaurantChat(response.data);
   };
 
@@ -132,7 +132,7 @@ const Chat: React.FC<ContainerProps> = ({
       ? await getMessages(data)
       : await getMessagesGuest(data);
 
-    console.log("getMessages|rider response", response);
+    // console.log("getMessages|rider response", response);
     setRiderChat(response.data);
   };
 
@@ -156,7 +156,6 @@ const Chat: React.FC<ContainerProps> = ({
 
     // Update blinking chat icons
     if (!show && initialLoadCounter > 1 && restaurantChat?.length) {
-      console.log("setHasNewChatRestaurant === true");
       setHasNewChatRestaurant(true);
     }
 
@@ -169,7 +168,6 @@ const Chat: React.FC<ContainerProps> = ({
 
     // Update blinking chat icons
     if (!show && initialLoadCounter > 1 && riderChat?.length) {
-      console.log("setHasNewChatRestaurant === true");
       setHasNewChatRider(true);
     }
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Modal } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useOrders } from "../../hooks/useOrders";
-import { useChat } from "../../hooks/useChat";
+
+import Lottie from "lottie-react";
+import otpSuccess from "../../assets/otp-success.json";
 
 import statusIsReceived from "../../assets/images/order-received.png";
 import statusIsPreparing from "../../assets/images/order-preparing.png";
@@ -73,6 +75,7 @@ type TChat = {
 
 const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
+  const [modalCancelShow, setModalCancelShow] = useState(false);
   const [orderStatus, setOrderStatus] = useState("pending");
   const [restaurantChatroom, setRestaurantChatroom] = useState("");
   const [riderChatroom, setRiderChatroom] = useState("");
@@ -86,7 +89,6 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     cancelOrderById,
     cancelOrderByIdGuest,
   } = useOrders();
-  const { createMessage } = useChat();
   const isAuthenticated = useIsAuthenticated();
 
   // Get the params from the URL
@@ -96,7 +98,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     if (isAuthenticated()) {
       // Get user order
       const response = await getOrdersById(id);
-      console.log("getOrdersById response", response);
+      // console.log("getOrdersById response", response);
 
       const thisRider = {
         order_id: response.id,
@@ -141,7 +143,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
       // Get guest order
       const response = await getOrdersByIdGuest(id, guestSession);
-      console.log("getOrdersByIdGuest response", response);
+      // console.log("getOrdersByIdGuest response", response);
 
       const thisRider = {
         order_id: response.id,
@@ -189,7 +191,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const parsedData = JSON.parse(data.message);
       const status = parsedData.status;
 
-      console.log("parsedData", parsedData);
+      // console.log("parsedData", parsedData);
 
       setOrder({ ...parsedData, order_status: status });
       setOrderStatus(status);
@@ -242,12 +244,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setChatroom: any
   ) => {
     setChatroom(chatRoom);
-    console.log("setChatroom", chatRoom);
+    // console.log("setChatroom", chatRoom);
 
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
       const chatData = JSON.parse(data.message);
-      console.log("New chat!", chatData);
+      // console.log("New chat!", chatData);
       setChat((current: any) => {
         if (current?.length) {
           return [...current, chatData];
@@ -258,35 +260,33 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleCancelOrder = async () => {
-    console.log("Cancel order ...", id);
+    // console.log("Cancel order ...", id);
 
     const response = await cancelOrderById(id);
-    console.log("cancelOrderById response", response);
+    // console.log("cancelOrderById response", response);
 
     if (!response.error) {
-      alert(constants.form.success.cancelOrder);
-
       const newOrderObj: TOrder = { ...order, order_status: "canceled" };
       setOrder(newOrderObj);
+      setModalCancelShow(true);
     } else {
       alert(response.error);
     }
   };
 
   const handleCancelOrderGuest = async () => {
-    console.log("Cancel order guest ...", id);
+    // console.log("Cancel order guest ...", id);
 
     // Get guest session in local storage
     const guestSession = localStorage.getItem("guestSession");
 
     const response = await cancelOrderByIdGuest(id, guestSession);
-    console.log("cancelOrderByIdGuest response", response);
+    // console.log("cancelOrderByIdGuest response", response);
 
     if (!response.error) {
-      alert(constants.form.success.cancelOrder);
-
       const newOrderObj: TOrder = { ...order, order_status: "canceled" };
       setOrder(newOrderObj);
+      setModalCancelShow(true);
     } else {
       alert(response.error);
     }
@@ -297,133 +297,160 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div className="text-center">
-        <div className={styles.title}>
-          <h3>Order Tracker</h3>
-          <p>Please don't close the page.</p>
-        </div>
+    <>
+      <div className={styles.container}>
+        <div className="text-center">
+          <div className={styles.title}>
+            <h3>Order Tracker</h3>
+            <p>Please don't close the page.</p>
+          </div>
 
-        <Row md={4} xs={1}>
-          <Col>
-            <div className={styles.status}>
-              <div className={styles.imgContainer}>
-                {order?.order_status === "canceled" ? (
-                  <>
-                    <img src={statusIsCancel} alt="" />
-                    <img
-                      src={statusIsCancelAlt}
-                      alt=""
-                      className={styles.altImg}
-                    />
-                    <p>Order Canceled</p>
-                  </>
-                ) : (
-                  <>
-                    <img src={statusIsReceived} alt="" />
-                    {order?.order_status === "received" && (
+          <Row md={4} xs={1}>
+            <Col>
+              <div className={styles.status}>
+                <div className={styles.imgContainer}>
+                  {order?.order_status === "canceled" ? (
+                    <>
+                      <img src={statusIsCancel} alt="" />
                       <img
-                        src={statusIsReceivedAlt}
+                        src={statusIsCancelAlt}
                         alt=""
                         className={styles.altImg}
                       />
-                    )}
-                    <p>Order Received</p>
-                  </>
-                )}
-              </div>
+                      <p>Order Canceled</p>
+                    </>
+                  ) : (
+                    <>
+                      <img src={statusIsReceived} alt="" />
+                      {order?.order_status === "received" && (
+                        <img
+                          src={statusIsReceivedAlt}
+                          alt=""
+                          className={styles.altImg}
+                        />
+                      )}
+                      <p>Order Received</p>
+                    </>
+                  )}
+                </div>
 
-              {order?.order_status === "pending" && (
-                <Button
-                  variant="primary"
-                  className={styles.cancel}
-                  onClick={
-                    isAuthenticated()
-                      ? handleCancelOrder
-                      : handleCancelOrderGuest
-                  }
-                >
-                  Cancel Order
-                </Button>
-              )}
-            </div>
-          </Col>
-          <Col>
-            <div className={styles.status}>
-              <div className={styles.imgContainer}>
-                <img src={statusIsPreparing} alt="" />
-                {order?.order_status === "preparing" && (
-                  <img
-                    src={statusIsPreparingAlt}
-                    alt=""
-                    className={styles.altImg}
-                  />
+                {order?.order_status === "pending" && (
+                  <Button
+                    variant="primary"
+                    className={styles.cancel}
+                    onClick={
+                      isAuthenticated()
+                        ? handleCancelOrder
+                        : handleCancelOrderGuest
+                    }
+                  >
+                    Cancel Order
+                  </Button>
                 )}
-                <p>Preparing Order</p>
               </div>
-            </div>
-          </Col>
-          <Col>
-            <div className={styles.status}>
-              <div className={styles.imgContainer}>
-                <img src={statusIsOtw} alt="" />
-                {order?.order_status === "otw" && (
-                  <img src={statusIsOtwAlt} alt="" className={styles.altImg} />
-                )}
-                <p>Rider on its way</p>
+            </Col>
+            <Col>
+              <div className={styles.status}>
+                <div className={styles.imgContainer}>
+                  <img src={statusIsPreparing} alt="" />
+                  {order?.order_status === "preparing" && (
+                    <img
+                      src={statusIsPreparingAlt}
+                      alt=""
+                      className={styles.altImg}
+                    />
+                  )}
+                  <p>Preparing Order</p>
+                </div>
               </div>
-            </div>
-          </Col>
-          <Col>
-            <div className={styles.status}>
-              <div className={styles.imgContainer}>
-                <img src={statusIsDelivered} alt="" />
-                {order?.order_status === "delivered" && (
-                  <img
-                    src={statusIsDeliveredAlt}
-                    alt=""
-                    className={styles.altImg}
-                  />
-                )}
-                <p>Delivered</p>
+            </Col>
+            <Col>
+              <div className={styles.status}>
+                <div className={styles.imgContainer}>
+                  <img src={statusIsOtw} alt="" />
+                  {order?.order_status === "otw" && (
+                    <img
+                      src={statusIsOtwAlt}
+                      alt=""
+                      className={styles.altImg}
+                    />
+                  )}
+                  <p>Rider on its way</p>
+                </div>
               </div>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+            <Col>
+              <div className={styles.status}>
+                <div className={styles.imgContainer}>
+                  <img src={statusIsDelivered} alt="" />
+                  {order?.order_status === "delivered" && (
+                    <img
+                      src={statusIsDeliveredAlt}
+                      alt=""
+                      className={styles.altImg}
+                    />
+                  )}
+                  <p>Delivered</p>
+                </div>
+              </div>
+            </Col>
+          </Row>
 
-        {/* Display feedback button for authenticated users ONLY & when order is DELIVERED */}
-        {order?.order_status === "delivered" && isAuthenticated() && (
-          <div className="mt-lg-5 mt-4">
+          {/* Display feedback button for authenticated users ONLY & when order is DELIVERED */}
+          {order?.order_status === "delivered" && isAuthenticated() && (
+            <div className="mt-lg-5 mt-4">
+              <Button
+                variant="primary"
+                className={styles.feedback}
+                onClick={() => setModalShow(true)}
+              >
+                Restaurant Feedback
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <RiderFeedback
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          rider={rider}
+        />
+
+        <div className={styles.chatContainer}>
+          <Chat
+            orderId={id}
+            restaurantChat={restaurantChat}
+            setRestaurantChat={setRestaurantChat}
+            riderChat={riderChat}
+            setRiderChat={setRiderChat}
+            orderStatus={orderStatus}
+            restaurantChatroom={restaurantChatroom}
+            riderChatroom={riderChatroom}
+          />
+        </div>
+      </div>
+
+      <Modal
+        show={modalCancelShow}
+        onHide={() => setModalCancelShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <div className={`text-center p-4 ${styles.lottie}`}>
+            <Lottie animationData={otpSuccess} loop={true} />
+            <p className="mt-4">{constants.form.success.cancelOrder}</p>
+
             <Button
-              variant="primary"
-              className={styles.feedback}
-              onClick={() => setModalShow(true)}
+              onClick={() => setModalCancelShow(false)}
+              className={`d-inline-block mt-2 ${styles.button}`}
             >
-              Restaurant Feedback
+              Close
             </Button>
           </div>
-        )}
-      </div>
-
-      <RiderFeedback
-        modalShow={modalShow}
-        setModalShow={setModalShow}
-        rider={rider}
-      />
-
-      <div className={styles.chatContainer}>
-        <Chat
-          orderId={id}
-          restaurantChat={restaurantChat}
-          setRestaurantChat={setRestaurantChat}
-          riderChat={riderChat}
-          setRiderChat={setRiderChat}
-          orderStatus={orderStatus}
-          restaurantChatroom={restaurantChatroom}
-          riderChatroom={riderChatroom}
-        />
-      </div>
-    </div>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

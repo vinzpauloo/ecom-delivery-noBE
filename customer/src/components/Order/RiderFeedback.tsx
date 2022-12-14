@@ -133,11 +133,10 @@ const RiderFeedback: React.FC<ContainerProps> = ({
       rider_review: feedback,
     };
 
-    console.log("Submitting rider review ...");
-    console.log(rider?.order_id, data);
+    // console.log("Submitting rider review ...", data);
 
     const response = await reviewRider(rider?.order_id, data);
-    console.log("reviewRider response", response);
+    // console.log("reviewRider response", response);
 
     if (!response.error) {
       setModalShowSuccess(true);

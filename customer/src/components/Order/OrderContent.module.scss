@@ -162,3 +162,40 @@
     margin-top: 40px;
   }
 }
+
+.button {
+  background: #e6b325;
+  box-shadow: $FM_BUTTON_SHADOW;
+  border: none;
+  border-radius: 5px;
+  color: $FM_TEXT_BROWN;
+  font-size: 16px;
+  font-weight: 300;
+  width: 180px;
+  padding: 6px;
+  text-decoration: none;
+  transition: $FM_TRANSITION;
+
+  &:active,
+  &:hover,
+  &:focus {
+    background: #a47e3b !important;
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  &:disabled {
+    background: $FM_BG_GRAY2;
+    opacity: 1;
+  }
+}
+
+.lottie {
+  p {
+    font-weight: 400;
+  }
+
+  svg {
+    width: 300px !important;
+  }
+}
