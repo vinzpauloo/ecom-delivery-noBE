@@ -89,7 +89,15 @@ const FlavorItem = ({
 
   return (
     <div className={`d-flex gap-2 ${styles.flavorItem}`}>
-      <div className={styles.wLarge}>{item.name}</div>
+      <div
+        className={styles.wLarge}
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {item.name}
+      </div>
       <div className={styles.wMedium}>
         <div className="d-flex align-items-center gap-2">
           <Form.Control
@@ -101,7 +109,14 @@ const FlavorItem = ({
           <span>Php</span>
         </div>
       </div>
-      <div className={`text-end ${styles.wMedium}`}>
+      <div
+        className={`text-end ${styles.wMedium}`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
         <Form.Check
           className={styles.checkInput}
           type="switch"
