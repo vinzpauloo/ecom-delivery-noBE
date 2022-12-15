@@ -239,6 +239,11 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
     } else {
       setErrorHandling(false);
     }
+
+    const newFlavor = currentFlavors.map((item) => {
+      return { flavor_id: item.flavor_id, flavor_price: item.price };
+    });
+
     const menu = {
       ...data,
       restaurant_id: auth()?.restaurant[0].id,
@@ -246,7 +251,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       categories: [parseInt(data.categories)],
       cuisines: [parseInt(data.cuisines)],
       photo: images[0].photo,
-      flavors: currentFlavors,
+      flavors: newFlavor,
     };
 
     // *console.log("onSubmit", menu);
