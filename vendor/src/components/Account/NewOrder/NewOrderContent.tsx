@@ -71,13 +71,13 @@ const NewOrderContent = (props) => {
 
   const loadDeliveredItem = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrderCompleted", response);
+    // *console.log("getOrderCompleted", response);
     setDeliveredItem(response);
-    setQuantity(prev => {
+    setQuantity((prev) => {
       let value = prev;
-      response?.products.map((item) => value += item.quantity)
+      response?.products.map((item) => (value += item.quantity));
       return value;
-    })
+    });
   };
 
   const handleAccept = async () => {
@@ -105,7 +105,9 @@ const NewOrderContent = (props) => {
           <Row className={`mt-2 ps-0 ${styles.forMobile}`}>
             <Col className={`ps-0 col-7 ${styles.forMobileRow}`}>
               <div className={styles.leftContainer}>
-                <h1 className={`d-none d-lg-block ${styles.id}`}>Order ID : {deliveredItem?.id}</h1>
+                <h1 className={`d-none d-lg-block ${styles.id}`}>
+                  Order ID : {deliveredItem?.id}
+                </h1>
                 <h1 className={`d-lg-none ${styles.id}`}>Ordered Items</h1>
                 <Swiper
                   modules={[Grid]}
@@ -137,9 +139,7 @@ const NewOrderContent = (props) => {
                 >
                   {deliveredItem?.products.map((item, index) => (
                     <SwiperSlide className={styles.imageContainer} key={index}>
-                      <img src={item.photo} 
-                        style={{ width: "100%" }}
-                        alt="" />
+                      <img src={item.photo} style={{ width: "100%" }} alt="" />
                       <p>{item.name}</p>
                       <p>{item.price} php</p>
                     </SwiperSlide>
@@ -210,7 +210,9 @@ const NewOrderContent = (props) => {
                   <span>Total</span>
                   <span>{deliveredItem?.total_amount} php</span>
                 </p>
-                <Button className={styles.acceptButton} onClick={handleAccept}>Accept</Button>
+                <Button className={styles.acceptButton} onClick={handleAccept}>
+                  Accept
+                </Button>
               </Row>
             </Col>
           </Row>

@@ -141,7 +141,7 @@ const Chat: React.FC<ContainerProps> = ({
 
     const response = await getMessagesRider(orderId);
 
-    console.log("getMessagesRider response", response);
+    // console.log("getMessagesRider response", response);
     setRiderChat(response.data);
   };
 
@@ -159,7 +159,7 @@ const Chat: React.FC<ContainerProps> = ({
 
     // Update blinking chat icons
     if (!show && initialLoadCounter > 0 && riderChat?.length) {
-      console.log("setHasNewChatRider === true");
+      // console.log("setHasNewChatRider === true");
       setHasNewChatRider(true);
     }
 

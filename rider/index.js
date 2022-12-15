@@ -18,7 +18,7 @@ app.use(express.static(__dirname + "/../build"));
 
 // route for file upload
 app.post("/api/uploadfile", upload.single("myFile"), (req, res, next) => {
-  console.log(req.file.originalname + " file successfully uploaded !!");
+  //console.log(req.file.originalname + " file successfully uploaded !!");
   res.sendStatus(200);
 });
 

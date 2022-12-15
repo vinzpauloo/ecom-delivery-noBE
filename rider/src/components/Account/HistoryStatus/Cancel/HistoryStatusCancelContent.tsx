@@ -69,7 +69,7 @@ const HistoryStatusCancelContent = (props: any) => {
 
   const loadCanceledItem = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrderCanceled", response);
+    // console.log("getOrderCanceled", response);
     setCanceledItem(response);
     setQuantity((prev) => {
       let value = prev;

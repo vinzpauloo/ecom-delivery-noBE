@@ -43,10 +43,10 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
 
   // Get user request
   const handleGetUser = async () => {
-    console.log("Requesting getUser ...");
+    // console.log("Requesting getUser ...");
 
     const response = await getUser();
-    console.log("handleGetUser response", response);
+    // console.log("handleGetUser response", response);
 
     //PusherJS start
     const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";

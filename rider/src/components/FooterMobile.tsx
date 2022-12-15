@@ -41,7 +41,7 @@ const FooterMobile = () => {
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
-    console.log("getForDelivery", response);
+    //console.log("getForDelivery", response);
     setForDelivery(response.data);
   };
 

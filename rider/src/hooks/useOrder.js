@@ -10,7 +10,7 @@ export const useOrder = () => {
     try {
       // START: Access update user API
       const endpoint = `api/orders/${id}/${status}`;
-      console.log(endpoint);
+      // console.log(endpoint);
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -32,7 +32,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -62,7 +62,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -93,7 +93,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -102,7 +102,7 @@ export const useOrder = () => {
     try {
       // START: Access update user API
       const endpoint = `api/orders/${id}/rider/assign/self`;
-      console.log(endpoint);
+      // console.log(endpoint);
       const options = {
         headers: {
           Authorization: authHeader(),
@@ -124,7 +124,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };

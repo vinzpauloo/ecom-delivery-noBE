@@ -7,7 +7,7 @@ export const useCuisines = () => {
   const authHeader = useAuthHeader();
 
   const getCuisines = async () => {
-    console.log("getCuisines hook ...");
+    // *console.log("getCuisines hook ...");
 
     try {
       // START: Access cuisines API
@@ -34,7 +34,7 @@ export const useCuisines = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

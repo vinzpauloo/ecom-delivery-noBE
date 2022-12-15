@@ -7,7 +7,7 @@ export const useCategories = () => {
   const authHeader = useAuthHeader();
 
   const getCategories = async () => {
-    console.log("getCategories hook ...");
+    // *console.log("getCategories hook ...");
 
     try {
       // START: Access categories API
@@ -34,7 +34,7 @@ export const useCategories = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

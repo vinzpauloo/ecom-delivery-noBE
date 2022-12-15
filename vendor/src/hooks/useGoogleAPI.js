@@ -21,7 +21,7 @@ export const useGoogleAPI = () => {
 
       error.status = err.response.status;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

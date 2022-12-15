@@ -22,7 +22,7 @@ export const useFlavors = () => {
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
+        // *console.log(response);
 
         return data;
       }
@@ -32,7 +32,7 @@ export const useFlavors = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -53,7 +53,7 @@ export const useFlavors = () => {
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
+        // *console.log(response);
 
         return data;
       }
@@ -63,7 +63,7 @@ export const useFlavors = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -93,7 +93,7 @@ export const useFlavors = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -123,13 +123,13 @@ export const useFlavors = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return { error: error };
     }
   };
 
   const deleteFlavor = async (id, data) => {
-    console.log("getRestaurantProduct hook ...");
+    // *console.log("getRestaurantProduct hook ...");
 
     try {
       // START: Delete restaurant product API
@@ -147,7 +147,7 @@ export const useFlavors = () => {
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
+        // *console.log(response);
 
         return data;
       }
@@ -157,7 +157,7 @@ export const useFlavors = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

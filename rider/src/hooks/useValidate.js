@@ -18,7 +18,7 @@ export const useValidate = () => {
       // END: Access rider validate API
 
       if (response.status === 200) {
-        console.log(response);
+        // console.log(response);
         const { data } = response.data;
 
         return data;
@@ -31,7 +31,7 @@ export const useValidate = () => {
         error = err.response?.data.errors;
       } else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { errors: error, status: status };
     }
   };

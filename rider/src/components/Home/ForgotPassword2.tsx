@@ -85,10 +85,10 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Forgot password API
-      console.log("resetPassword", data);
+      // console.log("resetPassword", data);
 
       const response = await resetPassword(data);
-      console.log("reset PW", response);
+      // console.log("reset PW", response);
       // END: Access password API
 
       if (response === undefined) {
@@ -108,7 +108,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         setError("*" + err.response?.data.message);
       else if (err && err instanceof Error) setError(err.message);
 
-      console.log("Error", err);
+      // console.log("Error", err);
     }
   };
 

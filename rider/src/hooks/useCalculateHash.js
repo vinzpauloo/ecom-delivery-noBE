@@ -3,7 +3,7 @@ const md5 = require("md5");
 
 /* Get from ENV on production */
 const thisKey = process.env.REACT_APP_API_SECRET_KEY;
-console.log('reading .env "thisKey" =', thisKey);
+// console.log('reading .env "thisKey" =', thisKey);
 
 export const useCalculateHash = () => {
   const calculateHash = (endpoint, body = {}) => {
@@ -21,8 +21,8 @@ export const useCalculateHash = () => {
     code += "&";
     code += thisKey;
 
-    console.log("newBody", newBody);
-    console.log("md5", code);
+    // console.log("newBody", newBody);
+    // console.log("md5", code);
 
     return md5(md5(code));
   };

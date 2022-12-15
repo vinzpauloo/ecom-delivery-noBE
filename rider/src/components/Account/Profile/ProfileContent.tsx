@@ -146,10 +146,10 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("Requesting updateUser ...");
+    // console.log("Requesting updateUser ...");
 
     const response = await updateUser(data);
-    console.log("updateUser response", response);
+    // console.log("updateUser response", response);
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
@@ -160,10 +160,10 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
 
   // Get user request
   const handleGetUser = async () => {
-    console.log("Requesting getUser ...");
+    // console.log("Requesting getUser ...");
 
     const response = await getUser();
-    console.log("handleGetUser response", response);
+    // console.log("handleGetUser response", response);
     setSampleImg(response.photos);
     let defaultValues = {
       first_name: response.rider.first_name,
@@ -187,7 +187,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
   useEffect(() => {
     handleGetUser();
   }, []);
-  console.log(sampleImg && sampleImg);
+  // console.log(sampleImg && sampleImg);
   return (
     <div className="profile-content-container">
       <div className="right">

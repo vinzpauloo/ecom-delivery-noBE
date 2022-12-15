@@ -57,10 +57,10 @@ const OtpForm: React.FC<ContainerProps> = () => {
   });
 
   useEffect(() => {
-    console.log("OtpForm");
+    // console.log("OtpForm");
 
     if (!registerUser || !getMobile()) {
-      console.log("Missing required details!");
+      // console.log("Missing required details!");
       navigate("/register");
       return;
     }
@@ -81,7 +81,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
     setOtpErrorCount(0);
 
     const response = await requestOTP(otpRequestData);
-    console.log("handleSendOTP response", response);
+    // console.log("handleSendOTP response", response);
 
     // OTP request limit error
     if (response.status === 429) {
@@ -107,10 +107,10 @@ const OtpForm: React.FC<ContainerProps> = () => {
       guest: false,
     };
 
-    console.log("onSubmit", otpVerifyData);
+    // console.log("onSubmit", otpVerifyData);
 
     const response = await verifyOTP(otpVerifyData);
-    console.log("response", response);
+    // console.log("response", response);
 
     if (response.error) {
       // OTP Verification error
@@ -120,20 +120,20 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
       // Check if error count is 3, reset counter to request new OTP
       if (otpErrorCount >= 3) {
-        console.log("Error count = ", otpErrorCount);
+        // console.log("Error count = ", otpErrorCount);
         setCounter(0);
         setOtp("");
       }
     } else {
       // OTP Verification success
-      console.log("OTP Verification success");
-      console.log("Registering new user ...", JSON.parse(registerUser));
+      // console.log("OTP Verification success");
+      // console.log("Registering new user ...", JSON.parse(registerUser));
 
       const response = await createUser(JSON.parse(registerUser));
-      console.log("createUser response", response);
+      // console.log("createUser response", response);
 
       if (!response.error) {
-        console.log("Register success!", response);
+        // console.log("Register success!", response);
 
         // Reset localStorage values
         localStorage.removeItem("registerUser");

@@ -32,7 +32,7 @@ export const useReviews = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -63,13 +63,13 @@ export const useReviews = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
 
   const getRestaurantReviewsById = async (id, data) => {
-    console.log("getRestaurantReviewsById hook ...");
+    // console.log("getRestaurantReviewsById hook ...");
 
     try {
       // START: Access restaurant reviews by id API
@@ -96,13 +96,13 @@ export const useReviews = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
 
   const getRiderReviews = async (id, data) => {
-    console.log("getRiderReviews hook ...");
+    // console.log("getRiderReviews hook ...");
 
     try {
       // START: Access restaurant reviews by id API
@@ -130,7 +130,7 @@ export const useReviews = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };

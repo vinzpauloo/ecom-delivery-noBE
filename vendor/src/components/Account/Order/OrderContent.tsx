@@ -188,7 +188,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   function CustomToggle({ children, eventKey }: any) {
     const handleClickItem = async (props) => {
       const response = await getOrdersById(props);
-      console.log("getOrdersById response", response);
+      // *console.log("getOrdersById response", response);
       setProductItem(response);
     };
 
@@ -255,7 +255,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleClickItem = async (props) => {
     const response = await getOrdersById(props);
-    console.log("getOrdersById response", response);
+    // *console.log("getOrdersById response", response);
     setProductItem(response);
   };
 

@@ -47,10 +47,10 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
     setShowModal(true);
     try {
       // START: Forgot password API
-      console.log("forgotPassword", data);
+      // *console.log("forgotPassword", data);
 
       const response = await forgotPassword(data);
-      console.log("reset PW", response);
+      // *console.log("reset PW", response);
       // END: Access password API
       navigate("/forgot-password2");
     } catch (err) {
@@ -58,7 +58,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
         setError("*" + err.response?.data.message);
       else if (err && err instanceof Error) setError(err.message);
 
-      console.log("Error", err);
+      // *console.log("Error", err);
     }
   };
 

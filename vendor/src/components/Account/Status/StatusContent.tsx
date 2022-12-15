@@ -92,11 +92,11 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 
   const loadReceivedOrder = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", !!response.guest_id);
+    // *console.log("getOrdersById response", !!response.guest_id);
     setStatus(response);
     setOrder(response);
     setIsGuest(!!response.guest_id);
-    console.log("@@@", response);
+    // *console.log("@@@", response);
 
     // if (
     //   response.order_status != "canceled" &&
@@ -134,7 +134,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
       const chatData = JSON.parse(data.message);
-      console.log("New restaurant chat!", chatData);
+      // *console.log("New restaurant chat!", chatData);
       setChat((current: any) => {
         if (current?.length) {
           return [...current, chatData];
@@ -145,7 +145,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleAccept = async (id: any) => {
-    console.log(id);
+    // *console.log(id);
     setUpdateModalShow(true);
     const response = await updateOrder(id, "preparing");
     // alert("updated status preparing successfully");

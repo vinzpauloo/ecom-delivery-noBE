@@ -73,7 +73,7 @@ const NewOrderContent = (props: any) => {
 
   const loadDeliveredItem = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrderCompleted", response);
+    // console.log("getOrderCompleted", response);
     setDeliveredItem(response);
     setQuantity((prev) => {
       let value = prev;

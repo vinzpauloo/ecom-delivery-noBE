@@ -54,8 +54,8 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
   const loadDailyStatistics = async (status: string) => {
     const params = { status: status };
     const response = await getDailyStatistics(params);
-    console.log("getDailyStatistics", response);
-    console.log(data);
+    // console.log("getDailyStatistics", response);
+    // console.log(data);
     setData({
       labels: Object.keys(response),
       datasets: [
@@ -70,8 +70,8 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
   const loadWeeklyStatistics = async (status: string) => {
     const params = { status: status };
     const response = await getWeeklyStatistics(params);
-    console.log("getWeeklyStatistics", response);
-    console.log(data2);
+    // console.log("getWeeklyStatistics", response);
+    // console.log(data2);
     setData2({
       labels: Object.keys(response),
       datasets: [
@@ -86,8 +86,8 @@ const StatisticsContent: React.FC<ContainerProps> = ({}) => {
   const loadMonthlyStatistics = async (status: string) => {
     const params = { status: status };
     const response = await getMonthlyStatistics(params);
-    console.log("getMonthlyStatistics", response);
-    console.log(data1);
+    // console.log("getMonthlyStatistics", response);
+    // console.log(data1);
     setData1({
       labels: Object.keys(response),
       datasets: [
