@@ -94,13 +94,13 @@ const PlacesAutocomplete = ({
   setAddress,
   setLat,
   setLng,
-  handlePinLocation
+  handlePinLocation,
 }: {
   address: string;
   setAddress: any;
   setLat: any;
   setLng: any;
-  handlePinLocation:any;
+  handlePinLocation: any;
 }) => {
   const {
     ready,
@@ -141,14 +141,14 @@ const PlacesAutocomplete = ({
           />
         </Col>
         <Col className={`${styles.pinBtnContent}`}>
-              <Button
-                variant="primary"
-                className={styles.pinBtn}
-                onClick={handlePinLocation}
-              >
-                Pin my location
-              </Button>
-            </Col>
+          <Button
+            variant="primary"
+            className={styles.pinBtn}
+            onClick={handlePinLocation}
+          >
+            Pin my location
+          </Button>
+        </Col>
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" &&
@@ -224,11 +224,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     //working na sana
     let updatedData = {};
-    if(!!images){
-      updatedData = { ...data, address: address, photo: images[0].photo};
-    }
-    else{
-      updatedData = { ...data, address: address};
+    if (!!images) {
+      updatedData = { ...data, address: address, photo: images[0].photo };
+    } else {
+      updatedData = { ...data, address: address };
     }
 
     const response = await updateUser(updatedData);
@@ -242,10 +241,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
 
   // Get user request
   const handleGetUser = async () => {
-    console.log("Requesting getUser ...");
-    
+    // *console.log("Requesting getUser ...");
+
     const response = await getUser();
-    console.log("handleGetUser response", response);
+    // *console.log("handleGetUser response", response);
     let defaultValues = {
       email: response.email,
       first_name: response.first_name,
@@ -438,8 +437,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                                 src={restaurantImg}
                                 className={styles.thumbNail}
                               />
-                              </Col>
-                              <Col style={{display:"flex", alignItems: "center"}}>
+                            </Col>
+                            <Col
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
                               <Form.Control
                                 placeholder="Upload"
                                 className={styles.btnUpload}
@@ -452,14 +453,21 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             <>
                               <Row key={index} className={styles.imageItem}>
                                 <Col c>
-                                <img
-                                  src={image.photo}
-                                  className={styles.thumbNail}
-                                  alt="ad-img"
+                                  <img
+                                    src={image.photo}
+                                    className={styles.thumbNail}
+                                    alt="ad-img"
                                   />
                                 </Col>
-                                <Col style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
-                                  <Row  className={styles.btnUploadContent}>
+                                <Col
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <Row className={styles.btnUploadContent}>
                                     <Form.Control
                                       value="Remove"
                                       type="button"
@@ -469,11 +477,11 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                                       }
                                     />
                                   </Row>
-                                    <Form.Control
+                                  <Form.Control
                                     placeholder="Upload"
                                     className={styles.btnUpload}
                                     onClick={() => handleClick(onImageUpload)}
-                                    />
+                                  />
                                 </Col>
                               </Row>
                             </>
@@ -500,7 +508,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             )}
                             {errors.resolution && (
                               <span style={{ color: "red", fontWeight: "600" }}>
-                                Selected file does not match the desired resolution
+                                Selected file does not match the desired
+                                resolution
                               </span>
                             )}
                           </div>
@@ -531,7 +540,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-            >
+          >
             <PlacesAutocomplete
               address={address}
               setAddress={setAddress}
@@ -595,8 +604,14 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             src={restaurantImg}
                             className={styles.thumbNail}
                           />
-                          </Col>
-                          <Col style={{display:"flex", alignItems: "center", justifyContent: "center"}}>
+                        </Col>
+                        <Col
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <Form.Control
                             placeholder="Upload"
                             className={styles.btnUploadMobile}
@@ -609,14 +624,21 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                         <>
                           <Row key={index} className={styles.imageItem}>
                             <Col c>
-                            <img
-                              src={image.photo}
-                              className={styles.thumbNail}
-                              alt="ad-img"
+                              <img
+                                src={image.photo}
+                                className={styles.thumbNail}
+                                alt="ad-img"
                               />
                             </Col>
-                            <Col style={{display:"flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
-                              <Row  className={styles.btnUploadContent}>
+                            <Col
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <Row className={styles.btnUploadContent}>
                                 <Form.Control
                                   value="Remove"
                                   type="button"
@@ -626,11 +648,11 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                                   }
                                 />
                               </Row>
-                                <Form.Control
+                              <Form.Control
                                 placeholder="Upload"
                                 className={styles.btnUploadMobile}
                                 onClick={() => handleClick(onImageUpload)}
-                                />
+                              />
                             </Col>
                           </Row>
                         </>
@@ -679,10 +701,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               </Button>
             </Col>
             <Col className={styles.buttonRightContainer}>
-              <Button
-                className={styles.btnUpdate}
-                type="submit"
-              >
+              <Button className={styles.btnUpdate} type="submit">
                 Update
               </Button>
               <UpdateSuccessModal
@@ -700,7 +719,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
           {/* FOR  MOBILE  */}
           <Row className={`d-lg-none ${styles.buttonsContainer}`}>
             <Col className={styles.buttonLeftContainer}>
-            <Button
+              <Button
                 className={styles.btnChangePass}
                 onClick={() => navigate("/account/reset-password")}
               >

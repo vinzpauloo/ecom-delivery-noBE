@@ -42,7 +42,7 @@ type ForDeliveryItem = {
 interface ContainerProps {}
 
 const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
-  console.log(window.location.pathname);
+  // *console.log(window.location.pathname);
   const [active, setActive] = useState(window.location.pathname);
 
   const { getForDeliveryOTW } = useGetOrderStatus();
@@ -52,7 +52,7 @@ const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
-    console.log("getForDelivery", response);
+    // *console.log("getForDelivery", response);
     setForDelivery(response.data);
   };
 

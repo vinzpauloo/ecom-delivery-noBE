@@ -84,11 +84,11 @@ const Chat: React.FC<ContainerProps> = ({
         to_user_type: isGuest ? "Guest" : "Customer",
         message,
       };
-      console.log("submitting ...", data);
+      // *console.log("submitting ...", data);
 
       setIsSending(true);
       const response = await createMessage(data);
-      console.log(response);
+      // *console.log(response);
 
       setIsSending(false);
       setMessage("");
@@ -103,7 +103,7 @@ const Chat: React.FC<ContainerProps> = ({
     };
     // Get authenticated user messages
     const response = await getMessagesRestaurant(orderId);
-    console.log("getMessagesRestaurant response", response);
+    // *console.log("getMessagesRestaurant response", response);
     setRestaurantChat(response.data);
   };
 
@@ -121,7 +121,7 @@ const Chat: React.FC<ContainerProps> = ({
 
     // Update blinking chat icons
     if (!show && initialLoadCounter > 0 && restaurantChat?.length) {
-      console.log("setHasNewChatRestaurant === true");
+      // *console.log("setHasNewChatRestaurant === true");
       setHasNewChatRestaurant(true);
     }
 

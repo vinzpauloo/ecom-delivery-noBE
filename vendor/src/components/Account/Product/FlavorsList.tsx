@@ -81,7 +81,7 @@ const FlavorItem = ({
   };
 
   const handleToggle = (item: TFlavor) => {
-    console.log("toggle availability", item);
+    // *console.log("toggle availability", item);
     setIsCheck((prev) => !prev);
     const thisFlavor = {
       flavor_id: item.id,
@@ -89,14 +89,14 @@ const FlavorItem = ({
     };
 
     if (isFlavorExist(item.id)) {
-      console.log("Removing existing flavor ...");
+      // *console.log("Removing existing flavor ...");
       setCurrentFlavors((current) => {
         return current.filter((obj) => {
           return obj.flavor_id !== thisFlavor.flavor_id;
         });
       });
     } else {
-      console.log("Pushing new flavor ...");
+      // *console.log("Pushing new flavor ...");
       setCurrentFlavors((current) => {
         return [...current, thisFlavor];
       });

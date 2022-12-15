@@ -221,7 +221,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     const message = document.getElementById("imageError") as HTMLInputElement;
 
     try {
-      console.log(address);
+      // *console.log(address);
       const data1 = {
         ...data,
         address: address,
@@ -237,7 +237,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         long: lng.toString(),
       };
       const response = await validateFields(data1);
-      console.log(data2);
+      // *console.log(data2);
 
       if (response.errors) {
         // Prepare errors
@@ -254,7 +254,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         navigate("/otp");
       }
     } catch (error) {
-      console.log(error);
+      // *console.log(error);
       // setErrorImage(e);
       message.innerHTML =
         "A restaurant profile photo is required. Please make sure the image is less than 15MB.";

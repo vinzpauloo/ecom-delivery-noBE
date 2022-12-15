@@ -102,7 +102,7 @@ const ProductAvailability = ({ availability, id }) => {
       is_available: bol,
     });
 
-    console.log(response);
+    // *console.log(response);
   };
   return (
     <td>
@@ -158,19 +158,19 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
 
   const loadCategories = async () => {
     const response = await getCategories();
-    console.log("getCategories response", response);
+    // *console.log("getCategories response", response);
     setCategories(response);
   };
 
   const loadCuisines = async () => {
     const response = await getCuisines();
-    console.log("getCuisines response", response);
+    // *console.log("getCuisines response", response);
     setCuisines(response);
   };
 
   const loadFlavors = async () => {
     const response = await getFlavors();
-    console.log("getFlavors response", response);
+    // *console.log("getFlavors response", response);
     setDefaultFlavors(response);
   };
 
@@ -185,7 +185,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (onImageUpload: any) => {
-    console.log("aaaa");
+    // *console.log("aaaa");
     setDefaultImg((prev) => !prev);
     onImageUpload();
   };
@@ -202,7 +202,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       restaurant_id: auth()?.restaurant[0].id,
     };
     const response = await deleteProduct(id, params);
-    console.log(response);
+    // *console.log(response);
     window.location.reload();
     navigate("/account/my-restaurant-menu");
   };
@@ -222,17 +222,17 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       restaurant_id: auth()?.restaurant[0].id,
       with: "restaurant",
     };
-    console.log(params);
+    // *console.log(params);
 
     const response = await getProduct(params);
-    console.log("getRestaurantProduct response", response);
+    // *console.log("getRestaurantProduct response", response);
     setProduct(response);
     setPageLength(Math.ceil(response.length / 10));
   };
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("on submit ....");
-    console.log("currentFlavors", currentFlavors);
+    // *console.log("on submit ....");
+    // *console.log("currentFlavors", currentFlavors);
 
     if (!!!images) {
       setErrorHandling(true);
@@ -249,10 +249,10 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       flavors: currentFlavors,
     };
 
-    console.log("onSubmit", menu);
+    // *console.log("onSubmit", menu);
 
     const response = await postProduct(menu);
-    console.log("add product response", response);
+    // *console.log("add product response", response);
 
     if (!response.error) {
       setMessage(constants.form.success.addProduct);
@@ -268,7 +268,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
       alert("Image mime type is not valid");
       return;
     }
-    console.log(e.target.files);
+    // *console.log(e.target.files);
     setFile(file);
   };
 
@@ -278,7 +278,7 @@ const ProductContent: React.FC<ContainerProps> = ({}) => {
   ) => {
     // data for submit
     setErrorHandling(false);
-    console.log(imageList, addUpdateIndex);
+    // *console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
@@ -1040,13 +1040,13 @@ function EditModal(props: any) {
 
   const loadFlavors = async () => {
     const response = await getFlavors();
-    console.log("getFlavors response", response);
+    // *console.log("getFlavors response", response);
     setDefaultFlavors(response);
   };
 
   const loadRestaurantByProductId = async () => {
     const response = await getProductInformation(props.id);
-    console.log("getRestaurantProduct response", response);
+    // *console.log("getRestaurantProduct response", response);
     setCurrentFlavors(response.flavors);
     setProduct(response);
     setName(response.name);
@@ -1063,14 +1063,14 @@ function EditModal(props: any) {
 
   const loadCuisines = async () => {
     const response = await getCuisines();
-    console.log("getCuisines response", response);
+    // *console.log("getCuisines response", response);
     setCuisines(response);
     // setCuisine(response[0].id);
   };
 
   const loadCategories = async () => {
     const response = await getCategories();
-    console.log("getCategories response", response);
+    // *console.log("getCategories response", response);
     setCategories(response);
     // setCategory(response[0].id);
   };
@@ -1090,13 +1090,13 @@ function EditModal(props: any) {
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    // *console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
 
   const handleSave = async () => {
     props.setEditModal(false);
-    console.log("!!!", currentFlavors);
+    // *console.log("!!!", currentFlavors);
     const flavors = currentFlavors.map((item) => {
       return {
         flavor_id: item.flavor_id,
@@ -1130,7 +1130,7 @@ function EditModal(props: any) {
       };
     }
 
-    console.log("!!!", data);
+    // *console.log("!!!", data);
     const response = await editProduct(props.id, data);
   };
 

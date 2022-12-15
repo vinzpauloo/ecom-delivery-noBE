@@ -69,7 +69,7 @@ const HistoryStatusContent = (props) => {
 
   const loadDeliveredItem = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrderCompleted", response);
+    // *console.log("getOrderCompleted", response);
     setDeliveredItem(response);
     setQuantity((prev) => {
       let value = prev;
@@ -81,7 +81,7 @@ const HistoryStatusContent = (props) => {
   useEffect(() => {
     loadDeliveredItem();
   }, []);
-  console.log("!!!", deliveredItem);
+  // *console.log("!!!", deliveredItem);
   return (
     <Container fluid className={`${styles.mainContainer} pe-0 m`}>
       <div className={styles.headerContainer}>

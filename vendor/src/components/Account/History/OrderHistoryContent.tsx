@@ -103,7 +103,7 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   const loadAllOrderItem = async (except_status: string, page: number) => {
     const params = { except_status: except_status, page: page };
     const response = await getAllOrders(params);
-    console.log("getAllOrders", response);
+    // *console.log("getAllOrders", response);
     setAllOrderItem((current: any) => [...current, ...response.data]);
     setLastPage(response.last_page);
     setIsLoading(false);
@@ -112,14 +112,14 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
   const loadCanceledItem = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCanceled(params);
-    console.log("getOrderCanceled", response);
+    // *console.log("getOrderCanceled", response);
     setCanceledItem(response.data);
   };
 
   const loadDeliveredItem = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCompleted(params);
-    console.log("getOrderCompleted", response);
+    // *console.log("getOrderCompleted", response);
     setDeliveredItem(response.data);
   };
 

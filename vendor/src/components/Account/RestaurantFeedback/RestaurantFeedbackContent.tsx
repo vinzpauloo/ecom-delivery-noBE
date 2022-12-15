@@ -59,7 +59,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
 
   const loadRestaurant = async () => {
     const response = await getRestaurantsById(id);
-    console.log("getRestaurantsById response", response);
+    // *console.log("getRestaurantsById response", response);
 
     const thisRestaurant = {
       restaurant_id: response.id,
@@ -75,7 +75,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
 
   const loadRestaurantReviews = async () => {
     const response = await getRestaurantReviewsById(id, { reviews: "true" });
-    console.log("getRestaurantReviewsById response", response);
+    // *console.log("getRestaurantReviewsById response", response);
 
     setReviews(response.reviews);
   };

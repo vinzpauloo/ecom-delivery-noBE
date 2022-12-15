@@ -5,7 +5,7 @@ export const useRestaurants = () => {
   const { calculateHash } = useCalculateHash();
 
   const getRestaurants = async () => {
-    console.log("getRestaurants hook ...");
+    // *console.log("getRestaurants hook ...");
 
     try {
       // START: Access restaurants API
@@ -31,13 +31,13 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getRestaurantsByType = async (data) => {
-    console.log("getRestaurantsByType hook ...");
+    // *console.log("getRestaurantsByType hook ...");
 
     try {
       // START: Access restaurants by type (category/cuisine) API
@@ -64,13 +64,13 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getRestaurantsById = async (id) => {
-    console.log("getRestaurantsById hook ...");
+    // *console.log("getRestaurantsById hook ...");
 
     try {
       // START: Access restaurants by id API
@@ -96,13 +96,13 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getRestaurantsByKeyword = async (data) => {
-    console.log("getRestaurantsByKeyword hook ...");
+    // *console.log("getRestaurantsByKeyword hook ...");
 
     try {
       // START: Access search by keyword API
@@ -140,13 +140,13 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getRestaurantMenu = async (data) => {
-    console.log("getRestaurantMenu hook ...");
+    // *console.log("getRestaurantMenu hook ...");
 
     try {
       // START: Access restaurants menu API
@@ -173,13 +173,13 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getRestaurantCategories = async (data) => {
-    console.log("getRestaurantCategories hook ...");
+    // *console.log("getRestaurantCategories hook ...");
 
     try {
       // START: Access restaurants categories API
@@ -206,7 +206,7 @@ export const useRestaurants = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

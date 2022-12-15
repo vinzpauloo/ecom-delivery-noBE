@@ -111,10 +111,10 @@ const ResetPasswordContent: React.FC<ContainerProps> = ({}) => {
   });
 
   const onSubmit = async (data: IFormInputs) => {
-    console.log("Requesting updateUser ...");
+    // *console.log("Requesting updateUser ...");
 
     const response = await updatePassword(data);
-    console.log("updateUser response", response);
+    // *console.log("updateUser response", response);
 
     if (response === undefined) {
       setModalShow(true);

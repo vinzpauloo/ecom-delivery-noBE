@@ -31,7 +31,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *("Error", err);
       return { error: error };
     }
   };
@@ -61,7 +61,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return { error: error };
     }
   };
@@ -92,7 +92,7 @@ export const useOrder = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };

@@ -31,7 +31,7 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -61,13 +61,13 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const getProduct = async (data) => {
-    console.log("getRestaurantProduct hook ...");
+    // *console.log("getRestaurantProduct hook ...");
 
     try {
       // START: Get restaurant product API
@@ -85,7 +85,7 @@ export const useProduct = () => {
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
+        // *console.log(response);
 
         return data;
       }
@@ -95,13 +95,13 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
 
   const deleteProduct = async (id, data) => {
-    console.log("getRestaurantProduct hook ...");
+    // *console.log("getRestaurantProduct hook ...");
 
     try {
       // START: Delete restaurant product API
@@ -119,7 +119,7 @@ export const useProduct = () => {
 
       if (response.status === 200) {
         const { data } = response.data;
-        console.log(response);
+        // *console.log(response);
 
         return data;
       }
@@ -129,7 +129,7 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -159,7 +159,7 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return { error: error };
     }
   };
@@ -192,7 +192,7 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return error;
     }
   };
@@ -222,7 +222,7 @@ export const useProduct = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // *console.log("Error", err);
       return { error: error };
     }
   };

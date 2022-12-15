@@ -61,14 +61,14 @@ const FlavorContent: React.FC<ContainerProps> = ({}) => {
 
   const handleDelete = async (id: any) => {
     const response = await deleteFlavor(id);
-    console.log(response);
+    // *console.log(response);
     window.location.reload();
     navigate("/account/my-restaurant-menu");
   };
 
   const loadFlavors = async () => {
     const response = await getFlavors();
-    console.log("@@@", response);
+    // *console.log("@@@", response);
     setFlavors(response);
     setPageLength(Math.ceil(response.length / 10));
   };
@@ -437,7 +437,7 @@ function EditModal(props: any) {
 
   const loadFlavorById = async () => {
     const response = await getFlavorById(props.id);
-    console.log("getRestaurantProduct response", response);
+    // *console.log("getRestaurantProduct response", response);
     setName(response.name);
     setPrice(response.default_price);
     setPrevName(response.name);
