@@ -96,7 +96,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    // console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
     setDefaultImg((prev) => !prev);
   };
@@ -121,8 +121,8 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     try {
       const data1 = { ...data };
       const data2 = { ...data, photo: images[0].photo };
-      console.log("onSubmit", data2);
-      console.log(images[0].photo);
+      // console.log("onSubmit", data2);
+      // console.log(images[0].photo);
 
       // Add address to form data
       // const newFormData = { ...data, address: address };
@@ -147,7 +147,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
         navigate("/registration2");
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       // setErrorImage(e);
       message.innerHTML =
         "A profile photo is required. Please make sure the image is less than 15MB.";
@@ -155,7 +155,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (onImageUpload: any) => {
-    console.log("aaaa");
+    // console.log("aaaa");
     // setDefaultImg((prev) => !prev);
     onImageUpload();
   };

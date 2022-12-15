@@ -32,7 +32,7 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -63,7 +63,7 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -94,14 +94,14 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
 
   const getForDeliveryOTW = async (data) => {
-    console.log("getForDeliveryOTW hook ...");
-    console.log(data);
+    // console.log("getForDeliveryOTW hook ...");
+    // console.log(data);
 
     try {
       // START: Access order for delivery API
@@ -129,14 +129,14 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
 
   const getOrderCompleted = async (data) => {
-    console.log("getOrderCompleted hook ...");
-    console.log(data);
+    // console.log("getOrderCompleted hook ...");
+    // console.log(data);
 
     try {
       // START: Access completed orders API
@@ -164,14 +164,14 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
 
   const getOrderCanceled = async (data) => {
-    console.log("getOrderCanceled hook ...");
-    console.log(data);
+    // console.log("getOrderCanceled hook ...");
+    // console.log(data);
 
     try {
       // START: Access completed orders API
@@ -199,7 +199,7 @@ export const useGetOrderStatus = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };

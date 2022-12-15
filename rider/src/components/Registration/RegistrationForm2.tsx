@@ -65,7 +65,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
     setImages(imageList);
-    console.log(imageList, addUpdateIndex);
+    // console.log(imageList, addUpdateIndex);
     setDefaultImg((prev) => !prev);
   };
 
@@ -105,7 +105,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
         ...items,
         ...data,
       };
-      console.log(merged);
+      // console.log(merged);
       // console.log(
       //   images[0].photo,
       //   images[1].photo,
@@ -115,11 +115,11 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
 
       // Add address to form data
       const newFormData = { ...data, address: address };
-      console.log("onsubmit", newFormData);
+      // console.log("onsubmit", newFormData);
 
       // Validate fields
       const response = await validateFields(merged1);
-      console.log(response);
+      // console.log(response);
 
       if (response.errors) {
         // Prepare errors
@@ -142,7 +142,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (onImageUpload: any) => {
-    console.log("aaaa");
+    // console.log("aaaa");
     // setDefaultImg((prev) => !prev);
     onImageUpload();
   };

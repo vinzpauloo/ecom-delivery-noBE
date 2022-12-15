@@ -128,18 +128,18 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
-    console.log("getForDelivery", response);
+    // console.log("getForDelivery", response);
     setForDelivery(response.data);
   };
 
   const handleAccept = async () => {
-    console.log(id);
+    // console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "otw");
     // alert("updated status otw successfully");
     // navigate(`/account/orders/${id}/otw`);
 
-    console.log(response);
+    // console.log(response);
     setOrderData(response);
   };
 
@@ -149,12 +149,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
     setProductItem(response);
   };
 
   const handleDelivered = async () => {
-    console.log(id);
+    // console.log(id);
     setModalShow(true);
     const response = await updateOrder(id, "delivered");
     // alert("updated status delivered successfully");
@@ -216,7 +216,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     // }
 
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", !!response.guest_id);
+    // console.log("getOrdersById response", !!response.guest_id);
     setStatus(response);
     setOrder(response);
     setIsGuest(!!response.guest_id);
@@ -277,12 +277,12 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     setChatroom: any
   ) => {
     setChatroom(chatRoom);
-    console.log("setChatroom", chatRoom);
+    // console.log("setChatroom", chatRoom);
 
     const channelChat = pusher.subscribe(chatRoom);
     channelChat.bind("Message-Event", (data: any) => {
       const chatData = JSON.parse(data.message);
-      console.log("New chat!", chatData);
+      // console.log("New chat!", chatData);
       setChat((current: any) => {
         if (current?.length) {
           return [...current, chatData];

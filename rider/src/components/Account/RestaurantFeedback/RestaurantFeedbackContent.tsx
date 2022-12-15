@@ -63,10 +63,10 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = () => {
 
   // Get user request
   const loadUser = async () => {
-    console.log("Requesting getUser ...");
+    // console.log("Requesting getUser ...");
 
     const response = await getUser();
-    console.log("getUser response", response);
+    // console.log("getUser response", response);
     let defaultValues = {
       first_name: response.rider.first_name,
       last_name: response.rider.last_name,
@@ -98,7 +98,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = () => {
 
   const loadRiderReviews = async () => {
     const response = await getRiderReviews(id);
-    console.log("riderReviews", response);
+    // console.log("riderReviews", response);
 
     const riderRating = {
       rider_average_rating: response.rider_rating,
@@ -107,7 +107,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = () => {
       id: response.id,
       rider_review: response.rider_review,
     };
-    console.log(response.rider_rating);
+    // console.log(response.rider_rating);
     setRating(riderRating);
   };
 

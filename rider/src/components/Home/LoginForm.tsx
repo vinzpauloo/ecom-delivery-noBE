@@ -108,7 +108,7 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         setError("*" + err.response?.data.message);
       else if (err && err instanceof Error) setError(err.message);
 
-      console.log("Error", err);
+      // console.log("Error", err);
     }
   };
 

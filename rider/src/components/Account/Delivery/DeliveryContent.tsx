@@ -203,7 +203,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
     const data = response.data.filter(
       (item: any) => item.order_status === "preparing"
     );
-    console.log("getForDelivery", response);
+    // console.log("getForDelivery", response);
 
     setOrders((current: any) => [...current, ...data]);
     // setOrders((current) => [...current, ...response.data]);
@@ -212,7 +212,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleLoadMore = () => {
-    console.log("load more ...");
+    // console.log("load more ...");
     loadOrderForDelivery("preparing", currentPage + 1);
     setCurrentPage(currentPage + 1);
   };
@@ -220,31 +220,31 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   const loadOrderCompleted = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCompleted(params);
-    console.log("getOrderCompleted", response);
+    // console.log("getOrderCompleted", response);
     setForOrderCompleted(response.data);
   };
 
   const loadOrderCanceled = async (status: string) => {
     const params = { status: status };
     const response = await getOrderCanceled(params);
-    console.log("getOrderCanceled", response);
+    // console.log("getOrderCanceled", response);
     setForOrderCanceled(response.data);
   };
 
   const handleAccept = async (id: string) => {
-    console.log(id);
+    // console.log(id);
     const response = await acceptOrder(id, "");
     // alert("You are now the rider for this order.");
     // navigate(`/account/orders/${id}/otw`);
 
     navigate(`/account/for-delivery/${id}`);
     // navigate(`/account/for-delivery/order/${id}`);
-    console.log(response);
+    // console.log(response);
   };
 
   const loadOrder = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
     setOrder(response);
   };
 
@@ -260,7 +260,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
 
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
     setProductItem(response);
   };
 
@@ -497,7 +497,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const OrderItem = (item: ForDeliveryItem, index: number) => {
-    console.log(search);
+    // console.log(search);
     const stringID = String(item.id);
     if (search && stringID.includes(search)) {
       return (
