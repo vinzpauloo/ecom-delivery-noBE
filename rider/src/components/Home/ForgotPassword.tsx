@@ -11,6 +11,7 @@ import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
 
 import { useChangePass } from "../../hooks/useChangePass";
+import { isWhiteSpaceLike } from "typescript";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -27,6 +28,7 @@ interface ContainerProps {}
 
 const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const { calculateHash } = useCalculateHash();
 
   const { forgotPassword } = useChangePass();
@@ -45,21 +47,22 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     setShowModal(true);
-    try {
-      // START: Forgot password API
-      console.log("forgotPassword", data);
 
-      const response = await forgotPassword(data);
-      console.log("reset PW", response);
+    console.log("forgotPassword", data);
 
-      // END: Access password API
+    const response = await forgotPassword(data);
+    console.log("reset PW", response);
+
+    if (response.error) {
+      // Prepare errors
+      setShowModal(false);
+      let arrErrors: string[] = [];
+      for (let value of Object.values(response.error)) {
+        arrErrors.push("" + value);
+      }
+      setApiErrors(arrErrors);
+    } else {
       navigate("/forgot-password2");
-    } catch (err) {
-      if (err && err instanceof AxiosError)
-        setError("*" + err.response?.data.message);
-      else if (err && err instanceof Error) setError(err.message);
-
-      console.log("Error", err);
     }
   };
 
@@ -161,6 +164,15 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
         </Modal>
       </>
       <h4 className="mb-4">Reset Password</h4>
+
+      {/* Error messages */}
+      <div className={styles.errors}>
+        <p>{apiErrors} </p>
+        <p>{error} </p>
+        <p>{errors.email?.message} </p>
+
+        <p id="imageError"></p>
+      </div>
 
       <Form
         className={`text-center ${styles.form}`}
