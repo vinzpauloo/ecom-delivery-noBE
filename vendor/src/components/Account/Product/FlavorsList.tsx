@@ -61,7 +61,7 @@ const FlavorItem = ({
   }, [item, currentFlavors]);
 
   const handleOnPriceChange = (e: any, price: number) => {
-    console.log("handleOnPriceChange", price);
+    // * console.log("handleOnPriceChange", price);
     if (price >= 0) {
       const newCurrentFlavors = currentFlavors.map((obj) => {
         // 👇️ if same flavor id
@@ -73,7 +73,7 @@ const FlavorItem = ({
         }
       });
 
-      console.log("%%%!!!", newCurrentFlavors);
+      // * console.log("%%%!!!", newCurrentFlavors);
       setCurrentFlavors(newCurrentFlavors);
     } else {
       setPrice(0);
