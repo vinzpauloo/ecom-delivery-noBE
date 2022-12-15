@@ -158,7 +158,7 @@ const Chat: React.FC<ContainerProps> = ({
     setInitialLoadCounter(initialLoadCounter + 1);
 
     // Update blinking chat icons
-    if (!show && initialLoadCounter > 1 && riderChat?.length) {
+    if (!show && initialLoadCounter > 0 && riderChat?.length) {
       console.log("setHasNewChatRider === true");
       setHasNewChatRider(true);
     }

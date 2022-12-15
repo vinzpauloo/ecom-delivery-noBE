@@ -40,10 +40,7 @@ const Chat: React.FC<ContainerProps> = ({
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
 
-  const {
-    getMessagesRestaurant,
-    createMessage,
-  } = useChat();
+  const { getMessagesRestaurant, createMessage } = useChat();
   const auth = useAuthUser();
 
   const containerClick = (e: any) => {
@@ -123,7 +120,7 @@ const Chat: React.FC<ContainerProps> = ({
     setInitialLoadCounter(initialLoadCounter + 1);
 
     // Update blinking chat icons
-    if (!show && initialLoadCounter > 1 && restaurantChat?.length) {
+    if (!show && initialLoadCounter > 0 && restaurantChat?.length) {
       console.log("setHasNewChatRestaurant === true");
       setHasNewChatRestaurant(true);
     }
