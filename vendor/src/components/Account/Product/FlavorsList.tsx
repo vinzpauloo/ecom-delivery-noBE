@@ -33,12 +33,12 @@ const FlavorItem = ({
   setCurrentFlavors: any;
 }) => {
   const [price, setPrice] = useState(0);
-  const [button, setButton] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
 
   const isFlavorExist = (flavor_id: number) => {
     let isExist = false;
 
-    // Check if this flavor already exists in currentFlavors state
+    // * Check if this flavor already exists in currentFlavors state
     for (let i = 0; i < currentFlavors.length; i++) {
       if (currentFlavors[i].flavor_id === flavor_id) {
         isExist = true;
@@ -52,13 +52,13 @@ const FlavorItem = ({
   useEffect(() => {
     const flavor = currentFlavors.filter((val) => val.flavor_id === item.id);
     const value = flavor.length === 0 ? item.default_price : flavor[0].price;
-    setButton(!!flavor.length);
+    setIsCheck(!!flavor.length);
     setPrice(value);
     return () => {
       setPrice(0);
-      setButton(false);
+      setIsCheck(false);
     };
-  }, [price, item.default_price, currentFlavors, item.id]);
+  }, [item, currentFlavors]);
 
   const handleOnPriceChange = (e: any, price: number) => {
     console.log("handleOnPriceChange", price);
@@ -80,7 +80,7 @@ const FlavorItem = ({
 
   const handleToggle = (item: TFlavor) => {
     console.log("toggle availability", item);
-    setButton((prev) => !prev);
+    setIsCheck((prev) => !prev);
     const thisFlavor = {
       flavor_id: item.id,
       flavor_price: price,
@@ -132,7 +132,7 @@ const FlavorItem = ({
         }}
       >
         <Form.Check
-          checked={button}
+          checked={isCheck}
           className={styles.checkInput}
           type="switch"
           onChange={() => handleToggle(item)}

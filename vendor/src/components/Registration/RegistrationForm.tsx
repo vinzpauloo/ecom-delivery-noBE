@@ -204,16 +204,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   ) => {
     // data for submit
     setImages(imageList as never[]);
+    setDefaultImg((prev) => !prev);
   };
 
   const handleClick = (onImageUpload: any) => {
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
     onImageUpload();
   };
 
   const handleRemove = (onImageRemove: any, index: any) => {
     onImageRemove(index);
-    setDefaultImg((prev) => !prev);
+    // setDefaultImg((prev) => !prev);
   };
 
   const onSubmit = async (data: IFormInputs) => {
@@ -498,6 +499,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                       <img
                         src={DefaultThumbnail}
                         className={styles.thumbNail}
+                        alt=""
                       />
                     ) : (
                       imageList.map((image, index) => (
@@ -505,13 +507,13 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                           <img
                             src={image.photo}
                             className={styles.thumbNail2}
+                            alt=""
                           />
-                          <div className="image-item__btn-wrapper">
-                            <a
-                              onClick={() => handleRemove(onImageRemove, index)}
-                            >
-                              Remove
-                            </a>
+                          <div
+                            className={`${styles.btnUpload} mt-2`}
+                            onClick={() => handleRemove(onImageRemove, index)}
+                          >
+                            Remove
                           </div>
                         </div>
                       ))
