@@ -67,11 +67,8 @@ const ResetPasswordSuccessModal = (props: any) => {
 
 const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
-  const { calculateHash } = useCalculateHash();
-
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const { resetPassword } = useChangePass();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -89,6 +86,19 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
       const response = await resetPassword(data);
       console.log("reset PW", response);
       // END: Access password API
+
+      if (response === undefined) {
+        setModal(true);
+      }
+
+      if (response.error) {
+        // Prepare errors
+        let arrErrors: string[] = [];
+        for (let value of Object.values(response.error)) {
+          arrErrors.push("" + value);
+        }
+        setApiErrors(arrErrors);
+      }
     } catch (err) {
       if (err && err instanceof AxiosError)
         setError("*" + err.response?.data.message);
@@ -99,80 +109,6 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   };
 
   const [modal, setModal] = useState(false);
-
-  //   const ForgotModal = (props: any) => {
-  //     return (
-  //       <Modal
-  //         {...props}
-  //         aria-labelledby="contained-modal-title-vcenter"
-  //         centered
-  //       >
-  //         <Modal.Body>
-  //           <div className={styles.container}>
-  //             <h4 className="mb-4">Reset Password</h4>
-
-  //             <Form
-  //               className={`text-center ${styles.form}`}
-  //               onSubmit={handleSubmit(onSubmit)}
-  //             >
-  //               <Form.Group className="mb-4 position-relative">
-  //                 <Form.Control
-  //                   size="lg"
-  //                   type="email"
-  //                   placeholder="Enter email"
-  //                   onKeyUp={() => setError("")}
-  //                   required
-  //                   {...register("email")}
-  //                 />
-  //               </Form.Group>
-
-  //               <Form.Group className="mb-4 position-relative">
-  //                 <Form.Control
-  //                   size="lg"
-  //                   type="text"
-  //                   placeholder="Enter reset code"
-  //                   onKeyUp={() => setError("")}
-  //                   required
-  //                   {...register("token")}
-  //                 />
-  //               </Form.Group>
-
-  //               <Form.Group className="mb-4 position-relative">
-  //                 <Form.Control
-  //                   size="lg"
-  //                   type="text"
-  //                   placeholder="Enter new password"
-  //                   onKeyUp={() => setError("")}
-  //                   required
-  //                   {...register("password")}
-  //                 />
-  //               </Form.Group>
-
-  //               <Form.Group className="mb-4 position-relative">
-  //                 <Form.Control
-  //                   size="lg"
-  //                   type="text"
-  //                   placeholder="Confirm new password"
-  //                   onKeyUp={() => setError("")}
-  //                   required
-  //                   {...register("password_confirmation")}
-  //                 />
-  //               </Form.Group>
-
-  //               <Button
-  //                 variant="primary"
-  //                 size="lg"
-  //                 type="submit"
-  //                 className="d-block w-100"
-  //               >
-  //                 Reset Password
-  //               </Button>
-  //             </Form>
-  //           </div>
-  //         </Modal.Body>
-  //       </Modal>
-  //     );
-  //   };
 
   return (
     <div className={styles.container}>
@@ -226,12 +162,18 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
           />
         </Form.Group>
 
+        {/* Error messages */}
+        <div className={styles.errors}>
+          <p>{apiErrors} </p>
+          <p>{error} </p>
+          <p>{errors.email?.message} </p>
+        </div>
+
         <Button
           variant="primary"
           size="lg"
           type="submit"
           className="d-block w-100"
-          onClick={() => setModal(true)}
         >
           Reset Password
         </Button>
