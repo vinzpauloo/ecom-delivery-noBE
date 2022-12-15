@@ -123,13 +123,13 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   } = useGetOrderStatus();
   const { updateOrder, cancelOrder, getOrdersById } = useOrder();
 
+  // const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
+  // const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
+  // const [modalShow1, setModalShow1] = React.useState(false);
+  // const [modalShow2, setModalShow2] = React.useState(false);
+  // const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
   const [orders, setOrders] = useState<TOrder[]>([]);
   const [productItem, setProductItem] = useState<TOrder>();
-  const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
-  const [forOtw, setForOtw] = useState<ForOtwItem[]>([]);
-  const [modalShow1, setModalShow1] = React.useState(false);
-  const [modalShow2, setModalShow2] = React.useState(false);
-  const [deliveredItem, setDeliveredItem] = useState<GetDeliveredItem[]>([]);
   const [search, setSearch] = useState("");
   const [updateModalShow, setUpdateModalShow] = useState({
     status: false,

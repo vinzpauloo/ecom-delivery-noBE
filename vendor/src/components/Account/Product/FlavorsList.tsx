@@ -62,20 +62,22 @@ const FlavorItem = ({
 
   const handleOnPriceChange = (e: any, price: number) => {
     console.log("handleOnPriceChange", price);
+    if (price >= 0) {
+      const newCurrentFlavors = currentFlavors.map((obj) => {
+        // 👇️ if same flavor id
+        if (obj.flavor_id === item.id) {
+          return { ...obj, price: parseInt(e.target.value) };
+        } else {
+          // 👇️ otherwise return object as is
+          return obj;
+        }
+      });
 
-    const newCurrentFlavors = currentFlavors.map((obj) => {
-      // 👇️ if same flavor id
-      if (obj.flavor_id === item.id) {
-        return { ...obj, price: parseInt(e.target.value) };
-      } else {
-        // 👇️ otherwise return object as is
-        return obj;
-      }
-    });
-
-    console.log("%%%!!!", newCurrentFlavors);
-    setPrice(price);
-    setCurrentFlavors(newCurrentFlavors);
+      console.log("%%%!!!", newCurrentFlavors);
+      setCurrentFlavors(newCurrentFlavors);
+    } else {
+      setPrice(0);
+    }
   };
 
   const handleToggle = (item: TFlavor) => {
@@ -115,7 +117,7 @@ const FlavorItem = ({
       <div className={styles.wMedium}>
         <div className="d-flex align-items-center gap-2">
           <Form.Control
-            type="text"
+            type="number"
             value={price}
             onChange={(e) => handleOnPriceChange(e, parseInt(e.target.value))}
             disabled={!isFlavorExist(item.id)}
