@@ -174,7 +174,11 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
   const loadOrders = async (page: number) => {
     setIsLoading(true);
 
-    const response = await getOrders({ page });
+    const response = await getOrders({
+      page,
+      order: "created_at",
+      order_by: "desc",
+    });
     console.log("getOrders response", response);
 
     setOrders((current) => [...current, ...response.data]);
