@@ -66,50 +66,64 @@ const NavigationMobileContent: React.FC<ContainerProps> = ({}) => {
         <div style={{ position: "relative" }}>
           <Link to="/account/for-delivery">
             {"/account/for-delivery" === active ? (
-              // <img src={variant02} alt="" className="img-fluid" />
-              // <div style={{ position: "relative" }}>
               <>
-                <img src={variant02} alt="" className="img-fluid" />
-                <span
-                  style={{
-                    display: "inline-block",
-                    position: "absolute",
-                    left: "40px",
-                    top: "2px",
-                    background: "red",
-                    borderRadius: "20px",
-                    border: "1px solid white",
-                    width: "28px",
-                    height: "27px",
-                    textAlign: "center",
-                    color: "white",
-                    fontWeight: "600",
-                  }}
-                >
-                  {forDelivery.length}
-                </span>
+                {forDelivery.length !== 0 ? (
+                  <>
+                    <img src={variant02} alt="" className="img-fluid" />
+                    <span
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        left: "40px",
+                        top: "2px",
+                        background: "red",
+                        borderRadius: "20px",
+                        border: "1px solid white",
+                        width: "28px",
+                        height: "27px",
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {forDelivery.length}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <img src={variant02} alt="" className="img-fluid" />
+                  </>
+                )}
               </>
             ) : (
               <>
-                <img src={variant01} alt="" className="img-fluid" />
-                <span
-                  style={{
-                    display: "inline-block",
-                    position: "absolute",
-                    left: "40px",
-                    top: "2px",
-                    background: "red",
-                    borderRadius: "20px",
-                    border: "1px solid white",
-                    width: "28px",
-                    height: "27px",
-                    textAlign: "center",
-                    color: "white",
-                    fontWeight: "600",
-                  }}
-                >
-                  {forDelivery.length}
-                </span>
+                {forDelivery.length !== 0 ? (
+                  <>
+                    <img src={variant01} alt="" className="img-fluid" />
+                    <span
+                      style={{
+                        display: "inline-block",
+                        position: "absolute",
+                        left: "40px",
+                        top: "2px",
+                        background: "red",
+                        borderRadius: "20px",
+                        border: "1px solid white",
+                        width: "28px",
+                        height: "27px",
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {forDelivery.length}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <img src={variant01} alt="" className="img-fluid" />
+                  </>
+                )}
               </>
             )}
           </Link>
