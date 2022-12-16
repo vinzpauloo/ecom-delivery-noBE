@@ -33,7 +33,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-// Pusher.logToConsole = true;
+Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -98,7 +98,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     if (isAuthenticated()) {
       // Get user order
       const response = await getOrdersById(id);
-      // console.log("getOrdersById response", response);
+      console.log("getOrdersById response", response);
 
       const thisRider = {
         order_id: response.id,
@@ -192,6 +192,10 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       const status = parsedData.status;
 
       // console.log("parsedData", parsedData);
+      /* 
+        If no rider is found after 3 tries:
+        parsedData = There is a system error. Please contact support
+      */
 
       setOrder({ ...parsedData, order_status: status });
       setOrderStatus(status);
@@ -235,6 +239,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           }
         }
       }
+    });
+    channel.bind("Order-Rider-Assigned-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      console.log(data);
+      console.log("Order assigned!", parsedData);
+
+      /* 
+        If no rider is found:
+        parsedData = Sorry all our riders are busy right now
+      */
     });
   };
 
