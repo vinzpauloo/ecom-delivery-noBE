@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Button, Modal } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useIsAuthenticated } from "react-auth-kit";
 import { useOrders } from "../../hooks/useOrders";
 
@@ -33,7 +33,7 @@ const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
 const pusher = new Pusher(PUSHER_KEY, {
   cluster: "ap1",
 });
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 interface ContainerProps {}
 
@@ -64,6 +64,7 @@ type TRider = {
   rider_vehicle_model?: string;
   rider_average_rating?: number;
   plate_number?: string;
+  rider_rating?: number;
 };
 
 type TChat = {
@@ -90,6 +91,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     cancelOrderByIdGuest,
   } = useOrders();
   const isAuthenticated = useIsAuthenticated();
+  const navigate = useNavigate();
 
   // Get the params from the URL
   const { id } = useParams();
@@ -98,7 +100,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     if (isAuthenticated()) {
       // Get user order
       const response = await getOrdersById(id);
-      console.log("getOrdersById response", response);
+      // console.log("getOrdersById response", response);
 
       const thisRider = {
         order_id: response.id,
@@ -107,6 +109,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         rider_photo: response.rider_photo,
         rider_vehicle_brand: response.rider_vehicle_brand,
         rider_vehicle_model: response.rider_vehicle_model,
+        rider_rating: response.rider_rating,
         rider_average_rating: response.rider_average_rating,
         plate_number: response.plate_number,
       };
@@ -152,6 +155,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         rider_photo: response.rider_photo,
         rider_vehicle_brand: response.rider_vehicle_brand,
         rider_vehicle_model: response.rider_vehicle_model,
+        rider_rating: response.rider_rating,
         rider_average_rating: response.rider_average_rating,
         plate_number: response.plate_number,
       };
@@ -211,6 +215,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             rider_photo: parsedData.rider_photo,
             rider_vehicle_brand: parsedData.rider_vehicle_brand,
             rider_vehicle_model: parsedData.rider_vehicle_model,
+            rider_rating: parsedData.rider_rating,
             rider_average_rating: parsedData.rider_average_rating,
             plate_number: parsedData.plate_number,
           };
@@ -303,6 +308,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       setModalCancelShow(true);
     } else {
       alert(response.error);
+    }
+  };
+
+  const handleRestaurantFeedback = () => {
+    if (rider?.rider_rating) {
+      // Navigate to restaurant feedback page when rider rating is done
+      navigate("feedback");
+    } else {
+      // Show rider feedback modal if no rider feedback yet
+      setModalShow(true);
     }
   };
 
@@ -416,7 +431,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
               <Button
                 variant="primary"
                 className={styles.feedback}
-                onClick={() => setModalShow(true)}
+                onClick={handleRestaurantFeedback}
               >
                 Restaurant Feedback
               </Button>

@@ -12,6 +12,7 @@ import statusIsDelivered from "../../../assets/images/order-delivered.png";
 import statusIsCancel from "../../../assets/images/order-cancel.png";
 
 import styles from "./OrderDetailsContent.module.scss";
+import Restaurant from "../../../pages/Restaurant";
 
 interface ContainerProps {}
 
@@ -46,6 +47,7 @@ const StatusImg = ({ status }: { status: string }) => {
 
 const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder>();
+  const [hasRating, setHasRating] = useState(false);
   const { getOrdersById } = useOrders();
 
   // Get the params from the URL
@@ -55,6 +57,11 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
     const response = await getOrdersById(id);
     console.log("getOrdersById response", response);
     setOrder(response);
+
+    // Check if user submitted a rating for rider/restaurant
+    if (response.rider_rating && response.restaurant_rating) {
+      setHasRating(true);
+    }
   };
 
   const imgPhoto = order?.restaurant_photo
@@ -279,7 +286,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                     </Col>
                   </Row>
 
-                  {order?.order_status === "delivered" ? (
+                  {order?.order_status === "delivered" && hasRating ? (
                     <div className="d-flex justify-content-center mx-lg-5 mx-md-4">
                       <div className={styles.btnBlack}>
                         <Link to="/account/orders">Back</Link>
