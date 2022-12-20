@@ -43,13 +43,14 @@ export const useReviews = () => {
       const endpoint = `api/orders/${id}/restaurant-review`;
       const options = {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Authorization": calculateHash(endpoint, data, true),
         },
         withCredentials: true,
       };
 
-      const response = await axios.put(endpoint, data, options);
+      const response = await axios.post(endpoint, data, options);
       // END: Access review restaurant API
 
       if (response.status === 200) {

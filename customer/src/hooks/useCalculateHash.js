@@ -5,7 +5,7 @@ const md5 = require("md5");
 const thisKey = process.env.REACT_APP_API_SECRET_KEY;
 
 export const useCalculateHash = () => {
-  const calculateHash = (endpoint, body = {}) => {
+  const calculateHash = (endpoint, body = {}, isFormData = false) => {
     // Duplicate current body
     const newBody = { ...body };
 
@@ -16,7 +16,22 @@ export const useCalculateHash = () => {
     let code = "==";
     code += endpoint;
     code += "?";
-    code += httpBuildQuery(newBody);
+
+    if (!isFormData) {
+      code += httpBuildQuery(newBody);
+    } else {
+      var object = {};
+      body.forEach((value, key) => {
+        if (key === "photos[]") {
+          return;
+        } else {
+          object[key] = value;
+        }
+      });
+      // console.log(object);
+      code += httpBuildQuery(object);
+    }
+
     code += "&";
     code += thisKey;
 

@@ -1,0 +1,30 @@
+@import "../../theme/_variables.scss";
+@import "../../theme/_mixins.scss";
+
+.preview {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+
+  .imgContainer {
+    border: 2px dashed rgba(97, 72, 28, 0.5);
+    border-radius: 5px;
+    flex: 1 0 45%;
+    margin: 0 5px 5px 0;
+    width: auto;
+  }
+
+  img {
+    margin: 5px;
+    // object-fit: contain;
+    max-height: 100px;
+  }
+}
+
+.label {
+  border: 2px dashed rgba(97, 72, 28, 0.5);
+  border-radius: 5px;
+  cursor: pointer;
+  line-height: 200px;
+  margin-bottom: 10px;
+}

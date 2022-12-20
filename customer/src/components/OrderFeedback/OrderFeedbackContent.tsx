@@ -39,6 +39,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [options, setOptions] = useState("");
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
+  const [imageFiles, setImageFiles] = useState<any[]>([]);
   const [order, setOrder] = useState<TOrder>();
   const [restaurantHeader, setRestaurantHeader] = useState<any>();
   const navigate = useNavigate();
@@ -82,14 +83,21 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
       return;
     }
 
-    const data = {
-      restaurant_rating: rating,
-      restaurant_review: options + ". " + feedback,
-    };
+    // Manually append each fields to a FormData
+    const formData = new FormData();
+    formData.append("restaurant_rating", `${rating}`);
+    formData.append("restaurant_review", options + ". " + feedback);
+    formData.append("_method", "put");
 
-    // console.log("Submitting restaurant review ...", data);
+    // Loop through each images and append in a FormData array key
+    imageFiles.forEach((image, index) => {
+      console.log(`image ${index}`, image);
+      formData.append("photos[]", image);
+    });
 
-    const response = await reviewRestaurant(id, data);
+    // console.log("Submitting restaurant review ...", formData);
+
+    const response = await reviewRestaurant(id, formData);
     // console.log("reviewRestaurant response", response);
 
     if (!response.error) {
@@ -112,6 +120,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
         feedback={feedback}
         setFeedback={setFeedback}
         handleOnClick={handleOnClick}
+        setImageFiles={setImageFiles}
       />
 
       <Modal
