@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button, Container, Modal, Row } from "react-bootstrap";
 import { StarFill, Star } from "react-bootstrap-icons";
 import { useRestaurants } from "../../hooks/useRestaurants";
@@ -8,7 +8,6 @@ import { getDate } from "../../utils/formatDate";
 
 import styles from "./RestaurantFeedbackContent.module.scss";
 import placeholder from "../../assets/images/placeholder.png";
-import constants from "../../utils/constants.json";
 import RestaurantHeader from "./RestaurantHeader";
 
 interface ContainerProps {}
@@ -19,6 +18,7 @@ type PersonalFeedback = {
   restaurant_rating: number;
   restaurant_review: string;
   restaurant_reviewed_at: string;
+  photo: [{ photo: string }];
 };
 
 const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
@@ -56,7 +56,6 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
     useState<PersonalFeedback | null>(null);
   const { getRestaurantsById } = useRestaurants();
   const { getRestaurantReviewsById } = useReviews();
-  const navigate = useNavigate();
 
   // Get the params from the URL
   const { id } = useParams();
@@ -79,7 +78,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
 
   const loadRestaurantReviews = async () => {
     const response = await getRestaurantReviewsById(id, { reviews: "true" });
-    // console.log("getRestaurantReviewsById response", response);
+    console.log("getRestaurantReviewsById response", response);
 
     setReviews(response.reviews);
     setReviewsOriginal(response.reviews);
@@ -213,7 +212,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Container className={styles.modalContainer}>
           <div className="d-flex gap-2">
-            <img src={placeholder} />
+            <img src={placeholder} className={styles.profile} />
             <div className={styles.rating}>
               <h4 className="mb-0">
                 {personalFeedback?.first_name} {personalFeedback?.last_name}
@@ -230,7 +229,14 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
               </div>
             </div>
           </div>
-          <p className="mb-0 mt-3">{personalFeedback?.restaurant_review} </p>
+          <p className="mb-0 mt-3">{personalFeedback?.restaurant_review}</p>
+          <div className={styles.preview}>
+            {personalFeedback?.photo.map((photo, index) => (
+              <div key={index} className={styles.imgContainer}>
+                <img key={index} src={photo.photo} alt="Preview" />
+              </div>
+            ))}
+          </div>
         </Container>
       </Modal>
     </>
