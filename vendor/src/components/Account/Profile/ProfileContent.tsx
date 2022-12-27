@@ -35,10 +35,13 @@ import updateSuccess from "../../../assets/update-success.json";
 // Setup form schema & validation
 interface IFormInputs {
   first_name: string;
+  last_name: string;
   name: string;
   description: string;
   address: string;
+  mobile: string;
   email: string;
+  restaurant_email: string;
   contact_number: string;
   photo: string;
 }
@@ -196,6 +199,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     // data for submit
     setImages(imageList as never[]);
     setDefaultImg((prev) => !prev);
+
+    console.log(imageList);
   };
 
   const handleClick = (onImageUpload: any) => {
@@ -230,12 +235,28 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     //working na sana
     let updatedData = {};
     if (!!images) {
-      updatedData = { ...data, address: address, photo: images[0].photo };
+      updatedData = { ...data, address: address, "photos[]": images[0].file };
     } else {
       updatedData = { ...data, address: address };
     }
 
-    const response = await updateUser(updatedData);
+    console.log(updatedData);
+
+    // Manually append each fields to a FormData
+    const formData = new FormData();
+    // formData.append("email", data.email);
+    // formData.append("mobile", data.mobile);
+    formData.append("first_name", data.first_name);
+    formData.append("last_name", data.last_name);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("address", address);
+    formData.append("contact_number", data.contact_number);
+    formData.append("restaurant_email", data.restaurant_email);
+    formData.append("photo", images[0].file);
+    formData.append("_method", "put");
+
+    const response = await updateUser(formData);
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
       setUpdateModalShow(true);
@@ -259,6 +280,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
       contact_number: response.restaurant[0]?.contact_number,
       description: response.restaurant[0]?.description,
       name: response.restaurant[0]?.name,
+      restaurant_email: response.restaurant[0]?.restaurant_email,
     };
     reset(defaultValues);
     setAddress(response.restaurant[0]?.address);

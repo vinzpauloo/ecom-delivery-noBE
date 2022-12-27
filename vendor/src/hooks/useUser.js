@@ -72,12 +72,13 @@ export const useUser = () => {
       const endpoint = "api/user";
       const options = {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: authHeader(),
-          "X-Authorization": calculateHash(endpoint, data),
+          "X-Authorization": calculateHash(endpoint, data, true),
         },
       };
 
-      const response = await axios.put(endpoint, data, options);
+      const response = await axios.post(endpoint, data, options);
       // END: Access update user API
 
       if (response.status === 200) {
