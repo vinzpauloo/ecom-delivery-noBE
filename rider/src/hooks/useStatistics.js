@@ -12,7 +12,7 @@ export const useStatistics = () => {
 
     try {
       // START: Access completed orders API
-      const endpoint = "api/statistics/rider";
+      const endpoint = "api/statistics/riders/personal/transactions";
       const options = {
         params: data,
         headers: {
@@ -47,7 +47,7 @@ export const useStatistics = () => {
 
     try {
       // START: Access completed orders API
-      const endpoint = "api/statistics/rider";
+      const endpoint = "api/statistics/riders/personal/transactions";
       const options = {
         params: data,
         headers: {
@@ -82,7 +82,7 @@ export const useStatistics = () => {
 
     try {
       // START: Access completed orders API
-      const endpoint = "api/statistics/rider";
+      const endpoint = "api/statistics/riders/personal/transactions";
       const options = {
         params: data,
         headers: {
