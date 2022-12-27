@@ -34,7 +34,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
     const response = await getRestaurantsByType(params);
     // console.log("getRestaurantsByType response", response);
 
-    setRestaurants((current) => [...current, ...response.data]);
+    setRestaurants((current) => [...current, ...response]);
     setLastPage(response.last_page);
     setIsLoading(false);
   };
