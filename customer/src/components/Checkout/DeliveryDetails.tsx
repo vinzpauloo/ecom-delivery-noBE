@@ -99,7 +99,7 @@ const Map = ({
 
   return (
     <GoogleMap
-      zoom={18}
+      zoom={16}
       center={center}
       mapContainerClassName={styles.map}
       onClick={(e) => mapOnClick(e)}
@@ -190,8 +190,6 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   const [isGranted, setIsGranted] = useState(false);
   const [modalError, setModalError] = useState("");
   const [orderId, setOrderId] = useState(0);
-  // const [lat, setLat] = useState(0);
-  // const [lng, setLng] = useState(0);
   const [status, setStatus] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
@@ -341,7 +339,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
-      setStatus("Locating...");
+      setStatus("Requesting location access ...");
 
       navigator.permissions
         .query({
@@ -356,19 +354,21 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
           if (result.state === "denied") {
             alert(
-              "Location access is denied by your browser. Please grant location permission."
+              "Location permission is not granted by your browser or device."
             );
+            setModalShow(true);
           }
 
           if (result.state === "granted") setIsGranted(true);
 
           result.onchange = function () {
-            console.log("Result changed!", result);
+            // console.log("Result changed!", result);
 
             if (result.state === "denied") {
               alert(
-                "Location access is denied by your browser. Please grant location permission."
+                "Location permission is not granted by your browser or device."
               );
+              setModalShow(true);
             }
 
             if (result.state === "granted") setIsGranted(true);
@@ -377,8 +377,8 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log("Granted permission to get coordinates");
-          console.log("Mapping ...");
+          // console.log("Granted permission to get coordinates");
+          // console.log("Mapping ...");
 
           setStatus("");
           setLat(position.coords.latitude);
@@ -392,15 +392,15 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
           );
         },
         () => {
-          setStatus("Unable to retrieve your location");
+          setStatus("Unable to retrieve your location.");
         }
       );
     }
   };
 
   const mapOnClick = async (e: any) => {
-    console.log("mapOnClick clicked!");
-    console.log(e);
+    // console.log("mapOnClick clicked!");
+    // console.log(e);
 
     setLat(e.latLng.lat());
     setLng(e.latLng.lng());
@@ -421,7 +421,8 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
         centered
       >
         <Modal.Body className="p-0">
-          {!isGranted ? (
+          {/* Old flow, need */}
+          {/* {!isGranted ? (
             <div className="text-center py-5">
               <p>Waiting for location permission.</p>
               <div className="spinner-grow text-primary" role="status"></div>
@@ -435,7 +436,23 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
               </p>
               <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
             </>
-          )}
+          )} */}
+
+          {/* Revised flow, show default Google Map coordinates */}
+          <>
+            <p className={`px-2 py-2 mb-0 text-left ${styles.modalAddress}`}>
+              {isGranted ? (
+                <>
+                  <strong>LOCATION:</strong> {address}
+                </>
+              ) : (
+                <>
+                  <strong>WARNING:</strong> {status}
+                </>
+              )}
+            </p>
+            <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+          </>
         </Modal.Body>
       </Modal>
 

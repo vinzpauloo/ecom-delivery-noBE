@@ -70,6 +70,10 @@ const schema = yup
 interface ContainerProps {}
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
+const DEFAULT_COORDINATES = {
+  lat: 9.568885793195934,
+  lng: 123.77310991287231,
+};
 
 const Map = ({
   lat,
@@ -84,7 +88,7 @@ const Map = ({
 
   return (
     <GoogleMap
-      zoom={18}
+      zoom={16}
       center={center}
       mapContainerClassName={styles.map}
       onClick={(e) => mapOnClick(e)}
@@ -163,8 +167,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
   const [isGranted, setIsGranted] = useState(false);
   // const [value, setValue] = useState(null);
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(DEFAULT_COORDINATES.lat);
+  const [lng, setLng] = useState(DEFAULT_COORDINATES.lng);
   const [status, setStatus] = useState("");
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
@@ -235,7 +239,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
-      setStatus("Locating...");
+      setStatus("Requesting location access ...");
 
       navigator.permissions
         .query({
@@ -250,19 +254,21 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
           if (result.state === "denied") {
             alert(
-              "Location access is denied by your browser. Please grant location permission."
+              "Location permission is not granted by your browser or device."
             );
+            setModalShow(true);
           }
 
           if (result.state === "granted") setIsGranted(true);
 
           result.onchange = function () {
-            console.log("Result changed!", result);
+            // console.log("Result changed!", result);
 
             if (result.state === "denied") {
               alert(
-                "Location access is denied by your browser. Please grant location permission."
+                "Location permission is not granted by your browser or device."
               );
+              setModalShow(true);
             }
 
             if (result.state === "granted") setIsGranted(true);
@@ -271,8 +277,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log("Granted permission to get coordinates");
-          console.log("Mapping ...");
+          // console.log("Granted permission to get coordinates");
+          // console.log("Mapping ...");
 
           setStatus("");
           setLat(position.coords.latitude);
@@ -286,15 +292,15 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
           );
         },
         () => {
-          setStatus("Unable to retrieve your location");
+          setStatus("Unable to retrieve your location.");
         }
       );
     }
   };
 
   const mapOnClick = async (e: any) => {
-    console.log("mapOnClick clicked!");
-    console.log(e);
+    // console.log("mapOnClick clicked!");
+    // console.log(e);
 
     setLat(e.latLng.lat());
     setLng(e.latLng.lng());
@@ -315,7 +321,8 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
         centered
       >
         <Modal.Body className="p-0">
-          {!isGranted ? (
+          {/* Old flow, need */}
+          {/* {!isGranted ? (
             <div className="text-center py-5">
               <p>Waiting for location permission.</p>
               <div className="spinner-grow text-primary" role="status"></div>
@@ -329,7 +336,23 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
               </p>
               <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
             </>
-          )}
+          )} */}
+
+          {/* Revised flow, show default Google Map coordinates */}
+          <>
+            <p className={`px-2 py-2 mb-0 text-left ${styles.modalAddress}`}>
+              {isGranted ? (
+                <>
+                  <strong>LOCATION:</strong> {address}
+                </>
+              ) : (
+                <>
+                  <strong>WARNING:</strong> {status}
+                </>
+              )}
+            </p>
+            <Map lat={lat} lng={lng} mapOnClick={mapOnClick} />
+          </>
         </Modal.Body>
       </Modal>
 

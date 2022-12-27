@@ -32,6 +32,11 @@ type TCheckout = {
   summaryDetails: TSummaryDetails;
 };
 
+const DEFAULT_COORDINATES = {
+  lat: 9.568885793195934,
+  lng: 123.77310991287231,
+};
+
 interface ContainerProps {}
 
 const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
@@ -42,8 +47,8 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [deliveryFee, setDeliveryFee] = useState(86);
   const [newAddress, setNewAddress] = useState("");
   const [isNewAddress, setIsNewAddress] = useState(false);
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(DEFAULT_COORDINATES.lat);
+  const [lng, setLng] = useState(DEFAULT_COORDINATES.lng);
   const [note, setNote] = useState("");
   const [localStorageObj, setLocalStorageObj] = useState<TCheckout>();
   const navigate = useNavigate();
