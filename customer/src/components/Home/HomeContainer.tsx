@@ -94,7 +94,7 @@ const HomeContainer: React.FC<ContainerProps> = ({}) => {
   const loadRestaurants = async () => {
     const response = await getRestaurants();
     // console.log("getRestaurants response", response);
-    setRestaurants(response.data);
+    setRestaurants(response);
   };
 
   useEffect(() => {
