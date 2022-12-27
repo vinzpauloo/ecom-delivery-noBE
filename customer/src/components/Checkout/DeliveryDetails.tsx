@@ -333,30 +333,33 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
     setAddress(response);
   };
 
+  const mapErrorAlert = () => {
+    setTimeout(
+      () =>
+        alert("Location permission is not granted by your browser or device."),
+      500
+    );
+  };
+
   const handlePinLocation = () => {
     console.log("handlePinLocation ...");
 
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
+      alert("Geolocation is not supported by your browser or device.");
     } else {
       setStatus("Requesting location access ...");
+      setModalShow(true);
 
       navigator.permissions
         .query({
           name: "geolocation",
         })
         .then(function (result) {
-          console.log(result.state);
-
-          if (result.state === "prompt") {
-            setModalShow(true);
-          }
+          // console.log(result.state);
 
           if (result.state === "denied") {
-            alert(
-              "Location permission is not granted by your browser or device."
-            );
-            setModalShow(true);
+            mapErrorAlert();
           }
 
           if (result.state === "granted") setIsGranted(true);
@@ -365,10 +368,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
             // console.log("Result changed!", result);
 
             if (result.state === "denied") {
-              alert(
-                "Location permission is not granted by your browser or device."
-              );
-              setModalShow(true);
+              mapErrorAlert();
             }
 
             if (result.state === "granted") setIsGranted(true);
@@ -383,7 +383,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
           setStatus("");
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
-          setModalShow(true);
+          // setModalShow(true);
 
           // Reverse Geocode
           handleReverseGeocode(
