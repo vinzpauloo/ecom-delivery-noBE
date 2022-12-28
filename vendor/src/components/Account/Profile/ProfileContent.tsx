@@ -630,6 +630,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   type="text"
                   onKeyUp={() => resetMessages()}
                   {...register("contact_number")}
+                  disabled
                   required
                 />
               </Form.Group>
