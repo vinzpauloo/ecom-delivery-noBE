@@ -61,7 +61,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
 
     if (!registerUser || !getMobile()) {
       // console.log("Missing required details!");
-      navigate("/register");
+      navigate("/registration");
       return;
     }
 
