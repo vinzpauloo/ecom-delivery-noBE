@@ -25,7 +25,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   // Get the params from the URL
   const { keyword } = useParams();
 
-  const loadRestaurants = async (page: number) => {
+  const loadRestaurants = async (page: number, initial: boolean) => {
     setIsLoading(true);
 
     const response = await getRestaurantsByKeyword({
@@ -34,18 +34,24 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
     });
     // console.log("getRestaurantsByKeyword response", response);
 
-    setRestaurants((current) => [...current, ...response.data]);
+    if (initial) {
+      setRestaurants(response.data);
+    } else {
+      setRestaurants((current) => [...current, ...response.data]);
+    }
+
     setLastPage(response.last_page);
     setIsLoading(false);
   };
 
   const handleLoadMore = () => {
-    loadRestaurants(currentPage + 1);
+    loadRestaurants(currentPage + 1, false);
     setCurrentPage(currentPage + 1);
   };
 
   useEffect(() => {
-    loadRestaurants(1);
+    console.log("useEffect keyword");
+    loadRestaurants(1, true);
   }, [keyword]);
 
   return (
