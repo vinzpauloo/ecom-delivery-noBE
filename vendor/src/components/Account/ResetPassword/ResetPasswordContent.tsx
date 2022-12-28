@@ -23,7 +23,11 @@ interface IFormInputs {
 
 const schema = yup
   .object({
-    password: yup.string().min(6, constants.form.error.passwordMin).required(),
+    password: yup
+      .string()
+      .min(7, constants.form.error.passwordMin)
+      .max(32, constants.form.error.passwordMax)
+      .required(),
     password_confirmation: yup
       .string()
       .oneOf([yup.ref("password"), null], constants.form.error.passwordConfirm)

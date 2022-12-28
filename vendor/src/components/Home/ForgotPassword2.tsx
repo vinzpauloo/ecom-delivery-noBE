@@ -27,6 +27,11 @@ interface IFormInputs {
 const schema = yup
   .object({
     email: yup.string().email(constants.form.error.email).required(),
+    password: yup
+      .string()
+      .min(7, constants.form.error.passwordMin)
+      .max(32, constants.form.error.passwordMax)
+      .required(),
   })
   .required();
 
