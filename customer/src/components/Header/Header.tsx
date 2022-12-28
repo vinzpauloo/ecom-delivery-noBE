@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Person } from "react-bootstrap-icons";
 import { useLogout } from "../../hooks/useLogout";
+import { useUser } from "../../hooks/useUser";
 import { useIsAuthenticated } from "react-auth-kit";
 
 import OffcanvasMenu from "./OffcanvasMenu";
@@ -18,6 +19,7 @@ interface ContainerProps {}
 const Header: React.FC<ContainerProps> = () => {
   const [searchTxt, setSearchTxt] = useState("");
   const { logout } = useLogout();
+  const { getUser } = useUser();
   const isAuthenticated = useIsAuthenticated();
   const navigate = useNavigate();
 
@@ -38,6 +40,22 @@ const Header: React.FC<ContainerProps> = () => {
     event.preventDefault();
     logout();
   };
+
+  // Get user request
+  const handleGetUser = async () => {
+    console.log("Requesting getUser ...");
+
+    const response = await getUser();
+    console.log("handleGetUser response", response);
+
+    if (response) {
+      logout();
+    }
+  };
+
+  useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <header
