@@ -50,7 +50,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
 
     // console.log("forgotPassword", data);
 
-    const response = await forgotPassword(data);
+    const response = await forgotPassword({ ...data, type: "Rider" });
     // console.log("reset PW", response);
 
     if (response.error) {
