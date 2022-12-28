@@ -253,7 +253,9 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     formData.append("address", address);
     formData.append("contact_number", data.contact_number);
     formData.append("restaurant_email", data.restaurant_email);
-    formData.append("photo", images[0].file);
+    if (images?.length > 0) {
+      formData.append("photo", images[0].file);
+    }
     formData.append("_method", "put");
 
     const response = await updateUser(formData);
