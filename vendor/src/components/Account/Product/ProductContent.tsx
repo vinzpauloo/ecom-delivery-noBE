@@ -1134,6 +1134,7 @@ function EditModal(props: any) {
         flavors: flavors,
       };
     }
+    window.location.reload();
 
     // *console.log("!!!", data);
     const response = await editProduct(props.id, data);
