@@ -49,7 +49,7 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
       // START: Forgot password API
       // *console.log("forgotPassword", data);
 
-      const response = await forgotPassword(data);
+      const response = await forgotPassword({ ...data, type: "Merchant" });
       // *console.log("reset PW", response);
       // END: Access password API
       navigate("/forgot-password2");
