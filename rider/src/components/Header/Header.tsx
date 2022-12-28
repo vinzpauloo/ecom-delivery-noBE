@@ -43,11 +43,11 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
 
   // Get user request
   const handleGetUser = async () => {
-    // console.log("Requesting getUser ...");
+    console.log("Requesting getUser ...");
 
     const response = await getUser();
     // console.log("handleGetUser response", response);
-    if (response.error) {
+    if (isAuthenticated() && response.error) {
       logout();
     }
 
