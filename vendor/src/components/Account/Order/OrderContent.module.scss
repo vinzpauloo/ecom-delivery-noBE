@@ -505,7 +505,8 @@
     // margin-left: 12px;
     margin-top: 5px;
     width: 898px;
-    height: 196px;
+    height: fit-content;
+    padding-bottom: 10px;
 
     p {
       font-weight: 250;
