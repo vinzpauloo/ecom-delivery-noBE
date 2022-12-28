@@ -1115,18 +1115,20 @@ const OrderHistoryContent: React.FC<ContainerProps> = ({}) => {
           )}
         </div>
 
-        <div className={`${styles.bottomBtn} mt-3`}>
-          <Button onClick={() => setModalShow1(true)}>Completed</Button>
-          <CompletedModal
-            show={modalShow1}
-            onHide={() => setModalShow1(false)}
-          />
-          <Button onClick={() => setModalShow2(true)}>Cancelled</Button>
-          <CancelledModal
-            show={modalShow2}
-            onHide={() => setModalShow2(false)}
-          />
-        </div>
+        {forOrderCompleted.length !== 0 || forOrderCanceled.length !== 0 ? (
+          <div className={`${styles.bottomBtn} mt-3`}>
+            <Button onClick={() => setModalShow1(true)}>Completed</Button>
+            <CompletedModal
+              show={modalShow1}
+              onHide={() => setModalShow1(false)}
+            />
+            <Button onClick={() => setModalShow2(true)}>Cancelled</Button>
+            <CancelledModal
+              show={modalShow2}
+              onHide={() => setModalShow2(false)}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
