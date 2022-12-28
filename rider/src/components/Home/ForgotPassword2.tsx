@@ -14,6 +14,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import Lottie from "lottie-react";
 import saveSuccess from "../../assets/save-success.json";
+import { useSignIn } from "react-auth-kit";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -42,7 +43,7 @@ const ResetPasswordSuccessModal = (props: any) => {
           </p>
 
           <Link
-            to="/"
+            to="/account"
             className={`d-inline-block mt-2`}
             style={{
               background: "#e6b325",
@@ -69,6 +70,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const { calculateHash } = useCalculateHash();
+  const signIn = useSignIn();
 
   const { resetPassword } = useChangePass();
 
@@ -91,10 +93,6 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
       // console.log("reset PW", response);
       // END: Access password API
 
-      if (response === undefined) {
-        setModal(true);
-      }
-
       if (response.error) {
         // Prepare errors
         let arrErrors: string[] = [];
@@ -102,6 +100,14 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
           arrErrors.push("" + value);
         }
         setApiErrors(arrErrors);
+      } else {
+        setModal(true);
+        signIn({
+          token: response.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: response.user,
+        });
       }
     } catch (err) {
       if (err && err instanceof AxiosError)
@@ -234,7 +240,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="text"
+            type="password"
             placeholder="Enter new password"
             onKeyUp={() => setError("")}
             required
@@ -245,7 +251,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="text"
+            type="password"
             placeholder="Confirm new password"
             onKeyUp={() => setError("")}
             required

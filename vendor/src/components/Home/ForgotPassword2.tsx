@@ -239,7 +239,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="text"
+            type="password"
             placeholder="Enter new password"
             onKeyUp={() => setError("")}
             required
@@ -250,7 +250,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         <Form.Group className="mb-4 position-relative">
           <Form.Control
             size="lg"
-            type="text"
+            type="password"
             placeholder="Confirm new password"
             onKeyUp={() => setError("")}
             required
