@@ -48,7 +48,7 @@ const Header: React.FC<ContainerProps> = () => {
     const response = await getUser();
     console.log("handleGetUser response", response);
 
-    if (response) {
+    if (response.error) {
       logout();
     }
   };
