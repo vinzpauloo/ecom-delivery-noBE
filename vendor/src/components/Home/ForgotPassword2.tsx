@@ -62,7 +62,7 @@ const ResetPasswordSuccessModal = (props: any) => {
               transition: "all 0.3s ease-in-out",
             }}
           >
-            Go To Dashboard
+            Go to Login Page
           </Link>
         </div>
       </Modal.Body>
