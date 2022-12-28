@@ -87,7 +87,9 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
       // START: Forgot password API
       // console.log("resetPassword", data);
 
-      const response = await resetPassword(data);
+      const withTypeData = { ...data, type: "Rider" };
+
+      const response = await resetPassword(withTypeData);
       // console.log("reset PW", response);
       // END: Access password API
 
