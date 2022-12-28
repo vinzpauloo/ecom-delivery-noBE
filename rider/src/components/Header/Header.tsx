@@ -47,6 +47,9 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
 
     const response = await getUser();
     // console.log("handleGetUser response", response);
+    if (response) {
+      logout();
+    }
 
     //PusherJS start
     const PUSHER_KEY = process.env.REACT_APP_PUSHER_KEY || "";
