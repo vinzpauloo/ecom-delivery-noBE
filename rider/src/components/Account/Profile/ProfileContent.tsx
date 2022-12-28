@@ -93,7 +93,8 @@ const SaveSuccessModal = (props: any) => {
           </p>
 
           <Link
-            to="/account/for-delivery"
+            to="#"
+            onClick={() => window.location.reload()}
             className={`d-inline-block mt-2`}
             style={{
               background: "#e6b325",
@@ -149,10 +150,11 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
     // console.log("Requesting updateUser ...");
 
     const response = await updateUser(data);
-    // console.log("updateUser response", response);
+    console.log("updateUser response", response);
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
+      setModalShow(true);
     } else {
       setError(response.error);
     }
@@ -243,6 +245,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="mobile"
                   onKeyUp={() => setError("")}
                   required
+                  disabled
                   {...register("mobile")}
                   // disabled={disabled}
                 />
@@ -257,6 +260,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="email"
                   onKeyUp={() => setError("")}
                   required
+                  disabled
                   {...register("email")}
                   // disabled={disabled}
                 />
@@ -283,6 +287,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   id="year"
                   type="text"
                   {...register("brand")}
+                  required
                   // disabled={disabled}
                 />
               </Form.Group>
@@ -293,6 +298,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                 <Form.Control
                   type="text"
                   {...register("license_number")}
+                  required
                   // disabled={disabled}
                 />
               </Form.Group>
@@ -306,6 +312,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   id="model"
                   type="text"
                   {...register("model")}
+                  required
                   // disabled={disabled}
                 />
               </Form.Group>
@@ -315,6 +322,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   id="or_number"
                   type="text"
                   {...register("or_number")}
+                  required
                   // disabled={disabled}
                 />
               </Form.Group>
@@ -324,6 +332,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   id="plate_number"
                   type="text"
                   {...register("plate_number")}
+                  required
                   // disabled={disabled}
                 />
               </Form.Group>
@@ -350,15 +359,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
             {/* <Button id="editBtn" onClick={handleInput} className="d-lg-none">
               Upload
             </Button> */}
-            <Button
-              id="saveBtn"
-              type="submit"
-              onClick={() => {
-                // saveAlert();
-                setModalShow(true);
-              }}
-              // className="mt-5"
-            >
+            <Button id="saveBtn" type="submit">
               Save
             </Button>
             <SaveSuccessModal
@@ -367,6 +368,10 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
             />
           </div>
         </Form>
+
+        <div className={styles.errors}>
+          <p>{error}</p>
+        </div>
       </div>
     </div>
   );
