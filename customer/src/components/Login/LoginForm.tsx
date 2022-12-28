@@ -25,8 +25,8 @@ const schema = yup
     username: yup.string().required(),
     password: yup
       .string()
-      .min(6, constants.form.error.passwordMin)
-      .max(16, constants.form.error.passwordMax)
+      .min(7, constants.form.error.passwordMin)
+      .max(32, constants.form.error.passwordMax)
       .required(),
   })
   .required();
