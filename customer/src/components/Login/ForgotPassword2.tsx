@@ -81,9 +81,9 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Forgot password API
-      console.log("resetPassword", data);
+      const withTypeData = { ...data, type: "Customer" };
 
-      const response = await resetPassword(data);
+      const response = await resetPassword(withTypeData);
       console.log("reset PW", response);
       // END: Access password API
 
