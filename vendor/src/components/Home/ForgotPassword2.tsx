@@ -14,7 +14,6 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import Lottie from "lottie-react";
 import saveSuccess from "../../assets/update-success.json";
-import { useSignIn } from "react-auth-kit";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -48,7 +47,7 @@ const ResetPasswordSuccessModal = (props: any) => {
           </p>
 
           <Link
-            to="/account"
+            to="/"
             className={`d-inline-block mt-2`}
             style={{
               background: "#e6b325",
@@ -75,7 +74,6 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const { calculateHash } = useCalculateHash();
-  const signIn = useSignIn();
 
   const { resetPassword } = useChangePass();
 
@@ -106,12 +104,6 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         setApiErrors(arrErrors);
       } else {
         setModal(true);
-        signIn({
-          token: response.token,
-          expiresIn: 3600,
-          tokenType: "Bearer",
-          authState: response.user,
-        });
       }
     } catch (err) {
       if (err && err instanceof AxiosError)
