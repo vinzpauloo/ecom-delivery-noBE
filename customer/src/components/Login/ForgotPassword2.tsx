@@ -43,7 +43,7 @@ const ResetPasswordSuccessModal = (props: any) => {
           </p>
 
           <Link
-            to="/account"
+            to="/login"
             className={`d-inline-block mt-2`}
             style={{
               background: "#e6b325",
@@ -58,7 +58,7 @@ const ResetPasswordSuccessModal = (props: any) => {
               transition: "all 0.3s ease-in-out",
             }}
           >
-            Go to Account Page
+            Go to Login Page
           </Link>
         </div>
       </Modal.Body>
@@ -98,12 +98,12 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         setApiErrors(arrErrors);
       } else {
         setModal(true);
-        signIn({
-          token: response.token,
-          expiresIn: 3600,
-          tokenType: "Bearer",
-          authState: response.user,
-        });
+        // signIn({
+        //   token: response.token,
+        //   expiresIn: 3600,
+        //   tokenType: "Bearer",
+        //   authState: response.user,
+        // });
       }
     } catch (err) {
       if (err && err instanceof AxiosError)
