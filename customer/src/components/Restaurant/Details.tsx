@@ -70,7 +70,11 @@ const Details: React.FC<ContainerProps> = ({
   const getSubtotal = () => {
     const initialValue = 0;
     return cart.reduce(
-      (prev, cur) => prev + cur.quantity * cur.price + (cur.flavor_price || 0),
+      // (prev, cur) => prev + cur.quantity * cur.price + (cur.flavor_price || 0),
+
+      (prev, cur) =>
+        prev + cur.quantity * (cur.price + (cur.flavor_price || 0)),
+
       // (prev, cur) => prev + cur.quantity * cur.price,
       initialValue
     );
