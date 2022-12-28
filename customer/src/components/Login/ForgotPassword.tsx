@@ -40,9 +40,10 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     setIsLoading(true);
 
-    console.log("forgotPassword", data);
+    const withTypeData = { ...data, type: "Customer" };
+    console.log("forgotPassword", withTypeData);
 
-    const response = await forgotPassword(data);
+    const response = await forgotPassword(withTypeData);
     console.log("reset PW", response);
 
     if (response.error) {
