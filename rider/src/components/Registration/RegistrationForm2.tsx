@@ -7,14 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useValidate } from "../../hooks/useValidate";
 
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import ImageUploading from "react-images-uploading";
 
 import styles from "./RegistrationForm2.module.scss";
-import constants from "../../utils/constants.json";
 
 import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
-import RiderProfile from "../../assets/images/riderprofile.png";
 import Bike1 from "../../assets/images/bike1.png";
 import Bike2 from "../../assets/images/bike2.png";
 import Bike3 from "../../assets/images/bike3.png";
@@ -43,16 +41,11 @@ interface ContainerProps {}
 
 const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
-  const [multipleErrors, setMultipleErrors] = useState([""]);
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorMobile, setErrorMobile] = useState("");
-  const [data, setData] = useState([]);
   const navigate = useNavigate();
   const { validateFields } = useValidate();
   const [apiErrors, setApiErrors] = useState<string[]>([]);
 
   const [disabled, setDisabled] = useState(true);
-  const [address, setAddress] = useState("");
 
   const handleInput = () => {
     setDisabled(!disabled);
@@ -61,22 +54,10 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const [images, setImages] = React.useState<any>([]);
   const maxNumber = 4;
 
-  const [defaultImg, setDefaultImg] = useState(true);
-
   const onChange = (imageList: any, addUpdateIndex: any) => {
+    console.log(imageList);
     setImages(imageList);
-    // console.log(imageList, addUpdateIndex);
-    setDefaultImg((prev) => !prev);
   };
-
-  // const onChange = (
-  //   imageList: ImageListType,
-  //   addUpdateIndex: number[] | undefined
-  // ) => {
-  //   // data for submit
-  //   console.log(imageList, addUpdateIndex);
-  //   setImages(imageList as never[]);
-  // };
 
   const {
     register,
@@ -91,6 +72,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
 
     try {
       let items = JSON.parse(localStorage.getItem("oldRegisterUser") || "");
+
       const merged = {
         ...items,
         ...data,
@@ -101,21 +83,11 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
           images[3].photo,
         ],
       };
+
       const merged1 = {
         ...items,
         ...data,
       };
-      // console.log(merged);
-      // console.log(
-      //   images[0].photo,
-      //   images[1].photo,
-      //   images[2].photo,
-      //   images[3].photo
-      // );
-
-      // Add address to form data
-      const newFormData = { ...data, address: address };
-      // console.log("onsubmit", newFormData);
 
       // Validate fields
       const response = await validateFields(merged1);
@@ -142,14 +114,11 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleClick = (onImageUpload: any) => {
-    // console.log("aaaa");
-    // setDefaultImg((prev) => !prev);
     onImageUpload();
   };
 
   const handleRemove = (onImageRemove: any) => {
     onImageRemove();
-    // setDefaultImg((prev) => !prev);
   };
   return (
     <div>
@@ -269,7 +238,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             }) => (
               <div>
                 <div className="d-flex justify-content-center align-items-center gap-3 mt-5">
-                  {defaultImg ? (
+                  {!imageList.length ? (
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <img src={Bike1} />
                       <img src={Bike2} />
