@@ -12,6 +12,8 @@ import ForgotPassword from "./ForgotPassword";
 import styles from "./LoginForm.module.scss";
 import constants from "../../utils/constants.json";
 import { useCalculateHash } from "../../hooks/useCalculateHash";
+import { Row } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
 // Setup form schema & validation
 interface IFormInputs {
@@ -161,20 +163,32 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
         </Form.Group>
 
         <div className="mb-5 position-relative text-end">
-          <Link
-            to="/forgot-password"
-            // onClick={() => setModalShow(true)}
-            className={styles.forgotPassword}
-          >
-            Forgot Password?
-          </Link>
+          <Row>
+            <Col>
+              <div className={styles.errors}>
+                <p>{error} sdfsdasdfsadfsadf sadfds ffsadf</p>
+                <p>
+                  {errors.username?.message} sdfsasdfas dfsadfsadfs
+                  adfadfsadfdsaf
+                </p>
+                <p>
+                  {errors.password?.message} sadfasdfs adsadf
+                  sadfsadfsadfsadffsdf
+                </p>
+              </div>
+            </Col>
+            <Col>
+              <Link
+                to="/forgot-password"
+                // onClick={() => setModalShow(true)}
+                className={styles.forgotPassword}
+              >
+                Forgot Password?
+              </Link>
+            </Col>
+          </Row>
 
           {/* Error Messages */}
-          <div className={styles.errors}>
-            <p>{error}</p>
-            <p>{errors.username?.message}</p>
-            <p>{errors.password?.message}</p>
-          </div>
         </div>
 
         <Button variant="primary" size="lg" type="submit">

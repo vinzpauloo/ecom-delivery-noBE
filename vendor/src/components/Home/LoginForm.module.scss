@@ -3,7 +3,7 @@
 
 .form {
   width: 467px;
-  .header{
+  .header {
     margin: 0 0 35px 0;
     font-weight: 500;
     font-size: 17px;
@@ -59,7 +59,7 @@
   }
 
   @include devices(md) {
-    &{
+    & {
       width: 375px;
       input {
         border-radius: 5px;
@@ -68,12 +68,12 @@
         padding-left: 20px;
         padding-right: 50px;
       }
-  
+
       button {
         font-size: 18px;
         padding: 6px;
       }
-  
+
       .icons {
         width: 25px;
         height: 25px;
@@ -81,16 +81,16 @@
       }
     }
   }
-  @include devices(xs){
-    &{
+  @include devices(xs) {
+    & {
       width: 305px;
     }
   }
 }
 
 .errors {
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  // top: 0;
 
   color: $FM_TEXT_RED;
   margin-bottom: 10px;
@@ -100,5 +100,6 @@
     font-size: 12px;
     line-height: 1.2;
     margin-bottom: 0;
+    white-space: pre-wrap;
   }
 }
