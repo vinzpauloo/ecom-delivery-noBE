@@ -457,7 +457,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           <Row className={styles.restaurantContent}>
             <Col className="col-md-9">
               <Row>
-                <Col className="col-lg-9 col-md-8 pe-1">
+                <Col>
                   <Form.Group className="position-relative">
                     <Form.Control
                       type="text"
@@ -467,7 +467,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                     />
                   </Form.Group>
                 </Col>
-                <Col className="col-lg-3 col-md-4 ps-1">
+              </Row>
+              <Row>
+                <Col className={`col-lg-9`}>
+                  <PlacesAutocomplete
+                    address={address}
+                    setAddress={setAddress}
+                    setLat={setLat}
+                    setLng={setLng}
+                  />
+                </Col>
+                <Col className="col-lg-3" xs={{ span: 3 }}>
                   <Button
                     variant="primary"
                     className={styles.pin}
@@ -475,16 +485,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   >
                     Pin my location
                   </Button>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <PlacesAutocomplete
-                    address={address}
-                    setAddress={setAddress}
-                    setLat={setLat}
-                    setLng={setLng}
-                  />
                 </Col>
               </Row>
               <Row>

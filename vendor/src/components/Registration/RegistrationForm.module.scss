@@ -37,9 +37,9 @@
   border-radius: 15px;
   padding: 10px 40px 40px;
 
-  .pinBtn{
+  .pinBtn {
     background: #000000;
-    border: 1px solid #E6B325;
+    border: 1px solid #e6b325;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
 
@@ -47,19 +47,19 @@
     font-size: 10px;
     line-height: 12px;
     white-space: nowrap;
-    color: #FFFFFF;
+    color: #ffffff;
     text-align: center;
     width: 100%;
   }
 
   .btnUpload {
     width: 151px;
-    background: #F0BB62;
+    background: #f0bb62;
     border: 1px solid rgba(97, 72, 28, 0.5);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     height: 32px;
-    &::placeholder{
+    &::placeholder {
       position: relative;
       top: -2px;
       font-size: 12px;
@@ -67,24 +67,22 @@
       color: #000000;
       font-weight: 400;
       opacity: 1;
-      
     }
 
     &:hover {
       background-color: #61481c;
       cursor: pointer;
-      &::placeholder{
-        color: #FFFFFF;
+      &::placeholder {
+        color: #ffffff;
       }
     }
-
   }
-  @include devices(sm){
-    .restaurantContent{
+  @include devices(sm) {
+    .restaurantContent {
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
-      .btnUpload{
+      .btnUpload {
         width: 93px;
         height: 21px;
         padding: 2px 0 0;
@@ -93,8 +91,11 @@
         line-height: 10px;
       }
     }
-    &:first-child{
+    &:first-child {
       margin: 0 0 10px 0 !important;
+    }
+    .pin {
+      font-size: 11px;
     }
   }
 
@@ -121,12 +122,12 @@
       margin: 0 0 40px 0;
     }
   }
-  @include devices(sm){
-    .thumbNail{
+  @include devices(sm) {
+    .thumbNail {
       width: 93px;
       height: 97px;
     }
-    .thumbNail2{
+    .thumbNail2 {
       width: 93px;
       height: 97px;
     }
@@ -141,7 +142,7 @@
     font-size: 20px;
     line-height: 20px;
     margin-bottom: 30px;
-    @include devices(sm){
+    @include devices(sm) {
       font-size: 15px;
       line-height: 15px;
       margin-bottom: 14px;
@@ -166,7 +167,7 @@
     margin-bottom: 20px;
     padding: 15px 10px 15px;
     height: 33px;
-    &::placeholder{
+    &::placeholder {
       position: relative;
       top: -12px;
       font-weight: 250;
@@ -174,8 +175,7 @@
       line-height: 10px;
       /* identical to box height */
 
-
-      color: #61481C;
+      color: #61481c;
 
       opacity: 0.5;
     }
@@ -206,10 +206,10 @@
     font-size: 15px;
     line-height: 15px;
     text-align: center;
-    color: #61481C;
+    color: #61481c;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
     padding: 0 0 4px;
-    &::placeholder{
+    &::placeholder {
       color: #000000;
     }
 
@@ -227,11 +227,11 @@
 
   .checkbox {
     padding: 0 20px;
-    input{
+    input {
       height: 20px;
       width: 20px;
       padding: 0;
-      &:checked{
+      &:checked {
         background-color: #2f2f2f;
       }
     }
@@ -250,15 +250,15 @@
       margin-left: 10px;
       font-weight: 300;
     }
-    @include devices(sm){
-      &{
+    @include devices(sm) {
+      & {
         margin: 0 30px;
       }
-      input{
+      input {
         height: 13px;
         width: 13px;
       }
-      label{
+      label {
         font-size: 12px;
         margin-left: 0px;
       }
