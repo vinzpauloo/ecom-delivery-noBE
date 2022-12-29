@@ -98,6 +98,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   const { getOrdersByIdGuest } = useOrders();
   const isAuthenticated = useIsAuthenticated();
   const { updateOrder, getOrdersById, acceptOrder } = useOrder();
+  const [isloaded, setIsloaded] = useState(false);
   const [forDelivery, setForDelivery] = useState<ForDeliveryItem[]>([]);
   const [status, setStatus] = useState<ForDeliveryItem>();
   const [orderData, setOrderData] = useState<any>([]);
@@ -133,13 +134,8 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleAccept = async () => {
-    // console.log(id);
-    // setModalShow(true);
     const response = await updateOrder(id, "otw");
-    // alert("updated status otw successfully");
-    // navigate(`/account/orders/${id}/otw`);
 
-    // console.log(response);
     setOrderData(response);
     setModalShow(true);
   };
@@ -150,25 +146,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
-    // console.log("getOrdersById response", response);
     setProductItem(response);
   };
 
   const handleDelivered = async () => {
-    // console.log(id);
-    // setModalShow(true);
     const response = await updateOrder(id, "delivered");
-    // alert("updated status delivered successfully");
-
     navigate(`/account/order-history`);
-
-    // console.log(response);
-    // setOrderData(response);
   };
 
   const loadOrder = async () => {
     const response = await getOrdersById(id);
-    // console.log("getOrdersById response", !!response.guest_id);
     setStatus(response);
     setOrder(response);
     setIsGuest(!!response.guest_id);
@@ -177,51 +164,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
       initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
+      setIsloaded(true);
     } else {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
       initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
+      setIsloaded(true);
     }
   };
-
-  // const initializeOrderChannel = (orderRoom: string) => {
-  //   const channel = pusher.subscribe(orderRoom);
-  //   channel.bind("Order-Updated-Event", (data: any) => {
-  //     const parsedData = JSON.parse(data.message);
-  //     const status = parsedData.status;
-
-  //     console.log(parsedData);
-
-  //     setOrder({ ...parsedData, order_status: status });
-  //     setOrderStatus(status);
-
-  //     if (status == "canceled" || status == "delivered") {
-  //       pusher.unsubscribe(orderRoom);
-  //     } else {
-  //       if (status != "canceled") {
-  //         const thisRider = {
-  //           order_id: parsedData.id,
-  //           rider_id: parsedData.rider_id,
-  //           rider_name: parsedData.rider_name,
-  //           rider_photo: parsedData.rider_photo,
-  //           rider_vehicle_brand: parsedData.rider_vehicle_brand,
-  //           rider_vehicle_model: parsedData.rider_vehicle_model,
-  //           rider_average_rating: parsedData.rider_average_rating,
-  //           plate_number: parsedData.plate_number,
-  //         };
-  //         setRider(thisRider);
-  //       }
-
-  //       if (status == "otw") {
-  //         if (parsedData.rider_id) {
-  //           // Initialize chat channel for rider
-  //           const riderChatRoom = `ChatRoom-C${parsedData.customer_id}-R${parsedData.rider_id}`;
-  //           initializeChatChannel(riderChatRoom, setRiderChat);
-  //         }
-  //       }
-  //     }
-  //   });
-  // };
 
   const initializeChatChannel = (
     chatRoom: string,
@@ -494,14 +444,16 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
         </h6>
       </div> */}
       <div className={styles.chatContainer}>
-        <Chat
-          orderId={id}
-          riderChat={riderChat}
-          setRiderChat={setRiderChat}
-          orderStatus={orderStatus}
-          isGuest={isGuest}
-          riderChatroom={riderChatroom}
-        />
+        {isloaded && (
+          <Chat
+            orderId={id}
+            riderChat={riderChat}
+            setRiderChat={setRiderChat}
+            orderStatus={orderStatus}
+            isGuest={isGuest}
+            riderChatroom={riderChatroom}
+          />
+        )}
       </div>
     </div>
   );
