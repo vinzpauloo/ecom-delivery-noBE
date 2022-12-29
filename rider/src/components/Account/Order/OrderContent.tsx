@@ -10,6 +10,7 @@ import statusIsReceived from "../../../assets/images/order-received.png";
 import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsPreparingAlt from "../../../assets/images/order-preparing-alt.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
+import statusIsOtwAlt from "../../../assets/images/order-otw-alt.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
 import OrderCancel from "../../../assets/images/order-cancel.png";
 import OrderDelivered from "../../../assets/images/order-delivered.png";
@@ -142,7 +143,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const [productItem, setProductItem] = useState<TOrder>();
 
-  const [orderStatus, setOrderStatus] = useState("pending");
+  const [orderStatus, setOrderStatus] = useState("received");
 
   const handleClickItem = async (props: any) => {
     const response = await getOrdersById(props);
@@ -159,19 +160,36 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
     const response = await getOrdersById(id);
     setStatus(response);
     setOrder(response);
+    setOrderStatus(response.order_status);
     setIsGuest(!!response.guest_id);
     setProducts(response.products);
+
+    const orderRoom = `Order-Channel-${response.id}`;
+    initializeOrderChannel(orderRoom);
+
     if (!!!response.guest_id) {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-C${response.customer_id}-R${response.rider_id}`;
       initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
       setIsloaded(true);
+      setOrderStatus(response.order_status);
     } else {
       // Initialize chat channel for merchant
       const riderChatRoom = `ChatRoom-G${response.guest_id}-R${response.rider_id}`;
       initializeChatChannel(riderChatRoom, setRiderChat, setRiderChatroom);
       setIsloaded(true);
+      setOrderStatus(response.order_status);
     }
+  };
+
+  const initializeOrderChannel = (orderRoom: string) => {
+    const channel = pusher.subscribe(orderRoom);
+    channel.bind("Order-Updated-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      const status = parsedData.status;
+
+      setOrder({ ...parsedData, order_status: status });
+    });
   };
 
   const initializeChatChannel = (
@@ -376,13 +394,17 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           <Col>
             <div className={styles.status}>
               <div className={styles.imgContainer}>
-                <img src={statusIsPreparing} alt="" />
-                {order?.order_status === "preparing" && (
+                {order?.order_status !== "preparing" ? null : (
+                  <img src={statusIsPreparing} alt="" />
+                )}
+                {order?.order_status === "preparing" ? (
                   <img
                     src={statusIsPreparingAlt}
                     alt=""
                     className={styles.altImg}
                   />
+                ) : (
+                  <img src={statusIsPreparing} alt="" />
                 )}
                 <p>Kitchen Preparing ...</p>
               </div>
@@ -391,8 +413,17 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
           </Col>
           <Col>
             <div className={styles.status}>
-              <img src={statusIsOtw} alt="" />
-              <p>Rider on its way</p>
+              <div className={styles.imgContainer}>
+                {order?.order_status !== "otw" ? null : (
+                  <img src={statusIsOtw} alt="" />
+                )}
+                {order?.order_status === "otw" ? (
+                  <img src={statusIsOtwAlt} alt="" className={styles.altImg} />
+                ) : (
+                  <img src={statusIsOtw} alt="" />
+                )}
+                <p>Rider On It's Way</p>
+              </div>
             </div>
 
             <Button
@@ -401,7 +432,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 handleAccept();
                 handleClickItem(id);
               }}
-              className={styles.activateBtn}
+              className={`${styles.activateBtn}`}
               // onClick={() => setModalShow(true)}
             >
               Activate
