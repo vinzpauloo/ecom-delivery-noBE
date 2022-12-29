@@ -99,13 +99,8 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
     setIsGuest(!!response.guest_id);
     // *console.log("@@@", response);
 
-    // if (
-    //   response.order_status != "canceled" &&
-    //   response.order_status != "delivered"
-    // ) {
-    //   const orderRoom = `Order-Channel-${response.id}`;
-    //   initializeOrderChannel(orderRoom);
-    // }
+    const orderRoom = `Order-Channel-${response.id}`;
+    initializeOrderChannel(orderRoom);
 
     if (!!!response.guest_id) {
       // Initialize chat channel for merchant
@@ -145,6 +140,16 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
         }
         return [chatData];
       });
+    });
+  };
+
+  const initializeOrderChannel = (orderRoom: string) => {
+    const channel = pusher.subscribe(orderRoom);
+    channel.bind("Order-Updated-Event", (data: any) => {
+      const parsedData = JSON.parse(data.message);
+      const status = parsedData.status;
+
+      setOrder({ ...parsedData, order_status: status });
     });
   };
 
