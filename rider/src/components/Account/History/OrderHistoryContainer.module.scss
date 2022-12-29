@@ -2,52 +2,42 @@
 @import "../../../theme/_mixins.scss";
 
 .container {
+  overflow-x: hidden;
   min-height: calc(100vh - $FM_HEADER_HEIGHT - $FM_FOOTER_HEIGHT);
-  padding: 40px 0;
+  padding: 20px 0;
 
   @include devices(md) {
-    min-height: calc(100vh - $FM_HEADER_HEIGHT_MD - $FM_FOOTER_HEIGHT_MD);
-    padding: 15px 0;
-
-    .mobileNav {
-      position: absolute;
-    }
-
-    .navigationContainer {
-      background: 0;
-      border: 0;
-      height: 0;
-      padding: 0;
-    }
-  }
-
-  @include devices(xs) {
-    min-height: calc(109vh - $FM_HEADER_HEIGHT_XS - $FM_FOOTER_HEIGHT_XS);
-    padding: 15px 0;
-
-    .mobileNav {
-      position: absolute;
-    }
-
-    .navigationContainer {
-      background: 0;
-      border: 0;
-      height: 0;
-      padding: 0;
-    }
+    min-height: auto;
+    margin-bottom: -195px + $FM_FOOTER_HEIGHT_MD;
+    padding-top: 40px;
   }
 }
 
-.navigationContainer {
+.navigationContainer,
+.contentContainer {
   background: #f2f2f2;
   border: 1px solid #000000;
-  height: 100%;
   padding: 30px 20px;
+  height: 966px;
+
+  @media (max-width: 768px) {
+    // height: 870px;
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    height: auto;
+    // padding: 0;
+  }
 }
 
 .contentContainer {
-  height: 100%;
-  padding: 30px 20px;
+  // background-color: #fdf5e7;
+  border: none;
+  background: none;
+
+  @media (max-width: 768px) {
+    background: none;
+  }
 }
 
 .content {
