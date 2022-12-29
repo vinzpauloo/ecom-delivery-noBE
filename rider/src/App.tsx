@@ -99,7 +99,7 @@ const App: React.FC = (props: Props) => {
       <div className={customClassNames}>
         {RenderHeader}
         <Outlet />
-        {RenderFooter}
+        <Footer />
       </div>
       <div className={`notificationContainer ${notification && "active"}`}>
         <div className="notification">
