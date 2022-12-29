@@ -150,8 +150,9 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleDelivered = async () => {
-    const response = await updateOrder(id, "delivered");
-    navigate(`/account/order-history`);
+    await updateOrder(id, "delivered");
+    navigate(`/account/for-delivery`);
+    window.location.reload();
   };
 
   const loadOrder = async () => {
