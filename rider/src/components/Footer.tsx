@@ -170,46 +170,48 @@ const Footer: React.FC<ContainerProps> = () => {
         </Container>
       </footer>
 
-      <footer className="fixed-bottom d-lg-none">
-        <a href="/account">
-          <img src={HelmetIcon} alt="" />
-        </a>
-        <a href="/account/for-delivery">
-          {forDelivery.length !== 0 ? (
-            <div style={{ position: "relative" }}>
-              <img src={RiderIcon} alt="" />
-              <span
-                style={{
-                  display: "inline-block",
-                  position: "absolute",
-                  left: "75px",
-                  top: "5px",
-                  background: "red",
-                  borderRadius: "20px",
-                  border: "1px solid white",
-                  width: "28px",
-                  height: "27px",
-                  textAlign: "center",
-                  color: "white",
-                  fontWeight: "600",
-                }}
-              >
-                {forDelivery.length}
-              </span>
-            </div>
-          ) : (
-            <div style={{ position: "relative" }}>
-              <img src={RiderIcon} alt="" />
-            </div>
-          )}
-        </a>
-        <a href="/account/order-history">
-          <img src={HistoryIcon} alt="" />
-        </a>
-        <a href="/account/reset-password">
-          <img src={LockIcon} alt="" />
-        </a>
-      </footer>
+      {location.pathname !== "/" && (
+        <footer className="fixed-bottom d-lg-none">
+          <a href="/account">
+            <img src={HelmetIcon} alt="" />
+          </a>
+          <a href="/account/for-delivery">
+            {forDelivery.length !== 0 ? (
+              <div style={{ position: "relative" }}>
+                <img src={RiderIcon} alt="" />
+                <span
+                  style={{
+                    display: "inline-block",
+                    position: "absolute",
+                    left: "75px",
+                    top: "5px",
+                    background: "red",
+                    borderRadius: "20px",
+                    border: "1px solid white",
+                    width: "28px",
+                    height: "27px",
+                    textAlign: "center",
+                    color: "white",
+                    fontWeight: "600",
+                  }}
+                >
+                  {forDelivery.length}
+                </span>
+              </div>
+            ) : (
+              <div style={{ position: "relative" }}>
+                <img src={RiderIcon} alt="" />
+              </div>
+            )}
+          </a>
+          <a href="/account/order-history">
+            <img src={HistoryIcon} alt="" />
+          </a>
+          <a href="/account/reset-password">
+            <img src={LockIcon} alt="" />
+          </a>
+        </footer>
+      )}
     </>
   );
 };
