@@ -107,6 +107,9 @@ const Map = ({
       center={center}
       mapContainerClassName={styles.map}
       onClick={(e) => mapOnClick(e)}
+      options={{
+        gestureHandling: "greedy",
+      }}
     >
       <Marker position={center} />
     </GoogleMap>
@@ -131,6 +134,7 @@ const PlacesAutocomplete = ({
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete();
+  console.log("hello");
 
   const handleSelect = async (address: any) => {
     setValue(address, false);
@@ -148,6 +152,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     clearSuggestions();
   }, [address]);
+  console.log("!!!", status, ready);
 
   return (
     <Form.Group className="position-relative">
@@ -156,7 +161,7 @@ const PlacesAutocomplete = ({
         <ComboboxInput
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          // disabled={!ready}
+          disabled={!ready}
           placeholder="Address"
           className={styles.addressInput}
         />
@@ -334,6 +339,8 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     // Reverse Geocode
     handleReverseGeocode(e.latLng.lat(), e.latLng.lng());
   };
+
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
     <div>
