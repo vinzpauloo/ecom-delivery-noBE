@@ -166,15 +166,9 @@ const LoginForm: React.FC<ContainerProps> = ({}) => {
           <Row>
             <Col>
               <div className={styles.errors}>
-                <p>{error} sdfsdasdfsadfsadf sadfds ffsadf</p>
-                <p>
-                  {errors.username?.message} sdfsasdfas dfsadfsadfs
-                  adfadfsadfdsaf
-                </p>
-                <p>
-                  {errors.password?.message} sadfasdfs adsadf
-                  sadfsadfsadfsadffsdf
-                </p>
+                <p>{error}</p>
+                <p>{errors.username?.message}</p>
+                <p>{errors.password?.message}</p>
               </div>
             </Col>
             <Col>
