@@ -363,6 +363,8 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     handleReverseGeocode(e.latLng.lat(), e.latLng.lng());
   };
 
+  if (!isLoaded) return <div>Loading...</div>;
+
   const UpdateSuccessModal = (props: any) => {
     return (
       <Modal
