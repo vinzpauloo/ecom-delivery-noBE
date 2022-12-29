@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Container, Form, Offcanvas } from "react-bootstrap";
-import { useAuthUser } from "react-auth-kit";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 import { useChat } from "../../../hooks/useChat";
 import { getDate, getTime } from "../../../utils/formatDate";
 
@@ -39,6 +39,7 @@ const Chat: React.FC<ContainerProps> = ({
   const [hasNewChatRestaurant, setHasNewChatRestaurant] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [chatBoxClass, setChatBoxClass] = useState("left");
+  const isAuthenticated = useIsAuthenticated();
 
   const { getMessagesRestaurant, createMessage } = useChat();
   const auth = useAuthUser();
@@ -85,10 +86,9 @@ const Chat: React.FC<ContainerProps> = ({
         message,
       };
       // *console.log("submitting ...", data);
+      const response = await createMessage(data);
 
       setIsSending(true);
-      const response = await createMessage(data);
-      // *console.log(response);
 
       setIsSending(false);
       setMessage("");
@@ -96,14 +96,12 @@ const Chat: React.FC<ContainerProps> = ({
   };
 
   const loadMessagesMerchant = async () => {
-    // console.log(isGuest);
+    // console.log("!!!", isGuest);
     const data = {
       order_id: orderId,
       channel_name: restaurantChatroom,
     };
-    // Get authenticated user messages
-    const response = await getMessagesRestaurant(orderId);
-    // *console.log("getMessagesRestaurant response", response);
+    const response = await getMessagesRestaurant(data);
     setRestaurantChat(response.data);
   };
 

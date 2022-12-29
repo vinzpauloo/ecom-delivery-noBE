@@ -66,6 +66,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
   const [restaurantChatroom, setRestaurantChatroom] = useState("");
   const [isGuest, setIsGuest] = useState(false);
   const { updateOrder, getOrdersById } = useOrder();
+  const [isloaded, setIsloaded] = useState(false);
   const navigate = useNavigate();
 
   const [order, setOrder] = useState<ForPreparingItem | null>(null);
@@ -108,12 +109,14 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
 
     if (!!!response.guest_id) {
       // Initialize chat channel for merchant
+      // console.log("customer");
       const merchantChatRoom = `ChatRoom-C${response.customer_id}-M${response.restaurant_id}`;
       initializeChatChannel(
         merchantChatRoom,
         setRestaurantChat,
         setRestaurantChatroom
       );
+      setIsloaded(true);
     } else {
       // Initialize chat channel for merchant
       const merchantChatRoom = `ChatRoom-G${response.guest_id}-M${response.restaurant_id}`;
@@ -122,6 +125,7 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
         setRestaurantChat,
         setRestaurantChatroom
       );
+      setIsloaded(true);
     }
   };
 
@@ -234,13 +238,15 @@ const StatusContent: React.FC<ContainerProps> = ({}) => {
         </Row>
       </div>
       <div className={styles.chatContainer}>
-        <Chat
-          orderId={id}
-          restaurantChat={restaurantChat}
-          setRestaurantChat={setRestaurantChat}
-          isGuest={isGuest}
-          restaurantChatroom={restaurantChatroom}
-        />
+        {isloaded && (
+          <Chat
+            orderId={id}
+            restaurantChat={restaurantChat}
+            setRestaurantChat={setRestaurantChat}
+            isGuest={isGuest}
+            restaurantChatroom={restaurantChatroom}
+          />
+        )}
       </div>
       <UpdateSuccessModal
         show={updateModalShow}
