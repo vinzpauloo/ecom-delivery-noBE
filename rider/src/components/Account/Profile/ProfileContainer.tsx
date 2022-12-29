@@ -29,7 +29,7 @@ const ProfileContainer: React.FC<ContainerProps> = ({}) => {
   return (
     <Container fluid="xxl">
       <Row className={styles.container}>
-        <Col lg={4} className="d-none d-lg-block">
+        <Col lg={4}>
           <div className={styles.navigationContainer}>
             <Navigation />
           </div>

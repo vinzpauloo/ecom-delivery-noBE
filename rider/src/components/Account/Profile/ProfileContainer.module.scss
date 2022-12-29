@@ -8,7 +8,7 @@
 
   @include devices(md) {
     min-height: auto;
-    margin-bottom: -255px + $FM_FOOTER_HEIGHT_MD;
+    margin-bottom: -195px + $FM_FOOTER_HEIGHT_MD;
     padding-top: 40px;
   }
 }
@@ -24,6 +24,8 @@
     // height: 870px;
     background: none;
     border: none;
+    padding: 10px 20px;
+    height: auto;
     // padding: 0;
   }
 }

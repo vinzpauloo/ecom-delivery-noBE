@@ -170,7 +170,7 @@ const Footer: React.FC<ContainerProps> = () => {
         </Container>
       </footer>
 
-      {location.pathname !== "/" && (
+      {/* {location.pathname !== "/" && (
         <footer className="fixed-bottom d-lg-none">
           <a href="/account">
             <img src={HelmetIcon} alt="" />
@@ -211,7 +211,7 @@ const Footer: React.FC<ContainerProps> = () => {
             <img src={LockIcon} alt="" />
           </a>
         </footer>
-      )}
+      )} */}
     </>
   );
 };
