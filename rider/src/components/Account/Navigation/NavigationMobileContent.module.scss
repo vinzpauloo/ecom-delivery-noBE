@@ -1,0 +1,25 @@
+@import "../../../theme/_variables.scss";
+@import "../../../theme/_mixins.scss";
+
+.container {
+  background-color: #d7d7d7;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  div {
+    height: fit-content;
+    padding: 10px 20px;
+    &:nth-child(1) {
+      border-left: 1px solid #b8b8b8;
+      border-right: 2px solid #b8b8b8;
+    }
+    &:nth-child(3) {
+      border-left: 2px solid #b8b8b8;
+      border-right: 2px solid #b8b8b8;
+    }
+    &:nth-child(5) {
+      border-left: 2px solid #b8b8b8;
+      border-right: 1px solid #b8b8b8;
+    }
+  }
+}

@@ -134,13 +134,14 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleAccept = async () => {
     // console.log(id);
-    setModalShow(true);
+    // setModalShow(true);
     const response = await updateOrder(id, "otw");
     // alert("updated status otw successfully");
     // navigate(`/account/orders/${id}/otw`);
 
     // console.log(response);
     setOrderData(response);
+    setModalShow(true);
   };
 
   const [productItem, setProductItem] = useState<TOrder>();
@@ -155,7 +156,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
 
   const handleDelivered = async () => {
     // console.log(id);
-    setModalShow(true);
+    // setModalShow(true);
     const response = await updateOrder(id, "delivered");
     // alert("updated status delivered successfully");
 

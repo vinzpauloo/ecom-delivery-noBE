@@ -53,7 +53,7 @@ type TOrder = {
   order_mobile: number;
   restaurant_address: string;
   restaurant_name: string;
-  restaurant_photo: string;
+  restaurant_photo_url: string;
   products: [{ name: string; quantity: number }];
   total_amount: number;
   delivered_at: string;
@@ -73,7 +73,7 @@ type ForDeliveryItem = {
   plate_number: string;
   restaurant_name: string;
   restaurant_id: string;
-  restaurant_photo: string;
+  restaurant_photo_url: string;
   restaurant_address: string;
   updated_at: string;
   rider_id: string;
@@ -570,7 +570,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       <p style={{ fontWeight: "600" }}>
                         {item.restaurant_name}
                       </p>
-                      <img src={item.restaurant_photo} alt="resto" />
+                      <img src={item.restaurant_photo_url} alt="resto" />
                     </div>
                   </Col>
                 </Row>
@@ -787,7 +787,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                       <p style={{ fontWeight: "600" }}>
                         {item.restaurant_name}
                       </p>
-                      <img src={item.restaurant_photo} alt="resto" />
+                      <img src={item.restaurant_photo_url} alt="resto" />
                     </div>
                   </Col>
                 </Row>
