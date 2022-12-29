@@ -169,10 +169,7 @@ const OtpForm: React.FC<ContainerProps> = () => {
             <Lottie animationData={otpSuccess} loop={true} />
             <p className="mt-4">OTP Verified Successfully</p>
 
-            <Link
-              to="/account"
-              className={`d-inline-block mt-2 ${styles.button}`}
-            >
+            <Link to="/" className={`d-inline-block mt-2 ${styles.button}`}>
               Go to Restaurant Page
             </Link>
           </div>
