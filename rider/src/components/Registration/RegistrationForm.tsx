@@ -68,9 +68,9 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps {}
+interface ContainerProps { }
 
-const RegistrationForm: React.FC<ContainerProps> = ({}) => {
+const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const [errorEmail, setErrorEmail] = useState("");
@@ -314,7 +314,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           maxNumber={maxNumber}
           dataURLKey="photo"
           maxFileSize={1572864}
-          // acceptType={["jpg", "png"]}
+        // acceptType={["jpg", "png"]}
         >
           {({
             imageList,
@@ -347,7 +347,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                     placeholder="Profile Picture (PDF*JPG*PNG)"
                     className={`bg-white ${styles.test}`}
                     disabled
-                    // {...register("photo")}
+                  // {...register("photo")}
                   />
                 </Col>
                 <Col>
@@ -392,9 +392,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                   type="submit"
                   className="mt-4"
                   id="nextBtn-2"
-                  // href="/registration2"
-                  // onClick={Continue}
-                  // disabled={!isValid || !address}
+                // href="/registration2"
+                // onClick={Continue}
+                // disabled={!isValid || !address}
                 >
                   Next
                 </Button>

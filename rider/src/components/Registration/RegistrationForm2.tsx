@@ -37,9 +37,9 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps {}
+interface ContainerProps { }
 
-const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
+const RegistrationForm2: React.FC<ContainerProps> = ({ }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { validateFields } = useValidate();
@@ -90,7 +90,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
       };
 
       // Validate fields
-      const response = await validateFields(merged1);
+      const response = await validateFields(merged);
       // console.log(response);
 
       if (response.errors) {
@@ -224,7 +224,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             maxNumber={maxNumber}
             dataURLKey="photo"
             maxFileSize={1572864}
-            // acceptType={["jpg", "png"]}
+          // acceptType={["jpg", "png"]}
           >
             {({
               imageList,
