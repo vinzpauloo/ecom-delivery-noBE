@@ -110,7 +110,7 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
           <Col lg={6} xs={4}>
             <div className="d-flex align-items-center">
               <div className={styles.logo}>
-                <Link to="/">
+                <Link to="/account/for-delivery">
                   <img
                     src={LogoHeader}
                     alt="Food Monkey Logo"

@@ -7,7 +7,7 @@ import LogoHeader from "../../assets/images/logo-header.png";
 import LogoHeaderHover from "../../assets/images/logo-header-hover.png";
 import PinLight from "../../assets/images/pin-light.png";
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 const HeaderBasic: React.FC<ContainerProps> = () => {
   return (
