@@ -40,7 +40,7 @@ import Delivery from "../../../pages/Account/Delivery";
 import OrderPreparing from "../../../assets/images/order-preparing.png";
 import OrderPreparingAlt from "../../../assets/images/order-preparing-alt.png";
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 type TOrder = {
   id: number;
@@ -125,7 +125,7 @@ type ForCanceledItem = {
   delivered_at: string;
 };
 
-const DeliveryContent: React.FC<ContainerProps> = ({}) => {
+const DeliveryContent: React.FC<ContainerProps> = ({ }) => {
   const [isEdit, setIsEdit] = useState(false);
 
   const [productItem, setProductItem] = useState<TOrder>();
@@ -363,7 +363,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                         Customer Name: <span> {item.customer_name}</span>
                       </li>
                       <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
+                        Contact Number: <span> {item.order_mobile}</span>
                       </li>
                       <li>
                         Pick up Address :<span> {item.restaurant_name}</span>
@@ -452,7 +452,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                         Customer Name: <span> {item.customer_name}</span>
                       </li>
                       <li>
-                        Contact Number: <span> {item.customer_mobile}</span>
+                        Contact Number: <span> {item.order_mobile}</span>
                       </li>
                       <li>
                         Pick up Address :<span> {item.restaurant_name}</span>
@@ -524,7 +524,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   </Col>
                   <Col>
                     <p>
-                      Contact Number: <span>{item.customer_mobile}</span>
+                      Contact Number: <span>{item.order_mobile}</span>
                     </p>
                   </Col>
                 </Row>
@@ -625,7 +625,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 </Col>
                 <Col>
                   <p>
-                    Contact Number: <span>{item.customer_mobile}</span>
+                    Contact Number: <span>{item.order_mobile}</span>
                   </p>
                 </Col>
               </Row>
@@ -669,7 +669,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 </Col>
                 <Col>
                   <p>
-                    Contact Number: <span>{item.customer_mobile}</span>
+                    Contact Number: <span>{item.order_mobile}</span>
                   </p>
                 </Col>
               </Row>
@@ -741,7 +741,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                   </Col>
                   <Col>
                     <p>
-                      Contact Number: <span>{item.customer_mobile}</span>
+                      Contact Number: <span>{item.order_mobile}</span>
                     </p>
                   </Col>
                 </Row>
@@ -842,7 +842,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 </Col>
                 <Col>
                   <p>
-                    Contact Number: <span>{item.customer_mobile}</span>
+                    Contact Number: <span>{item.order_mobile}</span>
                   </p>
                 </Col>
               </Row>
@@ -886,7 +886,7 @@ const DeliveryContent: React.FC<ContainerProps> = ({}) => {
                 </Col>
                 <Col>
                   <p>
-                    Contact Number: <span>{item.customer_mobile}</span>
+                    Contact Number: <span>{item.order_mobile}</span>
                   </p>
                 </Col>
               </Row>
