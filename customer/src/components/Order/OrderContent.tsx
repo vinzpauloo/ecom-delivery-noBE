@@ -35,7 +35,7 @@ const pusher = new Pusher(PUSHER_KEY, {
 });
 // Pusher.logToConsole = true;
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 type TOrder = {
   id?: number;
@@ -74,7 +74,7 @@ type TChat = {
   to?: string;
 };
 
-const OrderContent: React.FC<ContainerProps> = ({}) => {
+const OrderContent: React.FC<ContainerProps> = ({ }) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalCancelShow, setModalCancelShow] = useState(false);
   const [orderStatus, setOrderStatus] = useState("pending");
@@ -433,7 +433,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 className={styles.feedback}
                 onClick={handleRestaurantFeedback}
               >
-                Restaurant Feedback
+                Feedback
               </Button>
             </div>
           )}
