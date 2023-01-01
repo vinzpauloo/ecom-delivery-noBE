@@ -116,17 +116,17 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
                     alt="Food Monkey Logo"
                     className={styles.logoMain}
                   />
+
                   <img
                     src={LogoHeaderHover}
                     alt="Food Monkey Logo"
-                    className={styles.logoHover}
-                  />
+                    className={styles.logoHover} />
                 </Link>
               </div>
 
               <div className={`d-none d-lg-block ${styles.location}`}>
                 <a
-                  href="#"
+                  href="/account/for-delivery"
                   className="d-flex align-items-center justify-content-center text-decoration-none"
                 >
                   <img src={PinLight} alt="Pin" />
