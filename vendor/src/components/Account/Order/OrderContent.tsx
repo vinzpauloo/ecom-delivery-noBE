@@ -660,7 +660,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                           <Col>
                             <p>
                               Order Delivered Time:{" "}
-                              <span>{getTime(item.updated_at)}</span>
+                              {/* <span>{getTime(item.updated_at)}</span> */}
                             </p>
                           </Col>
                         </Row>
@@ -833,7 +833,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                         <Col>
                           <p>
                             Order Delivered Time:{" "}
-                            <span>{getTime(item.updated_at)}</span>
+                            {/* <span>{getTime(item.updated_at)}</span> */}
                           </p>
                         </Col>
                       </Row>
@@ -879,7 +879,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                         <Col>
                           <p>
                             Order Delivered Time:{" "}
-                            <span>{getTime(item.updated_at)}</span>
+                            {/* <span>{getTime(item.updated_at)}</span> */}
                           </p>
                         </Col>
                       </Row>
@@ -1003,7 +1003,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                         <Col>
                           <p>
                             Order Delivered Time:{" "}
-                            <span>{getTime(item.updated_at)}</span>
+                            {/* <span>{getTime(item.updated_at)}</span> */}
                           </p>
                         </Col>
                       </Row>
@@ -1173,7 +1173,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                       <Col>
                         <p>
                           Order Delivered Time:{" "}
-                          <span>{getTime(item.updated_at)}</span>
+                          {/* <span>{getTime(item.updated_at)}</span> */}
                         </p>
                       </Col>
                     </Row>
@@ -1218,7 +1218,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                       <Col>
                         <p>
                           Order Delivered Time:{" "}
-                          <span>{getTime(item.updated_at)}</span>
+                          {/* <span>{getTime(item.updated_at)}</span> */}
                         </p>
                       </Col>
                     </Row>
