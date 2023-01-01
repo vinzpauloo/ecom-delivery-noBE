@@ -230,12 +230,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
                 />
               </Form.Group>
             </Col>
-            <Col>
-              <Form.Group className="position-relative">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" required {...register("email")} />
-              </Form.Group>
-            </Col>
+
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Password</Form.Label>
@@ -246,9 +241,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-
-          <Row lg={3} xs={1}>
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Confirm Password</Form.Label>
@@ -257,6 +249,17 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
                   required
                   {...register("password_confirmation")}
                 />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row lg={3} xs={1}>
+
+
+            <Col>
+              <Form.Group className="position-relative">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" required {...register("email")} />
               </Form.Group>
             </Col>
 
