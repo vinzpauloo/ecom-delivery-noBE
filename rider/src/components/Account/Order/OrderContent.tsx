@@ -35,7 +35,7 @@ const pusher = new Pusher(PUSHER_KEY, {
 });
 // Pusher.logToConsole = true;
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 type TChat = {
   created_at?: string;
@@ -94,7 +94,7 @@ type TOrder = {
   restaurant_name?: string;
 };
 
-const OrderContent: React.FC<ContainerProps> = ({}) => {
+const OrderContent: React.FC<ContainerProps> = ({ }) => {
   const [order, setOrder] = useState<TOrder | null>(null);
   const { getOrdersByIdGuest } = useOrders();
   const isAuthenticated = useIsAuthenticated();
@@ -433,7 +433,7 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
                 handleClickItem(id);
               }}
               className={`${styles.activateBtn}`}
-              // onClick={() => setModalShow(true)}
+            // onClick={() => setModalShow(true)}
             >
               Activate
               {/* <Link to={`/account/orders/${item.id}/otw`}>Activate</Link> */}
