@@ -46,7 +46,7 @@ const schema = yup
   .object({
     first_name: yup
       .string()
-      .min(6, constants.form.error.firstNameMin)
+      .min(3, constants.form.error.firstNameMin)
       .required(),
     last_name: yup.string().min(2, constants.form.error.lastNameMin).required(),
     address: yup.string().required(),
@@ -205,7 +205,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -218,7 +218,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("last_name")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -233,7 +233,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("address")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -247,7 +247,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   required
                   disabled
                   {...register("mobile")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -262,7 +262,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   required
                   disabled
                   {...register("email")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -274,7 +274,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("license_expiration")}
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -288,7 +288,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("brand")}
                   required
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -299,7 +299,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("license_number")}
                   required
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -313,7 +313,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("model")}
                   required
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -323,7 +323,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("or_number")}
                   required
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -333,7 +333,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("plate_number")}
                   required
-                  // disabled={disabled}
+                // disabled={disabled}
                 />
               </Form.Group>
             </Col>
