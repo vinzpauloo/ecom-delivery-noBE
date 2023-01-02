@@ -10,12 +10,14 @@ import statusIsPreparing from "../../../assets/images/kitchen-prep.png";
 import statusIsOtw from "../../../assets/images/rider-on-the-way.png";
 import statusIsDelivered from "../../../assets/images/delivered.png";
 import statusIsDeliveredAlt from "../../../assets/images/order-delivered-alt.png";
+import statusIsCanceled from "../../../assets/images/order-cancel.png";
+import statusIsCanceledAlt from "../../../assets/images/order-cancel-alt.png"
 
 import styles from "./OrderDetailsContent.module.scss";
 
 import { getDate, getTime } from "../../../utils/formatDate";
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 type TOrder = {
   id: number;
@@ -47,7 +49,7 @@ type TOrder = {
 //     "4117 41st Floor, GT Tower Intl., De La Costa, Makati City",
 // };
 
-const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
+const OrderDetailsContent: React.FC<ContainerProps> = ({ }) => {
   //   const order = sampleOrder;
 
   const [order, setOrder] = useState<TOrder>();
@@ -156,7 +158,9 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             </Col>
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
-                                {order && getTime(order?.delivered_at)}
+                                {order && order.delivered_at
+                                  ? getTime(order.delivered_at)
+                                  : null}
                               </p>
                             </Col>
                           </Row>
@@ -173,7 +177,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                             <Col xs={7} sm={6}>
                               <p className={styles.value}>
                                 {/* {order && getTime(order?.created_at)} */}
-                                {order?.received_at}
+                                {order?.created_at.slice(0, 10)}
                               </p>
                             </Col>
                           </Row>
@@ -196,13 +200,11 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                           <ul className={styles.orderList}>
                             {order?.products?.map((item, index) => {
                               return (
-                                <li key={index}>{`${item.quantity}pcs ${
-                                  item.name
-                                } ${
-                                  item.flavor_name
+                                <li key={index}>{`${item.quantity}pcs ${item.name
+                                  } ${item.flavor_name
                                     ? `(${item.flavor_name})`
                                     : ""
-                                }`}</li>
+                                  }`}</li>
                               );
                             })}
                           </ul>
@@ -262,38 +264,25 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
                       {/* Restaurant Logo */}
                       <div className={styles.orderStatus}>
                         <p>Order Status</p>
-                        {/* <img
-                          className="img-fluid mt-1 mb-2"
-                          src={statusIsReceived}
-                        />
-                        <p className={styles.value}>{order?.order_status}</p> */}
-                        {/* {order?.order_status === "delivered" ? (
-                          <div>
-                            <img
-                              src={statusIsDeliveredAlt}
-                              className="img-fluid mt-1 mb-2"
-                            />
-                            <p className={styles.value}>
-                              {order?.order_status}
-                            </p>
-                          </div>
-                        ) : (
-                          <div>
-                            <img
-                              className="img-fluid mt-1 mb-2"
-                              src={statusIsDeliveredAlt}
-                            />
-                            <p className={styles.value}>
-                              {order?.order_status}
-                            </p>
-                          </div>
-                        )} */}
                         <div className={styles.status2}>
                           <div className={styles.imgContainer2}>
-                            <img src={statusIsDelivered} alt="" />
+                            {order?.order_status === "delivered" && (
+                              <img src={statusIsDelivered} alt="" />
+                            )}
                             {order?.order_status === "delivered" && (
                               <img
                                 src={statusIsDeliveredAlt}
+                                alt=""
+                                className={styles.altImg2}
+                              />
+                            )}
+
+                            {order?.order_status === "canceled" && (
+                              <img src={statusIsCanceled} alt="" />
+                            )}
+                            {order?.order_status === "canceled" && (
+                              <img
+                                src={statusIsCanceledAlt}
                                 alt=""
                                 className={styles.altImg2}
                               />

@@ -487,7 +487,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                           onChange={onChange}
                           maxNumber={maxNumber}
                           dataURLKey="photo"
-                          maxFileSize={150000}
+                          maxFileSize={31457280}
                           acceptType={["jpg", "png"]}
                         >
                           {({
@@ -582,7 +582,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                                         fontWeight: "600",
                                       }}
                                     >
-                                      Selected file size exceeded 150 KB.
+                                      Selected file size exceeded 30 MB.
                                     </span>
                                   )}
                                   {errors.resolution && (
@@ -669,7 +669,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                             onChange={onChange}
                             maxNumber={maxNumber}
                             dataURLKey="photo"
-                            maxFileSize={150000}
+                            maxFileSize={31457280}
                             acceptType={["jpg", "png"]}
                           >
                             {({
@@ -782,7 +782,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                                           fontWeight: "600",
                                         }}
                                       >
-                                        Selected file size exceeded 150 KB.
+                                        Selected file size exceeded 30MB.
                                       </span>
                                     )}
                                     {errors.resolution && (
@@ -1243,7 +1243,7 @@ function EditModal(props: any) {
                 onChange={onChange}
                 maxNumber={maxNumber}
                 dataURLKey="photo"
-                maxFileSize={150000}
+                maxFileSize={31457280}
                 acceptType={["jpg", "png"]}
               >
                 {({
@@ -1334,7 +1334,7 @@ function EditModal(props: any) {
                               fontWeight: "600",
                             }}
                           >
-                            Selected file size exceeded 150 KB.
+                            Selected file size exceeded 30MB.
                           </span>
                         )}
                         {errors.resolution && (
@@ -1455,7 +1455,7 @@ function EditModal(props: any) {
               onChange={onChange}
               maxNumber={maxNumber}
               dataURLKey="photo"
-              maxFileSize={150000}
+              maxFileSize={31457280}
               acceptType={["jpg", "png"]}
             >
               {({
@@ -1546,7 +1546,7 @@ function EditModal(props: any) {
                             fontWeight: "600",
                           }}
                         >
-                          Selected file size exceeded 150 KB.
+                          Selected file size exceeded 30MB.
                         </span>
                       )}
                       {errors.resolution && (

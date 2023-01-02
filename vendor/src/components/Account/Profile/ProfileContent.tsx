@@ -65,7 +65,7 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 const DEFAULT_COORDINATES = {
@@ -169,7 +169,7 @@ const PlacesAutocomplete = ({
   );
 };
 
-const ProfileContent: React.FC<ContainerProps> = ({}) => {
+const ProfileContent: React.FC<ContainerProps> = ({ }) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { reverseGeocode } = useGoogleAPI();
@@ -480,7 +480,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                   onChange={onChange}
                   maxNumber={maxNumber}
                   dataURLKey="photo"
-                  maxFileSize={150000}
+                  maxFileSize={31457280}
                   acceptType={["jpg", "png"]}
                 >
                   {({
@@ -568,7 +568,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             )}
                             {errors.maxFileSize && (
                               <span style={{ color: "red", fontWeight: "600" }}>
-                                Selected file size exceeded 150 KB.
+                                Selected file size exceeded 30MB.
                               </span>
                             )}
                             {errors.resolution && (
@@ -648,7 +648,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
               onChange={onChange}
               maxNumber={maxNumber}
               dataURLKey="photo"
-              maxFileSize={150000}
+              maxFileSize={31457280}
               acceptType={["jpg", "png"]}
             >
               {({
@@ -740,7 +740,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                         )}
                         {errors.maxFileSize && (
                           <span style={{ color: "red", fontWeight: "600" }}>
-                            Selected file size exceeded 150 KB.
+                            Selected file size exceeded 30MB.
                           </span>
                         )}
                         {errors.resolution && (

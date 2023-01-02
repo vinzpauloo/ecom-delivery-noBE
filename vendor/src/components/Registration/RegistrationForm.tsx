@@ -82,7 +82,7 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps {}
+interface ContainerProps { }
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 const DEFAULT_COORDINATES = {
@@ -178,7 +178,7 @@ const PlacesAutocomplete = ({
   );
 };
 
-const RegistrationForm: React.FC<ContainerProps> = ({}) => {
+const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const [images, setImages] = React.useState<any>();
@@ -527,7 +527,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 onChange={onChange}
                 maxNumber={maxNumber}
                 dataURLKey="photo"
-                maxFileSize={150000}
+                maxFileSize={31457280}
                 acceptType={["jpg", "png"]}
               >
                 {({
@@ -590,7 +590,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                         )}
                         {errors.maxFileSize && (
                           <span style={{ color: "red", fontWeight: "600" }}>
-                            Selected file size exceeded 150 KB.
+                            Selected file size exceeded 30 MB.
                           </span>
                         )}
                         {errors.resolution && (
