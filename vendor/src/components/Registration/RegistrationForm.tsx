@@ -246,7 +246,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
         lat: lat.toString(),
         long: lng.toString(),
       };
-      const response = await validateFields(data1);
+      const response = await validateFields(data2);
       // *console.log(data2);
 
       if (response.errors) {
