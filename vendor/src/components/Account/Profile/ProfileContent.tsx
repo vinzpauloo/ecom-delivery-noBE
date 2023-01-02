@@ -592,7 +592,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ }) => {
                 <Form.Label>Restaurant Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  required
+                  // required
                   onKeyUp={() => resetMessages()}
                   {...register("description")}
                 />
