@@ -475,18 +475,20 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
           )}
         </h6>
       </div> */}
-      <div className={styles.chatContainer}>
-        {isloaded && (
-          <Chat
-            orderId={id}
-            riderChat={riderChat}
-            setRiderChat={setRiderChat}
-            orderStatus={orderStatus}
-            isGuest={isGuest}
-            riderChatroom={riderChatroom}
-          />
-        )}
-      </div>
+      {order?.order_status === "otw" && (
+        <div className={styles.chatContainer}>
+          {isloaded && (
+            <Chat
+              orderId={id}
+              riderChat={riderChat}
+              setRiderChat={setRiderChat}
+              orderStatus={orderStatus}
+              isGuest={isGuest}
+              riderChatroom={riderChatroom}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
