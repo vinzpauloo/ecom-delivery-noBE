@@ -230,7 +230,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
                   />
                 </div>
                 <span className={styles.dateLabel}>
-                  {getDate(personalFeedback?.restaurant_reviewed_at || "")}
+                  {personalFeedback?.restaurant_reviewed_at.split(" ")[0]}
                 </span>
               </div>
             </div>
