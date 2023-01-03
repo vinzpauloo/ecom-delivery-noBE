@@ -58,14 +58,14 @@ const schema = yup
   .object({
     first_name: yup.string().required(),
     name: yup.string().required(),
-    description: yup.string().required(),
+    // description: yup.string().required(),
     address: yup.string(),
     email: yup.string().email(constants.form.error.email).required(),
     contact_number: yup.string().required(),
   })
   .required();
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 const DEFAULT_COORDINATES = {
@@ -169,7 +169,7 @@ const PlacesAutocomplete = ({
   );
 };
 
-const ProfileContent: React.FC<ContainerProps> = ({ }) => {
+const ProfileContent: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const { reverseGeocode } = useGoogleAPI();
