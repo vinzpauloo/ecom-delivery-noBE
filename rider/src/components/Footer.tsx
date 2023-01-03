@@ -70,7 +70,7 @@ const links = [
 const socialMedias = [
   {
     image: SocialTelegram,
-    link: "https://t.me/+09475359214",
+    link: "https://t.me/+639475359214",
   },
   // {
   //   image: SocialTwitter,
