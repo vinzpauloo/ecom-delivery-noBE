@@ -9,7 +9,7 @@ import SocialInstagram from "../assets/images/social-instagram.png";
 import SocialMessenger from "../assets/images/social-messenger.png";
 import SocialSkype from "../assets/images/social-skype.png";
 import SocialTelegram from "../assets/images/social-telegram.png";
-import SocialTwitter from "../assets/images/social-twitter.png";
+import SocialEmail from "../assets/images/social-email.png";
 
 import HelmetIcon from "../assets/images/helmet.png";
 import RiderIcon from "../assets/images/delivery.png";
@@ -91,6 +91,10 @@ const socialMedias = [
   {
     image: SocialMessenger,
     link: "http://m.me/plusonebento",
+  },
+  {
+    image: SocialEmail,
+    link: "mailto:support@foodmonkey.ph",
   },
 ];
 
