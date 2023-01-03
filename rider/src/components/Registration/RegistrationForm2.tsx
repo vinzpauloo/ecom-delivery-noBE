@@ -37,9 +37,9 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps { }
+interface ContainerProps {}
 
-const RegistrationForm2: React.FC<ContainerProps> = ({ }) => {
+const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { validateFields } = useValidate();
@@ -109,7 +109,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({ }) => {
       }
     } catch (e) {
       message.innerHTML =
-        "Four(4) photos of your motor vehicle is required. Please make sure each image is less than 15MB.";
+        "Four(4) photos of your motor vehicle is required. Please make sure each image is less than 30MB.";
     }
   };
 
@@ -224,7 +224,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({ }) => {
             maxNumber={maxNumber}
             dataURLKey="photo"
             maxFileSize={31457280}
-          // acceptType={["jpg", "png"]}
+            // acceptType={["jpg", "png"]}
           >
             {({
               imageList,
