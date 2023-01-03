@@ -38,27 +38,27 @@ const links = [
 const socialMedias = [
   {
     image: SocialTelegram,
-    link: "#",
+    link: "https://t.me/+09475359214",
   },
-  {
-    image: SocialTwitter,
-    link: "#",
-  },
+  // {
+  //   image: SocialTwitter,
+  //   link: "#",
+  // },
   {
     image: SocialFacebook,
-    link: "#",
+    link: "https://www.facebook.com/plusonebento",
   },
   {
     image: SocialInstagram,
-    link: "#",
+    link: "https://www.instagram.com/plusonebentobohol/",
   },
-  {
-    image: SocialSkype,
-    link: "#",
-  },
+  // {
+  //   image: SocialSkype,
+  //   link: "#",
+  // },
   {
     image: SocialMessenger,
-    link: "#",
+    link: "http://m.me/plusonebento",
   },
 ];
 
@@ -117,9 +117,9 @@ const Footer: React.FC<ContainerProps> = () => {
                   {socialMedias.map((item, index) => {
                     return (
                       <Col key={index}>
-                        <Link to={item.link}>
+                        <a href={item.link} target="_blank">
                           <img src={item.image} alt="" />
-                        </Link>
+                        </a>
                       </Col>
                     );
                   })}
