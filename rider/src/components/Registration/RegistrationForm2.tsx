@@ -105,7 +105,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
     } catch (e) {
       console.log(e);
       message.innerHTML =
-        "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 2MB.";
+        "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 1MB.";
     }
   };
 

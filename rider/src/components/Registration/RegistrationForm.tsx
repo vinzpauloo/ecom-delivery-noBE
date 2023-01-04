@@ -151,7 +151,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
       // setErrorImage(e);
       console.log(e);
       message.innerHTML =
-        "A profile photo is required. Please make sure the image is less than 2MB.";
+        "A profile photo is required. Please make sure the image is less than 1MB.";
     }
   };
 
