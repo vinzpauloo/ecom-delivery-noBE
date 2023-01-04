@@ -218,7 +218,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={8388608}
+            maxFileSize={62914560}
             // acceptType={["jpg", "png"]}
           >
             {({
