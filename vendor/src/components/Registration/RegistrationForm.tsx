@@ -267,7 +267,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
       // *console.log(error);
       // setErrorImage(e);
       message.innerHTML =
-        "A restaurant profile photo is required. Please make sure the image is less than 30MB.";
+        "A restaurant profile photo is required. Please make sure the image is less than 2MB.";
     }
   };
 
@@ -527,7 +527,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                 onChange={onChange}
                 maxNumber={maxNumber}
                 dataURLKey="photo"
-                maxFileSize={31457280}
+                maxFileSize={1992294}
                 acceptType={["jpg", "png"]}
               >
                 {({
@@ -590,7 +590,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                         )}
                         {errors.maxFileSize && (
                           <span style={{ color: "red", fontWeight: "600" }}>
-                            Selected file size exceeded 30 MB.
+                            File too large.
                           </span>
                         )}
                         {errors.resolution && (

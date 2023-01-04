@@ -36,7 +36,7 @@ import FlavorsList from "./FlavorsList";
 //Image Compressor
 // import Compressor from "compressorjs";
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 type TMenu = {
   id: number;
@@ -117,7 +117,7 @@ const ProductAvailability = ({ availability, id }) => {
   );
 };
 
-const ProductContent: React.FC<ContainerProps> = ({ }) => {
+const ProductContent: React.FC<ContainerProps> = ({}) => {
   const [menuModal, setMenuModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -487,7 +487,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                           onChange={onChange}
                           maxNumber={maxNumber}
                           dataURLKey="photo"
-                          maxFileSize={31457280}
+                          maxFileSize={1992294}
                           acceptType={["jpg", "png"]}
                         >
                           {({
@@ -669,7 +669,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                             onChange={onChange}
                             maxNumber={maxNumber}
                             dataURLKey="photo"
-                            maxFileSize={31457280}
+                            maxFileSize={1992294}
                             acceptType={["jpg", "png"]}
                           >
                             {({
@@ -782,7 +782,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                                           fontWeight: "600",
                                         }}
                                       >
-                                        Selected file size exceeded 30MB.
+                                        File too large.
                                       </span>
                                     )}
                                     {errors.resolution && (
@@ -880,12 +880,58 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
             </thead>
             {search !== ""
               ? product
-                ?.filter((item) =>
-                  item.name
-                    .toLocaleLowerCase()
-                    .includes(search.toLocaleLowerCase())
-                )
-                .map((item, index) => {
+                  ?.filter((item) =>
+                    item.name
+                      .toLocaleLowerCase()
+                      .includes(search.toLocaleLowerCase())
+                  )
+                  .map((item, index) => {
+                    return (
+                      <tbody className={styles.tBody} key={index}>
+                        <tr>
+                          <td>
+                            <p className={styles.textParagrap2}>{item.name}</p>
+                          </td>
+                          <td>
+                            <p className={styles.textParagrap2}>
+                              Php {item.price}
+                            </p>
+                          </td>
+                          <ProductAvailability
+                            availability={item.is_available}
+                            id={item.id}
+                          />
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-evenly",
+                              }}
+                            >
+                              <Button
+                                className={styles.btnEdit}
+                                onClick={() => handleEdit(item.id)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                className={styles.btnDelete}
+                                onClick={() => handleDelete(item.id)}
+                              >
+                                Delete
+                              </Button>
+                              {/* <DeleteModal
+                            show={deleteModal}
+                            onHide={() => setDeleteModal(false)}
+                          /> */}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })
+              : product?.slice(start, end).map((item, index) => {
                   return (
                     <tbody className={styles.tBody} key={index}>
                       <tr>
@@ -930,53 +976,7 @@ const ProductContent: React.FC<ContainerProps> = ({ }) => {
                       </tr>
                     </tbody>
                   );
-                })
-              : product?.slice(start, end).map((item, index) => {
-                return (
-                  <tbody className={styles.tBody} key={index}>
-                    <tr>
-                      <td>
-                        <p className={styles.textParagrap2}>{item.name}</p>
-                      </td>
-                      <td>
-                        <p className={styles.textParagrap2}>
-                          Php {item.price}
-                        </p>
-                      </td>
-                      <ProductAvailability
-                        availability={item.is_available}
-                        id={item.id}
-                      />
-                      <td>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <Button
-                            className={styles.btnEdit}
-                            onClick={() => handleEdit(item.id)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            className={styles.btnDelete}
-                            onClick={() => handleDelete(item.id)}
-                          >
-                            Delete
-                          </Button>
-                          {/* <DeleteModal
-                            show={deleteModal}
-                            onHide={() => setDeleteModal(false)}
-                          /> */}
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              })}
+                })}
           </Table>
         </Form>
         {product?.length !== 0 ? (
@@ -1204,7 +1204,7 @@ function EditModal(props: any) {
                   // {...register("categories")}
                   className={styles.btnCategory}
                   onChange={(e) => setCategory(e.target.value)}
-                // value={category}
+                  // value={category}
                 >
                   {categories?.map((categories, index) => (
                     <option
@@ -1243,7 +1243,7 @@ function EditModal(props: any) {
                 onChange={onChange}
                 maxNumber={maxNumber}
                 dataURLKey="photo"
-                maxFileSize={31457280}
+                maxFileSize={1992294}
                 acceptType={["jpg", "png"]}
               >
                 {({
@@ -1334,7 +1334,7 @@ function EditModal(props: any) {
                               fontWeight: "600",
                             }}
                           >
-                            Selected file size exceeded 30MB.
+                            File too large.
                           </span>
                         )}
                         {errors.resolution && (
@@ -1455,7 +1455,7 @@ function EditModal(props: any) {
               onChange={onChange}
               maxNumber={maxNumber}
               dataURLKey="photo"
-              maxFileSize={31457280}
+              maxFileSize={1992294}
               acceptType={["jpg", "png"]}
             >
               {({
@@ -1546,7 +1546,7 @@ function EditModal(props: any) {
                             fontWeight: "600",
                           }}
                         >
-                          Selected file size exceeded 30MB.
+                          File too large.
                         </span>
                       )}
                       {errors.resolution && (

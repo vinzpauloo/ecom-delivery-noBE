@@ -568,7 +568,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                             )}
                             {errors.maxFileSize && (
                               <span style={{ color: "red", fontWeight: "600" }}>
-                                Selected file size exceeded 30MB.
+                                File too large.
                               </span>
                             )}
                             {errors.resolution && (
@@ -740,7 +740,7 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
                         )}
                         {errors.maxFileSize && (
                           <span style={{ color: "red", fontWeight: "600" }}>
-                            Selected file size exceeded 30MB.
+                            File too large.
                           </span>
                         )}
                         {errors.resolution && (
