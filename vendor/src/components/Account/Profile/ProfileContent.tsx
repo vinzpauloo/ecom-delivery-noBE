@@ -249,7 +249,10 @@ const ProfileContent: React.FC<ContainerProps> = ({}) => {
     formData.append("first_name", data.first_name);
     formData.append("last_name", data.last_name);
     formData.append("name", data.name);
-    formData.append("description", data.description);
+    if (data.description) {
+      formData.append("description", data.description);
+    }
+
     formData.append("address", address);
     formData.append("contact_number", data.contact_number);
     formData.append("restaurant_email", data.restaurant_email);
