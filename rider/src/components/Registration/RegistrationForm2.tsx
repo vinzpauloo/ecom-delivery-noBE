@@ -218,7 +218,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={31457280}
+            maxFileSize={8388608}
             // acceptType={["jpg", "png"]}
           >
             {({
@@ -235,8 +235,8 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                 <div className="d-flex justify-content-center align-items-center gap-3 mt-5">
                   {!imageList.length ? (
                     <div className="d-flex justify-content-center align-items-center gap-3">
-                      <img src={Bike1} />
-                      <img src={Bike2} />
+                      {/* <img src={Bike1} />
+                      <img src={Bike2} /> */}
                       <img src={Bike3} />
                       <img src={Bike4} />
                     </div>
@@ -300,7 +300,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
                           fontWeight: "600",
                         }}
                       >
-                        Selected file size exceeded 30 MB.
+                        File too large.
                       </span>
                     )}
                     {errors.resolution && (
