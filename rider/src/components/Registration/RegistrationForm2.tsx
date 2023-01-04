@@ -52,7 +52,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
   };
 
   const [images, setImages] = React.useState<any>([]);
-  const maxNumber = 4;
+  const maxNumber = 2;
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
     console.log(imageList);
@@ -76,12 +76,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
       const merged = {
         ...items,
         ...data,
-        photos: [
-          images[0].photo,
-          images[1].photo,
-          images[2].photo,
-          images[3].photo,
-        ],
+        photos: [images[0].photo, images[1].photo],
       };
 
       const merged1 = {
@@ -109,7 +104,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
       }
     } catch (e) {
       message.innerHTML =
-        "Four(4) photos of your motor vehicle is required. Please make sure each image is less than 30MB.";
+        "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 30MB.";
     }
   };
 
