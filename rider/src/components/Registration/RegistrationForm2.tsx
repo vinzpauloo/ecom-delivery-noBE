@@ -103,6 +103,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
         navigate("/otp");
       }
     } catch (e) {
+      console.log(e);
       message.innerHTML =
         "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 2MB.";
     }
@@ -218,7 +219,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={2936012}
+            maxFileSize={2936013}
             // acceptType={["jpg", "png"]}
           >
             {({
