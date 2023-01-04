@@ -129,7 +129,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
       // console.log("onsubmit", newFormData);
 
       // Validate fields
-      const response = await validateFields(data1);
+      const response = await validateFields(data2);
       // const response2 = await validateFields(data2);
 
       if (response.errors) {
@@ -149,8 +149,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     } catch (e) {
       // console.log(e);
       // setErrorImage(e);
+      console.log(e);
       message.innerHTML =
-        "A profile photo is required. Please make sure the image is less than 30MB.";
+        "A profile photo is required. Please make sure the image is less than 2MB.";
     }
   };
 
@@ -314,7 +315,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="photo"
-          maxFileSize={31457280}
+          maxFileSize={1992294}
           // acceptType={["jpg", "png"]}
         >
           {({
@@ -429,7 +430,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
                         fontWeight: "600",
                       }}
                     >
-                      Selected file size exceeded 30MB.
+                      File too large.
                     </span>
                   )}
                   {errors.resolution && (
