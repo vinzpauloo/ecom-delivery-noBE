@@ -121,7 +121,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
     try {
       const data1 = { ...data };
       const data2 = { ...data, photo: images[0].photo };
-      // console.log("onSubmit", data2);
+      console.log("onSubmit", data2);
       // console.log(images[0].photo);
 
       // Add address to form data
@@ -315,7 +315,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({}) => {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="photo"
-          maxFileSize={1992294}
+          maxFileSize={1048576}
           // acceptType={["jpg", "png"]}
         >
           {({
