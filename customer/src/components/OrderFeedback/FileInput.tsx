@@ -9,7 +9,7 @@ interface FileInputProps {
 
 const FileInput: React.FC<FileInputProps> = ({ setImageFiles }) => {
   const [previewUrl, setPreviewUrl] = useState<string | Array<string>>("");
-  const MAX_IMAGE = 4;
+  const MAX_IMAGE = 2;
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > MAX_IMAGE) {

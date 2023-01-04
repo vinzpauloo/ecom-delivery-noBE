@@ -34,6 +34,11 @@ type TOrder = {
   plate_number?: string;
 };
 
+const MAX_SIZE_BYTES = 31457280;
+const MAX_SIZE_MB = 30;
+// const MAX_SIZE_BYTES = 15728640;
+// const MAX_SIZE_MB = 15;
+
 const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [modalShowSuccess, setModalShowSuccess] = useState(false);
   const [options, setOptions] = useState("");
@@ -89,21 +94,36 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
     formData.append("restaurant_review", options + ". " + feedback);
     formData.append("_method", "put");
 
+    let isImagesValid = true;
+
     // Loop through each images and append in a FormData array key
-    imageFiles.forEach((image, index) => {
+    imageFiles.every((image, index) => {
       console.log(`image ${index}`, image);
+
+      if (image.size > MAX_SIZE_BYTES) {
+        isImagesValid = false;
+        alert(
+          `One file is too large. Must not be larger than ${MAX_SIZE_MB}MB.`
+        );
+        return false;
+      }
+
       formData.append("photos[]", image);
+
+      return true;
     });
 
-    // console.log("Submitting restaurant review ...", formData);
+    if (isImagesValid) {
+      console.log("Submitting restaurant review ...", formData.get("photos[]"));
 
-    const response = await reviewRestaurant(id, formData);
-    // console.log("reviewRestaurant response", response);
+      const response = await reviewRestaurant(id, formData);
+      // console.log("reviewRestaurant response", response);
 
-    if (!response.error) {
-      setModalShowSuccess(true);
-    } else {
-      alert(response.error);
+      if (!response.error) {
+        setModalShowSuccess(true);
+      } else {
+        alert(response.error);
+      }
     }
   };
 
