@@ -104,7 +104,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
       }
     } catch (e) {
       message.innerHTML =
-        "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 30MB.";
+        "Two(2) photos of your motor vehicle is required. Please make sure each image is less than 2MB.";
     }
   };
 
@@ -218,7 +218,7 @@ const RegistrationForm2: React.FC<ContainerProps> = ({}) => {
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey="photo"
-            maxFileSize={62914560}
+            maxFileSize={2936012}
             // acceptType={["jpg", "png"]}
           >
             {({
