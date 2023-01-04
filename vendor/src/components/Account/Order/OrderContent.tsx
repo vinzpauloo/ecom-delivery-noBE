@@ -30,7 +30,7 @@ import { getDate, getTime } from "../../../utils/formatDate";
 import styles from "./OrderContent.module.scss";
 import Lottie from "lottie-react";
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 type TOrder = {
   id: number;
@@ -114,7 +114,7 @@ type GetDeliveredItem = {
   id: number;
 };
 
-const OrderContent: React.FC<ContainerProps> = ({ }) => {
+const OrderContent: React.FC<ContainerProps> = ({}) => {
   const {
     // getCurrentOrder,
     getForDeliveryOTW,
@@ -634,8 +634,7 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                           </Col>
                           <Col>
                             <p>
-                              Contact Number:{" "}
-                              <span>{item.order_mobile} </span>
+                              Contact Number: <span>{item.order_mobile} </span>
                             </p>
                           </Col>
                         </Row>
@@ -670,11 +669,13 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                             <p>Order Details:</p>
                             <ul>
                               {productItem?.products.map((item, index) => (
-                                <li key={index}>{`${item.quantity}pcs ${item.name
-                                  } ${item.flavor_name
+                                <li key={index}>{`${item.quantity}pcs ${
+                                  item.name
+                                } ${
+                                  item.flavor_name
                                     ? `(${item.flavor_name})`
                                     : ""
-                                  }`}</li>
+                                }`}</li>
                               ))}
                             </ul>
                           </Col>
@@ -1013,9 +1014,11 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
                           <p>Order Details:</p>
                           <ul>
                             {productItem?.products.map((item, index) => (
-                              <li key={index}>{`${item.quantity}pcs ${item.name
-                                } ${item.flavor_name ? `(${item.flavor_name})` : ""
-                                }`}</li>
+                              <li key={index}>{`${item.quantity}pcs ${
+                                item.name
+                              } ${
+                                item.flavor_name ? `(${item.flavor_name})` : ""
+                              }`}</li>
                             ))}
                           </ul>
                         </Col>

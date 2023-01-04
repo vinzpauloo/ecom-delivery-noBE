@@ -68,9 +68,9 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps { }
+interface ContainerProps {}
 
-const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
+const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [error, setError] = useState("");
   const [multipleErrors, setMultipleErrors] = useState([""]);
   const [errorEmail, setErrorEmail] = useState("");
@@ -150,7 +150,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
       // console.log(e);
       // setErrorImage(e);
       message.innerHTML =
-        "A profile photo is required. Please make sure the image is less than 15MB.";
+        "A profile photo is required. Please make sure the image is less than 30MB.";
     }
   };
 
@@ -254,8 +254,6 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
           </Row>
 
           <Row lg={3} xs={1}>
-
-
             <Col>
               <Form.Group className="position-relative">
                 <Form.Label>Email</Form.Label>
@@ -317,7 +315,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
           maxNumber={maxNumber}
           dataURLKey="photo"
           maxFileSize={31457280}
-        // acceptType={["jpg", "png"]}
+          // acceptType={["jpg", "png"]}
         >
           {({
             imageList,
@@ -350,7 +348,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
                     placeholder="Profile Picture (PDF*JPG*PNG)"
                     className={`bg-white ${styles.test}`}
                     disabled
-                  // {...register("photo")}
+                    // {...register("photo")}
                   />
                 </Col>
                 <Col>
@@ -395,9 +393,9 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
                   type="submit"
                   className="mt-4"
                   id="nextBtn-2"
-                // href="/registration2"
-                // onClick={Continue}
-                // disabled={!isValid || !address}
+                  // href="/registration2"
+                  // onClick={Continue}
+                  // disabled={!isValid || !address}
                 >
                   Next
                 </Button>

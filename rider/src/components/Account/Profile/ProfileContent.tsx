@@ -205,7 +205,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("first_name")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -218,7 +218,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("last_name")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -233,7 +233,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("address")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -247,7 +247,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   required
                   disabled
                   {...register("mobile")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -262,7 +262,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   required
                   disabled
                   {...register("email")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -274,7 +274,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   onKeyUp={() => setError("")}
                   required
                   {...register("license_expiration")}
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -288,7 +288,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("brand")}
                   required
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -299,7 +299,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("license_number")}
                   required
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -313,7 +313,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("model")}
                   required
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -323,7 +323,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("or_number")}
                   required
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
               <Form.Group className="position-relative">
@@ -333,7 +333,7 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
                   type="text"
                   {...register("plate_number")}
                   required
-                // disabled={disabled}
+                  // disabled={disabled}
                 />
               </Form.Group>
             </Col>
@@ -341,8 +341,8 @@ const ProfileContent: React.FC<ContainerProps> = ({ user, photos }) => {
             <Col className="bike-images">
               <img src={sampleImg[0]?.photo} />
               <img src={sampleImg[1]?.photo} />
-              <img src={sampleImg[2]?.photo} />
-              <img src={sampleImg[3]?.photo} />
+              {/* <img src={sampleImg[2]?.photo} alt="" />
+              <img src={sampleImg[3]?.photo} alt="" /> */}
               {/* <img src={user?.photos[2]} />
               <img src={user?.photos[3]} />  */}
               {/* <img src={bike1} alt="" />

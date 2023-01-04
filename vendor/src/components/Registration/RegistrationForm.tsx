@@ -82,7 +82,7 @@ const schema = yup
   })
   .required();
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 const API_KEY: string = process.env.REACT_APP_GOOGLE_PLACES_API_KEY || "";
 const DEFAULT_COORDINATES = {
@@ -178,7 +178,7 @@ const PlacesAutocomplete = ({
   );
 };
 
-const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
+const RegistrationForm: React.FC<ContainerProps> = ({}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [apiErrors, setApiErrors] = useState<string[]>([]);
   const [images, setImages] = React.useState<any>();
@@ -267,7 +267,7 @@ const RegistrationForm: React.FC<ContainerProps> = ({ }) => {
       // *console.log(error);
       // setErrorImage(e);
       message.innerHTML =
-        "A restaurant profile photo is required. Please make sure the image is less than 15MB.";
+        "A restaurant profile photo is required. Please make sure the image is less than 30MB.";
     }
   };
 
