@@ -80,7 +80,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
     if (!checkoutDetails) navigate("/");
     else {
       let checkoutDetailsObj = JSON.parse(checkoutDetails);
-      console.log("checkoutDetailsObj", checkoutDetailsObj);
+      // console.log("checkoutDetailsObj", checkoutDetailsObj);
       setLocalStorageObj(checkoutDetailsObj);
       setCart(checkoutDetailsObj.products);
     }

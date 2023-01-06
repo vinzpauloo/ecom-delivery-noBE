@@ -37,14 +37,14 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
   const onSubmit = async (data: IFormInputs) => {
     try {
       // START: Forgot password API
-      console.log("onSubmit", data);
+      // console.log("onSubmit", data);
       // END: Access password API
     } catch (err) {
       if (err && err instanceof AxiosError)
         setError("*" + err.response?.data.message);
       else if (err && err instanceof Error) setError(err.message);
 
-      console.log("Error", err);
+      // console.log("Error", err);
     }
   };
 

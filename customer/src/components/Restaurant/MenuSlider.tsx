@@ -78,7 +78,7 @@ const SwiperSlideItem = (
 
   const handleAddToCart = (index: number) => {
     const hasFlavor = !!item.flavors.length;
-    console.log(hasFlavor, item.flavors);
+    // console.log(hasFlavor, item.flavors);
 
     // Set selected menu item
     setItem(item);
@@ -157,8 +157,8 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
 
   const addToCartAction = (index: number, addedItem: any) => {
-    console.log("Add to cart action");
-    console.log(addedItem, flavor);
+    // console.log("Add to cart action");
+    // console.log(addedItem, flavor);
 
     if (addedItem) {
       let newItem = {
@@ -179,7 +179,7 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
         delete newItem.product_flavor_id;
       }
 
-      console.log("newItem", newItem);
+      // console.log("newItem", newItem);
 
       setCart((cart) => {
         const cartCopy = cart.slice();
@@ -187,23 +187,23 @@ const MenuSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
           (product) => newItem.id === product.id
         );
 
-        console.log("cartCopy", cartCopy);
+        // console.log("cartCopy", cartCopy);
 
         // Check if flavor already exists in the cart
         const flavorIndex = cartCopy.findIndex(
           (product) => newItem.product_flavor_id === product.product_flavor_id
         );
 
-        console.log("flavorIndex", flavorIndex);
+        // console.log("flavorIndex", flavorIndex);
 
         if (index === -1) {
           cartCopy.push({ ...newItem });
         } else {
           if (flavorIndex === -1) {
-            console.log("product with flavor not yet exist");
+            // console.log("product with flavor not yet exist");
             cartCopy.push({ ...newItem });
           } else {
-            console.log("product with flavor already exist");
+            // console.log("product with flavor already exist");
             const pr = cartCopy[flavorIndex];
             cartCopy[flavorIndex] = {
               ...pr,

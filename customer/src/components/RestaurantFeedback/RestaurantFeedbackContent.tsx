@@ -10,7 +10,7 @@ import styles from "./RestaurantFeedbackContent.module.scss";
 import placeholder from "../../assets/images/avatar-placeholder.jpg";
 import RestaurantHeader from "./RestaurantHeader";
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 type PersonalFeedback = {
   first_name: string;
@@ -46,7 +46,7 @@ const CustomerRating = ({ rating = 0 }: { rating: number | undefined }) => {
   );
 };
 
-const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
+const RestaurantFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const [restaurant, setRestaurant] = useState<any>();
   const [reviews, setReviews] = useState<any[]>();
   const [reviewsOriginal, setReviewsOriginal] = useState<any[]>();
@@ -78,7 +78,7 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
 
   const loadRestaurantReviews = async () => {
     const response = await getRestaurantReviewsById(id, { reviews: "true" });
-    console.log("getRestaurantReviewsById response", response);
+    // console.log("getRestaurantReviewsById response", response);
 
     setReviews(response.reviews);
     setReviewsOriginal(response.reviews);
@@ -113,15 +113,17 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
         <Container className="pt-3 d-flex align-items-center justify-content-center">
           <span>
             <Button
-              className={`${styles.button} ${filter === 0 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 0 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(0)}
             >
               All
             </Button>
             <Button
-              className={`${styles.button} ${filter === 5 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 5 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(5)}
             >
               <StarFill className={`${styles.star} ms-1 me-1`} />
@@ -131,8 +133,9 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
               <StarFill className={`${styles.star} ms-1 me-1`} />
             </Button>
             <Button
-              className={`${styles.button} ${filter === 4 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 4 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(4)}
             >
               <StarFill className={`${styles.star} ms-1 me-1`} />
@@ -141,8 +144,9 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
               <StarFill className={`${styles.star} ms-1 me-1`} />
             </Button>
             <Button
-              className={`${styles.button} ${filter === 3 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 3 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(3)}
             >
               <StarFill className={`${styles.star} ms-1 me-1`} />
@@ -150,16 +154,18 @@ const RestaurantFeedbackContent: React.FC<ContainerProps> = ({ }) => {
               <StarFill className={`${styles.star} ms-1 me-1`} />
             </Button>
             <Button
-              className={`${styles.button} ${filter === 2 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 2 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(2)}
             >
               <StarFill className={`${styles.star} ms-1 me-1`} />
               <StarFill className={`${styles.star} ms-1 me-1`} />
             </Button>
             <Button
-              className={`${styles.button} ${filter === 1 ? `${styles.activeBtn}` : null
-                } ms-3 me-3`}
+              className={`${styles.button} ${
+                filter === 1 ? `${styles.activeBtn}` : null
+              } ms-3 me-3`}
               onClick={() => setFilter(1)}
             >
               <StarFill className={`${styles.star} ms-1 me-1`} />

@@ -31,7 +31,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -61,13 +61,13 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
 
   const getOrders = async (data) => {
-    console.log("getOrders hook ...");
+    // console.log("getOrders hook ...");
 
     try {
       // START: Access get orders API
@@ -95,7 +95,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -126,7 +126,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -157,7 +157,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -188,7 +188,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -219,7 +219,7 @@ export const useOrders = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };

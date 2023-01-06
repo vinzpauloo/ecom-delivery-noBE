@@ -63,7 +63,7 @@ const ChangePasswordForm: React.FC<ContainerProps> = ({}) => {
 
   const onSubmit = async (data: IFormInputs) => {
     const response = await changePassword(data);
-    console.log("changePassword response", response);
+    // console.log("changePassword response", response);
 
     if (response && !response.error) {
       const user = auth() || {};

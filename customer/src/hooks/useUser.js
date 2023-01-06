@@ -31,7 +31,7 @@ export const useUser = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -61,7 +61,7 @@ export const useUser = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error };
     }
   };
@@ -91,7 +91,7 @@ export const useUser = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };
@@ -111,7 +111,7 @@ export const useUser = () => {
       // END: Access change password API
 
       if (response.status === 201) {
-        console.log(response);
+        // console.log(response);
         const { data, message } = response.data;
 
         return { token: data.token, message };
@@ -122,7 +122,7 @@ export const useUser = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };

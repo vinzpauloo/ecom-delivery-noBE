@@ -30,7 +30,7 @@ export const useOTP = () => {
 
       error.status = err.response.status;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return error;
     }
   };
@@ -59,7 +59,7 @@ export const useOTP = () => {
         error = "*" + err.response?.data.message;
       else if (err && err instanceof Error) error = err.message;
 
-      console.log("Error", err);
+      // console.log("Error", err);
       return { error: error };
     }
   };

@@ -35,7 +35,7 @@ const pusher = new Pusher(PUSHER_KEY, {
 });
 // Pusher.logToConsole = true;
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 type TOrder = {
   id?: number;
@@ -74,7 +74,7 @@ type TChat = {
   to?: string;
 };
 
-const OrderContent: React.FC<ContainerProps> = ({ }) => {
+const OrderContent: React.FC<ContainerProps> = ({}) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalCancelShow, setModalCancelShow] = useState(false);
   const [orderStatus, setOrderStatus] = useState("pending");
@@ -247,8 +247,8 @@ const OrderContent: React.FC<ContainerProps> = ({ }) => {
     });
     channel.bind("Order-Rider-Assigned-Event", (data: any) => {
       const parsedData = JSON.parse(data.message);
-      console.log(data);
-      console.log("Order assigned!", parsedData);
+      // console.log(data);
+      // console.log("Order assigned!", parsedData);
 
       /* 
         If no rider is found:

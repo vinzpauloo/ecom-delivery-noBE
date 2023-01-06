@@ -124,7 +124,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     setAddress(address);
     clearSuggestions();
-    console.log("handleSelect", address);
+    // console.log("handleSelect", address);
 
     // Address to Geocode conversion
     const results = await getGeocode({ address });
@@ -198,14 +198,14 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
       lat: lat.toString(),
       long: lng.toString(),
     };
-    console.log("onsubmit", newFormData);
+    // console.log("onsubmit", newFormData);
 
     if (!newFormData.address || !newFormData.lat || !newFormData.long) {
       setError("Please select address from autocomplete or pin your location.");
     } else {
       // Validate fields
       const response = await validateFields(newFormData);
-      console.log("validateFields response", response);
+      // console.log("validateFields response", response);
 
       if (response.errors) {
         // Prepare errors
@@ -225,10 +225,10 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleReverseGeocode = async (lat: number, lng: number) => {
-    console.log("handleReverseGeocode ...");
+    // console.log("handleReverseGeocode ...");
 
     const response = await reverseGeocode(lat, lng);
-    console.log(response);
+    // console.log(response);
 
     setAddress(response);
   };
@@ -242,7 +242,7 @@ const RegisterForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const handlePinLocation = () => {
-    console.log("handlePinLocation ...");
+    // console.log("handlePinLocation ...");
 
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");

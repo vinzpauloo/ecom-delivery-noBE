@@ -86,7 +86,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
       const withTypeData = { ...data, type: "Customer" };
 
       const response = await resetPassword(withTypeData);
-      console.log("reset PW", response);
+      // console.log("reset PW", response);
       // END: Access password API
 
       if (response.error) {
@@ -110,7 +110,7 @@ const ForgotPassword2: React.FC<ContainerProps> = ({}) => {
         setError("*" + err.response?.data.message);
       else if (err && err instanceof Error) setError(err.message);
 
-      console.log("Error", err);
+      // console.log("Error", err);
     }
   };
 

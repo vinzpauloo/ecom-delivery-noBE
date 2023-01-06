@@ -179,7 +179,7 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
       order: "created_at",
       order_by: "desc",
     });
-    console.log("getOrders response", response);
+    // console.log("getOrders response", response);
 
     setOrders((current) => [...current, ...response.data]);
     setLastPage(response.last_page);
@@ -187,7 +187,7 @@ const OrdersContent: React.FC<ContainerProps> = ({}) => {
   };
 
   const handleLoadMore = () => {
-    console.log("load more ...");
+    // console.log("load more ...");
     loadOrders(currentPage + 1);
     setCurrentPage(currentPage + 1);
   };

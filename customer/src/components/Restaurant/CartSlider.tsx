@@ -160,7 +160,7 @@ const CartSlider: React.FC<ContainerProps> = ({ slides, setCart }) => {
   const [itemToDelete, setItemToDelete] = useState<TCart>();
 
   const handleDelete = (item: any) => {
-    console.log(item);
+    // console.log(item);
 
     setCart((current) =>
       current.filter((obj) => {

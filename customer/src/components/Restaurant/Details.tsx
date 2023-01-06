@@ -100,7 +100,7 @@ const Details: React.FC<ContainerProps> = ({
       restaurant_id: restaurant?.id,
     };
 
-    console.log("checkout", checkout);
+    // console.log("checkout", checkout);
 
     localStorage.setItem("checkout", JSON.stringify(checkout));
     navigate("/checkout");

@@ -51,14 +51,14 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
 
   const loadRestaurant = async () => {
     const response = await getRestaurantsById(id);
-    console.log("getRestaurantsById response", response);
+    // console.log("getRestaurantsById response", response);
     setRestaurant(response);
   };
 
   const loadRestaurantMenu = async () => {
     const params = { restaurant_id: id, with: "categories,productFlavors" };
     const response = await getRestaurantMenu(params);
-    console.log("getRestaurantMenu response", response);
+    // console.log("getRestaurantMenu response", response);
     setMenu(response);
     setMenuOriginal(response);
   };
@@ -66,7 +66,7 @@ const RestaurantContainer: React.FC<ContainerProps> = ({}) => {
   const loadRestaurantCategories = async () => {
     const params = { restaurant_id: id };
     const response = await getRestaurantCategories(params);
-    console.log("getRestaurantCategories response", response);
+    // console.log("getRestaurantCategories response", response);
     setCategories(response);
   };
 

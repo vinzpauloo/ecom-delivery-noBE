@@ -41,10 +41,10 @@ const ForgotPassword: React.FC<ContainerProps> = ({}) => {
     setIsLoading(true);
 
     const withTypeData = { ...data, type: "Customer" };
-    console.log("forgotPassword", withTypeData);
+    // console.log("forgotPassword", withTypeData);
 
     const response = await forgotPassword(withTypeData);
-    console.log("reset PW", response);
+    // console.log("reset PW", response);
 
     if (response.error) {
       // Prepare errors

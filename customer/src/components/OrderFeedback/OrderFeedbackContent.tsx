@@ -57,7 +57,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
   const loadOrder = async () => {
     // Get user order
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
 
     setOrder(response);
 
@@ -98,7 +98,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
 
     // Loop through each images and append in a FormData array key
     imageFiles.every((image, index) => {
-      console.log(`image ${index}`, image);
+      // console.log(`image ${index}`, image);
 
       if (image.size > MAX_SIZE_BYTES) {
         isImagesValid = false;
@@ -114,7 +114,7 @@ const OrderFeedbackContent: React.FC<ContainerProps> = ({}) => {
     });
 
     if (isImagesValid) {
-      console.log("Submitting restaurant review ...", formData.get("photos[]"));
+      // console.log("Submitting restaurant review ...", formData.get("photos[]"));
 
       const response = await reviewRestaurant(id, formData);
       // console.log("reviewRestaurant response", response);

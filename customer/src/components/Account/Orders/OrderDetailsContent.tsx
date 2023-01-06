@@ -55,7 +55,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
 
   const loadOrder = async () => {
     const response = await getOrdersById(id);
-    console.log("getOrdersById response", response);
+    // console.log("getOrdersById response", response);
     setOrder(response);
 
     // Check if user submitted a rating for rider/restaurant

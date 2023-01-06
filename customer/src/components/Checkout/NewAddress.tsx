@@ -76,7 +76,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     setAddress(address);
     clearSuggestions();
-    console.log(address);
+    // console.log(address);
 
     // Address to Geocode conversion
     const results = await getGeocode({ address });
@@ -149,10 +149,10 @@ const NewAddress: React.FC<ContainerProps> = ({
   });
 
   const handleReverseGeocode = async (lat: number, lng: number) => {
-    console.log("handleReverseGeocode ...");
+    // console.log("handleReverseGeocode ...");
 
     const response = await reverseGeocode(lat, lng);
-    console.log(response);
+    // console.log(response);
 
     setNewAddress(response);
   };
@@ -166,7 +166,7 @@ const NewAddress: React.FC<ContainerProps> = ({
   };
 
   const handlePinLocation = () => {
-    console.log("handlePinLocation ...");
+    // console.log("handlePinLocation ...");
 
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");

@@ -50,7 +50,7 @@ const RestaurantsGrid: React.FC<ContainerProps> = ({}) => {
   };
 
   useEffect(() => {
-    console.log("useEffect keyword");
+    // console.log("useEffect keyword");
     loadRestaurants(1, true);
   }, [keyword]);
 

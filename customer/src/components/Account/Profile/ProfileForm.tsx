@@ -110,7 +110,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     setAddress(address);
     clearSuggestions();
-    console.log(address);
+    // console.log(address);
   };
 
   return (
@@ -179,10 +179,10 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
       lat: lat.toString(),
       long: lng.toString(),
     };
-    console.log("onsubmit", newFormData);
+    // console.log("onsubmit", newFormData);
 
     const response = await updateUser(newFormData);
-    console.log("updateUser response", response);
+    // console.log("updateUser response", response);
 
     if (!response.error) {
       setMessage(constants.form.success.updateProfile);
@@ -201,10 +201,10 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
 
   // Get user request
   const handleGetUser = async () => {
-    console.log("Requesting getUser ...");
+    // console.log("Requesting getUser ...");
 
     const response = await getUser();
-    console.log("handleGetUser response", response);
+    // console.log("handleGetUser response", response);
     let defaultValues = {
       first_name: response.first_name,
       last_name: response.last_name,
@@ -222,10 +222,10 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   const handleReverseGeocode = async (lat: number, lng: number) => {
-    console.log("handleReverseGeocode ...");
+    // console.log("handleReverseGeocode ...");
 
     const response = await reverseGeocode(lat, lng);
-    console.log(response);
+    // console.log(response);
 
     setAddress(response);
   };
@@ -239,7 +239,7 @@ const ProfileForm: React.FC<ContainerProps> = ({}) => {
   };
 
   const handlePinLocation = () => {
-    console.log("handlePinLocation ...");
+    // console.log("handlePinLocation ...");
 
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");

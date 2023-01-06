@@ -135,7 +135,7 @@ const PlacesAutocomplete = ({
     setValue(address, false);
     setAddress(address);
     clearSuggestions();
-    console.log(address);
+    // console.log(address);
 
     // Address to Geocode conversion
     const results = await getGeocode({ address });
@@ -265,7 +265,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       delete order.note;
     }
 
-    console.log("onsubmit", order);
+    // console.log("onsubmit", order);
 
     if (!isAuthenticated()) {
       // Guest checkout will go to OTP first
@@ -276,17 +276,17 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
       // Navigate to OTP page
       navigate("/otp-order");
     } else {
-      console.log("Checkout authenticated user ...");
+      // console.log("Checkout authenticated user ...");
 
       /* Create order as logged in user */
       const responseOrder = await createOrder(order);
-      console.log("/api/orders", responseOrder);
+      // console.log("/api/orders", responseOrder);
 
       if (responseOrder.error) {
         setModalError(responseOrder.error);
         setModalErrorShow(true);
       } else {
-        console.log("Create order success!", responseOrder);
+        // console.log("Create order success!", responseOrder);
 
         // Reset localStorage values
         localStorage.removeItem("checkout");
@@ -303,10 +303,10 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
 
   // Get user request
   const handleGetUser = async () => {
-    console.log("Requesting getUser ...");
+    // console.log("Requesting getUser ...");
 
     const response = await getUser();
-    console.log("handleGetUser response", response);
+    // console.log("handleGetUser response", response);
     let defaultValues = {
       first_name: response.first_name,
       last_name: response.last_name,
@@ -325,10 +325,10 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   }, []);
 
   const handleReverseGeocode = async (lat: number, lng: number) => {
-    console.log("handleReverseGeocode ...");
+    // console.log("handleReverseGeocode ...");
 
     const response = await reverseGeocode(lat, lng);
-    console.log(response);
+    // console.log(response);
 
     setAddress(response);
   };
@@ -342,7 +342,7 @@ const DeliveryDetails: React.FC<ContainerProps> = ({
   };
 
   const handlePinLocation = () => {
-    console.log("handlePinLocation ...");
+    // console.log("handlePinLocation ...");
 
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");

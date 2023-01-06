@@ -70,7 +70,7 @@ const SwiperSlideItem = (
         })
       );
 
-      console.log("removing item from the cart ...", item.id);
+      // console.log("removing item from the cart ...", item.id);
     }
   };
 
