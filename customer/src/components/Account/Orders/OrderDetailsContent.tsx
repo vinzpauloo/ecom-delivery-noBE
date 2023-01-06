@@ -73,7 +73,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
   }, []);
 
   const getTotal = (subtotal?: number) => {
-    const deliveryFee = 86;
+    const deliveryFee = 0;
     const total = subtotal ? deliveryFee + subtotal : 0;
     return total.toLocaleString();
   };
