@@ -14,7 +14,7 @@ import statusIsCancel from "../../../assets/images/order-cancel.png";
 import styles from "./OrderDetailsContent.module.scss";
 import Restaurant from "../../../pages/Restaurant";
 
-interface ContainerProps { }
+interface ContainerProps {}
 
 const statusImages = {
   received: statusIsReceived,
@@ -45,7 +45,7 @@ const StatusImg = ({ status }: { status: string }) => {
   return <img className="img-fluid mt-1 mb-2" src={currentImage} />;
 };
 
-const OrderDetailsContent: React.FC<ContainerProps> = ({ }) => {
+const OrderDetailsContent: React.FC<ContainerProps> = ({}) => {
   const [order, setOrder] = useState<TOrder>();
   const [hasRating, setHasRating] = useState(false);
   const { getOrdersById } = useOrders();
@@ -209,11 +209,13 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({ }) => {
                           <ul className={styles.orderList}>
                             {order?.products?.map((item, index) => {
                               return (
-                                <li key={index}>{`${item.quantity}pcs ${item.name
-                                  } ${item.flavor_name
+                                <li key={index}>{`${item.quantity}pcs ${
+                                  item.name
+                                } ${
+                                  item.flavor_name
                                     ? `(${item.flavor_name})`
                                     : ""
-                                  }`}</li>
+                                }`}</li>
                               );
                             })}
                           </ul>
@@ -252,7 +254,7 @@ const OrderDetailsContent: React.FC<ContainerProps> = ({ }) => {
                           <p>Delivery Fee :</p>
                         </Col>
                         <Col xs={7} sm={8}>
-                          <p className={styles.value}>86 php</p>
+                          <p className={styles.value}>0 php</p>
                         </Col>
                       </Row>
                       <Row>

@@ -44,7 +44,7 @@ const CheckoutContainer: React.FC<ContainerProps> = ({}) => {
   const [itemCount, setItemCount] = useState(0);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [deliveryFee, setDeliveryFee] = useState(86);
+  const [deliveryFee, setDeliveryFee] = useState(0);
   const [newAddress, setNewAddress] = useState("");
   const [isNewAddress, setIsNewAddress] = useState(false);
   const [lat, setLat] = useState(DEFAULT_COORDINATES.lat);
