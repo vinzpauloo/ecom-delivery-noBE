@@ -243,8 +243,15 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
   }
 
   const loadOrderForDelivery = async (status: string, page) => {
-    const params = { status: status, page: page };
+    const params = {
+      status: status,
+      page: page,
+      order: "created_at",
+      order_by: "desc",
+    };
     const response = await getForDeliveryOTW(params);
+    console.log("@@@", response);
+
     const data = response.data.filter(
       (item) => item.order_status !== "delivered"
     );
@@ -1274,18 +1281,18 @@ const OrderContent: React.FC<ContainerProps> = ({}) => {
             No orders found.
           </h2>
         )}
+        {orders?.length !== 0 && currentPage < lastPage && search === "" && (
+          <div className={styles.loadMore}>
+            <Button
+              variant="primary"
+              className={styles.btnLoadMore}
+              onClick={handleLoadMore}
+            >
+              {!isLoading ? "Load more" : "Loading ..."}
+            </Button>
+          </div>
+        )}
       </div>
-      {orders?.length !== 0 && currentPage < lastPage && search === "" && (
-        <div className="text-center">
-          <Button
-            variant="primary"
-            className={styles.btnLoadMore}
-            onClick={handleLoadMore}
-          >
-            {!isLoading ? "Load more" : "Loading ..."}
-          </Button>
-        </div>
-      )}
       {/* <Col className={`${styles.mobileButtonContent} d-lg-none w-100`}>
         <Row>
           <Col className="col-6">

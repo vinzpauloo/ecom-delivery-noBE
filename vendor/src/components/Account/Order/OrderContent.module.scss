@@ -68,6 +68,12 @@
       }
     }
   }
+  .loadMore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
 
   @media (width: 320px) {
     padding: 0px;
@@ -323,6 +329,7 @@
 @include devices(md) {
   .deliveryContainer {
     min-height: 95%;
+    padding-bottom: 50px;
   }
   .mobileButtonContent {
     position: relative;
