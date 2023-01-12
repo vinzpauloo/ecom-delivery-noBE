@@ -47,7 +47,7 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
   const loadOrderForDelivery = async (status: string) => {
     const params = { status: status };
     const response = await getForDeliveryOTW(params);
-    //console.log("getForDelivery", response);
+    console.log("getForDelivery", response);
     setForDelivery(response.data);
   };
 
@@ -61,8 +61,26 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
           <li>
             <Link to="/account">My Account</Link>
           </li>
-          <li>
+          <li style={{position: "relative"}}>
             <Link to="/account/for-delivery">For Delivery</Link>
+            <span
+                style={{
+                  display: "inline-block",
+                  position: "absolute",
+                  right: "23px",
+                  top: "23px",
+                  background: "red",
+                  borderRadius: "20px",
+                  border: "1px solid white",
+                  width: "28px",
+                  height: "27px",
+                  textAlign: "center",
+                  color: "white",
+                  fontWeight: "600",
+                }}
+            >
+              {forDelivery.length}
+            </span>
           </li>
           <li>
             <Link to="/account/order-history">Order History</Link>
