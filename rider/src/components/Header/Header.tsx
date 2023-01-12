@@ -68,16 +68,25 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
     // console.log(restaurantId);
 
     const channel = pusher.subscribe("Order-Preparing-Channel");
+    const notification = require('../../assets/sounds/notif.wav');
+    const notification2 = require('../../assets/sounds/notif2.mp3');
+
+    const audio = new Audio(notification);
+    const audio2 = new Audio(notification2);
 
     channel.bind(
       "Order-Updated-Event",
       () => {
         // alert(`You have received a new order for delivery.`);
         setNotification(true);
+        audio.play();
+        setTimeout(()=>{
+          audio2.play();
+        },2000);
         const timer = setTimeout(() => {
           setNotification(false);
           window.location.reload();
-        }, 3000);
+        }, 5000);
         return () => clearTimeout(timer);
       },
       []

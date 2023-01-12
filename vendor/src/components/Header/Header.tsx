@@ -4,7 +4,7 @@ import { List, Person } from "react-bootstrap-icons";
 import { useLogout } from "../../hooks/useLogout";
 import { useIsAuthenticated } from "react-auth-kit";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -67,10 +67,19 @@ const Header: React.FC<ContainerProps> = ({ setNotification }) => {
     // *console.log(restaurantId);
 
     const channel = pusher.subscribe("Restaurant-Channel-" + restaurantId);
+    const notification = require('../../assets/sounds/notif.wav');
+    const notification2 = require('../../assets/sounds/notif2.mp3');
+
+    const audio = new Audio(notification);
+    const audio2 = new Audio(notification2);
 
     channel.bind("Order-Created-Event", (data) => {
       // alert(`You have received a new order.`);
       const parsedData = JSON.parse(data.message);
+      audio.play();
+      setTimeout(()=>{
+        audio2.play();
+      },2000);
       setNotification({ status: true, id: parsedData.id });
       const timer = window.setTimeout(() => {
         setNotification({ status: false, id: parsedData.id });
