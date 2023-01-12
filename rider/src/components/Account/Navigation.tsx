@@ -61,27 +61,31 @@ const Navigation: React.FC<ContainerProps> = ({}) => {
           <li>
             <Link to="/account">My Account</Link>
           </li>
-          <li style={{position: "relative"}}>
-            <Link to="/account/for-delivery">For Delivery</Link>
-            <span
-                style={{
-                  display: "inline-block",
-                  position: "absolute",
-                  right: "23px",
-                  top: "23px",
-                  background: "red",
-                  borderRadius: "20px",
-                  border: "1px solid white",
-                  width: "28px",
-                  height: "27px",
-                  textAlign: "center",
-                  color: "white",
-                  fontWeight: "600",
-                }}
-            >
+            {forDelivery.length !== 0 ? (
+                <li style={{position: "relative"}}>
+                    <Link to="/account/for-delivery">For Delivery</Link>
+                    <span
+                        style={{
+                            display: "inline-block",
+                            position: "absolute",
+                            right: "23px",
+                            top: "23px",
+                            background: "red",
+                            borderRadius: "20px",
+                            border: "1px solid white",
+                            width: "28px",
+                            height: "27px",
+                            textAlign: "center",
+                            color: "white",
+                            fontWeight: "600",
+                        }}
+                    >
               {forDelivery.length}
             </span>
-          </li>
+                </li>
+            ) : <li style={{position:"relative"}}>
+                <Link to="/account/for-delivery">For Delivery</Link>
+            </li> }
           <li>
             <Link to="/account/order-history">Order History</Link>
           </li>
